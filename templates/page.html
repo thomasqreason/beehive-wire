@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ site.name }}</title>
+<meta name="description" content="{{ site.name }} — {{ edition }}, {{ updated_human }}. Two editions a day: morning and evening.">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35}
+  a{color:#000;text-decoration:underline}
+  a:hover{background:#000;color:#fff;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:10px 16px 48px}
+  .mast{text-align:center;padding:14px 0 8px;border-bottom:4px double #000}
+  .mast h1{margin:0;font:900 46px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{text-decoration:none}
+  .mast h1 a:hover{background:none;color:#000;text-decoration:underline}
+  .mast .tag{font:italic 13px/1.4 Georgia,"Times New Roman",serif;margin-top:4px}
+  .mast .edition{font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:10px}
+  .mast .stamp{font:12px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:3px;color:#333}
+  .next{margin-top:34px;border-top:1px solid #000;padding-top:14px;text-align:center;font:13px/1.5 Georgia,"Times New Roman",serif;font-style:italic}
+  .flash{text-align:center;margin:18px auto 0;max-width:900px}
+  .flash a{display:block;font:bold 17px/1.25 Arial,Helvetica,sans-serif;text-transform:uppercase;margin:6px 0}
+  .top{text-align:center;margin:22px auto 8px;max-width:980px}
+  .top img{max-width:100%;height:auto;max-height:440px;border:1px solid #000;display:block;margin:0 auto 14px}
+  .top a.head{display:block;font:900 44px/1.05 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  .top a.head.urgent{color:#c00000}
+  .top a.head.urgent:hover{background:#c00000;color:#fff}
+  .cols{display:flex;gap:34px;margin-top:22px;border-top:1px solid #000;padding-top:18px}
+  .col{flex:1 1 0;min-width:0}
+  .col a{display:block;text-transform:uppercase;margin:0 0 12px;font-size:13px}
+  hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
+  .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
+  .foot .srcs a{color:#333;text-decoration:none}
+  .foot .srcs a:hover{background:none;color:#000;text-decoration:underline}
+  .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
+  @media (max-width:760px){
+    .mast h1{font-size:32px;letter-spacing:.06em}
+    .mast .edition{font-size:11px;letter-spacing:.18em}
+    .mast .stamp{font-size:10px;letter-spacing:.08em}
+    .flash a{font-size:15px}
+    .top a.head{font-size:30px}
+    .cols{display:block;gap:0}
+    .col a{font-size:14px;margin-bottom:14px}
+    hr.sep{width:80%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <h1><a href="./">{{ site.name }}</a></h1>
+    {% if site.tagline %}<div class="tag">{{ site.tagline }}</div>{% endif %}
+    <div class="edition">{{ edition }}</div>
+    <div class="stamp">{{ updated_human }}</div>
+  </div>
+
+  {% if not top %}
+    <div class="empty">The wire is warming up. Check back in a few minutes.</div>
+  {% else %}
+
+  {% if flash %}
+  <div class="flash">
+    {% for f in flash %}<a href="{{ f.url }}"{{ target }} title="{{ f.source }}: {{ f.title }}">{{ f.headline }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="top">
+    {% if top.image %}<a href="{{ top.url }}"{{ target }}><img src="{{ top.image }}" alt=""></a>{% endif %}
+    <a class="head{% if top.urgent %} urgent{% endif %}" href="{{ top.url }}"{{ target }} title="{{ top.source }}: {{ top.title }}">{{ top.headline }}</a>
+  </div>
+
+  <div class="cols">
+    {% for col in columns %}
+    <div class="col">
+      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}<a href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="next">That&rsquo;s the {{ edition|lower }}. {{ next_edition }} &mdash; go get something done.</div>
+
+  {% endif %}
+
+  <div class="foot">
+    {{ site.name }} &middot; {{ count }} links &middot; {{ edition }}
+    <div class="srcs">{% for s in sources %}<a href="{{ s.url }}"{{ target }}>{{ s.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>
+  </div>
+
+</div>
+</body>
+</html>

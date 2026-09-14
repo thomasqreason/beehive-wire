@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+feeds.yaml.bak
+data/research/
+site/
+data/build/

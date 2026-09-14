@@ -1,0 +1,94 @@
+name: build
+
+# Puts out the morning and evening editions.
+#
+# Authentication: this workflow uses CLAUDE_CODE_OAUTH_TOKEN, which bills each edition to your
+# Claude subscription (Pro, Max, Team or Enterprise) instead of API credits. Generate the token by
+# running `claude setup-token` locally, then add it as a repository secret.
+# To bill an API key instead, use build-with-api-key.yml.example in this directory.
+
+on:
+  schedule:
+    # The morning and evening editions: 7:00 a.m. and 6:00 p.m. Mountain, expressed in UTC.
+    # These are daylight-saving times (UTC-6). When Mountain falls back in November,
+    # change this line to "0 14,1 * * *" to keep the same local hours.
+    - cron: "0 13,0 * * *"      # GitHub may delay scheduled runs by a few minutes.
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # 1. Pull the feeds and pick what the editor gets to see. No Claude call, no cost.
+      - name: Gather the wire
+        run: python build.py --emit-payload data/build/payload.json
+
+      # 2. Claude reads the standing orders and writes the edition plan.
+      - name: Edit the edition
+        uses: anthropics/claude-code-action@v1
+        continue-on-error: true          # a failed edit keeps the last edition up rather than blanking the site
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are the editor of Beehive Wire. Read editorial.md for your standing orders, then read
+            data/build/payload.json, which holds the current page and today's candidate stories.
+            Write the updated edition to data/build/plan.json as a single JSON object in exactly the
+            schema editorial.md specifies. Write only that file. No prose, no markdown fences, no commit.
+          claude_args: |
+            --model claude-sonnet-5
+            --max-turns 6
+            --allowedTools "Read,Write"
+
+      # 3. Apply the plan and render. If Claude failed, re-render the edition already on the page.
+      - name: Print the page
+        run: |
+          if [ -s data/build/plan.json ]; then
+            python build.py --candidates-json data/build/candidates.json --plan-json data/build/plan.json
+          else
+            echo "No plan produced — keeping the last edition."
+            python build.py --render-only
+          fi
+
+      - name: Commit page state
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "wire: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

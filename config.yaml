@@ -1,0 +1,54 @@
+# Beehive Wire — site configuration
+# Everything the editor (build.py) needs that isn't the feed list or the editorial voice.
+
+site:
+  name: "BEEHIVE WIRE"
+  tagline: "Morning and evening. Nothing in between."
+  editions:                        # local times the two editions land; shown on the page
+    morning: "07:00"
+    evening: "18:00"
+  domain: "beehivewire.com"        # writes site/CNAME so GitHub Pages serves the custom domain
+  timezone: "America/Denver"       # timestamp shown on the page
+  open_links_in_new_tab: true
+
+page:
+  total_links: 50                  # top + flash + column links. The editor keeps the page at this size.
+  flash_lines: 3                   # small lines above the giant headline (0-4)
+  columns: 3
+
+# Tuned for TWO builds a day (morning and late afternoon). If you move to a faster
+# cadence, drop max_swaps_per_run to ~4 and max_story_age_hours to ~36.
+rolling:
+  max_swaps_per_run: 22            # half the page turns over each build
+  max_story_age_hours: 60          # a story can live across ~5 builds before it is dropped
+  top_story_max_age_hours: 16      # the giant headline is re-picked every build
+  candidate_window_hours: 26       # double-covers the ~12h gap, so a skipped run loses nothing
+  max_candidates: 140              # a bigger pool, since there are only two chances a day to pick
+  max_per_source: 6                # per-feed cap inside the candidate list
+  quiet_hours:                     # pointless on a twice-daily schedule; left here if you speed up
+    start: 1
+    end: 5
+    enabled: false
+
+editor:
+  model: "claude-sonnet-5"         # cheapest model that writes a genuinely good headline; or claude-haiku-4-5-20251001
+  max_tokens: 6000
+  temperature: 0.7
+  retries: 2
+
+fetch:
+  timeout_seconds: 12
+  workers: 12
+  user_agent: "Mozilla/5.0 (compatible; BeehiveWire/1.0; +https://github.com/)"
+
+# How the 50 links should roughly break down. These are targets the editor aims for, not hard caps.
+mix:
+  iran_mideast: 7
+  immigration: 6
+  business_ai: 8
+  musk: 3
+  health: 6
+  utah_mormon: 4
+  pop_culture: 6
+  politics_culture_world: 7
+  weird: 3

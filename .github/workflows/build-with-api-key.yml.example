@@ -1,0 +1,62 @@
+name: build
+
+on:
+  schedule:
+    # The morning and evening editions: 7:00 a.m. and 6:00 p.m. Mountain, expressed in UTC.
+    # These are daylight-saving times (UTC-6). When Mountain falls back in November,
+    # change this line to "0 14,1 * * *" to keep the same local hours.
+    - cron: "0 13,0 * * *"      # GitHub may delay scheduled runs by a few minutes.
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Build the front page
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python build.py
+
+      - name: Commit page state
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "wire: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
