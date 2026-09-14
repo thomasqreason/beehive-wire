@@ -50,21 +50,21 @@ jobs:
         run: python build.py --emit-payload data/build/payload.json
 
       # 2. Claude reads the standing orders and writes the edition plan.
+      #    This runs the Claude Code CLI directly rather than claude-code-action, because that
+      #    action rejects `schedule` and `push` events -- and the schedule is the whole point here.
+      #    Billing is identical: CLAUDE_CODE_OAUTH_TOKEN charges your Claude subscription.
       - name: Edit the edition
-        uses: anthropics/claude-code-action@v1
+        if: github.event_name != 'push'
         continue-on-error: true          # a failed edit keeps the last edition up rather than blanking the site
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prompt: |
-            You are the editor of Beehive Wire. Read editorial.md for your standing orders, then read
-            data/build/payload.json, which holds the current page and today's candidate stories.
-            Write the updated edition to data/build/plan.json as a single JSON object in exactly the
-            schema editorial.md specifies. Write only that file. No prose, no markdown fences, no commit.
-          claude_args: |
-            --model claude-sonnet-5
-            --max-turns 6
-            --allowedTools "Read,Write"
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "You are the editor of Beehive Wire. Read editorial.md for your standing orders, then read data/build/payload.json, which holds the current page and today's candidate stories. Write the updated edition to data/build/plan.json as a single JSON object in exactly the schema editorial.md specifies. Write only that file. No prose, no markdown fences, no commit." \
+            --model claude-sonnet-5 \
+            --allowedTools "Read,Write" \
+            --permission-mode acceptEdits \
+            --max-turns 8
 
       # 3. Apply the plan and render. If Claude failed, re-render the edition already on the page.
       - name: Print the page
@@ -72,7 +72,7 @@ jobs:
           if [ -s data/build/plan.json ]; then
             python build.py --candidates-json data/build/candidates.json --plan-json data/build/plan.json
           else
-            echo "No plan produced — keeping the last edition."
+            echo "No plan produced -- keeping the last edition."
             python build.py --render-only
           fi
 
