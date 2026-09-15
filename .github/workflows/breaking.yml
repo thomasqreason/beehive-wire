@@ -15,6 +15,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write                # so the siren can dispatch build.yml when an edition is overdue
 
 concurrency:
   group: build                  # never races the morning or evening edition
@@ -29,6 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main                # the branch as it is NOW, so a just-printed edition is seen
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -37,6 +39,24 @@ jobs:
           cache: pip
 
       - run: pip install -r requirements.txt
+
+      # 0. Is the last scheduled edition still missing? GitHub delays cron runs by hours on
+      #    public repos and drops some outright. This hourly pass is the safety net: if the
+      #    slot that just came round has no edition in the archive, it asks build.yml to print
+      #    one. build.yml checks the archive again before it prints, so nothing goes out twice.
+      - name: Is an edition overdue?
+        id: overdue
+        run: python catchup.py --event schedule
+
+      - name: Send the overdue edition
+        if: steps.overdue.outputs.catchup == 'yes'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          echo "The ${{ steps.overdue.outputs.slot }} edition for ${{ steps.overdue.outputs.date }} has not printed (${{ steps.overdue.outputs.overdue_min }} min past the slot). Dispatching build.yml."
+          gh workflow run build.yml --ref main -f catchup=true
 
       # 1. Free: is anything actually surging?
       - name: Watch the wire

@@ -14,6 +14,11 @@ on:
     # change this line to "50 10,22 * * *" to keep the same local hours.
     - cron: "50 9,21 * * *"      # GitHub may delay scheduled runs by a few minutes.
   workflow_dispatch:
+    inputs:
+      catchup:
+        description: "Catch-up run: stand down if this slot's edition has already printed"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths-ignore: ["data/**", "archive/**"]
@@ -28,7 +33,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # 0. Should this run print at all? GitHub delivers cron runs late -- hours late, some days --
+  #    and by then the siren (breaking.yml) may already have sent the edition. catchup.py looks
+  #    in the archive for the slot that just came round; a cron run or catch-up that finds the
+  #    edition already printed stands down here. Pushes and hand-runs always go.
+  #    Costs nothing: no feeds are pulled and Claude is not called.
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.slot.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                    # the branch as it is NOW, not as it was when the run was queued
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q pyyaml
+      - id: slot
+        run: python catchup.py --event "${{ github.event_name }}" --catchup "${{ inputs.catchup }}"
+
   build:
+    needs: check
+    if: needs.check.outputs.go == 'yes'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
