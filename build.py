@@ -682,10 +682,33 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         target=' target="_blank" rel="noopener"' if cfg["site"].get("open_links_in_new_tab") else "",
         root=root,
         archived=archived,
+        base_url=_base_url(cfg),
+        og_title=(state.get("top") or {}).get("headline") or cfg["site"]["name"],
+        og_desc=f'{cfg["site"]["name"]} — {edition}. {cfg["site"].get("tagline", "")}'.strip(),
         edition_no=edition_no,
         extra=bool(state.get("extra")),
     )
     return html_out, local, edition
+
+
+def _base_url(cfg: dict) -> str:
+    d = (cfg["site"].get("domain") or "").strip().strip("/")
+    return f"https://{d}/" if d else "/"
+
+
+def write_sitemap(cfg: dict, entries: list[dict], now: datetime) -> None:
+    """Every page we publish, so a crawler does not have to guess."""
+    base, stamp = _base_url(cfg), now.strftime("%Y-%m-%d")
+    urls = [(base, stamp, "always", "1.0"), (base + "archive/", stamp, "daily", "0.6")]
+    for e in entries:
+        urls.append((f"{base}archive/{e['file']}", (e.get("iso") or stamp)[:10], "never", "0.4"))
+    body = "\n".join(
+        f"  <url><loc>{u}</loc><lastmod>{m}</lastmod>"
+        f"<changefreq>{c}</changefreq><priority>{p}</priority></url>" for u, m, c, p in urls)
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "\n</urlset>\n",
+        encoding="utf-8")
 
 
 def _archive_index() -> list[dict]:
@@ -785,6 +808,10 @@ def publish_archive(cfg: dict) -> int:
     (out / "index.html").write_text(env.get_template("archive.html").render(
         site=cfg["site"], root="../", months=months, total=len(entries),
         first_human=first_human, dow=["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        base_url=_base_url(cfg),
+        og_title=f'{cfg["site"]["name"]} — Archives',
+        og_desc=f"Every edition since {first_human}. {len(entries)} in all." if entries
+                else "Every edition, back to the first.",
     ), encoding="utf-8")
     return len(entries)
 
@@ -808,7 +835,8 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     out.write_text(html_out, encoding="utf-8")
     if cfg["site"].get("domain"):
         (SITE / "CNAME").write_text(cfg["site"]["domain"].strip() + "\n")
-    (SITE / "robots.txt").write_text("User-agent: *\nAllow: /\n")
+    (SITE / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {_base_url(cfg)}sitemap.xml\n")
     if STATIC.is_dir():                       # app icons, manifest, service worker
         for f in sorted(STATIC.iterdir()):
             if f.is_file():
@@ -817,6 +845,7 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True, edition_no=no)
     archive_edition(arc_html, state, local, edition, no)
     n = publish_archive(cfg)
+    write_sitemap(cfg, _archive_index(), now)
 
     log(f"rendered {out} — edition no. {no}, {len(page_links(state))} links; archive holds {n} editions")
     return out
