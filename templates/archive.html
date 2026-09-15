@@ -37,6 +37,8 @@
   .cell a{display:block;text-decoration:none;font:bold 10px/1.25 "Courier New",Courier,monospace;
     letter-spacing:.02em;padding:3px 4px;margin-bottom:3px;border-left:3px solid #fdb512;background:#f6f6f6;color:#000}
   .cell a:hover{background:#12161b;color:#fff;border-left-color:#fdb512}
+  .cell a em{font-style:normal;font-weight:normal;color:#8a6a10;float:right}
+  .cell a:hover em{color:#fdb512}
   .cell a .t{display:block;font-weight:normal;color:#555;letter-spacing:0}
   .cell a:hover .t{color:#cfcfcf}
   .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
@@ -73,7 +75,7 @@
         {% if not c %}<div class="cell pad"></div>
         {% else %}<div class="cell{% if c.editions %} has{% endif %}">
           <span class="d">{{ c.day }}</span>
-          {% for e in c.editions %}<a href="{{ e.file }}" title="{{ e.top }}">{{ e.abbr }}<span class="t">{{ e.time }}</span></a>
+          {% for e in c.editions %}<a href="{{ e.file }}" title="No. {{ e.no }} &mdash; {{ e.top }}">{{ e.abbr }}{% if e.no %} <em>{{ e.no }}</em>{% endif %}<span class="t">{{ e.time }}</span></a>
           {% endfor %}
         </div>{% endif %}
       {% endfor %}{% endfor %}

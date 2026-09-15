@@ -100,7 +100,7 @@
   <div class="mast">
     <h1><a href="{{ root }}">{{ site.name }}</a></h1>
     {% if site.tagline %}<div class="tag">{{ site.tagline }}</div>{% endif %}
-    <div class="edition">{{ edition }}</div>
+    <div class="edition">{{ edition }}{% if edition_no %} &middot; No. {{ edition_no }}{% endif %}</div>
     <div class="stamp">{{ updated_human }}</div>
   </div>
 
@@ -134,7 +134,7 @@
   {% endif %}
 
   <div class="foot">
-    {{ site.name }} &middot; {{ count }} links &middot; {{ edition }}
+    {{ site.name }} &middot; {{ count }} links &middot; {{ edition }}{% if edition_no %} &middot; No. {{ edition_no }}{% endif %}
     {% if not archived %}<div class="arch"><a href="archive/">Archives &mdash; every edition, back to the first</a></div>{% endif %}
     <div class="srcs">{% for s in sources %}<a href="{{ s.url }}"{{ target }}>{{ s.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>
   </div>

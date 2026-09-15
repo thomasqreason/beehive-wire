@@ -603,7 +603,7 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
 
 # ────────────────────────────────────────────────────────────────────────── render
 
-def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False):
+def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False, edition_no: int = 0):
     """Render one edition. `root` is how many levels up the assets sit; archived pages
     carry a banner and skip the install prompt."""
     from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -642,8 +642,31 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         target=' target="_blank" rel="noopener"' if cfg["site"].get("open_links_in_new_tab") else "",
         root=root,
         archived=archived,
+        edition_no=edition_no,
     )
     return html_out, local, edition
+
+
+def _archive_index() -> list[dict]:
+    try:
+        return json.loads((ARCHIVE / "index.json").read_text(encoding="utf-8"))
+    except Exception:
+        return []
+
+
+def _slot_of(edition: str) -> str:
+    return "morning" if edition.lower().startswith("morning") else "evening"
+
+
+def edition_number(local: datetime, edition: str) -> int:
+    """This edition's number in the run. Re-printing a slot keeps the number it already had."""
+    idx = _archive_index()
+    day, slot = local.strftime("%Y-%m-%d"), _slot_of(edition)
+    highest = max((int(e.get("no") or 0) for e in idx), default=0)
+    for e in idx:
+        if e.get("date") == day and e.get("slot") == slot and e.get("no"):
+            return int(e["no"])
+    return highest + 1
 
 
 def _time_words(local: datetime) -> str:
@@ -651,10 +674,10 @@ def _time_words(local: datetime) -> str:
     return f"{(local.hour % 12) or 12}:{local.minute:02d} {'a.m.' if local.hour < 12 else 'p.m.'}"
 
 
-def archive_edition(html: str, state: dict, local: datetime, edition: str) -> None:
+def archive_edition(html: str, state: dict, local: datetime, edition: str, no: int) -> None:
     """Keep this edition forever, exactly as it was printed."""
     ARCHIVE.mkdir(parents=True, exist_ok=True)
-    slot = "morning" if edition.lower().startswith("morning") else "evening"
+    slot = _slot_of(edition)
     day = local.strftime("%Y-%m-%d")
     fname = f"{day}-{slot}.html"
     (ARCHIVE / fname).write_text(html, encoding="utf-8")
@@ -666,7 +689,7 @@ def archive_edition(html: str, state: dict, local: datetime, edition: str) -> No
         idx = []
     idx = [e for e in idx if e.get("file") != fname]      # a re-run replaces its own slot
     idx.append({
-        "file": fname, "date": day, "slot": slot, "edition": edition,
+        "no": no, "file": fname, "date": day, "slot": slot, "edition": edition,
         "time": _time_words(local), "iso": local.isoformat(),
         "top": (state.get("top") or {}).get("headline", ""),
         "count": len(page_links(state)),
@@ -707,7 +730,7 @@ def publish_archive(cfg: dict) -> int:
                 eds = sorted(by_day.get(d.isoformat(), []),
                              key=lambda x: 0 if x["slot"] == "morning" else 1)
                 row.append({"day": d.day, "editions": [
-                    {"abbr": "AM" if e["slot"] == "morning" else "PM",
+                    {"abbr": "AM" if e["slot"] == "morning" else "PM", "no": e.get("no"),
                      "time": e["time"], "file": e["file"], "top": e.get("top", "")} for e in eds]})
             weeks.append(row)
         months.append({"label": f"{calendar.month_name[m]} {y}", "weeks": weeks})
@@ -726,7 +749,9 @@ def publish_archive(cfg: dict) -> int:
 
 
 def render(state: dict, cfg: dict, now: datetime) -> Path:
-    html_out, local, edition = _page_html(state, cfg, now)
+    probe = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
+    no = edition_number(probe, edition_of(probe, cfg)[0])
+    html_out, local, edition = _page_html(state, cfg, now, edition_no=no)
     SITE.mkdir(parents=True, exist_ok=True)
     out = SITE / "index.html"
     out.write_text(html_out, encoding="utf-8")
@@ -738,11 +763,11 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
             if f.is_file():
                 shutil.copy2(f, SITE / f.name)
 
-    arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True)
-    archive_edition(arc_html, state, local, edition)
+    arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True, edition_no=no)
+    archive_edition(arc_html, state, local, edition, no)
     n = publish_archive(cfg)
 
-    log(f"rendered {out} ({len(page_links(state))} links); archive holds {n} editions")
+    log(f"rendered {out} — edition no. {no}, {len(page_links(state))} links; archive holds {n} editions")
     return out
 
 

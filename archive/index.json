@@ -1,0 +1,24 @@
+[
+ {
+  "no": 1,
+  "file": "2026-09-14-morning.html",
+  "date": "2026-09-14",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "7:48 a.m.",
+  "iso": "2026-09-14T07:48:03-06:00",
+  "top": "TRUMP SHRUGS: 'WE SPY ON THEM, TOO'...",
+  "count": 50
+ },
+ {
+  "no": 2,
+  "file": "2026-09-14-evening.html",
+  "date": "2026-09-14",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "10:01 p.m.",
+  "iso": "2026-09-14T22:01:34-06:00",
+  "top": "IRAN WAR COSTS $33.4 BILLION...",
+  "count": 50
+ }
+]

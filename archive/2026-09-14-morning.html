@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEEHIVE WIRE</title>
+<meta name="description" content="BEEHIVE WIRE — Morning Edition, MON SEP 14 2026 · 7:48 AM MDT. Two editions a day: morning and evening.">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#12161b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Beehive Wire">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35}
+  a{color:#000;text-decoration:underline}
+  a:hover{background:#000;color:#fff;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:10px 16px 48px}
+  .mast{text-align:center;padding:14px 0 8px;border-bottom:4px double #000}
+  .mast h1{margin:0;font:900 46px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{text-decoration:none}
+  .mast h1 a:hover{background:none;color:#000;text-decoration:underline}
+  .mast .tag{font:italic 13px/1.4 Georgia,"Times New Roman",serif;margin-top:4px}
+  .mast .edition{font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:10px}
+  .mast .stamp{font:12px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:3px;color:#333}
+  .next{margin-top:34px;border-top:1px solid #000;padding-top:14px;text-align:center;font:13px/1.5 Georgia,"Times New Roman",serif;font-style:italic}
+  .flash{text-align:center;margin:18px auto 0;max-width:900px}
+  .flash a{display:block;font:bold 17px/1.25 Arial,Helvetica,sans-serif;text-transform:uppercase;margin:6px 0}
+  .top{text-align:center;margin:22px auto 8px;max-width:980px}
+  .top img{max-width:100%;height:auto;max-height:440px;border:1px solid #000;display:block;margin:0 auto 14px}
+  .top a.head{display:block;font:900 44px/1.05 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  .top a.head.urgent{color:#c00000}
+  .top a.head.urgent:hover{background:#c00000;color:#fff}
+  .cols{display:flex;gap:34px;margin-top:22px;border-top:1px solid #000;padding-top:18px}
+  .col{flex:1 1 0;min-width:0}
+  .col a{display:block;text-transform:uppercase;margin:0 0 12px;font-size:13px}
+  hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
+  .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
+  .foot .srcs a{color:#333;text-decoration:none}
+  .foot .srcs a:hover{background:none;color:#000;text-decoration:underline}
+  .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
+  #install[hidden]{display:none}
+  #install{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;gap:12px;
+    padding:11px 14px;padding-bottom:calc(11px + env(safe-area-inset-bottom,0px));
+    background:#12161b;color:#fff;border-top:3px solid #fdb512;
+    box-shadow:0 -6px 24px rgba(0,0,0,.28);
+    transform:translateY(115%);transition:transform .34s cubic-bezier(.22,.9,.3,1)}
+  #install.up{transform:none}
+  #install img{width:42px;height:42px;border-radius:9px;flex:0 0 auto;display:block}
+  #install .txt{flex:1 1 auto;min-width:0}
+  #install b{display:block;font:bold 13px/1.3 Arial,Helvetica,sans-serif}
+  #install span{display:block;font:12px/1.35 Georgia,"Times New Roman",serif;color:#c6c1b8;margin-top:2px}
+  #install .go{flex:0 0 auto;background:#fdb512;color:#12161b;border:0;border-radius:6px;cursor:pointer;
+    padding:10px 16px;font:bold 13px/1 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.06em}
+  #install .go:hover{background:#ffc63f}
+  #install .go[hidden]{display:none}
+  #install .no{flex:0 0 auto;background:none;border:0;cursor:pointer;color:#8b8680;font:400 24px/1 Arial,Helvetica,sans-serif;padding:2px 2px 6px}
+  #install .no:hover{color:#fff}
+  @media (max-width:420px){
+    #install{gap:10px;padding-left:11px;padding-right:11px}
+    #install img{width:38px;height:38px}
+    #install b{font-size:12px}
+    #install span{font-size:11px}
+    #install .go{padding:9px 12px;font-size:12px}
+  }
+  .arc{background:#12161b;color:#fff;margin:0 -16px 12px;padding:9px 16px;font:11px/1.5 "Courier New",Courier,monospace;
+    letter-spacing:.1em;text-transform:uppercase;text-align:center}
+  .arc b{color:#fdb512;letter-spacing:.14em}
+  .arc a{color:#fff}
+  .arc a:hover{background:#fdb512;color:#12161b;text-decoration:none}
+  .foot .arch{margin-top:8px}
+  .foot .arch a{font-weight:bold;letter-spacing:.12em}
+  @media (max-width:760px){
+    .mast h1{font-size:32px;letter-spacing:.06em}
+    .mast .edition{font-size:11px;letter-spacing:.18em}
+    .mast .stamp{font-size:10px;letter-spacing:.08em}
+    .flash a{font-size:15px}
+    .top a.head{font-size:30px}
+    .cols{display:block;gap:0}
+    .col a{font-size:14px;margin-bottom:14px}
+    hr.sep{width:80%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="arc">
+    <b>Archived edition</b> &middot; MON SEP 14 2026 · 7:48 AM MDT &middot;
+    <a href="../">Today&rsquo;s front page</a> &middot;
+    <a href="../archive/">All editions</a>
+  </div>
+
+
+  <div class="mast">
+    <h1><a href="../">BEEHIVE WIRE</a></h1>
+    <div class="tag">Morning and evening. Nothing in between.</div>
+    <div class="edition">Morning Edition &middot; No. 1</div>
+    <div class="stamp">MON SEP 14 2026 · 7:48 AM MDT</div>
+  </div>
+
+  
+
+  
+  <div class="flash">
+    <a href="https://www.middleeasteye.net/news/iran-used-chinese-satellite-images-attack-us-base-jordan" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Iran used Chinese satellite images for attack on US base in Jordan, says report">REPORT: CHINESE SATELLITE IMAGES GUIDED IRAN STRIKE THAT KILLED 3 U.S. TROOPS...</a>
+    <a href="https://www.theamericanconservative.com/iran-war-day-198-chinas-xi-pledges-to-help-end-conflict/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The American Conservative: Iran War Day 198: China&#39;s Xi Pledges to Help End Conflict">XI VOWS &#39;DUE ROLE&#39; IN ENDING THE WAR...</a>
+    <a href="https://www.cbsnews.com/news/fed-rate-hike-september-likelihood-cpi/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="CBS News: Fed rate hike in September is all but guaranteed after CPI report, economists say">FED SET TO HIKE WEDNESDAY AS OIL BITES...</a>
+    
+  </div>
+  
+
+  <div class="top">
+    
+    <a class="head" href="https://www.foxnews.com/politics/trump-says-china-spies-us-report-ties-chinese-imagery-iran-strike" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: Trump responds as China allegedly assisted Iran before deadly missile attack">TRUMP SHRUGS: &#39;WE SPY ON THEM, TOO&#39;...</a>
+  </div>
+
+  <div class="cols">
+    
+    <div class="col">
+      <a href="https://www.axios.com/2026/09/12/anthropic-ai-amodei-pacing" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Axios: Anthropic, OpenAI CEOs call for slowdown in AI development">AMODEI, ALTMAN, MUSK: SLOW THE AI RACE...</a>
+      <a href="https://www.yahoo.com/news/us/article/dario-is-right-musk-and-altman-back-anthropic-ceo-on-slowing-ai-down-182008851.html" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fortune: Trump rejects call by CEOs of Anthropic, OpenAI and xAI to slow AI down: &#39;Whoever wins with AI wins&#39;">TRUMP SAYS NO: &#39;WHOEVER WINS WITH AI WINS&#39;...</a>
+      <a href="https://www.cnbc.com/2026/09/12/anthropics-amodei-proposes-plan-to-slow-the-pace-of-advancing-ai-capabilities.html" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="CNBC: OpenAI rules out IPO this year as Altman, Musk &amp; Amodei warn AI is moving too fast">OPENAI RULES OUT IPO THIS YEAR...</a>
+      <a href="https://www.middleeasteye.net/news/houthis-used-ai-platform-claude-develop-ballistic-missiles" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Houthis used AI platform Claude to develop ballistic missiles">HOUTHI CELL USED CLAUDE TO BUILD MISSILES; TEST FIRE FLOPPED...</a>
+      <a href="https://www.sltrib.com/news/2026/09/13/trump-admin-tasks-blm-find-public/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: Trump orders BLM to find public land for data centers">TRUMP ORDERS BLM: FIND PUBLIC LAND FOR DATA CENTERS...</a>
+      <a href="https://www.foxbusiness.com/personal-finance/americans-average-401k-balance-reaches-record-high-fidelity-data-shows" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox Business: Americans&#39; average 401(k) balance reaches record high, Fidelity data shows">401(K) BALANCES HIT RECORD -- AS DIESEL DOES TOO...</a>
+      <hr class="sep"><a href="https://www.sciencedaily.com/releases/2026/09/260911214238.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ScienceDaily: Scientists find Ozempic may slow aging itself">STUDY: OZEMPIC MICE LIVE LONGER...</a>
+      <a href="https://www.sciencedaily.com/releases/2026/09/260911214241.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ScienceDaily: Ozempic and Wegovy may raise hair loss risk in some men">...AND BALDING-PRONE MEN LOSE MORE HAIR...</a>
+      <a href="https://www.theepochtimes.com/health/how-to-reverse-heart-disease-in-one-year-for-free-6085492" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Epoch Times: How to Reverse Heart Disease in One Yearâ€“for Free">TRIAL: EXERCISE SHRANK ARTERY PLAQUE 7%; GLP-1 DIDN&#39;T...</a>
+      <a href="https://www.sciencedaily.com/releases/2026/09/260911214259.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ScienceDaily: Most men don&#39;t know dairy is linked to prostate cancer risk">STUDY: DAIRY LINKED TO PROSTATE CANCER -- 80% OF MEN HAVE NO IDEA...</a>
+      <a href="https://www.foxnews.com/health/very-hot-coffee-tea-linked-higher-cancer-risk-nearly-1-million-adults" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: &#39;Very hot&#39; coffee and tea linked to higher cancer risk in nearly 1 million adults">&#39;VERY HOT&#39; COFFEE TRIPLES ESOPHAGEAL CANCER RISK: 1M-ADULT STUDY...</a>
+      <a href="https://childrenshealthdefense.org/defender/did-cdc-reject-moderna-new-mrna-flu-vaccine/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Defender (Children&#39;s Health Defense): Did CDC Just Reject Moderna&#39;s New mRNA Flu Vaccine?">CDC LEAVES MODERNA&#39;S MRNA FLU SHOT OFF ITS LIST...</a>
+      <hr class="sep"><a href="https://www.foxnews.com/us/female-passenger-undresses-american-airlines-flight-engages-indecent-acts-crew-reports" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: Female passenger undresses on flight, engages in &#39;indecent acts,&#39; crew says">PASSENGER STRIPS ON AMERICAN FLIGHT, &#39;INDECENT ACTS&#39;...</a>
+      <a href="https://www.foxnews.com/us/creepy-cat-hat-trend-targets-schools-costumed-figure-allegedly-chases-teen-girl" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: Sinister &#39;Cat in the Hat&#39; trend puts schools nationwide on alert">&#39;CAT IN THE HAT&#39; CREEPS PUT SCHOOLS ON ALERT...</a>
+      <hr class="sep"><a href="https://www.teslaoracle.com/2026/09/13/tesla-roadsters-teaser-image-shows-firing-spacex-thrusters-final-unveiling-date-is-here-more/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Tesla Oracle: Tesla Roadster&#39;s teaser image shows firing SpaceX thrusters, final unveiling date is here, more">ROADSTER TEASER: SPACEX THRUSTERS FIRING; UNVEIL DATE SET...</a>
+      <a href="https://looktospace.com/guides/starship-flight-14" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="LookToSpace: Starship Flight 14: Launch Date, Time &amp; What We Know">STARSHIP FLIGHT 14 TARGETS SEPT 18 -- FIRST ORBIT...</a>
+      
+    </div>
+    
+    <div class="col">
+      <a href="https://responsiblestatecraft.org/iran-forever-war/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Responsible Statecraft: How Trump&#39;s Iran operation turned into a forever war">HOW THE IRAN OPERATION BECAME A FOREVER WAR...</a>
+      <a href="https://www.cnbc.com/2026/09/12/trump-sees-iran-war-ending-very-soon-oil-prices-then-falling.html" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="CNBC: Trump sees Iran war ending soon after midterm elections, predicts oil prices will then fall sharply">TRUMP: WAR OVER AFTER MIDTERMS, THEN OIL FALLS...</a>
+      <a href="https://www.globalsecurity.org/military/ops/iran-war-oprep.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="GlobalSecurity.org: Iran War 2026 -- Day 198 Update -- 13 September 2026">HORMUZ: 7 SHIPS A DAY, DOWN FROM 125... DIESEL $6.06 RECORD...</a>
+      <a href="https://www.breitbart.com/europe/2026/09/13/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-saying-attacks-causing-shortage/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breitbart: Trump Calls on Ukraine to Halt Strikes on Russian Diesel, Saying Attacks Causing Shortage">TRUMP TO ZELENSKY: STOP HITTING RUSSIAN DIESEL...</a>
+      <a href="https://www.timesofisrael.com/kushner-us-used-israels-isolation-after-terrible-doha-strike-to-secure-gaza-deal/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Times of Israel: Kushner: US used Israel&#39;s isolation after &#39;terrible&#39; Doha strike to secure Gaza deal">KUSHNER: WE USED ISRAEL&#39;S &#39;ISOLATION&#39; TO FORCE GAZA DEAL...</a>
+      <a href="https://www.aljazeera.com/news/2026/9/13/israeli-attack-on-gaza-kills-two-palestinians" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Al Jazeera: Israeli attack on Gaza kills two Palestinians">GAZA CITY STRIKE KILLS 2; 1,300 DEAD SINCE &#39;CEASEFIRE&#39;...</a>
+      <a href="https://www.middleeasteye.net/news/eu-foreign-policy-chief-says-israeli-settlements-should-be-treated-russian-occupied-crimea" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: EU foreign policy chief says Israeli settlements should be treated like Russian-occupied Crimea">EU CHIEF: TREAT SETTLEMENTS LIKE CRIMEA, STOP TRADING...</a>
+      <a href="https://www.middleeasteye.net/news/tucker-carlson-says-israel-sought-regional-hegemony-weakening-gulf-states-through-iran-war" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Tucker Carlson says Israel sought regional hegemony by weakening Gulf states through Iran war">TUCKER: ISRAEL WANTED &#39;REGIONAL HEGEMONY,&#39; US OUT OF GULF...</a>
+      <hr class="sep"><a href="https://www.npr.org/2026/09/14/nx-s1-5967571/emmys-2026-when-are-the-emmys-how-to-watch" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="NPR: The Emmys are Monday night. Here&#39;s how to watch">EMMYS TONIGHT: HARGITAY HOSTS, 8 PM ON NBC...</a>
+      <a href="https://variety.com/2026/tv/news/new-york-knicks-jalen-brunson-emmys-mariska-hargitay-1236860658/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Variety: New York Knicks Player Jalen Brunson â€” Emmys Host Mariska Hargitay&#39;s Buddy â€” Expected to Open Show">KNICK OPENS THE EMMYS...</a>
+      <a href="https://awardsradar.com/2026/09/13/box-office-report-for-the-week-of-september-13/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Awards Radar: Box Office Report for the Week of September 13">&#39;PRACTICAL MAGIC 2&#39; ENDS SPIDER-MAN&#39;S SIX-WEEK REIGN, $30M...</a>
+      <a href="https://deadline.com/2026/09/box-office-the-odyssey-record-universal-1237100001/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Deadline: Box Office: &#39;The Odyssey&#39; Is Universal&#39;s Highest-Grossing Movie Ever">NOLAN&#39;S &#39;ODYSSEY&#39; NOW UNIVERSAL&#39;S BIGGEST EVER...</a>
+      <a href="https://thoughtcatalog.com/xstockton/2026/09/the-secret-lives-of-mormon-wives-is-getting-a-season-6-and-7-and-taylor-frankie-paul-is-filming-both-despite-her-assault-case/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Thought Catalog: &#39;The Secret Lives of Mormon Wives&#39; Is Getting a Season 6 and 7, and Taylor Frankie Paul Is Filming Both Despite Her Assault Case">&#39;MORMON WIVES&#39; GETS TWO MORE SEASONS -- STAR FILMS AFTER ASSAULT PLEA...</a>
+      <a href="https://www.tmz.com/2026/09/13/candace-owens-had-awkward-interaction-with-kim-kardashian-at-kanye-concert/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="TMZ: Candace Owens Details Awkward Kim Kardashian Run-In at Kanye West Concert">CANDACE DODGES KIM K AT YE SHOW...</a>
+      <a href="https://www.foxnews.com/entertainment/country-singer-brian-nashville-duckworth-voice-behind-family-band-taylor-made-dies-56" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: Beloved country singer dies at 56, leaving behind wife, six children">COUNTRY SINGER DEAD AT 56 -- WIFE, SIX CHILDREN...</a>
+      <hr class="sep"><a href="https://www.breitbart.com/europe/2026/09/13/putin-warns-europe-send-troops-to-ukraine-get-war-with-russia/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breitbart: Putin Warns Europe: Send Troops to Ukraine, Get &#39;War with Russia&#39;">PUTIN: SEND TROOPS, GET &#39;WAR WITH RUSSIA&#39;...</a>
+      
+    </div>
+    
+    <div class="col">
+      <a href="https://www.breitbart.com/europe/2026/09/13/former-british-pm-boris-johnson-evacuated-from-ukraine-train-after-russia-drone-strike-reports/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breitbart: Former British PM Boris Johnson Evacuated From Ukraine Train After Russia Drone Strike">BORIS EVACUATED FROM UKRAINE TRAIN AFTER DRONE STRIKE...</a>
+      <a href="https://www.breitbart.com/europe/2026/09/12/reform-uk-receives-record-72-million-in-two-donations-in-24-hours/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breitbart: Farage&#39;s Reform UK Receives Record Â£72 Million in Two Donations in 24 Hours">FARAGE&#39;S REFORM BANKS RECORD Â£72M IN 24 HOURS...</a>
+      <a href="https://www.nbcnews.com/politics/justice-department/prosecutor-led-grand-conspiracy-probe-trump-targets-resigns-charging-a-rcna597123" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="NBC News: Prosecutor who led &#39;grand conspiracy&#39; probe of Trump targets resigns without charging anyone">&#39;GRAND CONSPIRACY&#39; PROSECUTOR QUITS -- NO CHARGES...</a>
+      <hr class="sep"><a href="https://www.foxnews.com/media/homan-confirms-criminal-investigation-involving-ilhan-omar-says-knows-things-going" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Fox News: Homan confirms &#39;criminal&#39; investigation involving Ilhan Omar, says he knows &#39;things are going on&#39;">HOMAN CONFIRMS &#39;CRIMINAL&#39; PROBE INVOLVING ILHAN OMAR...</a>
+      <a href="https://www.washingtontimes.com/news/2026/sep/12/supreme-court-erases-major-immigration-detention-case-docket/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Washington Times: Supreme Court erases major immigration detention case from its docket">SUPREME COURT ERASES MAJOR DETENTION CASE FROM DOCKET...</a>
+      <a href="https://www.breitbart.com/europe/2026/09/12/anti-mass-migration-protesters-descend-on-portsmouth-police-arrest-man-in-burqa-after-face-mask-ban/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breitbart: Anti-Mass Migration Protesters Descend on Portsmouth, Police Arrest Man in Burqa After Face Mask Ban">PORTSMOUTH ERUPTS OVER MIGRANT BOAT; MAN IN BURQA ARRESTED...</a>
+      <a href="https://cis.org/Camarota/911-Number-Immigrants-Muslim-World-Has-Grown-18-Million" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Center for Immigration Studies: Since 9/11, the Number of Immigrants from the Muslim World Has Grown by 1.8 Million">1.8M MORE IMMIGRANTS FROM MUSLIM WORLD SINCE 9/11 -- MOSTLY LEGAL...</a>
+      <a href="https://www.zerohedge.com/geopolitical/foreigners-responsible-87-thefts-61-sexual-violence-paris-public-transport" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: Foreigners Responsible For 87% Of Thefts, 61% Of Sexual Violence On Paris Public Transport">PARIS: FOREIGNERS BEHIND 87% OF TRANSIT THEFTS -- GOVT DATA...</a>
+      <a href="https://www.sltrib.com/news/politics/2026/09/12/ice-utah-state-is-top-10-rate/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: Utah is among the top 10 states for ICE arrest rates">UTAH CRACKS TOP 10 FOR ICE ARREST RATE...</a>
+      <hr class="sep"><a href="https://www.sltrib.com/news/education/2026/09/12/charlie-kirk-statute-unveiled-uvu/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: No, that Charlie Kirk statue just unveiled at UVU won&#39;t stay on campus, artist says">KIRK STATUE UNVEILED AT UVU WON&#39;T STAY, ARTIST SAYS...</a>
+      <a href="https://www.sltrib.com/religion/2026/09/11/utah-valley-university-gets-an-f/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: UVU gets an &#39;F&#39; in free speech rankings">UVU FLUNKS FREE SPEECH: &#39;I COULD NOT EXPRESS MY OPINION&#39;...</a>
+      <a href="https://www.sltrib.com/news/2026/09/11/magna-mayor-accused-yelling/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: Investigation into Utah mayor found &#39;unprofessional conduct&#39;">MAGNA MAYOR PROBE: SLURS, YELLING, CRYING STAFF -- AG LOOKING...</a>
+      <a href="https://www.sltrib.com/religion/2026/09/12/utah-nonprofit-cherish-families/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: She fled polygamy and built a new life. Now her nonprofit helps others do the same.">SHE FLED WARREN JEFFS: &#39;DROPPED OFF FROM THE MOTHER SHIP&#39;...</a>
+      <a href="https://www.sltrib.com/news/2026/09/12/why-sexual-assault-allegations/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Salt Lake Tribune: Why sexual assault allegations against Utah hypnotherapist William Draney went uncharged for years">UTAH HYPNOTHERAPIST: 20 YEARS OF ALLEGATIONS BEFORE CHARGES...</a>
+      
+    </div>
+    
+  </div>
+
+  <div class="next">That&rsquo;s the morning edition. Next edition this evening at 6:00 p.m. &mdash; go get something done.</div>
+
+  
+
+  <div class="foot">
+    BEEHIVE WIRE &middot; 50 links &middot; Morning Edition &middot; No. 1
+    
+    <div class="srcs"><a href="https://www.aljazeera.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Al Jazeera</a> &middot; <a href="https://awardsradar.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Awards Radar</a> &middot; <a href="https://www.axios.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Axios</a> &middot; <a href="https://www.breitbart.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Breitbart</a> &middot; <a href="https://www.cbsnews.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBS News</a> &middot; <a href="https://www.cnbc.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CNBC</a> &middot; <a href="https://cis.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Center for Immigration Studies</a> &middot; <a href="https://deadline.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Deadline</a> &middot; <a href="https://www.yahoo.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Fortune</a> &middot; <a href="https://www.foxbusiness.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Fox Business</a> &middot; <a href="https://www.foxnews.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Fox News</a> &middot; <a href="https://www.globalsecurity.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GlobalSecurity.org</a> &middot; <a href="https://looktospace.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>LookToSpace</a> &middot; <a href="https://www.middleeasteye.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Middle East Eye</a> &middot; <a href="https://www.nbcnews.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>NBC News</a> &middot; <a href="https://www.npr.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>NPR</a> &middot; <a href="https://responsiblestatecraft.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Responsible Statecraft</a> &middot; <a href="https://www.sltrib.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Salt Lake Tribune</a> &middot; <a href="https://www.sciencedaily.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ScienceDaily</a> &middot; <a href="https://www.tmz.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TMZ</a> &middot; <a href="https://www.teslaoracle.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Tesla Oracle</a> &middot; <a href="https://www.theamericanconservative.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The American Conservative</a> &middot; <a href="https://childrenshealthdefense.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Defender (Children&#39;s Health Defense)</a> &middot; <a href="https://www.theepochtimes.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Epoch Times</a> &middot; <a href="https://thoughtcatalog.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Thought Catalog</a> &middot; <a href="https://www.timesofisrael.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Times of Israel</a> &middot; <a href="https://variety.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Variety</a> &middot; <a href="https://www.washingtontimes.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Washington Times</a> &middot; <a href="https://www.zerohedge.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ZeroHedge</a></div>
+  </div>
+
+</div>
+
+
+</body>
+</html>
