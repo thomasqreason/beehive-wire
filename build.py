@@ -16,12 +16,14 @@ candidates and asks for a few swaps. If anything fails, the current page is re-r
 from __future__ import annotations
 
 import argparse
+import calendar
 import concurrent.futures as cf
 import hashlib
 import html
 import json
 import os
 import re
+import shutil
 import sys
 import time
 from datetime import datetime, timedelta, timezone
@@ -34,6 +36,8 @@ import yaml
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 SITE = ROOT / "site"
+ARCHIVE = ROOT / "archive"  # every edition ever printed, committed so it survives each build
+STATIC = ROOT / "static"   # icons, manifest, service worker — copied verbatim into site/
 STATE_FILE = DATA / "state.json"
 TOPICS = ["iran_mideast", "immigration", "business_ai", "musk", "health", "utah_mormon", "pop_culture", "politics_culture_world", "weird"]
 
@@ -599,7 +603,9 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
 
 # ────────────────────────────────────────────────────────────────────────── render
 
-def render(state: dict, cfg: dict, now: datetime) -> Path:
+def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False):
+    """Render one edition. `root` is how many levels up the assets sit; archived pages
+    carry a banner and skip the install prompt."""
     from jinja2 import Environment, FileSystemLoader, select_autoescape
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]))
@@ -617,8 +623,8 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
 
     sources: dict[str, str] = {}
     for it in page_links(state):
-        p = urlparse(it["url"])
-        sources.setdefault(it["source"], f"{p.scheme}://{p.netloc}/")
+        pr = urlparse(it["url"])
+        sources.setdefault(it["source"], f"{pr.scheme}://{pr.netloc}/")
 
     local = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
     stamp = local.strftime("%a %b %d %Y · %I:%M %p %Z").replace(" 0", " ").upper()
@@ -634,14 +640,109 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
         count=len(page_links(state)),
         sources=[{"name": k, "url": v} for k, v in sorted(sources.items())],
         target=' target="_blank" rel="noopener"' if cfg["site"].get("open_links_in_new_tab") else "",
+        root=root,
+        archived=archived,
     )
+    return html_out, local, edition
+
+
+def _time_words(local: datetime) -> str:
+    """7:04 a.m. — written out, not zero-padded, and platform-independent."""
+    return f"{(local.hour % 12) or 12}:{local.minute:02d} {'a.m.' if local.hour < 12 else 'p.m.'}"
+
+
+def archive_edition(html: str, state: dict, local: datetime, edition: str) -> None:
+    """Keep this edition forever, exactly as it was printed."""
+    ARCHIVE.mkdir(parents=True, exist_ok=True)
+    slot = "morning" if edition.lower().startswith("morning") else "evening"
+    day = local.strftime("%Y-%m-%d")
+    fname = f"{day}-{slot}.html"
+    (ARCHIVE / fname).write_text(html, encoding="utf-8")
+
+    idx_file = ARCHIVE / "index.json"
+    try:
+        idx = json.loads(idx_file.read_text(encoding="utf-8"))
+    except Exception:
+        idx = []
+    idx = [e for e in idx if e.get("file") != fname]      # a re-run replaces its own slot
+    idx.append({
+        "file": fname, "date": day, "slot": slot, "edition": edition,
+        "time": _time_words(local), "iso": local.isoformat(),
+        "top": (state.get("top") or {}).get("headline", ""),
+        "count": len(page_links(state)),
+    })
+    idx.sort(key=lambda e: (e["date"], 0 if e["slot"] == "morning" else 1))
+    idx_file.write_text(json.dumps(idx, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+def publish_archive(cfg: dict) -> int:
+    """Copy every archived edition into the site and print the calendar that indexes them."""
+    from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+    out = SITE / "archive"
+    out.mkdir(parents=True, exist_ok=True)
+    entries: list[dict] = []
+    if ARCHIVE.is_dir():
+        for f in sorted(ARCHIVE.glob("*.html")):
+            shutil.copy2(f, out / f.name)
+        try:
+            entries = json.loads((ARCHIVE / "index.json").read_text(encoding="utf-8"))
+        except Exception:
+            entries = []
+
+    by_day: dict[str, list[dict]] = {}
+    for e in entries:
+        by_day.setdefault(e["date"], []).append(e)
+
+    months = []
+    for ym in sorted({e["date"][:7] for e in entries}, reverse=True):
+        y, m = int(ym[:4]), int(ym[5:7])
+        weeks = []
+        for week in calendar.Calendar(firstweekday=6).monthdatescalendar(y, m):
+            row = []
+            for d in week:
+                if d.month != m:
+                    row.append(None)
+                    continue
+                eds = sorted(by_day.get(d.isoformat(), []),
+                             key=lambda x: 0 if x["slot"] == "morning" else 1)
+                row.append({"day": d.day, "editions": [
+                    {"abbr": "AM" if e["slot"] == "morning" else "PM",
+                     "time": e["time"], "file": e["file"], "top": e.get("top", "")} for e in eds]})
+            weeks.append(row)
+        months.append({"label": f"{calendar.month_name[m]} {y}", "weeks": weeks})
+
+    first_human = ""
+    if entries:
+        d = entries[0]["date"]
+        first_human = f"{calendar.month_name[int(d[5:7])]} {int(d[8:10])}, {d[:4]}"
+
+    env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]))
+    (out / "index.html").write_text(env.get_template("archive.html").render(
+        site=cfg["site"], root="../", months=months, total=len(entries),
+        first_human=first_human, dow=["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    ), encoding="utf-8")
+    return len(entries)
+
+
+def render(state: dict, cfg: dict, now: datetime) -> Path:
+    html_out, local, edition = _page_html(state, cfg, now)
     SITE.mkdir(parents=True, exist_ok=True)
     out = SITE / "index.html"
     out.write_text(html_out, encoding="utf-8")
     if cfg["site"].get("domain"):
         (SITE / "CNAME").write_text(cfg["site"]["domain"].strip() + "\n")
     (SITE / "robots.txt").write_text("User-agent: *\nAllow: /\n")
-    log(f"rendered {out} ({len(page_links(state))} links)")
+    if STATIC.is_dir():                       # app icons, manifest, service worker
+        for f in sorted(STATIC.iterdir()):
+            if f.is_file():
+                shutil.copy2(f, SITE / f.name)
+
+    arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True)
+    archive_edition(arc_html, state, local, edition)
+    n = publish_archive(cfg)
+
+    log(f"rendered {out} ({len(page_links(state))} links); archive holds {n} editions")
     return out
 
 

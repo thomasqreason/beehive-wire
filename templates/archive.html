@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archives &mdash; {{ site.name }}</title>
+<meta name="description" content="Every edition of {{ site.name }} since {{ first_human }}. Morning and evening, {{ total }} editions.">
+<link rel="manifest" href="{{ root }}manifest.webmanifest">
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ root }}apple-touch-icon.png">
+<meta name="theme-color" content="#12161b">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35}
+  a{color:#000;text-decoration:underline}
+  a:hover{background:#000;color:#fff;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:10px 16px 48px}
+  .mast{text-align:center;padding:14px 0 8px;border-bottom:4px double #000}
+  .mast h1{margin:0;font:900 38px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{text-decoration:none}
+  .mast h1 a:hover{background:none;color:#000;text-decoration:underline}
+  .mast .edition{font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:10px}
+  .lede{text-align:center;font:italic 13px/1.5 Georgia,"Times New Roman",serif;margin:14px 0 4px}
+  .lede b{font-style:normal}
+  .back{text-align:center;font:11px/1.6 "Courier New",Courier,monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:26px}
+
+  .month{margin:30px 0 0;break-inside:avoid}
+  .month h2{margin:0 0 8px;font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid #000;padding-bottom:6px}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#d8d8d8;border:1px solid #d8d8d8}
+  .dow{background:#fff;text-align:center;font:bold 10px/1 "Courier New",Courier,monospace;letter-spacing:.1em;padding:6px 0;color:#555}
+  .cell{background:#fff;min-height:64px;padding:5px 5px 7px}
+  .cell.pad{background:#fafafa}
+  .cell .d{font:bold 11px/1 Arial,Helvetica,sans-serif;color:#999;display:block;margin-bottom:5px}
+  .cell.has .d{color:#000}
+  .cell a{display:block;text-decoration:none;font:bold 10px/1.25 "Courier New",Courier,monospace;
+    letter-spacing:.02em;padding:3px 4px;margin-bottom:3px;border-left:3px solid #fdb512;background:#f6f6f6;color:#000}
+  .cell a:hover{background:#12161b;color:#fff;border-left-color:#fdb512}
+  .cell a .t{display:block;font-weight:normal;color:#555;letter-spacing:0}
+  .cell a:hover .t{color:#cfcfcf}
+  .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
+  .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  @media (max-width:760px){
+    .mast h1{font-size:28px;letter-spacing:.06em}
+    .cell{min-height:56px;padding:4px 3px 6px}
+    .cell a{font-size:9px;padding:2px 3px;border-left-width:2px}
+    .dow{font-size:9px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <h1><a href="{{ root }}">{{ site.name }}</a></h1>
+    <div class="edition">Archives</div>
+  </div>
+
+  {% if total %}
+  <div class="lede">Every edition since {{ first_human }}. <b>{{ total }}</b> in all &mdash; times are Mountain.</div>
+  {% else %}
+  <div class="lede">The first archived edition lands with the next printing.</div>
+  {% endif %}
+  <div class="back"><a href="{{ root }}">&larr; Today&rsquo;s front page</a></div>
+
+  {% for m in months %}
+  <div class="month">
+    <h2>{{ m.label }}</h2>
+    <div class="grid">
+      {% for d in dow %}<div class="dow">{{ d }}</div>{% endfor %}
+      {% for week in m.weeks %}{% for c in week %}
+        {% if not c %}<div class="cell pad"></div>
+        {% else %}<div class="cell{% if c.editions %} has{% endif %}">
+          <span class="d">{{ c.day }}</span>
+          {% for e in c.editions %}<a href="{{ e.file }}" title="{{ e.top }}">{{ e.abbr }}<span class="t">{{ e.time }}</span></a>
+          {% endfor %}
+        </div>{% endif %}
+      {% endfor %}{% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="empty">Nothing archived yet.</div>
+  {% endfor %}
+
+  <div class="foot">{{ site.name }} &middot; Archives &middot; {{ total }} editions</div>
+
+</div>
+</body>
+</html>

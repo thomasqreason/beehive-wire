@@ -1,0 +1,35 @@
+{
+  "name": "Beehive Wire",
+  "short_name": "Beehive Wire",
+  "description": "Morning and evening. Nothing in between.",
+  "start_url": "./?from=home",
+  "scope": "./",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#12161b",
+  "theme_color": "#12161b",
+  "categories": [
+    "news",
+    "magazines"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
