@@ -4,9 +4,11 @@
 site:
   name: "BEEHIVE WIRE"
   tagline: "Morning and evening. Nothing in between."
-  editions:                        # local times the two editions land; shown on the page
-    morning: "07:00"
-    evening: "18:00"
+  editions:                        # local (Mountain) times the two editions land
+    morning: "04:00"                 # = 6:00 a.m. Eastern
+    evening: "16:00"                 # = 6:00 p.m. Eastern
+  reader_timezone: "America/New_York"   # 80% of US readers are Eastern or Central...
+  reader_tz_label: "Eastern"            # ...so the sign-off quotes their clock
   domain: "beehivewire.com"        # writes site/CNAME so GitHub Pages serves the custom domain
   timezone: "America/Denver"       # timestamp shown on the page
   open_links_in_new_tab: true

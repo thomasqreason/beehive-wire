@@ -9,10 +9,10 @@ name: build
 
 on:
   schedule:
-    # The morning and evening editions: 7:00 a.m. and 6:00 p.m. Mountain, expressed in UTC.
+    # The morning and evening editions: 6:00 a.m. and 6:00 p.m. EASTERN, where four in five US readers are.
     # These are daylight-saving times (UTC-6). When Mountain falls back in November,
-    # change this line to "0 14,1 * * *" to keep the same local hours.
-    - cron: "0 13,0 * * *"      # GitHub may delay scheduled runs by a few minutes.
+    # change this line to "50 10,22 * * *" to keep the same local hours.
+    - cron: "50 9,21 * * *"      # GitHub may delay scheduled runs by a few minutes.
   workflow_dispatch:
   push:
     branches: [main]

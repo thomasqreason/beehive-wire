@@ -339,7 +339,19 @@ def edition_of(local: datetime, cfg: dict) -> tuple[str, str]:
     this_slot = min(slots, key=lambda s: gap(s[0]))
     next_slot = [s for s in slots if s is not this_slot][0]
     when = "this evening" if next_slot[1].startswith("Evening") else "tomorrow morning"
-    return this_slot[1], f"Next edition {when} at {_clock(next_slot[0])}"
+
+    # Four in five American readers are Eastern or Central, so the sign-off quotes their
+    # clock. The dateline above it stays Mountain: this is a wire published from Salt Lake.
+    clock, label = _clock(next_slot[0]), ""
+    reader_tz = cfg["site"].get("reader_timezone")
+    if reader_tz:
+        nxt = local.replace(hour=next_slot[0] // 60, minute=next_slot[0] % 60, second=0, microsecond=0)
+        if next_slot[0] <= mins:
+            nxt += timedelta(days=1)
+        shown = nxt.astimezone(ZoneInfo(reader_tz))
+        clock = f"{(shown.hour % 12) or 12}:{shown.minute:02d} {'a.m.' if shown.hour < 12 else 'p.m.'}"
+        label = " " + cfg["site"].get("reader_tz_label", "").strip()
+    return this_slot[1], f"Next edition {when} at {clock}{label.rstrip()}"
 
 
 def in_quiet_hours(cfg: dict, now: datetime) -> bool:
