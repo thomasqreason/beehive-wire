@@ -1,0 +1,108 @@
+name: breaking
+
+# The siren. Checks the wire hourly; almost always does nothing.
+#
+# Step 1 is pure Python — it pulls the feeds and looks for one story hitting many independent
+# outlets at once. That costs nothing. Only when it trips does Claude get asked for a verdict,
+# and the standing orders in editorial.md tell it the answer is almost always no.
+
+on:
+  schedule:
+    - cron: "23 * * * *"       # every hour, off the top of the hour where the queue is worst
+  workflow_dispatch:            # and pullable by hand when you see something first
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build                  # never races the morning or evening edition
+  cancel-in-progress: false
+
+jobs:
+  breaking:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # 1. Free: is anything actually surging?
+      - name: Watch the wire
+        run: python breaking.py --emit-payload data/build/breaking.json
+
+      - name: Did anything surge?
+        id: surge
+        run: |
+          if [ -s data/build/breaking.json ]; then
+            echo "hit=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "hit=no" >> "$GITHUB_OUTPUT"
+            echo "Nothing on the wire. Stopping here — no Claude call, no cost."
+          fi
+
+      # 2. Only now does this cost anything: one small call for a yes or no.
+      - name: Ask for a verdict
+        if: steps.surge.outputs.hit == 'yes'
+        continue-on-error: true
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "You are the editor of Beehive Wire. Read the section of editorial.md titled 'The siren: when to break the schedule' and hold to it strictly — the answer is almost always no. Then read data/build/breaking.json, which holds a cluster of stories now surging across the wire. Decide whether it clears the bar. Write your verdict to data/build/extra.json in exactly the EXTRA output schema from editorial.md. Write only that file. No prose, no markdown fences, no commit." \
+            --model claude-sonnet-5 \
+            --allowedTools "Read,Write" \
+            --permission-mode acceptEdits \
+            --max-turns 6
+
+      # 3. Print the EXTRA, or do nothing at all.
+      - name: Print the extra
+        id: extra
+        if: steps.surge.outputs.hit == 'yes'
+        run: |
+          rm -f data/build/PRINTED
+          if [ -s data/build/extra.json ]; then
+            python breaking.py --plan-json data/build/extra.json
+          else
+            echo "No verdict returned — leaving the page alone."
+          fi
+          if [ -f data/build/PRINTED ]; then
+            echo "printed=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "printed=no" >> "$GITHUB_OUTPUT"
+            echo "Below the bar. The page stands."
+          fi
+
+      # Everything below runs only when an EXTRA was actually printed.
+      - name: Commit page state
+        if: steps.extra.outputs.printed == 'yes'
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/state.json archive
+          if ! git diff --cached --quiet; then
+            git commit -m "extra: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+        if: steps.extra.outputs.printed == 'yes'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.extra.outputs.printed == 'yes'
+        with:
+          path: site
+      - id: deployment
+        if: steps.extra.outputs.printed == 'yes'
+        uses: actions/deploy-pages@v4

@@ -322,36 +322,58 @@ def _clock(mins: int) -> str:
     return f"{(h % 12) or 12}:{m:02d} {ampm}"
 
 
+def _slots(cfg: dict) -> list[tuple[int, str]]:
+    eds = cfg["site"].get("editions") or {"morning": "07:00", "evening": "18:00"}
+    return [(_hm(eds["morning"]), "Morning Edition"), (_hm(eds["evening"]), "Evening Edition")]
+
+
+def _reader_clock(local: datetime, slot_mins: int, cfg: dict) -> tuple[str, str]:
+    """That slot's time on the readers' clock, and the label for it."""
+    reader_tz = cfg["site"].get("reader_timezone")
+    if not reader_tz:
+        return _clock(slot_mins), ""
+    mins = local.hour * 60 + local.minute
+    nxt = local.replace(hour=slot_mins // 60, minute=slot_mins % 60, second=0, microsecond=0)
+    if slot_mins <= mins:
+        nxt += timedelta(days=1)
+    shown = nxt.astimezone(ZoneInfo(reader_tz))
+    return (f"{(shown.hour % 12) or 12}:{shown.minute:02d} {'a.m.' if shown.hour < 12 else 'p.m.'}",
+            cfg["site"].get("reader_tz_label", "").strip())
+
+
+def next_scheduled(local: datetime, cfg: dict) -> tuple[int, str]:
+    """The next scheduled edition strictly ahead of now — not simply the other one."""
+    mins = local.hour * 60 + local.minute
+    ahead = sorted(_slots(cfg), key=lambda s: (s[0] - mins) % 1440)
+    return ahead[0]
+
+
 def edition_of(local: datetime, cfg: dict) -> tuple[str, str]:
     """Name this edition and say when the next one lands.
 
     Picked by whichever scheduled time is nearest, so a build that fires a few
     minutes early or late is still labelled the edition it actually is.
     """
-    eds = cfg["site"].get("editions") or {"morning": "07:00", "evening": "18:00"}
     mins = local.hour * 60 + local.minute
-    slots = [(_hm(eds["morning"]), "Morning Edition"), (_hm(eds["evening"]), "Evening Edition")]
+    slots = _slots(cfg)
+    grace = 45          # a run that fires a little early still belongs to the slot it is aiming at
 
-    def gap(t: int) -> int:
-        d = abs(mins - t)
-        return min(d, 1440 - d)
+    def since(t: int) -> int:
+        """Minutes since that slot came round. Slightly negative if we have jumped the gun."""
+        d = (mins - t) % 1440
+        return d - 1440 if d >= 1440 - grace else d
 
-    this_slot = min(slots, key=lambda s: gap(s[0]))
+    # An edition is named for the slot that has PASSED, not the nearest one: an evening
+    # edition that GitHub delays until ten o'clock is a late evening edition, not an early
+    # morning one.
+    this_slot = min(slots, key=lambda s: since(s[0]))
     next_slot = [s for s in slots if s is not this_slot][0]
     when = "this evening" if next_slot[1].startswith("Evening") else "tomorrow morning"
 
     # Four in five American readers are Eastern or Central, so the sign-off quotes their
     # clock. The dateline above it stays Mountain: this is a wire published from Salt Lake.
-    clock, label = _clock(next_slot[0]), ""
-    reader_tz = cfg["site"].get("reader_timezone")
-    if reader_tz:
-        nxt = local.replace(hour=next_slot[0] // 60, minute=next_slot[0] % 60, second=0, microsecond=0)
-        if next_slot[0] <= mins:
-            nxt += timedelta(days=1)
-        shown = nxt.astimezone(ZoneInfo(reader_tz))
-        clock = f"{(shown.hour % 12) or 12}:{shown.minute:02d} {'a.m.' if shown.hour < 12 else 'p.m.'}"
-        label = " " + cfg["site"].get("reader_tz_label", "").strip()
-    return this_slot[1], f"Next edition {when} at {clock}{label.rstrip()}"
+    clock, label = _reader_clock(local, next_slot[0], cfg)
+    return this_slot[1], f"Next edition {when} at {clock}{(' ' + label) if label else ''}"
 
 
 def in_quiet_hours(cfg: dict, now: datetime) -> bool:
@@ -641,6 +663,12 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     local = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
     stamp = local.strftime("%a %b %d %Y · %I:%M %p %Z").replace(" 0", " ").upper()
     edition, next_edition = edition_of(local, cfg)
+    if state.get("extra"):
+        slot_mins, slot_name = next_scheduled(local, cfg)
+        clock, label = _reader_clock(local, slot_mins, cfg)
+        edition = "Extra"
+        next_edition = (f"The regular {slot_name.split()[0].lower()} edition follows at "
+                        f"{clock}{(' ' + label) if label else ''}")
     html_out = tpl.render(
         site=cfg["site"],
         updated_human=stamp,
@@ -655,6 +683,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         root=root,
         archived=archived,
         edition_no=edition_no,
+        extra=bool(state.get("extra")),
     )
     return html_out, local, edition
 
@@ -670,10 +699,10 @@ def _slot_of(edition: str) -> str:
     return "morning" if edition.lower().startswith("morning") else "evening"
 
 
-def edition_number(local: datetime, edition: str) -> int:
+def edition_number(local: datetime, edition: str, slot: str | None = None) -> int:
     """This edition's number in the run. Re-printing a slot keeps the number it already had."""
     idx = _archive_index()
-    day, slot = local.strftime("%Y-%m-%d"), _slot_of(edition)
+    day, slot = local.strftime("%Y-%m-%d"), slot or _slot_of(edition)
     highest = max((int(e.get("no") or 0) for e in idx), default=0)
     for e in idx:
         if e.get("date") == day and e.get("slot") == slot and e.get("no"):
@@ -689,7 +718,7 @@ def _time_words(local: datetime) -> str:
 def archive_edition(html: str, state: dict, local: datetime, edition: str, no: int) -> None:
     """Keep this edition forever, exactly as it was printed."""
     ARCHIVE.mkdir(parents=True, exist_ok=True)
-    slot = _slot_of(edition)
+    slot = f"extra-{state.get('extra_seq', 1)}" if state.get("extra") else _slot_of(edition)
     day = local.strftime("%Y-%m-%d")
     fname = f"{day}-{slot}.html"
     (ARCHIVE / fname).write_text(html, encoding="utf-8")
@@ -739,10 +768,10 @@ def publish_archive(cfg: dict) -> int:
                 if d.month != m:
                     row.append(None)
                     continue
-                eds = sorted(by_day.get(d.isoformat(), []),
-                             key=lambda x: 0 if x["slot"] == "morning" else 1)
+                eds = sorted(by_day.get(d.isoformat(), []), key=lambda x: x.get("iso", ""))
                 row.append({"day": d.day, "editions": [
-                    {"abbr": "AM" if e["slot"] == "morning" else "PM", "no": e.get("no"),
+                    {"abbr": "EXTRA" if str(e["slot"]).startswith("extra") else ("AM" if e["slot"] == "morning" else "PM"),
+                     "extra": str(e["slot"]).startswith("extra"), "no": e.get("no"),
                      "time": e["time"], "file": e["file"], "top": e.get("top", "")} for e in eds]})
             weeks.append(row)
         months.append({"label": f"{calendar.month_name[m]} {y}", "weeks": weeks})
@@ -760,9 +789,19 @@ def publish_archive(cfg: dict) -> int:
     return len(entries)
 
 
+def stand_down(state: dict) -> bool:
+    """A scheduled edition ends an EXTRA, whatever else it does or doesn't change.
+    `last_extra_at` survives, because it is what holds the cooldown.
+    Returns True if a siren was actually standing."""
+    was = bool(state.pop("extra", None))
+    state.pop("extra_seq", None)
+    return was
+
+
 def render(state: dict, cfg: dict, now: datetime) -> Path:
     probe = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
-    no = edition_number(probe, edition_of(probe, cfg)[0])
+    no = edition_number(probe, edition_of(probe, cfg)[0],
+                        f"extra-{state.get('extra_seq', 1)}" if state.get("extra") else None)
     html_out, local, edition = _page_html(state, cfg, now, edition_no=no)
     SITE.mkdir(parents=True, exist_ok=True)
     out = SITE / "index.html"
@@ -813,6 +852,9 @@ def main() -> int:
     if args.render_only:
         render(state, cfg, now)
         return 0
+
+    if stand_down(state):        # anything past here is a scheduled edition
+        save_state(state)        # persist it now, so an early exit still clears the siren
 
     state = age_out(state, cfg, now)
     page_empty = not state.get("top") and not state.get("items")
