@@ -42,5 +42,16 @@
   "iso": "2026-09-15T16:29:58-06:00",
   "top": "YIELD TOPS 5.04%, WORST SINCE '07...",
   "count": 50
+ },
+ {
+  "no": 5,
+  "file": "2026-09-16-morning.html",
+  "date": "2026-09-16",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "5:59 a.m.",
+  "iso": "2026-09-16T05:59:00-06:00",
+  "top": "GAZA COLLAPSE: 20 DEAD, DOZENS MISSING...",
+  "count": 50
  }
 ]
