@@ -50,9 +50,15 @@
   .cols{display:flex;gap:34px;margin-top:22px;border-top:1px solid #000;padding-top:18px}
   .col{flex:1 1 0;min-width:0}
   .col a{display:block;text-transform:uppercase;margin:0 0 12px;font-size:13px}
+  .cols.one .col{max-width:720px;margin:0 auto}
+  .cols.one .col a{font-size:15px;margin-bottom:13px}
+  .col a.held,.flash a.held{color:#8a8a8a}
+  .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
+  .mast .fresh b{color:#000;font-weight:bold}
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
   .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
   .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
+  .foot .srcs .lbl{text-transform:uppercase;letter-spacing:.06em;color:#000}
   .foot .srcs a{color:#333;text-decoration:none}
   .foot .srcs a:hover{background:none;color:#000;text-decoration:underline}
   .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
@@ -122,6 +128,7 @@
     {% if site.tagline %}<div class="tag">{{ site.tagline }}</div>{% endif %}
     <div class="edition">{{ edition }}{% if edition_no %} &middot; No. {{ edition_no }}{% endif %}</div>
     <div class="stamp">{{ updated_human }}</div>
+    {% if new_count and not extra %}<div class="fresh"><b>{{ new_count }} new</b> {{ since }} &middot; {{ count - new_count }} held over, in gray</div>{% endif %}
   </div>
 
   {% if not top %}
@@ -130,7 +137,7 @@
 
   {% if flash %}
   <div class="flash">
-    {% for f in flash %}<a href="{{ f.url }}"{{ target }} title="{{ f.source }}: {{ f.title }}">{{ f.headline }}</a>
+    {% for f in flash %}<a{% if f.held %} class="held"{% endif %} href="{{ f.url }}"{{ target }} title="{{ f.source }}: {{ f.title }}">{{ f.headline }}</a>
     {% endfor %}
   </div>
   {% endif %}
@@ -140,10 +147,10 @@
     <a class="head{% if top.urgent %} urgent{% endif %}" href="{{ top.url }}"{{ target }} title="{{ top.source }}: {{ top.title }}">{{ top.headline }}</a>
   </div>
 
-  <div class="cols">
+  <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
     <div class="col">
-      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}<a href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
+      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}<a{% if it.held %} class="held"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
       {% endfor %}
     </div>
     {% endfor %}
@@ -160,7 +167,8 @@
   <div class="foot">
     {{ site.name }} &middot; {{ count }} links &middot; {{ edition }}{% if edition_no %} &middot; No. {{ edition_no }}{% endif %}
     {% if not archived %}<div class="arch"><a href="archive/">Archives &mdash; every edition, back to the first</a></div>{% endif %}
-    <div class="srcs">{% for s in sources %}<a href="{{ s.url }}"{{ target }}>{{ s.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>
+    <div class="srcs"><span class="lbl">In this edition:</span> {% for s in sources %}<a href="{{ s.url }}"{{ target }}>{{ s.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>
+    {% if feed_count %}<div class="arch"><a href="{{ root }}sources/">The wire we read &mdash; all {{ feed_count }} sources, beat by beat</a></div>{% endif %}
   </div>
 
 </div>

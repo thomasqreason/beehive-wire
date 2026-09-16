@@ -12,7 +12,7 @@ feeds:
   - {name: "UnHerd", url: "https://unherd.com/feed/", topic: politics_culture_world}
   - {name: "Chronicles", url: "https://chroniclesmagazine.org/feed/", topic: politics_culture_world}
   - {name: "Revolver News", url: "https://revolver.news/feed/", topic: politics_culture_world}
-  - {name: "ZeroHedge", url: "https://cms.zerohedge.com/fullrss2.xml", topic: business_ai, weight: 1.2}
+  - {name: "ZeroHedge", url: "https://cms.zerohedge.com/fullrss2.xml", topic: economy, weight: 1.4}
   - {name: "Daily Caller", url: "https://dailycaller.com/feed/", topic: politics_culture_world}
   - {name: "Breitbart", url: "https://feeds.feedburner.com/breitbart", topic: immigration}
   - {name: "Just the News", url: "https://justthenews.com/rss.xml", topic: politics_culture_world}
@@ -103,30 +103,119 @@ feeds:
   - {name: "Google News: Pop culture", url: "https://news.google.com/rss/search?q=Emmys+OR+%22box+office%22+OR+Hollywood+OR+%22Taylor+Swift%22+OR+Netflix+when:1d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true}
 
   # ── Business / AI / futurism / data centers ────────────────────────────────────
-  - {name: "CNBC Top", url: "https://www.cnbc.com/id/100003114/device/rss/rss.html", topic: business_ai}
+  - {name: "CNBC Top", url: "https://www.cnbc.com/id/100003114/device/rss/rss.html", topic: economy}
   - {name: "CNBC Tech", url: "https://www.cnbc.com/id/19854910/device/rss/rss.html", topic: business_ai}
-  - {name: "WSJ Markets", url: "https://feeds.a.dj.com/rss/RSSMarketsMain.xml", topic: business_ai}
+  - {name: "WSJ Markets", url: "https://feeds.a.dj.com/rss/RSSMarketsMain.xml", topic: economy}
   - {name: "WSJ Tech", url: "https://feeds.a.dj.com/rss/RSSWSJD.xml", topic: business_ai}
-  - {name: "WSJ Business", url: "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml", topic: business_ai}
-  - {name: "TechCrunch", url: "https://techcrunch.com/feed/", topic: business_ai}
-  - {name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/index", topic: business_ai}
-  - {name: "The Verge", url: "https://www.theverge.com/rss/index.xml", topic: business_ai}
+  - {name: "WSJ Business", url: "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml", topic: economy}
+  - {name: "TechCrunch", url: "https://techcrunch.com/feed/", topic: tech}
+  - {name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/index", topic: tech}
+  - {name: "The Verge", url: "https://www.theverge.com/rss/index.xml", topic: tech}
   - {name: "MIT Technology Review", url: "https://www.technologyreview.com/feed/", topic: business_ai}
-  - {name: "Wired", url: "https://www.wired.com/feed/rss", topic: business_ai}
+  - {name: "Wired", url: "https://www.wired.com/feed/rss", topic: tech}
   - {name: "Fortune", url: "https://fortune.com/feed/", topic: business_ai}
   - {name: "Business Insider", url: "https://feeds.businessinsider.com/custom/all", topic: business_ai}
   - {name: "Semafor", url: "https://www.semafor.com/rss.xml", topic: business_ai}
   - {name: "New Atlas", url: "https://newatlas.com/index.rss", topic: business_ai}
   - {name: "Futurism", url: "https://futurism.com/feed", topic: business_ai}
   - {name: "Data Center Dynamics", url: "https://www.datacenterdynamics.com/en/rss/", topic: business_ai}
-  - {name: "Utility Dive", url: "https://www.utilitydive.com/feeds/news/", topic: business_ai}
+  - {name: "Utility Dive", url: "https://www.utilitydive.com/feeds/news/", topic: energy}
   - {name: "Google News: AI", url: "https://news.google.com/rss/search?q=%22artificial+intelligence%22+OR+OpenAI+OR+Anthropic+OR+Nvidia+when:1d&hl=en-US&gl=US&ceid=US:en", topic: business_ai, google: true}
   - {name: "Google News: Data centers", url: "https://news.google.com/rss/search?q=%22data+center%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: business_ai, google: true}
 
   # ── Musk world ─────────────────────────────────────────────────────────────────
-  - {name: "Teslarati", url: "https://www.teslarati.com/feed/", topic: musk, weight: 1.2}
-  - {name: "Tesla Oracle", url: "https://www.teslaoracle.com/feed/", topic: musk}
-  - {name: "Electrek", url: "https://electrek.co/feed/", topic: musk}
-  - {name: "NASASpaceflight", url: "https://www.nasaspaceflight.com/feed/", topic: musk}
-  - {name: "SpaceNews", url: "https://spacenews.com/feed/", topic: musk}
-  - {name: "Google News: Musk", url: "https://news.google.com/rss/search?q=%22Elon+Musk%22+OR+SpaceX+OR+Starship+OR+xAI+OR+Neuralink+when:1d&hl=en-US&gl=US&ceid=US:en", topic: musk, google: true}
+  - {name: "Electrek", url: "https://electrek.co/feed/", topic: business_ai, weight: 0.8}
+  - {name: "NASASpaceflight", url: "https://www.nasaspaceflight.com/feed/", topic: business_ai, weight: 0.8}
+  - {name: "SpaceNews", url: "https://spacenews.com/feed/", topic: business_ai, weight: 0.8}
+  - {name: "Google News: Musk", url: "https://news.google.com/rss/search?q=%22Elon+Musk%22+OR+SpaceX+OR+Starship+OR+xAI+OR+Neuralink+when:1d&hl=en-US&gl=US&ceid=US:en", topic: business_ai, google: true, weight: 0.7}
+
+  # ── Added Sep 15, 2026: the new beats ──────────────────────────────────────────
+  # Sports: Caitlin Clark, the Utah schools in football season, D-I football when it's news
+  - {name: "KSL Sports", url: "https://sports.ksl.com/feed", topic: sports, weight: 1.2}
+  - {name: "CBS Sports: College Football", url: "https://www.cbssports.com/rss/headlines/college-football/", topic: sports}
+  - {name: "Yahoo Sports: College Football", url: "https://sports.yahoo.com/college-football/rss/", topic: sports, weight: 0.9}
+  - {name: "Google News: Caitlin Clark", url: "https://news.google.com/rss/search?q=%22Caitlin+Clark%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.3}
+  - {name: "Google News: Utah college sports", url: "https://news.google.com/rss/search?q=%22Utah+Utes%22+OR+%22BYU+Cougars%22+OR+%22Utah+State+Aggies%22+OR+%22Utah+Valley+Wolverines%22+OR+%22Weber+State%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.2}
+  - {name: "Google News: College football upsets", url: "https://news.google.com/rss/search?q=%22college+football%22+upset+OR+%22Top+25%22+OR+fired+when:1d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true}
+
+  # Ukraine / Russia, straight
+  - {name: "Google News: Ukraine war", url: "https://news.google.com/rss/search?q=Ukraine+Russia+war+when:1d&hl=en-US&gl=US&ceid=US:en", topic: ukraine_russia, google: true, weight: 1.1}
+  - {name: "Google News: Kremlin", url: "https://news.google.com/rss/search?q=Putin+OR+Kremlin+OR+%22Russian+economy%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: ukraine_russia, google: true, weight: 0.9}
+
+  # Crime — say who; refugees and asylum
+  - {name: "Fox News US", url: "https://moxie.foxnews.com/google-publisher/us.xml", topic: crime}
+  - {name: "Google News: Illegal immigrant charged", url: "https://news.google.com/rss/search?q=%22illegal+immigrant%22+OR+%22illegal+alien%22+OR+%22undocumented+immigrant%22+charged+OR+arrested+OR+murder+when:1d&hl=en-US&gl=US&ceid=US:en", topic: crime, google: true, weight: 1.2}
+  - {name: "Google News: Refugee crime and fraud", url: "https://news.google.com/rss/search?q=refugee+OR+asylum+OR+Somali+charged+OR+fraud+OR+murder+OR+indicted+when:2d&hl=en-US&gl=US&ceid=US:en", topic: crime, google: true, weight: 1.2}
+  - {name: "Google News: Utah refugees", url: "https://news.google.com/rss/search?q=Utah+refugee+OR+refugees+OR+asylum+when:7d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true}
+  - {name: "Google News: Crime data", url: "https://news.google.com/rss/search?q=%22crime+statistics%22+OR+%22FBI+crime+data%22+OR+%22crime+data%22+OR+%22violent+crime%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: crime, google: true, weight: 0.9}
+
+  # Trump watch: promises vs numbers, the family's business, Kushner
+  - {name: "ProPublica", url: "https://www.propublica.org/feeds/propublica/main", topic: trump_watch}
+  - {name: "Google News: Kushner", url: "https://news.google.com/rss/search?q=%22Jared+Kushner%22+when:3d&hl=en-US&gl=US&ceid=US:en", topic: trump_watch, google: true}
+  - {name: "Google News: Trump family business", url: "https://news.google.com/rss/search?q=%22Trump+Organization%22+OR+%22Eric+Trump%22+OR+%22Donald+Trump+Jr%22+OR+%22Trump+family%22+crypto+OR+deal+OR+profit+OR+oligarch+when:2d&hl=en-US&gl=US&ceid=US:en", topic: trump_watch, google: true}
+  - {name: "Google News: Trump promises", url: "https://news.google.com/rss/search?q=Trump+promised+OR+promise+OR+%22gas+prices%22+OR+%22grocery+prices%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: trump_watch, google: true, weight: 0.9}
+
+  # Midterms and election integrity
+  - {name: "Google News: Midterms", url: "https://news.google.com/rss/search?q=midterms+OR+%22midterm+elections%22+OR+%22generic+ballot%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true, weight: 1.2}
+  - {name: "Google News: Democrats", url: "https://news.google.com/rss/search?q=Democrats+OR+DNC+OR+%22Democratic+Party%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true, weight: 0.9}
+  - {name: "Google News: Election integrity", url: "https://news.google.com/rss/search?q=%22election+integrity%22+OR+%22voter+rolls%22+OR+%22voting+machines%22+OR+%22mail-in+ballots%22+OR+%22noncitizen+voting%22+OR+%222020+election%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true}
+
+  # Economy, inflation, gas and oil
+  - {name: "Fox Business", url: "https://moxie.foxbusiness.com/google-publisher/latest.xml", topic: economy}
+  - {name: "Fox Business: Economy", url: "https://moxie.foxbusiness.com/google-publisher/economy.xml", topic: economy}
+  - {name: "Google News: Inflation and prices", url: "https://news.google.com/rss/search?q=inflation+OR+%22gas+prices%22+OR+%22grocery+prices%22+OR+CPI+OR+%22cost+of+living%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: economy, google: true, weight: 1.1}
+  - {name: "Google News: Oil", url: "https://news.google.com/rss/search?q=%22oil+prices%22+OR+OPEC+OR+%22crude+oil%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: economy, google: true, weight: 0.8}
+
+  # Housing and homelessness
+  - {name: "HousingWire", url: "https://www.housingwire.com/feed/", topic: housing, weight: 0.9}
+  - {name: "Redfin News", url: "https://www.redfin.com/news/feed/", topic: housing, weight: 0.9}
+  - {name: "Google News: Housing and rents", url: "https://news.google.com/rss/search?q=%22home+prices%22+OR+rents+OR+%22housing+market%22+OR+%22mortgage+rates%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: housing, google: true}
+  - {name: "Google News: Homeless", url: "https://news.google.com/rss/search?q=homeless+OR+homelessness+when:2d&hl=en-US&gl=US&ceid=US:en", topic: housing, google: true}
+
+  # Europe: migration and the backlash
+  - {name: "Remix News", url: "https://rmx.news/feed/", topic: immigration, weight: 1.2}
+  - {name: "Brussels Signal", url: "https://brusselssignal.eu/feed/", topic: politics_culture_world}
+  - {name: "The European Conservative", url: "https://europeanconservative.com/feed/", topic: politics_culture_world, weight: 0.9}
+  - {name: "Google News: Europe migration", url: "https://news.google.com/rss/search?q=Europe+migrants+OR+migration+OR+asylum+OR+%22Channel+crossings%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true}
+
+  # AI: Anthropic and OpenAI first, Gemini and Grok with less emphasis
+  - {name: "OpenAI News", url: "https://openai.com/news/rss.xml", topic: business_ai, weight: 1.2}
+  - {name: "Google News: Anthropic and OpenAI", url: "https://news.google.com/rss/search?q=Anthropic+OR+OpenAI+OR+Claude+OR+ChatGPT+when:1d&hl=en-US&gl=US&ceid=US:en", topic: business_ai, google: true, weight: 1.5}
+  - {name: "Google News: Gemini and Grok", url: "https://news.google.com/rss/search?q=%22Google+Gemini%22+OR+DeepMind+OR+Grok+OR+xAI+when:1d&hl=en-US&gl=US&ceid=US:en", topic: business_ai, google: true, weight: 0.9}
+
+  # Added Sep 16, 2026: the hundred-link page's new beats
+  # Tech (not AI)
+  - {name: "9to5Mac", url: "https://www.9to5mac.com/feed/", topic: tech, weight: 0.8}
+  - {name: "Google News: Tech", url: "https://news.google.com/rss/search?q=Apple+OR+Microsoft+OR+Samsung+OR+cyberattack+OR+hack+OR+outage+OR+antitrust+when:1d&hl=en-US&gl=US&ceid=US:en", topic: tech, google: true}
+  # World
+  - {name: "Google News: China", url: "https://news.google.com/rss/search?q=China+OR+Taiwan+OR+Beijing+when:1d&hl=en-US&gl=US&ceid=US:en", topic: world, google: true, weight: 1.1}
+  - {name: "Google News: Latin America", url: "https://news.google.com/rss/search?q=Mexico+cartel+OR+Venezuela+OR+Argentina+OR+Milei+OR+Sheinbaum+when:1d&hl=en-US&gl=US&ceid=US:en", topic: world, google: true}
+  - {name: "Google News: Europe politics", url: "https://news.google.com/rss/search?q=Farage+OR+Macron+OR+AfD+OR+%22European+Union%22+OR+Starmer+when:1d&hl=en-US&gl=US&ceid=US:en", topic: world, google: true, weight: 0.9}
+  # Media
+  - {name: "Mediaite", url: "https://www.mediaite.com/feed/", topic: media}
+  - {name: "NewsBusters", url: "https://newsbusters.org/blog/feed", topic: media, weight: 0.9}
+  - {name: "Google News: Media", url: "https://news.google.com/rss/search?q=ratings+CNN+OR+MSNBC+OR+%22Fox+News%22+OR+%22New+York+Times%22+OR+newsroom+layoffs+OR+anchor+when:1d&hl=en-US&gl=US&ceid=US:en", topic: media, google: true}
+  # Faith, family, schools
+  - {name: "The Daily Signal", url: "https://www.dailysignal.com/feed/", topic: faith_family_schools, weight: 0.9}
+  - {name: "Google News: Faith", url: "https://news.google.com/rss/search?q=Christians+OR+church+OR+Catholic+OR+evangelical+OR+%22religious+liberty%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: faith_family_schools, google: true}
+  - {name: "Google News: Family", url: "https://news.google.com/rss/search?q=%22birth+rate%22+OR+marriage+OR+%22screen+time%22+OR+fertility+OR+%22stay-at-home%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: faith_family_schools, google: true, weight: 0.9}
+  - {name: "Google News: Schools", url: "https://news.google.com/rss/search?q=%22school+choice%22+OR+homeschool+OR+%22test+scores%22+OR+DEI+OR+campus+OR+%22school+board%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: faith_family_schools, google: true}
+  # Military and veterans
+  - {name: "Defense One", url: "https://www.defenseone.com/rss/all/", topic: military}
+  - {name: "Task & Purpose", url: "https://taskandpurpose.com/feed/", topic: military, weight: 0.9}
+  - {name: "Google News: Military", url: "https://news.google.com/rss/search?q=Pentagon+OR+%22U.S.+military%22+OR+veterans+OR+%22Space+Force%22+OR+recruitment+when:1d&hl=en-US&gl=US&ceid=US:en", topic: military, google: true}
+  # Energy
+  - {name: "OilPrice.com", url: "https://oilprice.com/rss/main", topic: energy, weight: 0.9}
+  - {name: "Google News: Energy", url: "https://news.google.com/rss/search?q=%22power+grid%22+OR+nuclear+OR+%22natural+gas%22+OR+pipeline+OR+%22EV+mandate%22+OR+blackout+when:1d&hl=en-US&gl=US&ceid=US:en", topic: energy, google: true}
+  # Weather and disasters
+  - {name: "Google News: Disasters", url: "https://news.google.com/rss/search?q=hurricane+OR+earthquake+OR+wildfire+OR+tornado+OR+flooding+OR+%22heat+wave%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: weather_disasters, google: true}
+
+  # Video — WATCH: links. YouTube publishes an RSS feed per channel; these are the channels' own uploads.
+  - {name: "Paul Joseph Watson (YouTube)", url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCittVh8imKanO_5KohzDbpg", topic: video, weight: 1.3}
+  - {name: "Modernity (PJW)", url: "https://modernity.news/feed/", topic: politics_culture_world, weight: 1.1}
+  - {name: "Tucker Carlson Network (YouTube)", url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCjjBjVc0b1cIpNGEeZtS2lg", topic: video, weight: 1.2}
+  - {name: "Candace Owens (YouTube)", url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCL0u5uz7KZ9q-pe-VC8TY-w", topic: video}
+
+  # The good news that keeps the page from reading like a wake
+  - {name: "Good News Network", url: "https://www.goodnewsnetwork.org/feed/", topic: weird, weight: 0.8}
+  - {name: "Google News: Breakthrough", url: "https://news.google.com/rss/search?q=breakthrough+OR+%22first+ever%22+OR+rescued+OR+%22record+high%22+OR+cure+when:1d&hl=en-US&gl=US&ceid=US:en", topic: weird, google: true, weight: 0.8}

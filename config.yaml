@@ -14,18 +14,18 @@ site:
   open_links_in_new_tab: true
 
 page:
-  total_links: 50                  # top + flash + column links. The editor keeps the page at this size.
+  total_links: 100                 # top + flash + column links. The editor keeps the page at this size. (100 from Sep 16, 2026; was 50, then 75.)
   flash_lines: 3                   # small lines above the giant headline (0-4)
-  columns: 3
+  columns: 1                       # one column, single file — not the three-column Drudge grid
 
 # Tuned for TWO builds a day (morning and late afternoon). If you move to a faster
 # cadence, drop max_swaps_per_run to ~4 and max_story_age_hours to ~36.
 rolling:
-  max_swaps_per_run: 22            # half the page turns over each build
+  max_swaps_per_run: 50            # half the page turns over each build: about fifty new, about fifty held over
   max_story_age_hours: 60          # a story can live across ~5 builds before it is dropped
   top_story_max_age_hours: 16      # the giant headline is re-picked every build
   candidate_window_hours: 26       # double-covers the ~12h gap, so a skipped run loses nothing
-  max_candidates: 140              # a bigger pool, since there are only two chances a day to pick
+  max_candidates: 280              # a bigger pool, since there are only two chances a day to pick (and 100 slots to fill)
   max_per_source: 6                # per-feed cap inside the candidate list
   quiet_hours:                     # pointless on a twice-daily schedule; left here if you speed up
     start: 1
@@ -34,7 +34,7 @@ rolling:
 
 editor:
   model: "claude-sonnet-5"         # cheapest model that writes a genuinely good headline; or claude-haiku-4-5-20251001
-  max_tokens: 6000
+  max_tokens: 12000
   temperature: 0.7
   retries: 2
 
@@ -43,14 +43,29 @@ fetch:
   workers: 12
   user_agent: "Mozilla/5.0 (compatible; BeehiveWire/1.0; +https://github.com/)"
 
-# How the 50 links should roughly break down. These are targets the editor aims for, not hard caps.
+# How the 100 links should roughly break down. These are targets the editor aims for, not hard caps.
+# Positive stories are not a topic — every beat is expected to carry its own (see editorial.md).
 mix:
-  iran_mideast: 7
+  iran_mideast: 6
+  ukraine_russia: 4
+  world: 4
   immigration: 6
-  business_ai: 8
-  musk: 3
+  crime: 5
+  trump_watch: 5
+  elections: 5
+  politics_culture_world: 6       # Washington and the culture war
+  media: 3
+  faith_family_schools: 4
+  military: 3
+  business_ai: 7                  # AI and the data-center controversies, one beat
+  tech: 5
+  economy: 6
+  energy: 3
+  housing: 3
   health: 6
   utah_mormon: 4
-  pop_culture: 6
-  politics_culture_world: 7
+  sports: 4
+  pop_culture: 3
+  weather_disasters: 2
   weird: 3
+  video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot

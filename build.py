@@ -39,7 +39,9 @@ SITE = ROOT / "site"
 ARCHIVE = ROOT / "archive"  # every edition ever printed, committed so it survives each build
 STATIC = ROOT / "static"   # icons, manifest, service worker — copied verbatim into site/
 STATE_FILE = DATA / "state.json"
-TOPICS = ["iran_mideast", "immigration", "business_ai", "musk", "health", "utah_mormon", "pop_culture", "politics_culture_world", "weird"]
+TOPICS = ["iran_mideast", "ukraine_russia", "world", "immigration", "crime", "trump_watch", "elections",
+          "politics_culture_world", "media", "faith_family_schools", "military", "business_ai", "tech", "economy",
+          "energy", "housing", "health", "utah_mormon", "sports", "pop_culture", "weather_disasters", "weird", "video"]
 
 # ────────────────────────────────────────────────────────────────────────── utils
 
@@ -386,6 +388,25 @@ def in_quiet_hours(cfg: dict, now: datetime) -> bool:
 
 # ────────────────────────────────────────────────────────────────────────── the editor
 
+def compact_json(obj, level: int = 0) -> str:
+    """Pretty JSON, except that every list of records goes one record per line.
+
+    The editor reads the payload with a tool that shows about 2,000 lines at most. At one
+    candidate per line a 220-candidate pool and a 75-link page fit in ~350 lines; pretty-printed
+    they would run past the window and the editor would never see the tail of the wire."""
+    pad = " " * level
+    if isinstance(obj, dict):
+        if not obj:
+            return "{}"
+        rows = [f"{pad} {json.dumps(k, ensure_ascii=False)}: {compact_json(v, level + 1)}" for k, v in obj.items()]
+        return "{\n" + ",\n".join(rows) + f"\n{pad}}}"
+    if isinstance(obj, list):
+        if obj and all(isinstance(x, dict) for x in obj):
+            return "[\n" + ",\n".join(f"{pad} " + json.dumps(x, ensure_ascii=False) for x in obj) + f"\n{pad}]"
+        return json.dumps(obj, ensure_ascii=False)
+    return json.dumps(obj, ensure_ascii=False)
+
+
 def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> dict:
     def brief(it: dict) -> dict:
         return {
@@ -413,7 +434,7 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
             "items": [brief(x) for x in state.get("items", [])],
         },
         "candidates": [
-            {"id": c["id"], "source": c["source"], "title": c["title"], "summary": c["summary"], "age_h": c["age_h"], "topic_hint": c["topic_hint"]}
+            {"id": c["id"], "source": c["source"], "title": c["title"], "summary": (c["summary"] or "")[:220], "age_h": c["age_h"], "topic_hint": c["topic_hint"]}
             for c in cands
         ],
     }
@@ -648,12 +669,27 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     ncols = cfg["page"]["columns"]
     items = state.get("items") or []
     per = -(-len(items) // ncols) if items else 0
+
+    # Held over or new this edition? A story's first_seen is stamped the edition it arrived, so
+    # anything first seen before this edition's own stamp was on the previous page. The template
+    # grays those out and the masthead counts the new ones.
+    ref = parse_iso(state.get("updated")) or now
+
+    def held(it: dict) -> bool:
+        fs = parse_iso(it.get("first_seen"))
+        return bool(fs) and fs < ref - timedelta(minutes=5)
+
     columns = []
     for i in range(ncols):
         col = [dict(x) for x in items[i * per : (i + 1) * per]]
         for j, it in enumerate(col):
             it["sep"] = j > 0 and it.get("topic") != col[j - 1].get("topic")
+            it["held"] = held(it)
         columns.append(col)
+    flash = [dict(x) for x in state.get("flash") or []]
+    for f in flash:
+        f["held"] = held(f)
+    new_count = sum(1 for it in page_links(state) if not held(it))
 
     sources: dict[str, str] = {}
     for it in page_links(state):
@@ -663,6 +699,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     local = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
     stamp = local.strftime("%a %b %d %Y · %I:%M %p %Z").replace(" 0", " ").upper()
     edition, next_edition = edition_of(local, cfg)
+    since = "since last evening's edition" if edition.startswith("Morning") else "since the morning edition"
     if state.get("extra"):
         slot_mins, slot_name = next_scheduled(local, cfg)
         clock, label = _reader_clock(local, slot_mins, cfg)
@@ -675,9 +712,12 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         edition=edition,
         next_edition=next_edition,
         top=state.get("top"),
-        flash=state.get("flash") or [],
+        flash=flash,
         columns=columns,
         count=len(page_links(state)),
+        new_count=new_count,
+        since=since,
+        feed_count=len(_feed_list()),
         sources=[{"name": k, "url": v} for k, v in sorted(sources.items())],
         target=' target="_blank" rel="noopener"' if cfg["site"].get("open_links_in_new_tab") else "",
         root=root,
@@ -699,7 +739,8 @@ def _base_url(cfg: dict) -> str:
 def write_sitemap(cfg: dict, entries: list[dict], now: datetime) -> None:
     """Every page we publish, so a crawler does not have to guess."""
     base, stamp = _base_url(cfg), now.strftime("%Y-%m-%d")
-    urls = [(base, stamp, "always", "1.0"), (base + "archive/", stamp, "daily", "0.6")]
+    urls = [(base, stamp, "always", "1.0"), (base + "archive/", stamp, "daily", "0.6"),
+            (base + "sources/", stamp, "weekly", "0.3")]
     for e in entries:
         urls.append((f"{base}archive/{e['file']}", (e.get("iso") or stamp)[:10], "never", "0.4"))
     body = "\n".join(
@@ -760,6 +801,59 @@ def archive_edition(html: str, state: dict, local: datetime, edition: str, no: i
     })
     idx.sort(key=lambda e: (e["date"], 0 if e["slot"] == "morning" else 1))
     idx_file.write_text(json.dumps(idx, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+BEAT_LABELS = {
+    "iran_mideast": "Iran, Gaza and the Middle East", "ukraine_russia": "Ukraine and Russia", "world": "The world",
+    "immigration": "Immigration", "crime": "Crime", "trump_watch": "Trump watch", "elections": "Midterms and elections",
+    "politics_culture_world": "Washington and the culture war", "media": "Media", "faith_family_schools": "Faith, family, schools",
+    "military": "Military and veterans", "business_ai": "AI and data centers", "tech": "Tech", "economy": "Economy",
+    "energy": "Energy", "housing": "Housing", "health": "Health", "utah_mormon": "Utah and the Latter-day Saints",
+    "sports": "Sports", "pop_culture": "Pop culture", "weather_disasters": "Weather and disasters",
+    "weird": "Weird and wonderful", "video": "Video",
+}
+
+
+def _feed_list() -> list[dict]:
+    try:
+        return load_yaml(ROOT / "feeds.yaml").get("feeds", []) or []
+    except Exception:
+        return []
+
+
+def publish_sources(cfg: dict) -> int:
+    """The wire we read: every feed in feeds.yaml, grouped by beat, as a page a reader can check."""
+    from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+    feeds = _feed_list()
+    groups: dict[str, dict] = {}
+    for fd in feeds:
+        topic = fd.get("topic") or "politics_culture_world"
+        g = groups.setdefault(topic, {"label": BEAT_LABELS.get(topic, topic.replace("_", " ").title()),
+                                      "outlets": [], "searches": []})
+        name, url = str(fd.get("name", "")).strip(), str(fd.get("url", "")).strip()
+        if fd.get("google") or name.lower().startswith("google news"):
+            g["searches"].append(name.split(":", 1)[-1].strip() if ":" in name else name)
+            continue
+        pr = urlparse(url)
+        if "youtube.com" in pr.netloc and "channel_id=" in url:
+            home = "https://www.youtube.com/channel/" + url.split("channel_id=", 1)[1].split("&")[0]
+        else:
+            home = f"{pr.scheme}://{pr.netloc}/"
+        g["outlets"].append({"name": name, "url": home})
+
+    ordered = [groups[t] for t in TOPICS if t in groups] + [g for t, g in groups.items() if t not in TOPICS]
+    for g in ordered:
+        g["outlets"].sort(key=lambda o: o["name"].lower())
+
+    out = SITE / "sources"
+    out.mkdir(parents=True, exist_ok=True)
+    env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]))
+    (out / "index.html").write_text(env.get_template("sources.html").render(
+        site=cfg["site"], root="../", beats=ordered, total=len(feeds), base_url=_base_url(cfg),
+        target=' target="_blank" rel="noopener"' if cfg["site"].get("open_links_in_new_tab") else "",
+    ), encoding="utf-8")
+    return len(feeds)
 
 
 def publish_archive(cfg: dict) -> int:
@@ -845,6 +939,7 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True, edition_no=no)
     archive_edition(arc_html, state, local, edition, no)
     n = publish_archive(cfg)
+    publish_sources(cfg)
     write_sitemap(cfg, _archive_index(), now)
 
     log(f"rendered {out} — edition no. {no}, {len(page_links(state))} links; archive holds {n} editions")
@@ -912,7 +1007,7 @@ def main() -> int:
     if args.emit_payload:
         out = args.emit_payload
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(editor_payload(state, cands, cfg, now), indent=1, ensure_ascii=False), encoding="utf-8")
+        out.write_text(compact_json(editor_payload(state, cands, cfg, now)), encoding="utf-8")
         cache = out.parent / "candidates.json"
         cache.write_text(json.dumps(cands, indent=1, ensure_ascii=False), encoding="utf-8")
         log(f"wrote {out} ({len(cands)} candidates) and {cache}")

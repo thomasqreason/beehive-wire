@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources &mdash; {{ site.name }}</title>
+<meta name="description" content="The {{ total }} outlets {{ site.name }} reads twice a day, beat by beat.">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ base_url }}sources/">
+<meta property="og:title" content="{{ site.name }} &mdash; Sources">
+<meta property="og:description" content="The {{ total }} outlets we read twice a day, beat by beat.">
+<meta property="og:image" content="{{ base_url }}social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="{{ root }}manifest.webmanifest">
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ root }}apple-touch-icon.png">
+<meta name="theme-color" content="#12161b">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35}
+  a{color:#000;text-decoration:underline}
+  a:hover{background:#000;color:#fff;text-decoration:none}
+  .wrap{max-width:760px;margin:0 auto;padding:10px 16px 48px}
+  .mast{text-align:center;padding:14px 0 8px;border-bottom:4px double #000}
+  .mast h1{margin:0;font:900 38px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{text-decoration:none}
+  .mast h1 a:hover{background:none;color:#000;text-decoration:underline}
+  .mast .edition{font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:10px}
+  .lede{text-align:center;font:italic 13px/1.5 Georgia,"Times New Roman",serif;margin:14px 0 4px}
+  .lede b{font-style:normal}
+  .back{text-align:center;font:11px/1.6 "Courier New",Courier,monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:26px}
+  .beat{margin:26px 0 0}
+  .beat h2{margin:0 0 8px;font:bold 12px/1.4 "Courier New",Courier,monospace;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #000;padding-bottom:5px}
+  .beat p{margin:0 0 6px;font:14px/1.7 Georgia,"Times New Roman",serif;word-spacing:.05em}
+  .beat p.searches{font-size:12px;color:#555;font-style:italic}
+  .beat p.searches b{font-style:normal;color:#000}
+  .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  @media (max-width:760px){ .mast h1{font-size:28px;letter-spacing:.06em} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <h1><a href="{{ root }}">{{ site.name }}</a></h1>
+    <div class="edition">The wire we read</div>
+  </div>
+
+  <div class="lede"><b>{{ total }}</b> outlets, pulled twice a day before every edition. The editor sees what they publish and picks the hundred links that earn the page. No outlet is on it by default; every link is chosen.</div>
+  <div class="back"><a href="{{ root }}">&larr; Today&rsquo;s front page</a> &nbsp;&middot;&nbsp; <a href="{{ root }}archive/">Archives</a></div>
+
+  {% for b in beats %}
+  <div class="beat">
+    <h2>{{ b.label }}</h2>
+    {% if b.outlets %}<p>{% for o in b.outlets %}<a href="{{ o.url }}"{{ target }}>{{ o.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</p>{% endif %}
+    {% if b.searches %}<p class="searches"><b>Standing searches:</b> {{ b.searches|join(' · ') }}</p>{% endif %}
+  </div>
+  {% endfor %}
+
+  <div class="foot">{{ site.name }} &middot; {{ total }} sources &middot; morning and evening &middot; nothing in between</div>
+
+</div>
+</body>
+</html>
