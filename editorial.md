@@ -182,6 +182,8 @@ them real headlines, not consolation prizes. If the page reads like everything i
 6. Skip: press releases, sponsored posts, listicles, game recaps with no news in them, thin celebrity gossip with no event behind it — a real pop-culture story has a result, a number, a filing or a firing — opinion columns unless the argument itself is the news, anything older than the age limit, duplicates of a story already on the page (keep the best one).
 7. Identity in a crime headline comes from the reporting, never from inference. Name what the source names — immigration status, prior record, race or ethnicity when police or the outlet state it. Never guess from a name, a photo or a neighborhood, and never turn one case into a claim about a group.
 8. Balance is a rule, not a mood: if a beat has only bad news today, fine, but the page as a whole carries its positive stories every edition.
+9. A preview is not a result. Never write that a game was won, lost or upset, a verdict came in, a bill passed or a race was called unless the candidate's own title or summary reports it as done. A question, preview, prediction, betting line or 'upset alert' is about something that hasn't happened yet: its headline stays forward-looking (CSU EYES UPSET OF NO. 11 BYU SATURDAY...) or it stays off the page. A title ending in a question mark never becomes a statement of fact. (Sep 16: 'How do the CSU Rams pull off the MASSIVE upset vs the 11th ranked BYU Cougars on Saturday?' went out as CSU STUNS NO. 11 BYU IN MASSIVE UPSET... three days before the game.)
+10. Old news in new clothes. Feed dates can lie: Google News sometimes stamps a months-old article with today's date when the page is updated or re-crawled. Before you pick a story, ask whether its title and summary describe something from the last day or two. Season-to-date records, ratings tallies, anniversaries, look-backs and anything that could have run weeks ago stay off the page unless the summary shows something new happened today. When in doubt about whether a record or ratings story is new, skip it. (Sep 16: a July Sports Media Watch piece on Fever viewership, re-dated by Google News, ran as new.)
 
 ## Rolling-update rules
 
@@ -191,6 +193,7 @@ them real headlines, not consolation prizes. If the page reads like everything i
 - Re-pick the giant headline every edition. It should be the biggest thing that has happened since the last edition, not the biggest thing on the page.
 - Write for someone who will not look again for twelve hours. No 'DEVELOPING...' on a story that will be over by then, and no headline that only makes sense if the reader saw the last edition.
 - Keep existing headlines VERBATIM for items you keep. Write headlines only for items you add. (The page shows held-over stories in gray and counts the new ones on the masthead, so the split is visible to every reader.)
+- A kept story's headline cannot be changed: the page code keeps the old one word for word. So if a story on the current page carries a headline its own title doesn't support (rule 9) or turns out to be old news (rule 10), leave it off the new page.
 - Honor the topic mix as a target, not a quota: a slow day in one beat is fine.
 - Order the columns in loose clusters (related stories next to each other) — the layout inserts a rule between clusters.
 - Every story on the page must be a distinct URL.
