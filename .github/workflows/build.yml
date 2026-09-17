@@ -10,6 +10,8 @@ name: build
 on:
   schedule:
     # The morning and evening editions: 6:00 a.m. and 6:00 p.m. EASTERN, where four in five US readers are.
+    # BACKUP CLOCK ONLY: GitHub delivers these hours late or drops them. The cron-job.org pinger
+    # dispatches this workflow with catchup=true at :50 past the hour around each slot.
     # These are daylight-saving times (UTC-6). When Mountain falls back in November,
     # change this line to "50 10,22 * * *" to keep the same local hours.
     - cron: "50 9,21 * * *"      # GitHub may delay scheduled runs by a few minutes.
@@ -40,6 +42,7 @@ jobs:
   #    Costs nothing: no feeds are pulled and Claude is not called.
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       go: ${{ steps.slot.outputs.go }}
     steps:
@@ -58,6 +61,7 @@ jobs:
     needs: check
     if: needs.check.outputs.go == 'yes'
     runs-on: ubuntu-latest
+    timeout-minutes: 45              # a normal 100-link edition takes ~12 min end to end; never hold the build lock for hours
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -81,9 +85,16 @@ jobs:
       #    This runs the Claude Code CLI directly rather than claude-code-action, because that
       #    action rejects `schedule` and `push` events -- and the schedule is the whole point here.
       #    Billing is identical: CLAUDE_CODE_OAUTH_TOKEN charges your Claude subscription.
+      #    It shares the subscription's session limit with everything else on the account; when the
+      #    limit is spent it fails in seconds ("You've hit your session limit") and the next catch-up
+      #    ping tries again. stream-json prints each turn as it lands, so the log shows progress
+      #    instead of twenty silent minutes, and the full stream is kept for the report below.
       - name: Edit the edition
+        id: edit
         if: github.event_name != 'push'
         continue-on-error: true          # a failed edit keeps the last edition up rather than blanking the site
+        timeout-minutes: 30              # a normal 100-link edit takes ~11 min; a hung CLI gets killed, not waited on
+        shell: bash                      # bash -eo pipefail: a failed claude still fails the step through the log pipe
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
@@ -92,7 +103,53 @@ jobs:
             --model claude-sonnet-5 \
             --allowedTools "Read,Write" \
             --permission-mode acceptEdits \
-            --max-turns 8
+            --max-turns 8 \
+            --output-format stream-json --verbose \
+            < /dev/null 2>&1 | tee data/build/editor.log | stdbuf -oL cut -c1-300
+
+      # One line on the run page: how long the editor took, how many turns and tokens, and the error if any.
+      - name: Editor report
+        if: always() && github.event_name != 'push'
+        continue-on-error: true
+        timeout-minutes: 2
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path("data/build/editor.log")
+          lines = p.read_text(encoding="utf-8", errors="replace").splitlines() if p.exists() else []
+          res, last = None, ""
+          for line in lines:
+              try:
+                  ev = json.loads(line)
+              except ValueError:
+                  last = line.strip() or last
+                  continue
+              if not isinstance(ev, dict):
+                  continue
+              if ev.get("type") == "result":
+                  res = ev
+              elif ev.get("type") == "assistant":
+                  for b in (ev.get("message") or {}).get("content") or []:
+                      if isinstance(b, dict) and b.get("type") == "text" and (b.get("text") or "").strip():
+                          last = b["text"].strip()
+          if res:
+              u = res.get("usage") or {}
+              status = "FAILED" if res.get("is_error") else res.get("subtype")
+              msg = (f"Editor {status}: {round((res.get('duration_ms') or 0) / 60000, 1)} min, "
+                     f"{res.get('num_turns')} turns; tokens in {u.get('input_tokens')}, "
+                     f"cache read {u.get('cache_read_input_tokens')}, cache write {u.get('cache_creation_input_tokens')}, "
+                     f"out {u.get('output_tokens')}")
+              if res.get("is_error"):
+                  msg += f". Error: {str(res.get('result'))[:300]}"
+          elif lines:
+              msg = f"Editor never finished (killed, timed out or crashed). Last output: {last[:300]}"
+          else:
+              msg = "Editor produced no output at all."
+          print(msg)
+          if os.environ.get("GITHUB_STEP_SUMMARY"):
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                  f.write(msg + "\n")
+          PY
 
       # 3. Apply the plan and render. If Claude failed, re-render the edition already on the page.
       - name: Print the page
@@ -121,3 +178,14 @@ jobs:
           path: site
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      # A run that printed nothing new is a failure, and says so -- after the deploy, so the page
+      # is still re-rendered. (On Sep 16, four runs in a row printed nothing under a green tick.)
+      - name: Flag a missed edition
+        if: github.event_name != 'push'
+        run: |
+          if [ ! -s data/build/plan.json ]; then
+            echo "::error title=No new edition::The editor produced no plan, so the last edition was re-rendered, not replaced. See 'Edit the edition' and the run summary. The next catch-up ping will try again."
+            exit 1
+          fi
+          echo "New edition printed."

@@ -24,6 +24,7 @@ concurrency:
 jobs:
   breaking:
     runs-on: ubuntu-latest
+    timeout-minutes: 30              # a hung siren must not hold the `build` lock and block an edition for hours
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -76,6 +77,7 @@ jobs:
       - name: Ask for a verdict
         if: steps.surge.outputs.hit == 'yes'
         continue-on-error: true
+        timeout-minutes: 10
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
@@ -84,7 +86,8 @@ jobs:
             --model claude-sonnet-5 \
             --allowedTools "Read,Write" \
             --permission-mode acceptEdits \
-            --max-turns 6
+            --max-turns 6 \
+            < /dev/null
 
       # 3. Print the EXTRA, or do nothing at all.
       - name: Print the extra
