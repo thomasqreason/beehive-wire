@@ -53,5 +53,16 @@
   "iso": "2026-09-16T05:59:00-06:00",
   "top": "GAZA COLLAPSE: 20 DEAD, DOZENS MISSING...",
   "count": 50
+ },
+ {
+  "no": 6,
+  "file": "2026-09-16-evening.html",
+  "date": "2026-09-16",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "9:48 p.m.",
+  "iso": "2026-09-16T21:48:39-06:00",
+  "top": "FED HIKES RATES TO TACKLE INFLATION...",
+  "count": 100
  }
 ]
