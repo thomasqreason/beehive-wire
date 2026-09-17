@@ -61,7 +61,7 @@ jobs:
     needs: check
     if: needs.check.outputs.go == 'yes'
     runs-on: ubuntu-latest
-    timeout-minutes: 45              # a normal 100-link edition takes ~12 min end to end; never hold the build lock for hours
+    timeout-minutes: 60              # room for a slow edit (45) plus the rest; never hold the build lock for hours
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -93,7 +93,7 @@ jobs:
         id: edit
         if: github.event_name != 'push'
         continue-on-error: true          # a failed edit keeps the last edition up rather than blanking the site
-        timeout-minutes: 30              # a normal 100-link edit takes ~11 min; a hung CLI gets killed, not waited on
+        timeout-minutes: 45              # 100-link edits ran 11-30 min (Sonnet 5 can think to its 64k output cap); a runaway gets killed
         shell: bash                      # bash -eo pipefail: a failed claude still fails the step through the log pipe
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -103,7 +103,7 @@ jobs:
             --model claude-sonnet-5 \
             --allowedTools "Read,Write" \
             --permission-mode acceptEdits \
-            --max-turns 8 \
+            --max-turns 12 \
             --output-format stream-json --verbose \
             < /dev/null 2>&1 | tee data/build/editor.log | stdbuf -oL cut -c1-300
 
