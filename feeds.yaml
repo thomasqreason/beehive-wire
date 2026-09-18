@@ -26,11 +26,11 @@ feeds:
   # ── Mainstream / wires / tabloids (Drudge staples) ─────────────────────────────
   - {name: "New York Post", url: "https://nypost.com/feed/", topic: weird, weight: 1.2}
   - {name: "Fox News", url: "https://moxie.foxnews.com/google-publisher/latest.xml", topic: politics_culture_world}
-  - {name: "Daily Mail", url: "https://www.dailymail.co.uk/news/index.rss", topic: weird, weight: 1.2}
+  - {name: "Daily Mail", url: "https://www.dailymail.co.uk/news/index.rss", topic: weird, weight: 1.5}
   - {name: "Daily Mail Health", url: "https://www.dailymail.co.uk/health/index.rss", topic: health}
   - {name: "The Telegraph", url: "https://www.telegraph.co.uk/rss.xml", topic: politics_culture_world}
   - {name: "Sky News", url: "https://feeds.skynews.com/feeds/rss/world.xml", topic: politics_culture_world}
-  - {name: "BBC", url: "https://feeds.bbci.co.uk/news/rss.xml", topic: politics_culture_world}
+  - {name: "BBC", url: "https://feeds.bbci.co.uk/news/rss.xml", topic: politics_culture_world, weight: 1.4}
   - {name: "The Hill", url: "https://thehill.com/feed/", topic: politics_culture_world}
   - {name: "Politico", url: "https://rss.politico.com/politics-news.xml", topic: politics_culture_world}
   - {name: "Axios", url: "https://api.axios.com/feed/", topic: politics_culture_world}
@@ -69,6 +69,53 @@ feeds:
   - {name: "Google News: Tech layoffs", url: "https://news.google.com/rss/search?q=%22tech+layoffs%22+OR+%22job+cuts%22+OR+%22WARN+notice%22+OR+%22software+engineers%22+layoffs+when:2d&hl=en-US&gl=US&ceid=US:en", topic: tech, google: true, weight: 1.1}
   - {name: "Google News: Outsourcing houses", url: "https://news.google.com/rss/search?q=Cognizant+OR+Infosys+OR+%22Tata+Consultancy%22+OR+Wipro+OR+%22HCL+Tech%22+OR+offshoring+when:2d&hl=en-US&gl=US&ceid=US:en", topic: tech, google: true, weight: 0.9}
   - {name: "The Register", url: "https://www.theregister.com/headlines.atom", topic: tech, weight: 1.1}
+
+  # ── ALT / INDEPENDENT — the decentralized wire (added Sep 18, 2026) ────────────
+  # The page's backbone. Journalist-owned, reader-funded, no paywalls, no corporate desk.
+  - {name: "404 Media", url: "https://www.404media.co/rss/", topic: surveillance, weight: 1.3}
+  - {name: "Reclaim The Net", url: "https://reclaimthenet.org/feed", topic: surveillance, weight: 1.3}
+  - {name: "EFF", url: "https://www.eff.org/rss/updates.xml", topic: surveillance, weight: 1.1}
+  - {name: "The Intercept", url: "https://theintercept.com/feed/?rss", topic: surveillance, weight: 0.9}
+  - {name: "Public (Shellenberger)", url: "https://public.substack.com/feed", topic: politics_culture_world, weight: 1.2}
+  - {name: "Seymour Hersh", url: "https://seymourhersh.substack.com/feed", topic: military, weight: 1.2}
+  - {name: "Consortium News", url: "https://consortiumnews.com/feed/", topic: military}
+  - {name: "Brownstone Institute", url: "https://brownstone.org/feed/", topic: health}
+  - {name: "Mises Institute", url: "https://mises.org/rss.xml", topic: economy}
+  - {name: "Ron Paul Institute", url: "https://ronpaulinstitute.org/feed/", topic: military}
+  - {name: "American Greatness", url: "https://amgreatness.com/feed/", topic: politics_culture_world}
+  - {name: "19FortyFive", url: "https://www.19fortyfive.com/feed/", topic: military, weight: 1.1}
+  - {name: "The Free Press", url: "https://www.thefp.com/feed", topic: politics_culture_world, weight: 1.1}
+  - {name: "Quillette", url: "https://quillette.com/feed/", topic: american_life}
+  - {name: "Activist Post", url: "https://www.activistpost.com/feed", topic: surveillance, weight: 0.8}
+
+  # ── PRIMARY DOCUMENTS — the raw source, no outlet in between ───────────────────
+  # The most decentralized sourcing there is, and the hardest to dismiss. Free, always.
+  - {name: "BLS Releases", url: "https://www.bls.gov/feed/bls_latest.rss", topic: economy, weight: 1.2}
+  - {name: "CBO", url: "https://www.cbo.gov/publications/all/rss", topic: economy, weight: 1.1}
+  - {name: "DOJ Press", url: "https://www.justice.gov/news/rss", topic: crime, weight: 1.1}
+  - {name: "FBI Press", url: "https://www.fbi.gov/feeds/national-press-releases/rss.xml", topic: crime, weight: 1.1}
+  - {name: "GAO Reports", url: "https://www.gao.gov/rss/reports.xml", topic: politics_culture_world}
+  - {name: "SEC Litigation", url: "https://www.sec.gov/rss/litigation/litreleases.xml", topic: economy, weight: 0.9}
+
+  # ── THE OPPOSITION PRESS — occasional, low weight by design ────────────────────
+  # Runs when they broke the story, or when their own reporting cuts against their side.
+  # See editorial.md. Weights are deliberately low: these are seasoning, not the meal.
+  - {name: "NPR", url: "https://feeds.npr.org/1001/rss.xml", topic: politics_culture_world, weight: 0.5}
+  - {name: "HuffPost", url: "https://www.huffpost.com/section/front-page/feed", topic: politics_culture_world, weight: 0.5}
+  - {name: "Salon", url: "https://www.salon.com/feed/", topic: politics_culture_world, weight: 0.5}
+  - {name: "Mother Jones", url: "https://www.motherjones.com/feed/", topic: politics_culture_world, weight: 0.5}
+  - {name: "The Daily Beast", url: "https://www.thedailybeast.com/arc/outboundfeeds/rss/", topic: politics_culture_world, weight: 0.5}
+
+  # ── BBC and the MAIL, leaned on harder (Sep 18, 2026) ──────────────────────────
+  - {name: "BBC World", url: "https://feeds.bbci.co.uk/news/world/rss.xml", topic: world, weight: 1.3}
+  - {name: "BBC Business", url: "https://feeds.bbci.co.uk/news/business/rss.xml", topic: economy, weight: 1.2}
+  - {name: "Daily Mail US", url: "https://www.dailymail.co.uk/ushome/index.rss", topic: american_life, weight: 1.4}
+  - {name: "Daily Mail Femail", url: "https://www.dailymail.co.uk/femail/index.rss", topic: american_life, weight: 1.2}
+  - {name: "Daily Mail SciTech", url: "https://www.dailymail.co.uk/sciencetech/index.rss", topic: tech}
+
+  # ── Standing searches for the two new beats ────────────────────────────────────
+  - {name: "Google News: Surveillance state", url: "https://news.google.com/rss/search?q=%22facial+recognition%22+OR+%22license+plate+reader%22+OR+Flock+OR+%22digital+ID%22+OR+%22age+verification%22+OR+surveillance+when:2d&hl=en-US&gl=US&ceid=US:en", topic: surveillance, google: true, weight: 1.1}
+  - {name: "Google News: American life", url: "https://news.google.com/rss/search?q=%22marriage+rate%22+OR+%22birth+rate%22+OR+loneliness+OR+%22cost+of+living%22+families+OR+%22church+attendance%22+OR+%22remote+work%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: american_life, google: true, weight: 1.1}
 
   # ── Health (counterintuitive first) ────────────────────────────────────────────
   - {name: "StudyFinds", url: "https://studyfinds.org/feed/", topic: health, weight: 1.3}

@@ -53,19 +53,21 @@ mix:
   crime: 5
   trump_watch: 5
   elections: 5
-  politics_culture_world: 6       # Washington and the culture war
-  media: 3
+  politics_culture_world: 5       # Washington and the culture war
+  media: 2
   faith_family_schools: 4
   military: 3
-  business_ai: 7                  # AI and the data-center controversies, one beat
-  tech: 5
+  business_ai: 6                  # AI and the data-center controversies, one beat
+  tech: 4
+  surveillance: 3               # the surveillance state and civil liberties — added Sep 18, 2026
+  american_life: 4              # how Americans actually live — added Sep 18, 2026
   economy: 6
   energy: 3
   housing: 3
-  health: 6
+  health: 5
   utah_mormon: 4
   sports: 4
-  pop_culture: 3
+  pop_culture: 2
   weather_disasters: 2
-  weird: 3
+  weird: 2
   video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot
