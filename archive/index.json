@@ -97,5 +97,16 @@
   "iso": "2026-09-18T04:22:35-06:00",
   "top": "MYSTERY STRIKE HITS TANKER IN HORMUZ...",
   "count": 100
+ },
+ {
+  "no": 10,
+  "file": "2026-09-18-evening.html",
+  "date": "2026-09-18",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:54 p.m.",
+  "iso": "2026-09-18T16:54:48-06:00",
+  "top": "TRUMP BANS CNN, MSNBC, POLITICO...",
+  "count": 100
  }
 ]
