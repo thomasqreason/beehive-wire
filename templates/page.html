@@ -25,6 +25,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Beehive Wire">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
 <style>
   :root{color-scheme:light}
   html,body{margin:0;padding:0;background:#fff;color:#000}
@@ -110,6 +111,47 @@
     .col a{font-size:14px;margin-bottom:14px}
     hr.sep{width:80%}
   }
+
+  /* ── the reader's dark plate ────────────────────────────────────────────
+     Opt-in, remembered per browser. Light mode above is untouched.
+     Freshness reads the other way round here: new stories burn bright,
+     held-over ones go dim — the same signal, inverted for a dark page. */
+  .theme{margin-top:16px}
+  .theme button{display:inline-flex;align-items:center;gap:9px;background:none;border:0;cursor:pointer;
+    font:11px/1 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;
+    color:#333;padding:7px 8px}
+  .theme button:hover{color:#000}
+  .theme .sw{display:inline-block;width:34px;height:16px;border:1px solid #777;border-radius:9px;
+    position:relative;flex:0 0 auto;transition:background .18s,border-color .18s}
+  .theme .sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;
+    background:#777;transition:transform .18s,background .18s}
+  @media (prefers-reduced-motion:reduce){ .theme .sw,.theme .sw::after{transition:none} }
+
+  html[data-theme="dark"]{color-scheme:dark}
+  html[data-theme="dark"] body,html[data-theme="dark"]{background:#12161b;color:#f2efe9}
+  html[data-theme="dark"] a{color:#f2efe9}
+  html[data-theme="dark"] a:hover{background:#fdb512;color:#12161b}
+  html[data-theme="dark"] .mast{border-bottom-color:#f2efe9}
+  html[data-theme="dark"] .mast h1 a:hover{background:none;color:#fdb512}
+  html[data-theme="dark"] .mast .stamp{color:#99a3ad}
+  html[data-theme="dark"] .mast .fresh{color:#8b949e}
+  html[data-theme="dark"] .mast .fresh b{color:#f2efe9}
+  html[data-theme="dark"] .next,html[data-theme="dark"] .cols{border-top-color:#39434f}
+  html[data-theme="dark"] hr.sep{border-top-color:#39434f}
+  html[data-theme="dark"] .top img{border-color:#39434f}
+  html[data-theme="dark"] .top a.head.urgent{color:#ff5b5b}
+  html[data-theme="dark"] .top a.head.urgent:hover{background:#ff5b5b;color:#12161b}
+  html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
+  html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
+  html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .foot{border-top-color:#f2efe9}
+  html[data-theme="dark"] .foot .srcs,html[data-theme="dark"] .foot .srcs a{color:#7f8a97}
+  html[data-theme="dark"] .foot .srcs .lbl{color:#f2efe9}
+  html[data-theme="dark"] .foot .srcs a:hover{background:none;color:#f2efe9}
+  html[data-theme="dark"] .theme button{color:#8b949e}
+  html[data-theme="dark"] .theme button:hover{color:#f2efe9}
+  html[data-theme="dark"] .theme .sw{background:#fdb512;border-color:#fdb512}
+  html[data-theme="dark"] .theme .sw::after{transform:translateX(18px);background:#12161b}
 </style>
 </head>
 <body>
@@ -169,6 +211,11 @@
     {% if not archived %}<div class="arch"><a href="archive/">Archives &mdash; every edition, back to the first</a></div>{% endif %}
     <div class="srcs"><span class="lbl">In this edition:</span> {% for s in sources %}<a href="{{ s.url }}"{{ target }}>{{ s.name }}</a>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>
     {% if feed_count %}<div class="arch"><a href="{{ root }}sources/">The wire we read &mdash; all {{ feed_count }} sources, beat by beat</a></div>{% endif %}
+    <div class="theme">
+      <button id="theme-btn" type="button" role="switch" aria-checked="false">
+        <span class="sw" aria-hidden="true"></span><span>Dark mode</span>
+      </button>
+    </div>
   </div>
 
 </div>
@@ -259,5 +306,29 @@
 })();
 </script>
 {% endif %}
+
+<script>
+(function () {
+  // Dark mode is the reader's own choice, remembered in this browser until
+  // they change it. The <head> sets the attribute before first paint so the
+  // page never flashes white on the way in.
+  var KEY = 'bw-theme', root = document.documentElement, btn = document.getElementById('theme-btn');
+  if (!btn) return;
+
+  function paint(dark) {
+    if (dark) { root.setAttribute('data-theme', 'dark'); }
+    else { root.removeAttribute('data-theme'); }
+    btn.setAttribute('aria-checked', dark ? 'true' : 'false');
+  }
+
+  paint(root.getAttribute('data-theme') === 'dark');
+
+  btn.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') !== 'dark';
+    paint(dark);
+    try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+</script>
 </body>
 </html>

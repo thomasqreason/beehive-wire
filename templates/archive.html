@@ -21,6 +21,7 @@
 <link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="{{ root }}apple-touch-icon.png">
 <meta name="theme-color" content="#12161b">
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
 <style>
   :root{color-scheme:light}
   html,body{margin:0;padding:0;background:#fff;color:#000}
@@ -61,6 +62,43 @@
     .cell a{font-size:9px;padding:2px 3px;border-left-width:2px}
     .dow{font-size:9px}
   }
+
+  /* ── the reader's dark plate (see page.html) ─────────────────────────── */
+  .theme{margin-top:16px}
+  .theme button{display:inline-flex;align-items:center;gap:9px;background:none;border:0;cursor:pointer;
+    font:11px/1 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;
+    color:#333;padding:7px 8px}
+  .theme button:hover{color:#000}
+  .theme .sw{display:inline-block;width:34px;height:16px;border:1px solid #777;border-radius:9px;
+    position:relative;flex:0 0 auto;transition:background .18s,border-color .18s}
+  .theme .sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;
+    background:#777;transition:transform .18s,background .18s}
+  @media (prefers-reduced-motion:reduce){ .theme .sw,.theme .sw::after{transition:none} }
+
+  html[data-theme="dark"]{color-scheme:dark}
+  html[data-theme="dark"] body,html[data-theme="dark"]{background:#12161b;color:#f2efe9}
+  html[data-theme="dark"] a{color:#f2efe9}
+  html[data-theme="dark"] a:hover{background:#fdb512;color:#12161b}
+  html[data-theme="dark"] .mast{border-bottom-color:#f2efe9}
+  html[data-theme="dark"] .mast h1 a:hover{background:none;color:#fdb512}
+  html[data-theme="dark"] .month h2{border-bottom-color:#39434f}
+  html[data-theme="dark"] .grid{background:#2a323b;border-color:#2a323b}
+  html[data-theme="dark"] .dow{background:#12161b;color:#8b949e}
+  html[data-theme="dark"] .cell{background:#171c23}
+  html[data-theme="dark"] .cell.pad{background:#12161b}
+  html[data-theme="dark"] .cell .d{color:#5c6672}
+  html[data-theme="dark"] .cell.has .d{color:#f2efe9}
+  html[data-theme="dark"] .cell a{background:#1e242c;color:#f2efe9}
+  html[data-theme="dark"] .cell a:hover{background:#fdb512;color:#12161b}
+  html[data-theme="dark"] .cell a em{color:#fdb512}
+  html[data-theme="dark"] .cell a:hover em{color:#12161b}
+  html[data-theme="dark"] .cell a .t{color:#8b949e}
+  html[data-theme="dark"] .cell a:hover .t{color:#5a480e}
+  html[data-theme="dark"] .foot{border-top-color:#f2efe9}
+  html[data-theme="dark"] .theme button{color:#8b949e}
+  html[data-theme="dark"] .theme button:hover{color:#f2efe9}
+  html[data-theme="dark"] .theme .sw{background:#fdb512;border-color:#fdb512}
+  html[data-theme="dark"] .theme .sw::after{transform:translateX(18px);background:#12161b}
 </style>
 </head>
 <body>
@@ -97,8 +135,32 @@
   <div class="empty">Nothing archived yet.</div>
   {% endfor %}
 
-  <div class="foot">{{ site.name }} &middot; Archives &middot; {{ total }} editions</div>
+  <div class="foot">{{ site.name }} &middot; Archives &middot; {{ total }} editions
+    <div class="theme">
+      <button id="theme-btn" type="button" role="switch" aria-checked="false">
+        <span class="sw" aria-hidden="true"></span><span>Dark mode</span>
+      </button>
+    </div>
+  </div>
 
 </div>
+
+<script>
+(function () {
+  var KEY = 'bw-theme', root = document.documentElement, btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  function paint(dark) {
+    if (dark) { root.setAttribute('data-theme', 'dark'); }
+    else { root.removeAttribute('data-theme'); }
+    btn.setAttribute('aria-checked', dark ? 'true' : 'false');
+  }
+  paint(root.getAttribute('data-theme') === 'dark');
+  btn.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') !== 'dark';
+    paint(dark);
+    try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+</script>
 </body>
 </html>
