@@ -61,6 +61,15 @@ feeds:
   - {name: "Breitbart Europe", url: "https://www.breitbart.com/europe/feed/", topic: immigration}
   - {name: "Google News: Immigration", url: "https://news.google.com/rss/search?q=immigration+OR+deportation+OR+%22H-1B%22+OR+migrants+when:1d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true}
 
+  # ── H-1B, offshoring and the American tech workforce (added Sep 18, 2026) ──────
+  # A reader beat. H-1B used to ride inside the immigration search above and got drowned;
+  # these three give it its own wire. See editorial.md — the program and the employers are
+  # the story, and anonymous forum posts are never the source.
+  - {name: "Google News: H-1B and work visas", url: "https://news.google.com/rss/search?q=%22H-1B%22+OR+%22H1B%22+OR+%22L-1+visa%22+OR+%22OPT+visa%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true, weight: 1.2}
+  - {name: "Google News: Tech layoffs", url: "https://news.google.com/rss/search?q=%22tech+layoffs%22+OR+%22job+cuts%22+OR+%22WARN+notice%22+OR+%22software+engineers%22+layoffs+when:2d&hl=en-US&gl=US&ceid=US:en", topic: tech, google: true, weight: 1.1}
+  - {name: "Google News: Outsourcing houses", url: "https://news.google.com/rss/search?q=Cognizant+OR+Infosys+OR+%22Tata+Consultancy%22+OR+Wipro+OR+%22HCL+Tech%22+OR+offshoring+when:2d&hl=en-US&gl=US&ceid=US:en", topic: tech, google: true, weight: 0.9}
+  - {name: "The Register", url: "https://www.theregister.com/headlines.atom", topic: tech, weight: 1.1}
+
   # ── Health (counterintuitive first) ────────────────────────────────────────────
   - {name: "StudyFinds", url: "https://studyfinds.org/feed/", topic: health, weight: 1.3}
   - {name: "ScienceDaily Health", url: "https://www.sciencedaily.com/rss/health_medicine.xml", topic: health, weight: 1.2}

@@ -75,7 +75,7 @@ them real headlines, not consolation prizes. If the page reads like everything i
   cheerleading for escalation, no cheerleading for surrender.
 - GAZA / PALESTINIANS: Sympathetic to Palestinians and critical of Israel's war in Gaza and of the Israeli government. Humanitarian toll, ceasefire violations, settlements, US aid and leverage, Israeli domestic politics. Criticize governments and policies — never a people or a faith. No antisemitic tropes, ever.
 - IMMIGRATION (LEGAL AND ILLEGAL): Restrictionist. Enforcement wins, deportation numbers, sanctuary fights,
-  court rulings, birthright citizenship, H-1B and legal immigration levels and their effect on wages and
+  court rulings, birthright citizenship, legal immigration levels and their effect on wages and
   housing, the census. REFUGEES AND ASYLUM: crime and fraud involving refugees and asylum recipients are a
   standing beat — the Somali welfare and daycare fraud cases, and the murders and assaults the local press
   tends to bury, Utah's especially. Run them when charges, convictions or audits are reported, with the
@@ -86,6 +86,41 @@ them real headlines, not consolation prizes. If the page reads like everything i
   figures on migration and the native-born share, the birth-rate gap, the school and city figures, who
   voted how. The headline gives the number and the source. Facts as reported; no dehumanizing language;
   CLAIM/ACCUSED/REPORT framing for allegations.
+- H-1B AND THE AMERICAN TECH WORKFORCE: A standing beat that runs on news — figure a few links a week,
+  not a fixture in every edition. Tag them immigration or tech. The subject is the PROGRAM and the
+  EMPLOYERS WHO WORK IT. It is never a nationality, and a headline that makes Indian workers the actor
+  rather than the company is the wrong headline every time. What earns a link: layoffs at a company that
+  is filing H-1B or L-1 petitions at the same time, with the job-cut number and the filing count in the
+  same headline; the staffing and outsourcing houses that dominate the filings — Cognizant, Infosys, Tata
+  Consultancy, Wipro, HCL, Accenture — and what the Labor Department's own disclosure data says they pay;
+  prevailing-wage levels and the research on whether the program holds salaries down; lottery fraud and
+  the duplicate-registration crackdowns; audits, debarments and back-pay settlements; Grassley-Durbin and
+  every other reform bill, fee or rule change that actually moves; and the court record — the Title VII
+  national-origin suits American workers have brought, including the ones that have already reached a
+  jury. Age discrimination in tech layoffs belongs here too. THE HIRING PIPELINE IS THE HEART OF IT, and
+  it is a documented story, not a suspicion: American workers have won on this. A federal jury found
+  Cognizant liable for discriminating against non-South-Asian workers in the Palmer case, and the parallel
+  suits against Infosys, Tata Consultancy, Wipro and HCL are live news whenever they move. Run every
+  ruling, filing, EEOC charge and settlement. Run the disclosure numbers that show what share of a given
+  firm's US workforce came in on a visa. Run the mechanism when reporting establishes it — referral-only
+  pipelines, job posts written to fit one resume, requisitions steered to a preferred staffing house — and
+  run the reverse-discrimination complaints from Americans who say the manager above them hired his own.
+  Title VII protects every worker from national-origin discrimination in every direction, and a page that
+  says so is on solid ground. THE LINE THAT KEEPS US THERE: a verdict against a company is a fact about
+  that company. It is not a fact about a people, and we never promote it into one. "COGNIZANT LIABLE FOR
+  BIAS AGAINST NON-INDIAN WORKERS, JURY FINDS" is our headline and it is devastating; "INDIANS ONLY HIRE
+  THEIR OWN" is not a headline, it is an assertion no filing supports, and printing it would hand every
+  critic of this page the one easy shot they want. Name the company, the court, the number. THE OTHER HALF RUNS JUST AS OFTEN, because
+  it is the honest version of the story: the visa holders are not the villains. The per-country green-card
+  cap leaves Indian nationals waiting decades, and a worker who cannot change employers without going to
+  the back of that line is a worker his employer owns. That is the mechanism that pushes everyone's wages
+  down, Americans included, and it is the strongest argument against the program as it stands. Report it.
+  SOURCING IS THE WHOLE GAME ON THIS BEAT. It lives on anonymous Reddit and forum posts, and we do not run
+  those as fact — not one. A link needs a named outlet, a court filing, an agency release or a disclosure
+  database. When a viral anonymous claim is itself the news, it runs only after a real outlet reports it,
+  and the headline frames it as what it is: CLAIM: or POST:. Same rule as crime — name the company, the
+  filing and the number; never assign motive or misconduct to a nationality, and never turn one case into
+  a claim about a group.
 - CRIME — SAY WHO: Crime is a beat, and specificity is the rule. When the reporting says who — an illegal
   immigrant, a released repeat offender, a gang, a refugee, or the race or ethnicity of suspects when the
   police or the outlet have stated it — the headline says so plainly. No "TEENS TAKE OVER TRAIN" or "MOB
