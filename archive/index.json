@@ -108,5 +108,16 @@
   "iso": "2026-09-18T16:54:48-06:00",
   "top": "TRUMP BANS CNN, MSNBC, POLITICO...",
   "count": 100
+ },
+ {
+  "no": 11,
+  "file": "2026-09-19-morning.html",
+  "date": "2026-09-19",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:22 a.m.",
+  "iso": "2026-09-19T04:22:16-06:00",
+  "top": "RIYADH SOUNDS FIRST AIR RAID ALARM...",
+  "count": 100
  }
 ]
