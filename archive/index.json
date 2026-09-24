@@ -218,5 +218,16 @@
   "iso": "2026-09-23T16:09:04-06:00",
   "top": "TRUMP MEETS XI ON THE TARMAC...",
   "count": 100
+ },
+ {
+  "no": 21,
+  "file": "2026-09-24-morning.html",
+  "date": "2026-09-24",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:10 a.m.",
+  "iso": "2026-09-24T04:10:40-06:00",
+  "top": "TRUMP, XI EXTEND TRADE TRUCE...",
+  "count": 100
  }
 ]
