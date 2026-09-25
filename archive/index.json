@@ -251,5 +251,16 @@
   "iso": "2026-09-25T04:10:06-06:00",
   "top": "HORMUZ TRANSITS CRASH TO SINGLE DIGITS...",
   "count": 100
+ },
+ {
+  "no": 24,
+  "file": "2026-09-25-evening.html",
+  "date": "2026-09-25",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:11 p.m.",
+  "iso": "2026-09-25T16:11:48-06:00",
+  "top": "IRAN OFFERS TO REOPEN HORMUZ...",
+  "count": 100
  }
 ]
