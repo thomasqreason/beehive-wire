@@ -134,11 +134,22 @@ def save_state(state: dict) -> None:
 
 # ────────────────────────────────────────────────────────────────────────── fetch feeds
 
+def blocked_source(source: str, topic: str, cfg: dict) -> bool:
+    """config.yaml `blocklist`: outlets the editor never gets to see. Substring match on the source
+    name, case-insensitive — globally (`sources`) or on one beat (`by_topic.<topic>`). The sports list
+    is the TEGNA station domains, which Google News uses to label 'Locked On' podcast episodes."""
+    bl = cfg.get("blocklist") or {}
+    names = list(bl.get("sources") or []) + list((bl.get("by_topic") or {}).get(topic) or [])
+    s = (source or "").lower()
+    return any(str(n).lower() in s for n in names if n)
+
+
 def fetch_feed(feed: dict, cfg: dict) -> list[dict]:
     import feedparser
     import requests
 
     out: list[dict] = []
+    skipped = 0
     try:
         r = requests.get(
             feed["url"],
@@ -167,6 +178,9 @@ def fetch_feed(feed: dict, cfg: dict) -> list[dict]:
                 m = re.match(r"^(.*)\s-\s([^-]{2,40})$", title)
                 if m:
                     title, source = m.group(1).strip(), m.group(2).strip()
+        if blocked_source(source, feed.get("topic", ""), cfg):
+            skipped += 1
+            continue
         published = None
         for k in ("published_parsed", "updated_parsed"):
             tp = e.get(k)
@@ -203,7 +217,7 @@ def fetch_feed(feed: dict, cfg: dict) -> list[dict]:
                 "weight": float(feed.get("weight", 1.0)),
             }
         )
-    log(f"ok    {feed['name']}: {len(out)} items")
+    log(f"ok    {feed['name']}: {len(out)} items" + (f" ({skipped} blocklisted)" if skipped else ""))
     return out
 
 

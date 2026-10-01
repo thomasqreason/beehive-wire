@@ -43,6 +43,60 @@ fetch:
   workers: 12
   user_agent: "Mozilla/5.0 (compatible; BeehiveWire/1.0; +https://github.com/)"
 
+# Stories dropped before the editor ever sees them. Matched against the candidate's source name,
+# case-insensitively, as a substring (so "krem.com" matches "www.krem.com" but not "KREM").
+blocklist:
+  sources: []                      # never run a story from these outlets, on any beat
+  by_topic:
+    # The "Locked On" podcasts are syndicated as /video/ pages on every TEGNA station site, and
+    # Google News hands them over labelled with the station's bare domain as if they were that
+    # station's reporting. On a sports feed, one of these domains is a podcast episode, not news.
+    # (Oct 1, 2026: a Locked On Utes episode title ran as UTAH UPSETS MICHIGAN... — no such game.)
+    sports:
+      - 10tv.com
+      - 11alive.com
+      - 12news.com
+      - 13newsnow.com
+      - 13wmaz.com
+      - 5newsonline.com
+      - 9news.com
+      - abc10.com
+      - cbs19.tv
+      - cbs8.com
+      - firstcoastnews.com
+      - fox43.com
+      - fox61.com
+      - kare11.com
+      - kcentv.com
+      - kens5.com
+      - kgw.com
+      - khou.com
+      - kiiitv.com
+      - king5.com
+      - krem.com
+      - ksdk.com
+      - ktvb.com
+      - kvue.com
+      - newscentermaine.com
+      - thv11.com
+      - wbir.com
+      - wcnc.com
+      - wfaa.com
+      - wfmynews2.com
+      - wgrz.com
+      - whas11.com
+      - wkyc.com
+      - wltx.com
+      - wnep.com
+      - wqad.com
+      - wthr.com
+      - wtol.com
+      - wtsp.com
+      - wusa9.com
+      - wwltv.com
+      - wzdx.com
+      - wzzm13.com
+
 # How the 100 links should roughly break down. These are targets the editor aims for, not hard caps.
 # Positive stories are not a topic — every beat is expected to carry its own (see editorial.md).
 mix:
