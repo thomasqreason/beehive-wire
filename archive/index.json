@@ -394,5 +394,16 @@
   "iso": "2026-10-01T16:00:44-06:00",
   "top": "HORMUZ TANKER ABLAZE, US SURGES FORCES...",
   "count": 100
+ },
+ {
+  "no": 37,
+  "file": "2026-10-02-morning.html",
+  "date": "2026-10-02",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:13 a.m.",
+  "iso": "2026-10-02T04:13:12-06:00",
+  "top": "TRUMP SENDS 3RD CARRIER GROUP TO MIDEAST...",
+  "count": 100
  }
 ]
