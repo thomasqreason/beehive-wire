@@ -416,5 +416,16 @@
   "iso": "2026-10-02T16:12:32-06:00",
   "top": "JOBS MISS: 29K ADDED, NOT 90K EXPECTED...",
   "count": 100
+ },
+ {
+  "no": 39,
+  "file": "2026-10-03-morning.html",
+  "date": "2026-10-03",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:24 a.m.",
+  "iso": "2026-10-03T04:24:13-06:00",
+  "top": "CO-PILOT AXES CAPTAIN, HIJACK BID FAILS...",
+  "count": 100
  }
 ]
