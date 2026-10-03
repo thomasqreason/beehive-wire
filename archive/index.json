@@ -427,5 +427,16 @@
   "iso": "2026-10-03T04:24:13-06:00",
   "top": "CO-PILOT AXES CAPTAIN, HIJACK BID FAILS...",
   "count": 100
+ },
+ {
+  "no": 40,
+  "file": "2026-10-03-evening.html",
+  "date": "2026-10-03",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:21 p.m.",
+  "iso": "2026-10-03T16:21:11-06:00",
+  "top": "FED HOLDS, INFLATION HITS 3-YEAR HIGH...",
+  "count": 100
  }
 ]
