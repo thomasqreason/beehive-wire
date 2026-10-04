@@ -449,5 +449,16 @@
   "iso": "2026-10-04T04:10:31-06:00",
   "top": "TEL AVIV HIJACK BID FOILED...",
   "count": 100
+ },
+ {
+  "no": 42,
+  "file": "2026-10-04-evening.html",
+  "date": "2026-10-04",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:15 p.m.",
+  "iso": "2026-10-04T16:15:50-06:00",
+  "top": "HIJACKER 'DREAMED' OF TEL AVIV CRASH...",
+  "count": 100
  }
 ]
