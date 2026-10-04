@@ -438,5 +438,16 @@
   "iso": "2026-10-03T16:21:11-06:00",
   "top": "FED HOLDS, INFLATION HITS 3-YEAR HIGH...",
   "count": 100
+ },
+ {
+  "no": 41,
+  "file": "2026-10-04-morning.html",
+  "date": "2026-10-04",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:10 a.m.",
+  "iso": "2026-10-04T04:10:31-06:00",
+  "top": "TEL AVIV HIJACK BID FOILED...",
+  "count": 100
  }
 ]
