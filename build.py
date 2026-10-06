@@ -718,10 +718,8 @@ def resolve_google_news(url: str) -> str | None:
         rr = requests.post("https://news.google.com/_/DotsSplashUi/data/batchexecute",
                            headers=h | {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
                            data={"f.req": json.dumps([[["Fbv4je", json.dumps(req)]]])}, timeout=10)
-        body = rr.text.split("
-", 1)[1] if rr.text.startswith(")]}'") else rr.text
-        for c in re.findall(r"\[\[.*?\]\](?=
-|$)", body, re.S):
+        body = rr.text.split("\n", 1)[1] if rr.text.startswith(")]}'") else rr.text
+        for c in re.findall(r"\[\[.*?\]\](?=\n|$)", body, re.S):
             try:
                 outer = json.loads(c)
             except ValueError:
