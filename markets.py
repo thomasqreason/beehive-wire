@@ -513,6 +513,19 @@ def scan(cfg: dict) -> dict:
         log(f"investor's corner: {corner_topic}")
 
     date = max(f["date"] for f in facts) if facts else datetime.now().date().isoformat()
+    ah = {}
+    if facts and after_hours_window(datetime.now(timezone.utc)):
+        ah = after_hours([f["sym"] for f in facts], {f["sym"]: f["close"] for f in facts})
+        for f in facts:
+            f["after_hours"] = ah.get(f["sym"])
+    ah_movers = sorted([f for f in facts if f.get("after_hours") and abs(f["after_hours"]["chg_pct"]) >= 3],
+                       key=lambda f: -abs(f["after_hours"]["chg_pct"]))
+    for f in ah_movers:
+        fu = f.get("fundamentals")
+        if fu is None:                                   # name, industry, next earnings for the after-hours list
+            fc = fundamentals_cached(f["sym"])
+            f["name"] = fc.get("name") or f["sym"]
+            f["industry"] = fc.get("industry")
     save_series(facts)
     board_n = int(cfg["desk"].get("board_rows", 40))
     board = sorted(facts, key=lambda f: -(f.get("rs_rank") or 0))[:board_n]
@@ -522,6 +535,11 @@ def scan(cfg: dict) -> dict:
         "stories": chosen,  # full facts incl. series, fundamentals, news
         "profile": profile,
         "corner_topic": corner_topic,
+        "after_hours_as_of": next((v["as_of"] for v in ah.values()), None),
+        "ah_movers": [{"sym": f["sym"], "name": f.get("name") or (f.get("fundamentals") or {}).get("name") or f["sym"],
+                       "industry": f.get("industry") or (f.get("fundamentals") or {}).get("industry"), "close": f["close"],
+                       "after_hours": f["after_hours"], "status": f["status"], "rs_rank": f.get("rs_rank"),
+                       "next_earnings": (f.get("fundamentals") or {}).get("next_earnings")} for f in ah_movers[:15]],
         "board": [{k: f.get(k) for k in BOARD_KEYS + ("rs_score",)} for f in board],
     }
 
@@ -838,6 +856,53 @@ def render_site(site_cfg: dict | None = None) -> int:
     return len(eds)
 
 
+# ────────────────────────────────────────────────────────────────────────── after hours
+
+def after_hours_window(now_utc: datetime) -> bool:
+    """True from 4:05 p.m. to 8:00 p.m. Eastern on a weekday (Yahoo's post-market tape), or when MARKETS_AH=1."""
+    if os.environ.get("MARKETS_AH") == "1":
+        return True
+    et = now_utc.astimezone(ZoneInfo("America/New_York"))
+    mins = et.hour * 60 + et.minute
+    return et.weekday() < 5 and 16 * 60 + 5 <= mins <= 20 * 60
+
+
+def after_hours(symbols: list[str], closes: dict) -> dict:
+    """Post-market price per symbol from Yahoo's 5-minute pre/post tape, vs the official close in `closes`.
+    One bulk request per 60 names. Returns {sym: {price, chg, chg_pct, as_of, volume}}."""
+    import pandas as pd
+    import yfinance as yf
+    out = {}
+    for i in range(0, len(symbols), 60):
+        part = symbols[i:i + 60]
+        try:
+            df = yf.download(part, period="1d", interval="5m", prepost=True, group_by="ticker", auto_adjust=False,
+                             progress=False, threads=True, timeout=30)
+        except Exception as e:  # noqa: BLE001
+            log(f"after-hours download failed ({e})")
+            continue
+        if df is None or df.empty:
+            continue
+        for sym in part:
+            try:
+                d = (df[sym] if isinstance(df.columns, pd.MultiIndex) else df).dropna(subset=["Close"])
+            except KeyError:
+                continue
+            if d.empty:
+                continue
+            et = d.index.tz_convert("America/New_York")
+            post = d[(et.hour >= 16)]
+            if post.empty or not closes.get(sym):
+                continue
+            px = float(post["Close"].iloc[-1])
+            c = float(closes[sym])
+            out[sym] = {"price": round(px, 2), "chg": round(px - c, 2), "chg_pct": round((px / c - 1) * 100, 1),
+                        "as_of": post.index[-1].tz_convert("America/New_York").strftime("%I:%M %p ET").lstrip("0"),
+                        "volume": int(post["Volume"].sum())}
+    log(f"after hours: {len(out)}/{len(symbols)} quotes")
+    return out
+
+
 # ────────────────────────────────────────────────────────────────────────── stocks on the move (intraday)
 
 BROAD_FILE = DATA / "broad_universe.json"
@@ -958,6 +1023,10 @@ def movers(cfg: dict) -> dict:
                      from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"))
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
+    if not live and after_hours_window(now):
+        ahq = after_hours([r["sym"] for r in ups + downs], {r["sym"]: r["close"] for r in ups + downs})
+        for r in ups + downs:
+            r["after_hours"] = ahq.get(r["sym"])
     ups_q = [r for r in ups if r["qualifies"]][:n_up]
     ups_x = [r for r in ups if not r["qualifies"]][: max(0, n_up - len(ups_q))]
     out = {"as_of": now.isoformat(timespec="seconds"), "date": today, "live": live, "session_fraction": round(frac, 2),

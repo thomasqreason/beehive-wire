@@ -31,6 +31,15 @@ with links.
   1-99 rating against the whole market. Say "RS rank X of 99 on the desk's list" or just describe the
   RS line. Never call it an IBD rating.
 
+## After hours
+
+The edition prints after 5 p.m. Eastern, so a story may carry an `after_hours` block: the post-market price,
+change and the time it was read. When it is there and the move is 2% or more, it LEADS the article and the
+headline ("Nvidia Falls 6% After Hours On Earnings; Was At New High At The Close"), with the close reported
+second. If the `news` headlines say the company reported earnings, say so; the numbers from the report itself
+are not in the payload unless they are in a headline, so do not state them. The payload's `ah_movers` list is
+the names on the desk list moving 3%+ after hours; mention the ones that matter in `market_note`.
+
 ## The voice
 
 - Title Case headlines, 7-12 words, built like IBD's: company, action, chart fact, and when there is one

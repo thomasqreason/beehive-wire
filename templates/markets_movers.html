@@ -28,11 +28,12 @@
   {% if rows %}
   <div class="list"><b>{{ title }}</b>
   <div class="tblwrap"><table class="board mv">
-    <tr><th>Sym</th><th>Last</th><th>Chg</th><th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
+    <tr><th>Sym</th><th>Last</th><th>Chg</th>{% if rows[0].after_hours is defined %}<th>After hrs</th>{% endif %}<th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
     {% for r in rows %}<tr>
       <td class="sym"><a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a></td>
       <td>{{ '%.2f'|format(r.close) }}</td>
       <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.chg_pct or 0) }}%</td>
+      {% if rows[0].after_hours is defined %}<td>{% if r.after_hours %}{{ '%.2f'|format(r.after_hours.price) }} <span class="{{ 'pos' if (r.after_hours.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.after_hours.chg_pct) }}%</span>{% else %}–{% endif %}</td>{% endif %}
       <td><b>+{{ r.vol_pct }}%</b> <span class="st">({{ '%.1f'|format(r.vol_ratio) }}x)</span></td>
       <td>{{ r.rs_rank if r.rs_rank is not none else '–' }}</td>
       <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
