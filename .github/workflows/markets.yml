@@ -31,14 +31,31 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: build                  # never races the morning/evening editions or the siren
-  cancel-in-progress: false
-
 jobs:
-  desk:
+  # A hand-dispatched run can be held until a time (run_at). The wait happens HERE, in a job that holds
+  # no lock, so a held run never blocks an edition or the siren.
+  hold:
     runs-on: ubuntu-latest
-    timeout-minutes: 300             # a held run (run_at) may wait a few hours before it works
+    timeout-minutes: 300
+    steps:
+      - name: Hold until run_at
+        if: inputs.run_at != ''
+        run: |
+          target=$(date -u -d "today ${{ inputs.run_at }}" +%s)
+          now=$(date -u +%s)
+          if [ "$target" -gt "$now" ]; then
+            echo "Holding $(( (target - now) / 60 )) minutes until ${{ inputs.run_at }} UTC."
+            sleep $(( target - now ))
+          fi
+      - run: echo "go"
+
+  desk:
+    needs: hold
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    concurrency:
+      group: build                # never races the morning/evening editions or the siren
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -54,16 +71,6 @@ jobs:
           cache: pip
 
       - run: pip install -r requirements.txt
-
-      - name: Hold until run_at
-        if: inputs.run_at != ''
-        run: |
-          target=$(date -u -d "today ${{ inputs.run_at }}" +%s)
-          now=$(date -u +%s)
-          if [ "$target" -gt "$now" ]; then
-            echo "Holding $(( (target - now) / 60 )) minutes until ${{ inputs.run_at }} UTC."
-            sleep $(( target - now ))
-          fi
 
       # Which pass is this? Scheduled runs before 20:00 UTC are intraday movers passes; the late one is the edition.
       - name: Decide the pass
