@@ -141,7 +141,7 @@ feeds:
   - {name: "Radio Free Mormon", url: "https://radiofreemormon.org/feed/", topic: utah_mormon, weight: 1.5}
   - {name: "Mormon Stories (John Dehlin)", url: "https://www.mormonstories.org/feed/", topic: utah_mormon, weight: 1.5}
   - {name: "r/exmormon (top of day)", url: "https://www.reddit.com/r/exmormon/top/.rss?t=day", topic: utah_mormon, weight: 0.6}
-  - {name: "Google News: LDS critical", url: "https://news.google.com/rss/search?q=(%22LDS+Church%22+OR+Mormon+OR+%22Latter-day+Saint%22)+(lawsuit+OR+abuse+OR+tithing+OR+SEC+OR+excommunicated+OR+%22Ensign+Peak%22+OR+resigns+OR+scandal+OR+whistleblower+OR+polygam)+when:2d&hl=en-US&gl=US&ceid=US:en", topic: utah_mormon, google: true, weight: 1.6}
+  - {name: "Google News: LDS critical", url: "https://news.google.com/rss/search?q=(%22LDS+Church%22+OR+Mormon+OR+%22Latter-day+Saint%22)+(tithing+OR+%22Ensign+Peak%22+OR+excommunicated+OR+resigns+OR+scandal+OR+whistleblower+OR+polygam+OR+membership)+when:2d&hl=en-US&gl=US&ceid=US:en", topic: utah_mormon, google: true, weight: 1.6}
   - {name: "Deseret News", url: "https://www.deseret.com/arc/outboundfeeds/rss/", topic: utah_mormon, weight: 0.7}
   - {name: "KSL", url: "https://www.ksl.com/rss/news", topic: utah_mormon, weight: 0.7}
   - {name: "Fox 13 Salt Lake", url: "https://www.fox13now.com/news.rss", topic: utah_mormon, weight: 0.8}
@@ -197,7 +197,7 @@ feeds:
   - {name: "CBS Sports: College Football", url: "https://www.cbssports.com/rss/headlines/college-football/", topic: sports}
   - {name: "Yahoo Sports: College Football", url: "https://sports.yahoo.com/college-football/rss/", topic: sports, weight: 0.9}
   - {name: "Google News: Caitlin Clark", url: "https://news.google.com/rss/search?q=%22Caitlin+Clark%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.3}
-  - {name: "Google News: Utah college sports", url: "https://news.google.com/rss/search?q=%22Utah+Utes%22+OR+%22BYU+Cougars%22+OR+%22Utah+State+Aggies%22+OR+%22Utah+Valley+Wolverines%22+OR+%22Weber+State%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.2}
+  - {name: "Google News: Utah college sports", url: "https://news.google.com/rss/search?q=%22Utah+Utes%22+OR+%22BYU+Cougars%22+OR+%22Utah+State+Aggies%22+OR+%22Utah+Valley+Wolverines%22+OR+%22Weber+State%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 0.7}
   - {name: "Google News: College football upsets", url: "https://news.google.com/rss/search?q=%22college+football%22+upset+OR+%22Top+25%22+OR+fired+when:1d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true}
 
   # Ukraine / Russia, straight

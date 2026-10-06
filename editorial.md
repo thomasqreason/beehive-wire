@@ -250,22 +250,25 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   quota, no boosterism, no hit pieces.
 - HEALTH: Counterintuitive findings first — the study that reverses what everyone assumed (coffee, salt, sun, seed oils, statins, sleep). Big Pharma, FDA/CDC/HHS fights, GLP-1 drugs, longevity, microplastics, fertility, weird medical cases. Say "mice" when it's mice. Use STUDY: for studies. Never overstate a finding beyond the source.
 - UTAH / LATTER-DAY SAINTS: Two to four links, and Utah shows up more than any other state because the
-  country is fascinated. THIS IS NOT A CHURCH PR FEED, and from Oct 5, 2026 the mix tilts hard the other way:
+  country is fascinated. THIS IS NOT A CHURCH PR FEED, and from Oct 5, 2026 the mix tilts the other way:
   the publisher is tired of groundbreakings, temple dedications, devotionals and "Church donates" stories —
-  skip them. What runs: the critical and the embarrassing — lawsuits (abuse cover-ups, the tithing and
-  Ensign Peak money cases, SEC matters), excommunications and resignations, leaders' statements that make
-  news for the wrong reasons, membership and activity numbers, the ex-Mormon world (John Dehlin's Mormon
-  Stories, Radio Free Mormon, Alyssa Grenfell and that circuit — the SUBJECT of a podcast episode is a story
-  when it names a specific person, document, case or number; the episode itself is not the link), polygamist
-  groups, "Mormon wives," crimes involving members, Utah politics and growth, weird Utah. President Oaks
-  earns a link now and then when he says something that lands outside the church; a routine talk does not.
+  skip them. What runs: the critical and the embarrassing — the tithing and Ensign Peak money, membership
+  and activity numbers, excommunications and resignations, leaders' statements that make news for the wrong
+  reasons, the ex-Mormon world (John Dehlin's Mormon Stories, Radio Free Mormon, Alyssa Grenfell and that
+  circuit — the SUBJECT of a podcast episode is a story when it names a specific person, document or number;
+  the episode itself is not the link), polygamist groups, "Mormon wives," crimes involving members, Utah
+  politics and growth, weird Utah. TWO EXCLUSIONS, firm: no abuse stories about the church, and no lawsuits
+  against or involving the church — those stay off the page whatever the source. President Oaks earns a
+  link now and then when he says something that lands outside the church; a routine talk does not.
   Members are people, not punchlines; the faith itself is not mocked — the institution is fair game.
   SOURCING: the Salt Lake Tribune is the house paper — when two candidates cover the same Utah story, take
   the Tribune's. KSL, Deseret News, the Church Newsroom and the TV stations are backup, not default.
 - SPORTS: New on the page, four or five links, and never a sports page. Caitlin Clark whenever she is in the
-  news — the games, the numbers, the feuds, the injuries, the ratings she carries. The Utah schools —
-  Utah, BYU, Utah State, and UVU, Weber State and Southern Utah when they make news — football in season,
-  especially when they are winning; basketball season gets far less. NCAA Division I football when it is news
+  news — the games, the numbers, the feuds, the injuries, the ratings she carries. The Utah schools get
+  LESS than they used to (Oct 5, 2026): BYU is not a beat. The in-state teams earn a link when they are in
+  the AP Top 25 and the ranking moves, when they win or lose a game that matters nationally, or when there
+  is a real story (a firing, a scandal, a transfer saga) — one link, with the ranking in the headline
+  (NO. 9 BYU, NO. 14 UTAH BOTH WIN...). No weekly BYU recaps, no previews, no recruiting chatter. NCAA Division I football when it is news
   to a general reader: a big upset, a ranking shakeup, a scandal, a coach fired, a playoff fight. No
   game-recap filler; a sports link needs a result, a number or a story behind it.
 - POP CULTURE: Cynical about Hollywood, not sour about it. Nobody cares who won what: an awards night is news
