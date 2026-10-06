@@ -16,7 +16,7 @@
   {% set story_syms = ed.stories|map(attribute='sym')|list %}
   <div class="mast">
     <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }}</span></h1>
-    <div class="stamp">{{ human }} &middot; after the close{% if not latest %} &middot; <a href="index.html">latest edition &rarr;</a>{% endif %}</div>
+    <div class="stamp">{{ human }}{% if stale_edition %} &middot; stocks on the move is live; the articles below are from {{ edition_day }}'s close{% else %} &middot; after the close{% endif %}{% if not latest %} &middot; <a href="index.html">latest edition &rarr;</a>{% endif %}</div>
     <div class="tag">{{ desk.tagline }}</div>
   </div>
 
@@ -158,6 +158,7 @@
   </article>
   {% endmacro %}
 
+  {% if stale_edition %}<h3 class="sec" style="margin-top:22px">{{ edition_day }}'s Edition</h3><div class="legend">Written after {{ edition_day }}'s close ({{ edition_human }}). Today's edition prints after the 2 p.m. Mountain close.</div>{% endif %}
   {% for s in ed.stories %}{{ art(s, status_label[s.status], s.sym) }}{% endfor %}
 
   {% if ed.profile %}

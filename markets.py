@@ -811,9 +811,16 @@ def render_site(site_cfg: dict | None = None) -> int:
     ls = load_lists()
     if ls and ls.get("date"):
         ls["human"] = human_date(ls["date"])
+    # The page is dated by its freshest pass: an intraday movers run makes it today's page even while the
+    # written edition below still reflects yesterday's close.
     for i, e in enumerate(eds):
         gen = datetime.fromisoformat(e["generated"]).astimezone(tz)
-        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=e, human=human_date(e["date"]),
+        page_date = e["date"]
+        if i == len(eds) - 1 and mv and mv.get("date") and mv["date"] > e["date"]:
+            page_date = mv["date"]
+        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=e, human=human_date(page_date),
+                   edition_human=human_date(e["date"]), edition_day=datetime.fromisoformat(e["date"]).strftime("%A"),
+                   stale_edition=(page_date != e["date"]),
                    generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if i == len(eds) - 1 else None,
                    lists=ls if i == len(eds) - 1 else None,
                    status_label=STATUS_LABEL, index=index, latest=(i == len(eds) - 1), root="../")
