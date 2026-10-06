@@ -1,0 +1,134 @@
+name: market-desk
+
+# The Market Desk. Three passes a day, weekdays, all Mountain time:
+#   8:05 a.m. and 11:05 a.m. — "Stocks on the Move": the biggest volume surges, projected to the full session, with
+#                              each name's chart status, so possible entries can be found before the close. No Claude call.
+#   3:20 p.m.                — the full edition: stories, New America, Investor's Corner (Fridays), the final movers list,
+#                              and on Fridays the Beehive 50 and Big Cap 20.
+# Prices come from Yahoo (free); Claude writes the prose from the numbers; the site is re-rendered and deployed.
+
+on:
+  schedule:
+    # UTC. During Mountain daylight time: 14:05 = 8:05am, 17:05 = 11:05am, 21:20 = 3:20pm.
+    # When Mountain falls back in November, add one hour to each: "5 15", "5 18", "20 22".
+    - cron: "5 14 * * 1-5"
+    - cron: "5 17 * * 1-5"
+    - cron: "20 21 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "edition (full), movers (intraday list only), lists (Beehive 50 + Big Cap 20), corner (edition + Investor's Corner)"
+        type: choice
+        options: [edition, movers, lists, corner]
+        default: edition
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build                  # never races the morning/evening editions or the siren
+  cancel-in-progress: false
+
+jobs:
+  desk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Which pass is this? Scheduled runs before 20:00 UTC are intraday movers passes; the late one is the edition.
+      - name: Decide the pass
+        id: mode
+        run: |
+          mode="${{ inputs.mode }}"
+          if [ -z "$mode" ]; then
+            if [ "$(date -u +%H)" -lt 20 ]; then mode=movers; else mode=edition; fi
+          fi
+          friday=no; [ "$(TZ=America/Denver date +%u)" = "5" ] && friday=yes
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "friday=$friday" >> "$GITHUB_OUTPUT"
+          echo "Pass: $mode (Friday: $friday)"
+
+      # ── Stocks on the Move: every pass. Free.
+      - name: Stocks on the Move
+        id: movers
+        continue-on-error: true
+        run: python markets.py movers
+
+      # ── The edition (3:20 pm, or by hand).
+      - name: Scan the leaders
+        id: scan
+        if: steps.mode.outputs.mode == 'edition' || steps.mode.outputs.mode == 'corner'
+        continue-on-error: true
+        env:
+          MARKETS_CORNER: ${{ steps.mode.outputs.mode == 'corner' && '1' || '' }}
+        run: python markets.py scan --out data/build/markets_payload.json
+
+      - name: Write the articles
+        if: steps.scan.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 20
+        shell: bash
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "You write the Beehive Wire Market Desk. Read markets_desk.md for your standing orders, then read data/build/markets_writer.json. Write the articles to data/build/markets_articles.json as a single JSON object in exactly the schema markets_desk.md specifies. Every number must come from the payload. Write only that file. No prose, no markdown fences, no commit." \
+            --model claude-opus-5-5 \
+            --allowedTools "Read,Write" \
+            --permission-mode acceptEdits \
+            --max-turns 16 \
+            < /dev/null 2>&1 | tail -c 2000
+
+      - name: Print the edition
+        if: steps.scan.outcome == 'success'
+        run: python markets.py publish --payload data/build/markets_payload.json --articles data/build/markets_articles.json
+
+      # ── The Beehive 50 and Big Cap 20: Fridays with the edition, or by hand.
+      - name: Beehive 50 and Big Cap 20
+        if: steps.mode.outputs.mode == 'lists' || (steps.mode.outputs.mode == 'edition' && steps.mode.outputs.friday == 'yes')
+        continue-on-error: true
+        timeout-minutes: 25
+        run: python markets.py lists
+
+      - name: Render the site
+        run: python build.py --render-only
+
+      - name: Commit the desk
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/markets data/state.json archive
+          if ! git diff --cached --quiet; then
+            git commit -m "desk (${{ steps.mode.outputs.mode }}): $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Flag a missed pass
+        if: steps.movers.outcome != 'success' || (steps.scan.outcome != 'success' && steps.scan.outcome != 'skipped')
+        run: |
+          echo "::error title=Market Desk pass incomplete::movers=${{ steps.movers.outcome }} scan=${{ steps.scan.outcome }}. The previous page was re-rendered, not replaced."
+          exit 1

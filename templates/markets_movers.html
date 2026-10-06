@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{{ site_name }} &middot; {{ desk.name }} &middot; Stocks on the Move {{ pass_no }}</title>
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<meta name="theme-color" content="#12161b">
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
+{% include "markets_style.html" %}
+</head>
+<body>
+<div class="wrap">
+  {% set story_syms = [] %}
+  <div class="mast">
+    <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }}</span></h1>
+    <div class="stamp">Pass {{ pass_no }} &middot; {{ movers.as_of_human }} &middot; <a href="../">today's desk</a> &middot; <a href="../archive/">archive</a></div>
+    <div class="tag">Stocks on the Move, as printed at that hour. Frozen.</div>
+  </div>
+
+  <h3 class="sec" id="movers" style="margin-top:22px">Stocks on the Move</h3>
+  <div class="legend">As of {{ movers.as_of_human }}{% if movers.live %}, {{ (movers.session_fraction * 100)|round|int }}% of the session done; volume was projected to the full day{% else %}, full-session volume{% endif %}.
+    {{ movers.universe_size }} names screened. To qualify: price ${{ movers.criteria.min_price|int }}+, 50-day average volume {{ (movers.criteria.min_avg_volume / 1000)|int }}K+,
+    volume {{ movers.criteria.min_volume_ratio }}x average or more, up {{ movers.criteria.min_up_pct }}%+ on the day, RS rank {{ movers.criteria.min_rs_rank }}+.
+    Dotted tickers open the chart as it stands now, not as it was then.</div>
+  {% macro mvtable(rows, title) %}
+  {% if rows %}
+  <div class="list"><b>{{ title }}</b>
+  <div class="tblwrap"><table class="board mv">
+    <tr><th>Sym</th><th>Last</th><th>Chg</th><th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
+    {% for r in rows %}<tr>
+      <td class="sym"><a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a></td>
+      <td>{{ '%.2f'|format(r.close) }}</td>
+      <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.chg_pct or 0) }}%</td>
+      <td><b>+{{ r.vol_pct }}%</b> <span class="st">({{ '%.1f'|format(r.vol_ratio) }}x)</span></td>
+      <td>{{ r.rs_rank if r.rs_rank is not none else '–' }}</td>
+      <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
+      <td>{% if r.buy_point %}{{ '%.2f'|format(r.buy_point) }}&ndash;{{ '%.2f'|format(r.buy_max) }}{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
+    </tr>{% endfor %}
+  </table></div></div>
+  {% endif %}
+  {% endmacro %}
+  {{ mvtable(movers.up, "Up on volume — qualifiers (top " ~ movers.up|length ~ ")") }}
+  {% if not movers.up %}<div class="none" style="font-size:13px;color:var(--mut)">No qualifying up-on-volume names at that hour.</div>{% endif %}
+  {{ mvtable(movers.up_low_rs, "Up on volume — RS below " ~ movers.criteria.min_rs_rank ~ " (for the record)") }}
+  {{ mvtable(movers.down, "Down on volume") }}
+
+  <div class="foot">{{ site_name }} &middot; {{ desk.name }} &middot; pass {{ pass_no }}.
+    <div class="theme"><button id="theme-btn" type="button">Dark mode</button></div>
+  </div>
+</div>
+{% include "markets_popup.html" %}
+<script>
+(function(){var K='bw-theme',r=document.documentElement,b=document.getElementById('theme-btn');
+function set(d){if(d){r.setAttribute('data-theme','dark');}else{r.removeAttribute('data-theme');}try{localStorage.setItem(K,d?'dark':'light');}catch(e){}b.textContent=d?'Light mode':'Dark mode';}
+b.textContent=r.getAttribute('data-theme')==='dark'?'Light mode':'Dark mode';
+b.addEventListener('click',function(){set(r.getAttribute('data-theme')!=='dark');});})();
+</script>
+</body>
+</html>

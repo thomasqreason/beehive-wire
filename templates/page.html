@@ -145,6 +145,9 @@
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
+  .foot .desk{display:inline-block;margin-top:12px;color:#c8c8c8;text-decoration:none;font-size:12px}
+  .foot .desk:hover{background:none;color:#888}
+  html[data-theme="dark"] .foot .desk{color:#39434f}
   html[data-theme="dark"] .foot .srcs,html[data-theme="dark"] .foot .srcs a{color:#7f8a97}
   html[data-theme="dark"] .foot .srcs .lbl{color:#f2efe9}
   html[data-theme="dark"] .foot .srcs a:hover{background:none;color:#f2efe9}
@@ -216,6 +219,7 @@
         <span class="sw" aria-hidden="true"></span><span>Dark mode</span>
       </button>
     </div>
+    <a class="desk" href="{{ root }}markets/" aria-label="Market Desk">&middot;</a>
   </div>
 
 </div>
@@ -330,6 +334,35 @@
   });
 })();
 </script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bb536ae7a0964426a2c1860344ee8a29"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics. Loaded only for readers: ?noct on any page switches this
+     browser off for good (the editor's own visits should not show up as traffic), ?yesct back on. -->
+<script>
+(function () {
+  var KEY = 'bw-no-count';
+  function say(msg) {
+    addEventListener('DOMContentLoaded', function () {
+      var d = document.createElement('div');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);z-index:9999;'
+        + 'background:#111;color:#fff;padding:.6rem 1rem;font:14px/1.3 system-ui,sans-serif;'
+        + 'border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.35)';
+      document.body.appendChild(d);
+      setTimeout(function () { d.remove(); }, 6000);
+    });
+  }
+  try {
+    var q = location.search;
+    if (q.indexOf('noct') > -1)  { localStorage.setItem(KEY, '1'); say('This browser is no longer counted in traffic stats.'); }
+    if (q.indexOf('yesct') > -1) { localStorage.removeItem(KEY);   say('This browser is counted again.'); }
+    if (localStorage.getItem(KEY)) return;
+  } catch (e) { /* private mode: count the visit and move on */ }
+  var s = document.createElement('script');
+  s.defer = true;
+  s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', '{"token": "bb536ae7a0964426a2c1860344ee8a29"}');
+  document.head.appendChild(s);
+})();
+</script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>

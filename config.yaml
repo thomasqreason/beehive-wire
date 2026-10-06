@@ -102,8 +102,8 @@ blocklist:
 mix:
   iran_mideast: 6
   ukraine_russia: 4
-  world: 4
-  immigration: 6
+  world: 5
+  immigration: 2                  # HARD CAP: max 2 ICE/illegal-immigration links on the page (see editorial.md)
   crime: 5
   trump_watch: 5
   elections: 5
@@ -114,14 +114,15 @@ mix:
   business_ai: 6                  # AI and the data-center controversies, one beat
   tech: 4
   surveillance: 3               # the surveillance state and civil liberties — added Sep 18, 2026
-  american_life: 4              # how Americans actually live — added Sep 18, 2026
-  economy: 6
+  american_life: 5              # how Americans actually live — added Sep 18, 2026
+  economy: 7
+  investing: 4                  # stocks and investing, 3-5 links every edition; the Market Desk's own pieces count (added Oct 5, 2026)
   energy: 3
   housing: 3
   health: 5
   utah_mormon: 4
   sports: 4
-  pop_culture: 2
+  pop_culture: 3
   weather_disasters: 2
   weird: 2
   video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot

@@ -1,0 +1,73 @@
+# Beehive Wire — Market Desk configuration.
+# The desk writes 5–10 IBD-style stock articles a day about the names below. Edit this list freely:
+# one ticker per line, Yahoo Finance symbols. Names with no price data are skipped automatically.
+
+desk:
+  name: "MARKET DESK"
+  tagline: "Leaders, bases and breakouts. Numbers first."
+  timezone: "America/Denver"
+  stories_min: 5
+  stories_max: 10
+  chart_bars: 130                  # daily bars drawn on each article's chart
+  board_rows: 40                   # rows on the leaders board (sorted by RS)
+  buy_zone_pct: 5                  # IBD: buy point to 5% above it
+  breakout_volume_ratio: 1.2       # volume vs 50-day average that counts as conviction
+  history_period: "2y"
+
+# The watch list: big companies and the names most likely to lead the next leg.
+# Grouped for your eyes only — the scanner flattens it.
+universe:
+  megacap:      [NVDA, MSFT, AAPL, AMZN, GOOGL, META, AVGO, TSLA, BRK-B, LLY, WMT, JPM, V, MA, ORCL, NFLX, COST, XOM, UNH, HD]
+  ai_chips:     [AMD, TSM, ARM, MU, MRVL, ANET, KLAC, LRCX, AMAT, ASML, QCOM, TXN, ADI, MPWR, NXPI, 'ON', CRDO, ALAB, SMCI, DELL, HPE, STX, WDC, SNDK]
+  ai_infra:     [VRT, CRWV, NBIS, IREN, CIFR, ETN, PWR, GEV, VST, CEG, NRG, TLN, OKLO, SMR, CCJ, APLD]
+  software:     [PLTR, CRWD, NOW, PANW, ZS, NET, DDOG, SNOW, MDB, SHOP, APP, DUOL, RBRK, FTNT, ADBE, CRM, INTU, TEAM, RDDT, SPOT, HUBS, GTLB, IOT, ZETA, MNDY]
+  fintech:      [COIN, HOOD, SOFI, NU, PYPL, AXP, GS, MS, BLK, KKR, APO, BX, IBKR, TOST, AFRM, CRCL, KLAR, FIG, HIMS]
+  space_defense: [SPCX, RKLB, ASTS, LUNR, AVAV, KTOS, LMT, NOC, GD, RTX, HWM, AXON, LHX, PL, BWXT]
+  industrial:   [CAT, DE, GE, URI, PH, TT, FAST, GWW, LII, HUBB, EME, FIX, STRL, IESC, MTZ, PRIM, CLH]
+  energy:       [CVX, COP, OXY, EOG, FANG, DVN, HAL, SLB, LNG, TPL, KMI, WMB, BKR, LEU]
+  healthcare:   [NVO, ABBV, ISRG, VRTX, REGN, AMGN, TMO, BSX, SYK, ALNY, NTRA, INSM, EXEL, TMDX, GILD, MRK, PFE]
+  consumer:     [CMG, SBUX, MCD, NKE, LULU, DECK, ONON, TJX, ROST, ULTA, CAVA, SFM, DASH, UBER, ABNB, BKNG, RCL, MELI, SE, CVNA, TKO, DIS]
+  crypto_metals: [MSTR, MARA, RIOT, CLSK, GLD, SLV, NEM, AEM, FCX, AA, CLF, NUE, STLD]
+  recent_ipos:  [CRWV, CRCL, CHYM, KLAR, FIG, SPCX, BLSH, GEMI, NMAX, VENU, ETOR, TTAN, SAIL, RBRK, NBIS, CORZ, TEM, ASTS]
+
+benchmarks:
+  spx: "^GSPC"
+  nasdaq: "^IXIC"
+  dow: "^DJI"
+
+# Investor's Corner topics, in rotation (one each Friday, or any run with MARKETS_CORNER=1).
+# Each is written against a real chart from that day's edition.
+corner_topics:
+  - "How to buy a breakout: the buy point, the 5% buy range, and why volume has to confirm it"
+  - "The 7-8% sell rule: why every position starts with a stop and how to set it from the buy point"
+  - "Reading a cup with handle: depth, length, the handle's shakeout, and where the buy point sits"
+  - "Relative strength: what the RS line against the S&P 500 tells you before the price does"
+  - "Extended stocks: why chasing 10% past a buy point costs you, and what the next entry looks like"
+  - "The 21-day and 50-day lines: using them for add-on buys, for holding, and for selling"
+  - "IPO bases: why new issues can be bought from short bases and what makes them fail"
+  - "Distribution days and the Big Picture: how to size positions by the market's state"
+  - "Flat bases and three-weeks-tight: the quiet patterns that mark institutional accumulation"
+  - "Earnings season: handling a stock you own into its report, and buying after a gap-up"
+  - "The 20-25% profit rule and when to let a winner run past it"
+  - "Climax tops: the signs a leader's run is ending"
+
+# Stocks on the Move (8am / 11am Mountain runs, and again after the close). IBD-style qualifiers:
+movers:
+  min_price: 10              # dollars
+  min_avg_volume: 400000     # 50-day average shares/day
+  min_volume_ratio: 1.5      # today's volume (projected to the full session while the market is open) vs the 50-day average
+  min_up_pct: 1.0            # up at least this much on the day for the UP list (down at least this much for the DOWN list)
+  min_rs_rank: 70            # RS rank, measured against the desk list's distribution
+  rows_up: 20
+  rows_down: 10
+
+# The Beehive 50 (growth leaders) and the Big Cap 20 — refreshed after Friday's close.
+# Composite = 40% RS rank + 25% latest-quarter EPS growth (capped at 200%) + 10% revenue growth (capped 100%)
+#           + 25% chart (above 50-day, above 200-day, within 15% of the 52-week high, in a buyable pattern; bonuses for an RS-line high and EPS acceleration)
+leaders:
+  min_price: 15
+  min_dollar_volume: 20000000     # close x 50-day average volume
+  min_eps_growth: 15              # a name needs EPS growth >= this OR revenue growth >= min_rev_growth to make the 50
+  min_rev_growth: 20
+  big_cap_min: 40000000000        # $40B market cap for the Big Cap 20 (no growth floor: the composite sorts them)
+  fundamentals_pool: 220          # fundamentals fetched for this many of the strongest names by RS (cached 7 days)

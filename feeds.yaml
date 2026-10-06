@@ -156,6 +156,7 @@ feeds:
   - {name: "Entertainment Weekly", url: "https://ew.com/feed/", topic: pop_culture}
   - {name: "Vulture", url: "https://www.vulture.com/rss/index.xml", topic: pop_culture}
   - {name: "Box Office Mojo / The Numbers", url: "https://www.the-numbers.com/feed/News", topic: pop_culture, weight: 0.9}
+  - {name: "Google News: Notable deaths", url: "https://news.google.com/rss/search?q=%28%22dies+at%22+OR+%22dead+at%22+OR+obituary+OR+%22found+dead%22%29+%28musician+OR+singer+OR+rapper+OR+songwriter+OR+composer+OR+band+OR+actor%29+when%3A2d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true, weight: 1.2}
   - {name: "Google News: Pop culture", url: "https://news.google.com/rss/search?q=Emmys+OR+%22box+office%22+OR+Hollywood+OR+%22Taylor+Swift%22+OR+Netflix+when:1d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true}
 
   # ── Business / AI / futurism / data centers ────────────────────────────────────
@@ -215,6 +216,17 @@ feeds:
   - {name: "Google News: Midterms", url: "https://news.google.com/rss/search?q=midterms+OR+%22midterm+elections%22+OR+%22generic+ballot%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true, weight: 1.2}
   - {name: "Google News: Democrats", url: "https://news.google.com/rss/search?q=Democrats+OR+DNC+OR+%22Democratic+Party%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true, weight: 0.9}
   - {name: "Google News: Election integrity", url: "https://news.google.com/rss/search?q=%22election+integrity%22+OR+%22voter+rolls%22+OR+%22voting+machines%22+OR+%22mail-in+ballots%22+OR+%22noncitizen+voting%22+OR+%222020+election%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: elections, google: true}
+
+  # ── Investing / markets (the INVESTING beat, added Oct 5, 2026) ──────────────────
+  - {name: "MarketWatch", url: "https://feeds.content.dowjones.io/public/rss/mw_topstories", topic: investing, weight: 1.2}
+  - {name: "Barron's", url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain", topic: investing, weight: 1.1}
+  - {name: "CNBC Investing", url: "https://www.cnbc.com/id/15839069/device/rss/rss.html", topic: investing}
+  - {name: "CNBC Markets", url: "https://www.cnbc.com/id/20910258/device/rss/rss.html", topic: investing}
+  - {name: "Yahoo Finance", url: "https://finance.yahoo.com/news/rssindex", topic: investing}
+  - {name: "Investor's Business Daily", url: "https://www.investors.com/feed/", topic: investing, weight: 1.3}
+  - {name: "Seeking Alpha Market News", url: "https://seekingalpha.com/market_currents.xml", topic: investing, weight: 0.9}
+  - {name: "Google News: AP markets", url: "https://news.google.com/rss/search?q=site:apnews.com+(stocks+OR+%22Wall+Street%22+OR+Nasdaq+OR+%22S%26P+500%22)+when:1d&hl=en-US&gl=US&ceid=US:en", topic: investing, google: true, weight: 1.1}
+  - {name: "Google News: Reuters markets", url: "https://news.google.com/rss/search?q=site:reuters.com+(stocks+OR+%22Wall+Street%22+OR+Nasdaq+OR+earnings)+when:1d&hl=en-US&gl=US&ceid=US:en", topic: investing, google: true}
 
   # Economy, inflation, gas and oil
   - {name: "Fox Business", url: "https://moxie.foxbusiness.com/google-publisher/latest.xml", topic: economy}

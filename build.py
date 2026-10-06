@@ -40,8 +40,38 @@ ARCHIVE = ROOT / "archive"  # every edition ever printed, committed so it surviv
 STATIC = ROOT / "static"   # icons, manifest, service worker — copied verbatim into site/
 STATE_FILE = DATA / "state.json"
 TOPICS = ["iran_mideast", "ukraine_russia", "world", "immigration", "crime", "trump_watch", "elections",
-          "politics_culture_world", "media", "faith_family_schools", "military", "business_ai", "tech", "economy",
-          "energy", "housing", "health", "utah_mormon", "sports", "pop_culture", "weather_disasters", "weird", "video"]
+          "politics_culture_world", "media", "faith_family_schools", "military", "business_ai", "tech", "surveillance",
+          "american_life", "economy", "investing", "energy", "housing", "health", "utah_mormon", "sports", "pop_culture",
+          "weather_disasters", "weird", "video"]
+
+
+def desk_candidates(cfg: dict, now: datetime) -> list[dict]:
+    """The Market Desk's latest edition (data/markets/<date>.json) offered to the editor as candidates on the
+    investing beat: each story and the New America profile, linking to the desk page's anchor."""
+    try:
+        files = sorted((DATA / "markets").glob("????-??-??.json"))
+        if not files:
+            return []
+        ed = json.loads(files[-1].read_text(encoding="utf-8"))
+        age = hours_since(ed.get("generated"), now)
+        if age is None or age > 30:
+            return []
+        base = _base_url(cfg) + "markets/"
+        out = []
+        for s in ed.get("stories", []):
+            a = s.get("article") or {}
+            if a.get("headline"):
+                out.append({"title": a["headline"], "url": f"{base}#{s['sym']}", "summary": a.get("deck") or "",
+                            "source": "Beehive Wire Market Desk", "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
+        p = ed.get("profile") or {}
+        if (p.get("article") or {}).get("headline"):
+            out.append({"title": "New America: " + p["article"]["headline"], "url": f"{base}#profile-{p['sym']}",
+                        "summary": p["article"].get("deck") or "", "source": "Beehive Wire Market Desk",
+                        "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
+        return out
+    except Exception as e:  # noqa: BLE001
+        log(f"desk candidates skipped ({e})")
+        return []
 
 # ────────────────────────────────────────────────────────────────────────── utils
 
@@ -431,9 +461,20 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
             "age_h": hours_since(it.get("published") or it.get("first_seen"), now),
         }
 
+    local = now.astimezone(ZoneInfo(cfg["site"]["timezone"]))
+    try:
+        no = edition_number(local, edition_of(local, cfg)[0])
+    except Exception:  # noqa: BLE001
+        no = 0
+    # The three beats that wore the page out when they ran together: one gets the spotlight each edition,
+    # the other two sit out unless the news is genuinely big (see editorial.md, "The rotation").
+    wheel = ["immigration_enforcement", "h1b_workforce", "election_integrity"]
+    spot = wheel[no % 3]
     return {
         "now_utc": iso(now),
-        "now_local": now.astimezone(ZoneInfo(cfg["site"]["timezone"])).strftime("%a %b %d %Y %I:%M %p %Z"),
+        "now_local": local.strftime("%a %b %d %Y %I:%M %p %Z"),
+        "edition_no": no,
+        "rotation": {"spotlight": spot, "benched": [w for w in wheel if w != spot]},
         "rules": {
             "total_links": cfg["page"]["total_links"],
             "flash_lines": cfg["page"]["flash_lines"],
@@ -944,7 +985,7 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     if cfg["site"].get("domain"):
         (SITE / "CNAME").write_text(cfg["site"]["domain"].strip() + "\n")
     (SITE / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\n\nSitemap: {_base_url(cfg)}sitemap.xml\n")
+        f"User-agent: *\nAllow: /\nDisallow: /markets/\n\nSitemap: {_base_url(cfg)}sitemap.xml\n")
     if STATIC.is_dir():                       # app icons, manifest, service worker
         for f in sorted(STATIC.iterdir()):
             if f.is_file():
@@ -955,6 +996,11 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     n = publish_archive(cfg)
     publish_sources(cfg)
     write_sitemap(cfg, _archive_index(), now)
+    try:                                       # the Market Desk (markets.py) — unlisted, re-rendered every build
+        import markets
+        markets.render_site(cfg)
+    except Exception as e:  # noqa: BLE001 — the desk must never take the front page down
+        log(f"market desk: skipped ({e})")
 
     log(f"rendered {out} — edition no. {no}, {len(page_links(state))} links; archive holds {n} editions")
     return out
@@ -1009,6 +1055,10 @@ def main() -> int:
     else:
         feeds = load_yaml(ROOT / "feeds.yaml").get("feeds", [])
         raw = fetch_all(feeds, cfg)
+        desk = desk_candidates(cfg, now)
+        if desk:
+            log(f"market desk: offering {len(desk)} investing candidates")
+            raw.extend(desk)
         offer_all = False
     cands = select_candidates(normalize_candidates(raw, cfg), state, cfg, now, offer_all)
     log(f"{len(raw)} raw items -> {len(cands)} candidates; page has {len(page_links(state))} links")

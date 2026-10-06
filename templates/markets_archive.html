@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{{ site_name }} &middot; {{ desk.name }} &middot; Archive</title>
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<meta name="theme-color" content="#12161b">
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
+{% include "markets_style.html" %}
+<style>
+  .search{margin:18px 0 6px}
+  .search input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--rule);background:var(--bg);color:var(--ink)}
+  .search .hint{font-size:12px;color:var(--mut);margin-top:4px}
+  .day{margin:22px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
+  .day h2{font:900 18px/1.2 "Arial Black",Impact,Arial,sans-serif;margin:0 0 6px}
+  .day h2 span{font:700 12px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-left:10px}
+  .pass{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;padding:8px 0;border-bottom:1px solid var(--soft);font-size:14px}
+  .pass .no{font:900 18px/1.1 "Arial Black",Impact,Arial,sans-serif}
+  .pass .no a{text-decoration:none}
+  .pass .no a:hover{background:none;color:var(--pivot)}
+  .pass .meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  .pass .meta .k{display:inline-block;background:var(--tag);color:var(--tagink);padding:1px 6px;margin-right:8px;font-weight:900}
+  .pass .syms{font-weight:700}
+  .pass .heads{color:var(--mut);font-size:13px;line-height:1.5}
+  .pass.hide,.day.hide{display:none}
+  .count{font-size:12px;color:var(--mut);margin:6px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }} &middot; Archive</span></h1>
+    <div class="stamp"><a href="../">&larr; today's desk</a> &middot; {{ passes|length }} passes over {{ days|length }} trading days, numbered day.pass (day 1 = {{ first_day }})</div>
+    <div class="tag">.1 is the 8 a.m. pass, .2 the 11 a.m. pass, .3 the edition after the close; an extra run that day is .4 and up.</div>
+  </div>
+
+  <div class="search">
+    <input id="q" type="search" placeholder="Search: a ticker (NVDA), a word from a headline (breakout, IPO), a pass number (3.2), a date (Oct 7)…" autocomplete="off">
+    <div class="hint">Matches pass numbers, dates, tickers and every headline in the pass. Empty shows everything.</div>
+    <div class="count" id="count"></div>
+  </div>
+
+  {% for d in days %}
+  <div class="day" data-text="{{ d.text|lower }}">
+    <h2>Day {{ d.day }}<span>{{ d.human }}</span></h2>
+    {% for p in d.passes %}
+    <div class="pass" data-text="{{ p.text|lower }}">
+      <div class="no"><a href="{{ p.href }}">{{ p.no }}</a></div>
+      <div>
+        <div class="meta"><span class="k">{{ p.kind_label }}</span>{{ p.time }}{% if p.live %} &middot; live, volume projected{% endif %}{% if p.extra %} &middot; {{ p.extra }}{% endif %}</div>
+        <div class="syms">{{ p.syms|join(' · ') }}</div>
+        {% if p.heads %}<div class="heads">{% for h in p.heads %}{{ h }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="foot">{{ site_name }} &middot; {{ desk.name }} &middot; archive of every pass since {{ first_day }}.
+    <div class="theme"><button id="theme-btn" type="button">Dark mode</button></div>
+  </div>
+</div>
+<script>
+(function(){
+  var q=document.getElementById('q'),count=document.getElementById('count'),days=[].slice.call(document.querySelectorAll('.day'));
+  function run(){
+    var terms=q.value.toLowerCase().split(/\s+/).filter(Boolean),shown=0,total=0;
+    days.forEach(function(d){
+      var any=false;
+      [].slice.call(d.querySelectorAll('.pass')).forEach(function(p){
+        total++;
+        var t=p.getAttribute('data-text'),ok=terms.every(function(w){return t.indexOf(w)>=0;});
+        p.classList.toggle('hide',!ok);if(ok){any=true;shown++;}
+      });
+      d.classList.toggle('hide',!any);
+    });
+    count.textContent=terms.length?shown+' of '+total+' passes match':'';
+    try{history.replaceState(null,'',terms.length?'?q='+encodeURIComponent(q.value):location.pathname);}catch(e){}
+  }
+  q.addEventListener('input',run);
+  var m=location.search.match(/[?&]q=([^&]*)/);if(m){q.value=decodeURIComponent(m[1].replace(/\+/g,' '));}
+  run();
+  var K='bw-theme',r=document.documentElement,b=document.getElementById('theme-btn');
+  function set(d){if(d){r.setAttribute('data-theme','dark');}else{r.removeAttribute('data-theme');}try{localStorage.setItem(K,d?'dark':'light');}catch(e){}b.textContent=d?'Light mode':'Dark mode';}
+  b.textContent=r.getAttribute('data-theme')==='dark'?'Light mode':'Dark mode';
+  b.addEventListener('click',function(){set(r.getAttribute('data-theme')!=='dark');});
+})();
+</script>
+</body>
+</html>

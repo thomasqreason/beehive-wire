@@ -162,6 +162,35 @@
   });
 })();
 </script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bb536ae7a0964426a2c1860344ee8a29"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics. Loaded only for readers: ?noct on any page switches this
+     browser off for good (the editor's own visits should not show up as traffic), ?yesct back on. -->
+<script>
+(function () {
+  var KEY = 'bw-no-count';
+  function say(msg) {
+    addEventListener('DOMContentLoaded', function () {
+      var d = document.createElement('div');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);z-index:9999;'
+        + 'background:#111;color:#fff;padding:.6rem 1rem;font:14px/1.3 system-ui,sans-serif;'
+        + 'border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.35)';
+      document.body.appendChild(d);
+      setTimeout(function () { d.remove(); }, 6000);
+    });
+  }
+  try {
+    var q = location.search;
+    if (q.indexOf('noct') > -1)  { localStorage.setItem(KEY, '1'); say('This browser is no longer counted in traffic stats.'); }
+    if (q.indexOf('yesct') > -1) { localStorage.removeItem(KEY);   say('This browser is counted again.'); }
+    if (localStorage.getItem(KEY)) return;
+  } catch (e) { /* private mode: count the visit and move on */ }
+  var s = document.createElement('script');
+  s.defer = true;
+  s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', '{"token": "bb536ae7a0964426a2c1860344ee8a29"}');
+  document.head.appendChild(s);
+})();
+</script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
