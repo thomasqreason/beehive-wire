@@ -172,5 +172,33 @@
 "day": 2,
 "pass": 2,
 "no": "2.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-06",
+"at": "2026-10-06T19:28:13+00:00",
+"href": "movers/2026-10-06-1328.html",
+"syms": [
+"TLN",
+"MRVL",
+"CIEN",
+"CEG",
+"VST",
+"CTVA",
+"LEU",
+"PEG",
+"CCJ",
+"STZ"
+],
+"heads": [
+"TLN +11.0% on 2.8x volume, big move on the day",
+"MRVL +6.1% on 2.3x volume, big move on the day",
+"CIEN +13.3% on 2.2x volume, big move on the day"
+],
+"extra": "3 qualifiers",
+"live": true,
+"day": 2,
+"pass": 3,
+"no": "2.3"
 }
 ]
