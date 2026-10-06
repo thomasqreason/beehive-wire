@@ -734,6 +734,7 @@ def resolve_google_news(url: str) -> str | None:
 
 
 def fetch_og_image(url: str, cfg: dict) -> str | None:
+    # NOTE: a paywalled publisher (USA Today answers 402) yields no image; the editor-side fallback is a hand-set state image.
     try:
         import requests
 
