@@ -48,6 +48,7 @@
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
       h+='<div><b>RS rank</b>'+esc(d.rs_rank==null?'–':d.rs_rank)+'</div><div><b>Volume vs 50-day</b>'+(d.vol_ratio==null?'–':Number(d.vol_ratio).toFixed(1)+'x')+'</div><div><b>52-week high</b>'+f2(d.hi52)+' ('+pc(d.from_hi52)+')</div><div><b>vs 50-day line</b>'+pc(d.vs_sma50)+'</div>'+(d.ipo_sessions?'<div><b>New issue</b>'+d.ipo_sessions+' sessions</div>':'')+'</div>';
       body.className='';body.innerHTML=h;
+      var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,d.series);}
     }).catch(function(e){body.className='wait';body.textContent='No chart saved for '+sym+' yet; the next scan that covers it will draw one.';});
   }
   function hide(){scrim.classList.remove('on');if(location.hash.indexOf('#chart=')===0)history.replaceState(null,'',location.pathname+location.search);}
@@ -58,3 +59,4 @@
   if(location.hash.indexOf('#chart=')===0)show(decodeURIComponent(location.hash.slice(7)));
 })();
 </script>
+{% include "markets_crosshair.html" %}

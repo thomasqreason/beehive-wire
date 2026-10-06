@@ -666,7 +666,7 @@ def chart_svg(f: dict, cfg: dict) -> str:
         return VT + VH - v / vmax * VH
 
     bw = max(1.0, (W - PL - PR) / n * 0.6)
-    out = [f'<svg class="chart" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{f["sym"]} daily chart">']
+    out = [f'<svg class="chart" data-sym="{f["sym"]}" data-n="{n}"{(' data-buymax="' + str(b["buy_max"]) + '"') if b else ''} viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{f["sym"]} daily chart">']
     out.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="var(--chart-bg)"/>')
     if b:
         y1, y2 = ys(b["buy_max"]), ys(b["buy_point"])
