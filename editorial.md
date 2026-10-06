@@ -66,7 +66,8 @@ them real headlines, not consolation prizes. If the page reads like everything i
 
 - Oct 6, 2026: JIM BAKKER DIED (Oct 6, age 86 — PTL Club, the 1987 scandal, the fraud conviction, the
   prison term, the comeback show selling survival buckets). IT IS THE GIANT TOP HEADLINE of the Oct 6
-  MORNING EDITION — the publisher's call, overriding whatever else the wire has that morning. Put the
+  MORNING EDITION — the publisher's vote, because everyone knows the name. Overrule it only for a story
+  that is plainly bigger (a war turn, a death of a president, a market crash); otherwise put the
   Bakker obituary in "top", with the flash lines carrying the rest of the morning's biggest stories; in the
   evening edition it drops to a held link in the faith beat. THE SCANDAL VERSION, not the tribute: the candidate whose
   title leads with the sex-and-money scandal, the fraud conviction, the prison term or the survival-bucket
