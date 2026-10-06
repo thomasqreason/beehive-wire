@@ -65,13 +65,15 @@ them real headlines, not consolation prizes. If the page reads like everything i
 ## Standing orders this week (dated; delete when stale)
 
 - Oct 6, 2026: JIM BAKKER DIED (Oct 6, age 86 — PTL Club, the 1987 scandal, the fraud conviction, the
-  prison term, the comeback show selling survival buckets). Run it in the faith beat in the Oct 6 morning
-  edition and hold it through the evening edition. THE SCANDAL VERSION, not the tribute: the candidate whose
+  prison term, the comeback show selling survival buckets). IT IS THE GIANT TOP HEADLINE of the Oct 6
+  MORNING EDITION — the publisher's call, overriding whatever else the wire has that morning. Put the
+  Bakker obituary in "top", with the flash lines carrying the rest of the morning's biggest stories; in the
+  evening edition it drops to a held link in the faith beat. THE SCANDAL VERSION, not the tribute: the candidate whose
   title leads with the sex-and-money scandal, the fraud conviction, the prison term or the survival-bucket
   grift (the NYT's "Felled by Sex and Financial Scandals," the NY Post's "scandal-scarred," NBC's "served
   time for defrauding followers"). Never the "enters heaven" / "finished his race" / "Christian television
-  pioneer" framing, and the headline carries the scandal: TELEVANGELIST BAKKER, JAILED FOR FLEECING FLOCK,
-  DEAD AT 86... One link. Do not skip it.
+  pioneer" framing, and the top headline carries the scandal in 2–6 words: BAKKER, FLEECER OF THE FLOCK,
+  DEAD AT 86... or JAILED TELEVANGELIST BAKKER DEAD... Do not skip it, and do not bury it.
 
 ## The rotation: illegal immigration, H-1B, election integrity — one at a time
 
