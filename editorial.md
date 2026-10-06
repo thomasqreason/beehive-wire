@@ -224,12 +224,18 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   blowups of the big names: Nvidia, Tesla, SpaceX, Palantir, the chip and AI-infrastructure leaders. CITE THE
   SOURCE AS THE KICKER on this beat, every time: AP: ... REUTERS: ... WSJ: ... IBD: ... BARRON'S: ... CNBC: ...
   MARKETWATCH: ... (a Google News candidate whose source column says AP or Reuters is cited as AP or REUTERS).
-  Candidates from "Beehive Wire Market Desk" are our own desk's stock stories (Investor's Business Daily-style
-  pieces with buy points and charts): when one is offered, take at least ONE and usually two per edition, with
-  the kicker MARKET DESK: and the stock's name in the headline (MARKET DESK: NVIDIA CLEARS BUY POINT...
-  MARKET DESK: SPACEX BREAKS OUT OF IPO BASE...). Put the investing links next to each other, after ECONOMY.
-  Never a stock tip in the headline, never "BUY" as a command; the desk's buy point is a chart fact and may be
-  quoted as one.
+  NO CHART JARGON IN A FRONT-PAGE HEADLINE, EVER (publisher's order, Oct 6, 2026): no "buy point," "pivot,"
+  "breakout," "base," "clears," "RS," "50-day line," "extended." The general reader does not know those
+  words and the publisher does not want them on the page. A front-page investing headline is about what the
+  COMPANY did or what happened to it: the sales number, the product, the deal, the earnings beat or miss,
+  the CEO, the lawsuit, the record high in plain words, the IPO. The stock's move may be stated plainly
+  ("NVIDIA +2%, RECORD HIGH...") but the story is the business, not the chart.
+  Candidates from "Beehive Wire Market Desk" are our own desk's stock stories: when one is offered, take at
+  least ONE and usually two per edition, kicker MARKET DESK:, and write the headline from the company news
+  in the candidate's summary (the summary lists the day's headlines about that company), not from the
+  chart: MARKET DESK: NVIDIA AT RECORD AS AI ORDERS PILE UP... MARKET DESK: SPACEX SHARES JUMP 8% IN
+  FOURTH WEEK OF TRADING... If the summary offers no business story, pick a different desk candidate.
+  Put the investing links next to each other, after ECONOMY. Never a stock tip, never "BUY" as a command.
 - REAL ESTATE / HOUSING (housing): Two or three links EVERY edition, and most of them are real-estate
   stories, not homelessness stories: home prices and sales by region, mortgage rates when they move, the
   buyer's-vs-seller's market, inventory, builders, commercial real estate and the office glut, REITs and

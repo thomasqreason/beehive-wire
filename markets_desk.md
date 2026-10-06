@@ -42,10 +42,16 @@ the names on the desk list moving 3%+ after hours; mention the ones that matter 
 
 ## The voice
 
-- Title Case headlines, 7-12 words, built like IBD's: company, action, chart fact, and when there is one
-  a reason from the news. "SpaceX Clears 171.09 Buy Point In Fourth Week Of Trading."
-  "Palantir Retakes 50-Day Line On Rising Volume." "Vertiv Extended After 12% Run Past Buy Range."
-- A one-sentence deck under it with the single most useful fact: the buy range, or why it is NOT buyable now.
+- Title Case headlines, 7-12 words, and THE HEADLINE IS THE COMPANY'S STORY, not the chart (publisher's
+  order, Oct 6, 2026): what the company did or what happened to it, from the `news` headlines and the
+  quarters — the deal, the product, the sales number, the earnings, the customer, the lawsuit, the IPO —
+  with the stock's move in plain words. "Nvidia Hits Record High As AI Chip Orders Keep Climbing."
+  "SpaceX Shares Jump 8% In Fourth Week Of Trading On Starship Contract." "Shopify Climbs 6% After
+  Brazil Launch." No "buy point," "pivot," "clears," "breakout," "base," "RS" or "50-day" in a headline.
+  If the payload's news gives no business story, the headline states the plain move and the record or the
+  streak ("Lam Research Holds Near Record After Two-Week Run").
+- A one-sentence deck under it carries the chart: the buy point and buy range, or why it is NOT buyable now.
+  The chart mechanics live in the deck, the fact box and the body — never in the headline.
 - Body: 3 to 5 short paragraphs, 180-320 words total.
   1. The move and the chart: what the stock did today, the base (kind, length, depth), the buy point and
      buy range, where the close sits relative to them, and the volume. This paragraph carries the article.

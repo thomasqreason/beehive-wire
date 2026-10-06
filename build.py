@@ -60,8 +60,10 @@ def desk_candidates(cfg: dict, now: datetime) -> list[dict]:
         out = []
         for s in ed.get("stories", []):
             a = s.get("article") or {}
+            news = "; ".join(n.get("title", "") for n in (s.get("news") or [])[:4] if n.get("title"))
+            summary = ((a.get("deck") or "") + (" NEWS: " + news if news else "")).strip()
             if a.get("headline"):
-                out.append({"title": a["headline"], "url": f"{base}#{s['sym']}", "summary": a.get("deck") or "",
+                out.append({"title": a["headline"], "url": f"{base}#{s['sym']}", "summary": summary,
                             "source": "Beehive Wire Market Desk", "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
         p = ed.get("profile") or {}
         if (p.get("article") or {}).get("headline"):
