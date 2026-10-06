@@ -16,7 +16,7 @@
   {% set story_syms = ed.stories|map(attribute='sym')|list %}
   <div class="mast">
     <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }}</span></h1>
-    <div class="stamp">{{ human }}{% if stale_edition %} &middot; stocks on the move is live; the articles below are from {{ edition_day }}'s close{% else %} &middot; after the close{% endif %}{% if not latest %} &middot; <a href="index.html">latest edition &rarr;</a>{% endif %}</div>
+    <div class="stamp">{{ human }} &middot; {{ stamp_time }}{% if stale_edition %} &middot; the articles below are from {{ edition_day }}'s close{% endif %}{% if not latest %} &middot; <a href="index.html">latest edition &rarr;</a>{% endif %}</div>
     <div class="tag">{{ desk.tagline }}</div>
   </div>
 

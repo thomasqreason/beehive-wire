@@ -818,7 +818,11 @@ def render_site(site_cfg: dict | None = None) -> int:
         page_date = e["date"]
         if i == len(eds) - 1 and mv and mv.get("date") and mv["date"] > e["date"]:
             page_date = mv["date"]
-        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=e, human=human_date(page_date),
+        stamp_dt = gen
+        if page_date != e["date"] and mv:
+            stamp_dt = datetime.fromisoformat(mv["as_of"]).astimezone(tz)
+        stamp_time = stamp_dt.strftime("%I:%M %p %Z").lstrip("0")
+        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=e, human=human_date(page_date), stamp_time=stamp_time,
                    edition_human=human_date(e["date"]), edition_day=datetime.fromisoformat(e["date"]).strftime("%A"),
                    stale_edition=(page_date != e["date"]),
                    generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if i == len(eds) - 1 else None,
