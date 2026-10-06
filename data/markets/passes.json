@@ -137,5 +137,40 @@
 "day": 2,
 "pass": 1,
 "no": "2.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-06",
+"at": "2026-10-06T18:00:36+00:00",
+"href": "movers/2026-10-06-1200.html",
+"syms": [
+"TLN",
+"MRVL",
+"CIEN",
+"ALAB",
+"RKLB",
+"CEG",
+"VST",
+"CTVA",
+"LEU",
+"PEG",
+"CCJ",
+"ASTS",
+"OKLO",
+"DHI",
+"PL"
+],
+"heads": [
+"TLN +12.5% on 2.9x volume, big move on the day",
+"MRVL +6.4% on 2.8x volume, big move on the day",
+"CIEN +12.3% on 2.2x volume, big move on the day",
+"ALAB +7.4% on 1.7x volume, breakout past buy point, already extended",
+"RKLB +1.9% on 1.5x volume, in base"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 2,
+"pass": 2,
+"no": "2.2"
 }
 ]
