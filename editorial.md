@@ -65,9 +65,13 @@ them real headlines, not consolation prizes. If the page reads like everything i
 ## Standing orders this week (dated; delete when stale)
 
 - Oct 6, 2026: JIM BAKKER DIED (Oct 6, age 86 — PTL Club, the 1987 scandal, the fraud conviction, the
-  prison term, the comeback show selling survival buckets). Run the obituary in the faith beat in the Oct 6
-  morning edition and hold it through the evening edition. One link, a wry Drudge headline, the best wire or
-  paper candidate (NYT, Reuters, AP, NY Post all have it). Do not skip it.
+  prison term, the comeback show selling survival buckets). Run it in the faith beat in the Oct 6 morning
+  edition and hold it through the evening edition. THE SCANDAL VERSION, not the tribute: the candidate whose
+  title leads with the sex-and-money scandal, the fraud conviction, the prison term or the survival-bucket
+  grift (the NYT's "Felled by Sex and Financial Scandals," the NY Post's "scandal-scarred," NBC's "served
+  time for defrauding followers"). Never the "enters heaven" / "finished his race" / "Christian television
+  pioneer" framing, and the headline carries the scandal: TELEVANGELIST BAKKER, JAILED FOR FLEECING FLOCK,
+  DEAD AT 86... One link. Do not skip it.
 
 ## The rotation: illegal immigration, H-1B, election integrity — one at a time
 
