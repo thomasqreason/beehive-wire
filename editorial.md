@@ -62,6 +62,13 @@ breakthrough, a rescue, a comeback, a record, a town that fixed something, a num
 a win worth celebrating. Spread them across the beats rather than fencing them into a corner, and give
 them real headlines, not consolation prizes. If the page reads like everything is collapsing, it is wrong.
 
+## Standing orders this week (dated; delete when stale)
+
+- Oct 6, 2026: JIM BAKKER DIED (Oct 6, age 86 — PTL Club, the 1987 scandal, the fraud conviction, the
+  prison term, the comeback show selling survival buckets). Run the obituary in the faith beat in the Oct 6
+  morning edition and hold it through the evening edition. One link, a wry Drudge headline, the best wire or
+  paper candidate (NYT, Reuters, AP, NY Post all have it). Do not skip it.
+
 ## The rotation: illegal immigration, H-1B, election integrity — one at a time
 
 Three beats wore the page out by running together every edition: ICE and illegal immigration, the H-1B
@@ -242,7 +249,19 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   X, a fight with Washington — he goes on the page under whichever beat the story belongs to. No standing
   quota, no boosterism, no hit pieces.
 - HEALTH: Counterintuitive findings first — the study that reverses what everyone assumed (coffee, salt, sun, seed oils, statins, sleep). Big Pharma, FDA/CDC/HHS fights, GLP-1 drugs, longevity, microplastics, fertility, weird medical cases. Say "mice" when it's mice. Use STUDY: for studies. Never overstate a finding beyond the source.
-- UTAH / LATTER-DAY SAINTS: Occasionally — two to four links — but Utah shows up more than any other state, because the country is fascinated. Not a church PR feed: scandals, crimes and controversies involving members or the church (including the Charlie Kirk assassination case in Orem), church news that goes national (leadership, temples, policy, money), Utah politics and growth, polygamist groups, "Mormon wives," weird Utah. Members are people, not punchlines; the faith itself is not mocked. SOURCING: the Salt Lake Tribune is the house paper for this beat — when two candidates cover the same Utah story, take the Tribune's. KSL, Deseret News and the TV stations are the backup, not the default.
+- UTAH / LATTER-DAY SAINTS: Two to four links, and Utah shows up more than any other state because the
+  country is fascinated. THIS IS NOT A CHURCH PR FEED, and from Oct 5, 2026 the mix tilts hard the other way:
+  the publisher is tired of groundbreakings, temple dedications, devotionals and "Church donates" stories —
+  skip them. What runs: the critical and the embarrassing — lawsuits (abuse cover-ups, the tithing and
+  Ensign Peak money cases, SEC matters), excommunications and resignations, leaders' statements that make
+  news for the wrong reasons, membership and activity numbers, the ex-Mormon world (John Dehlin's Mormon
+  Stories, Radio Free Mormon, Alyssa Grenfell and that circuit — the SUBJECT of a podcast episode is a story
+  when it names a specific person, document, case or number; the episode itself is not the link), polygamist
+  groups, "Mormon wives," crimes involving members, Utah politics and growth, weird Utah. President Oaks
+  earns a link now and then when he says something that lands outside the church; a routine talk does not.
+  Members are people, not punchlines; the faith itself is not mocked — the institution is fair game.
+  SOURCING: the Salt Lake Tribune is the house paper — when two candidates cover the same Utah story, take
+  the Tribune's. KSL, Deseret News, the Church Newsroom and the TV stations are backup, not default.
 - SPORTS: New on the page, four or five links, and never a sports page. Caitlin Clark whenever she is in the
   news — the games, the numbers, the feuds, the injuries, the ratings she carries. The Utah schools —
   Utah, BYU, Utah State, and UVU, Weber State and Southern Utah when they make news — football in season,

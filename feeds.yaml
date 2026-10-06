@@ -136,7 +136,12 @@ feeds:
   - {name: "Salt Lake Tribune: Arts & Living", url: "https://www.sltrib.com/arc/outboundfeeds/rss/category/artsliving/", topic: utah_mormon, weight: 1.4}
   - {name: "Google News: Salt Lake Tribune", url: "https://news.google.com/rss/search?q=site:sltrib.com+when:2d&hl=en-US&gl=US&ceid=US:en", topic: utah_mormon, google: true, weight: 1.6}
   - {name: "Utah News Dispatch", url: "https://utahnewsdispatch.com/feed/", topic: utah_mormon}
-  - {name: "Church Newsroom", url: "https://newsroom.churchofjesuschrist.org/rss", topic: utah_mormon, weight: 0.8}
+  - {name: "Church Newsroom", url: "https://newsroom.churchofjesuschrist.org/rss", topic: utah_mormon, weight: 0.3}
+  # The critical side of the beat (added Oct 5, 2026): the podcasts and the lawsuits, not the groundbreakings.
+  - {name: "Radio Free Mormon", url: "https://radiofreemormon.org/feed/", topic: utah_mormon, weight: 1.5}
+  - {name: "Mormon Stories (John Dehlin)", url: "https://www.mormonstories.org/feed/", topic: utah_mormon, weight: 1.5}
+  - {name: "r/exmormon (top of day)", url: "https://www.reddit.com/r/exmormon/top/.rss?t=day", topic: utah_mormon, weight: 0.6}
+  - {name: "Google News: LDS critical", url: "https://news.google.com/rss/search?q=(%22LDS+Church%22+OR+Mormon+OR+%22Latter-day+Saint%22)+(lawsuit+OR+abuse+OR+tithing+OR+SEC+OR+excommunicated+OR+%22Ensign+Peak%22+OR+resigns+OR+scandal+OR+whistleblower+OR+polygam)+when:2d&hl=en-US&gl=US&ceid=US:en", topic: utah_mormon, google: true, weight: 1.6}
   - {name: "Deseret News", url: "https://www.deseret.com/arc/outboundfeeds/rss/", topic: utah_mormon, weight: 0.7}
   - {name: "KSL", url: "https://www.ksl.com/rss/news", topic: utah_mormon, weight: 0.7}
   - {name: "Fox 13 Salt Lake", url: "https://www.fox13now.com/news.rss", topic: utah_mormon, weight: 0.8}
@@ -227,6 +232,9 @@ feeds:
   - {name: "Seeking Alpha Market News", url: "https://seekingalpha.com/market_currents.xml", topic: investing, weight: 0.9}
   - {name: "Google News: AP markets", url: "https://news.google.com/rss/search?q=site:apnews.com+(stocks+OR+%22Wall+Street%22+OR+Nasdaq+OR+%22S%26P+500%22)+when:1d&hl=en-US&gl=US&ceid=US:en", topic: investing, google: true, weight: 1.1}
   - {name: "Google News: Reuters markets", url: "https://news.google.com/rss/search?q=site:reuters.com+(stocks+OR+%22Wall+Street%22+OR+Nasdaq+OR+earnings)+when:1d&hl=en-US&gl=US&ceid=US:en", topic: investing, google: true}
+
+  # Standing-order coverage (temporary; remove when the story is over)
+  - {name: "Google News: Jim Bakker", url: "https://news.google.com/rss/search?q=%22Jim+Bakker%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: faith_family_schools, google: true, weight: 2.0}
 
   # Economy, inflation, gas and oil
   - {name: "Fox Business", url: "https://moxie.foxbusiness.com/google-publisher/latest.xml", topic: economy}
