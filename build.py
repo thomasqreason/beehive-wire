@@ -698,15 +698,59 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
     return new_state
 
 
+def resolve_google_news(url: str) -> str | None:
+    """A Google News RSS link (news.google.com/rss/articles/<token>) -> the publisher's URL, via the same
+    endpoint Google's own page calls. Returns None when anything about it changes."""
+    try:
+        import requests
+
+        if "news.google.com" not in url or "/articles/" not in url:
+            return None
+        tok = url.split("/articles/")[1].split("?")[0]
+        h = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128"}
+        r = requests.get(f"https://news.google.com/articles/{tok}", headers=h, timeout=10)
+        sg = re.search(r'data-n-a-sg="([^"]+)"', r.text)
+        ts = re.search(r'data-n-a-ts="([^"]+)"', r.text)
+        if not (sg and ts):
+            return None
+        req = ["garturlreq", [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1, None, None, None, None, None, 0, 1],
+                              "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0], tok, int(ts.group(1)), sg.group(1)]
+        rr = requests.post("https://news.google.com/_/DotsSplashUi/data/batchexecute",
+                           headers=h | {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+                           data={"f.req": json.dumps([[["Fbv4je", json.dumps(req)]]])}, timeout=10)
+        body = rr.text.split("
+", 1)[1] if rr.text.startswith(")]}'") else rr.text
+        for c in re.findall(r"\[\[.*?\]\](?=
+|$)", body, re.S):
+            try:
+                outer = json.loads(c)
+            except ValueError:
+                continue
+            for item in outer:
+                if isinstance(item, list) and len(item) > 2 and isinstance(item[2], str) and "garturlres" in item[2]:
+                    out = json.loads(item[2])[1]
+                    return out if isinstance(out, str) and out.startswith("http") else None
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
 def fetch_og_image(url: str, cfg: dict) -> str | None:
     try:
         import requests
 
+        real = resolve_google_news(url)      # a Google News redirect page only offers Google's logo
+        if real:
+            url = real
         r = requests.get(url, timeout=8, headers={"User-Agent": cfg["fetch"]["user_agent"]})
         m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', r.text, re.I) or re.search(
             r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', r.text, re.I
         )
-        return html.unescape(m.group(1)) if m else None
+        img = html.unescape(m.group(1)) if m else None
+        # A Google News redirect page's og:image is Google's own logo (lh3.googleusercontent.com) — never print it.
+        if img and ("googleusercontent.com" in img or "news.google.com" in img or "gstatic.com" in img):
+            return None
+        return img
     except Exception:
         return None
 
