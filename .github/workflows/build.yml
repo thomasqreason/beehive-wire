@@ -29,6 +29,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write                # the check job dispatches markets.yml when a Market Desk pass is overdue
 
 concurrency:
   group: build
@@ -56,6 +57,21 @@ jobs:
       - run: pip install -q pyyaml
       - id: slot
         run: python catchup.py --event "${{ github.event_name }}" --catchup "${{ inputs.catchup }}"
+
+      # The Market Desk's own crons (8:05, 11:05, 3:20 Mountain) get dropped or delayed by GitHub like
+      # everything else, so this hourly check — driven by the cron-job.org pinger at :50 — asks markets.py
+      # whether a pass is overdue and dispatches it. markets.py checks the artifacts, so nothing runs twice.
+      - id: desk
+        run: python markets.py due
+      - name: Send the overdue Market Desk pass
+        if: steps.desk.outputs.desk != 'none' && steps.desk.outputs.desk != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          echo "Market Desk ${{ steps.desk.outputs.desk }} pass is overdue. Dispatching markets.yml."
+          gh workflow run markets.yml --ref main -f mode=${{ steps.desk.outputs.desk }}
 
   build:
     needs: check

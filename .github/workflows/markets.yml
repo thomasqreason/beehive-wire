@@ -21,6 +21,10 @@ on:
         type: choice
         options: [edition, movers, lists, corner]
         default: edition
+      run_at:
+        description: "Optional: hold this run until a UTC time today, HH:MM (e.g. 18:00 = noon Mountain in daylight time)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -34,7 +38,7 @@ concurrency:
 jobs:
   desk:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 300             # a held run (run_at) may wait a few hours before it works
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -50,6 +54,16 @@ jobs:
           cache: pip
 
       - run: pip install -r requirements.txt
+
+      - name: Hold until run_at
+        if: inputs.run_at != ''
+        run: |
+          target=$(date -u -d "today ${{ inputs.run_at }}" +%s)
+          now=$(date -u +%s)
+          if [ "$target" -gt "$now" ]; then
+            echo "Holding $(( (target - now) / 60 )) minutes until ${{ inputs.run_at }} UTC."
+            sleep $(( target - now ))
+          fi
 
       # Which pass is this? Scheduled runs before 20:00 UTC are intraday movers passes; the late one is the edition.
       - name: Decide the pass

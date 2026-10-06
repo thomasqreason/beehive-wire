@@ -1271,6 +1271,46 @@ def load_lists() -> dict | None:
     return None
 
 
+# ────────────────────────────────────────────────────────────────────────── catch-up: which pass is overdue?
+
+SLOTS = [("movers", 8 * 60 + 5), ("movers", 11 * 60 + 5), ("edition", 15 * 60 + 20)]   # Mountain time, weekdays
+
+
+def due_pass(now_utc: datetime | None = None) -> str | None:
+    """GitHub drops and delays cron runs, so the hourly pinger-driven build asks: is a Market Desk pass
+    overdue? Returns 'movers' / 'edition' for the earliest slot of today that has come round with no
+    artifact printed since it, else None."""
+    now = (now_utc or datetime.now(timezone.utc)).astimezone(ZoneInfo("America/Denver"))
+    if now.weekday() >= 5:
+        return None
+    today = now.date().isoformat()
+    mins = now.hour * 60 + now.minute
+    mover_times = []
+    for f in (DATA / "movers").glob(f"{today}-????.json") if (DATA / "movers").is_dir() else []:
+        hhmm = f.stem[-4:]
+        mover_times.append(int(hhmm[:2]) * 60 + int(hhmm[2:]))
+    edition_time = None
+    ep = edition_path(today)
+    if ep.is_file():
+        try:
+            gen = datetime.fromisoformat(json.loads(ep.read_text(encoding="utf-8"))["generated"]).astimezone(ZoneInfo("America/Denver"))
+            edition_time = gen.hour * 60 + gen.minute if gen.date().isoformat() == today else None
+        except Exception:  # noqa: BLE001
+            edition_time = None
+    for kind, slot in SLOTS:
+        if mins < slot:
+            break
+        if kind == "movers" and any(t >= slot - 10 for t in mover_times):
+            continue
+        if kind == "edition" and edition_time is not None and edition_time >= slot - 10:
+            continue
+        # a movers slot is also satisfied by any later edition (the edition runs movers itself)
+        if kind == "movers" and edition_time is not None and edition_time >= slot:
+            continue
+        return kind
+    return None
+
+
 # ────────────────────────────────────────────────────────────────────────── main
 
 def main() -> int:
@@ -1285,8 +1325,17 @@ def main() -> int:
     sub.add_parser("run")
     sub.add_parser("movers")
     sub.add_parser("lists")
+    sub.add_parser("due")
     a = ap.parse_args()
     cfg = load_cfg()
+
+    if a.cmd == "due":
+        kind = due_pass()
+        print(kind or "none")
+        if os.environ.get("GITHUB_OUTPUT"):
+            with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+                fh.write("desk=" + (kind or "none") + chr(10))
+        return 0
 
     if a.cmd == "movers":
         save_movers(movers(cfg))
