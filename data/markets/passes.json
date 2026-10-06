@@ -1,42 +1,5 @@
 [
 {
-"kind": "edition",
-"date": "2026-10-05",
-"at": "2026-10-06T03:56:04+00:00",
-"href": "2026-10-05.html",
-"syms": [
-"SPCX",
-"TSM",
-"NVDA",
-"SHOP",
-"ABBV",
-"CLH",
-"PANW",
-"LRCX",
-"V",
-"ISRG"
-],
-"heads": [
-"SpaceX Jumps 7.6% On Volume, Now Extended Past Buy Point",
-"TSM Clears 479.10 Pivot, Hits New High On Terafab Buzz",
-"Nvidia Clears 236.64 Pivot, Hits New High On AI Demand",
-"Shopify Breaks Out Past 158.97 Pivot On Light Volume",
-"AbbVie Bounces Off 50-Day Line, Nears 267.57 Buy Point",
-"Clean Harbors Bounces Off 50-Day Line, Still Below Pivot",
-"Palo Alto Networks Breaks Out On Light Volume, Hits High",
-"Lam Research Dips Back To 345.38 Pivot After Breakout",
-"Visa Bounces Off 50-Day Line, 4% Below 385.67 Pivot",
-"Intuitive Surgical Holds 405.44 Pivot Five Days Post-Breakout",
-"New America: Taiwan Semiconductor Leads The Foundry Business Into New High Ground",
-"Investor's Corner: How To Buy A Breakout: Lessons From SpaceX's Confirmed Move"
-],
-"extra": "Uptrend under pressure",
-"live": false,
-"day": 1,
-"pass": 1,
-"no": "1.1"
-},
-{
 "kind": "movers",
 "date": "2026-10-05",
 "at": "2026-10-06T03:56:07+00:00",
@@ -62,7 +25,72 @@
 "extra": "3 qualifiers",
 "live": false,
 "day": 1,
+"pass": 1,
+"no": "1.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-05",
+"at": "2026-10-06T04:11:34+00:00",
+"href": "movers/2026-10-05-2211.html",
+"syms": [
+"PTC",
+"ECHO",
+"ABBV",
+"CTVA",
+"MDT",
+"NU",
+"MELI",
+"VST",
+"FICO",
+"EFX",
+"TSCO"
+],
+"heads": [
+"PTC +33.5% on 19.5x volume, breakout past buy point, already extended",
+"ECHO +4.2% on 1.9x volume, still in buy range after breakout",
+"ABBV +1.1% on 1.6x volume, bounce off 50-day line"
+],
+"extra": "3 qualifiers",
+"live": false,
+"day": 1,
 "pass": 2,
 "no": "1.2"
+},
+{
+"kind": "edition",
+"date": "2026-10-05",
+"at": "2026-10-06T04:13:29+00:00",
+"href": "2026-10-05.html",
+"syms": [
+"SPCX",
+"TSM",
+"NVDA",
+"SHOP",
+"ABBV",
+"CLH",
+"PANW",
+"LRCX",
+"V",
+"ISRG"
+],
+"heads": [
+"SpaceX Extended After 8.1% Run Past 158.23 IPO Base Buy Point",
+"Taiwan Semi Clears 479.10 Cup Buy Point On Terafab Talks News",
+"Nvidia Breaks Out Past 236.64 Buy Point From 20-Week Cup",
+"Shopify Clears 158.97 Buy Point On Below-Average Volume",
+"AbbVie Bounces Off 50-Day Line On Lymphoma Trial Win",
+"Clean Harbors Bounces Off 50-Day Line After Closing Two Acquisitions",
+"Palo Alto Holds In Buy Range As RS Line Hits New High",
+"Lam Research Slips Back Toward 345.38 Buy Point On Light Volume",
+"Visa Retakes 50-Day Line But Sits 4.1% Below Buy Point",
+"Intuitive Surgical Hugs 405.44 Buy Point A Week After Breakout",
+"New America: Arm Holdings Holds Buy Range After Heavy-Volume Cup Breakout"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 1,
+"pass": 3,
+"no": "1.3"
 }
 ]
