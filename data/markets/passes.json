@@ -200,5 +200,80 @@
 "day": 2,
 "pass": 3,
 "no": "2.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-06",
+"at": "2026-10-06T21:31:48+00:00",
+"href": "movers/2026-10-06-1531.html",
+"syms": [
+"TLN",
+"CIEN",
+"MRVL",
+"ALAB",
+"CEG",
+"CTVA",
+"VST",
+"STZ",
+"PEG",
+"LEU",
+"CCJ",
+"DHI",
+"XYL",
+"PL",
+"XEL",
+"BWXT",
+"OKLO",
+"LEN",
+"AEE",
+"ASTS"
+],
+"heads": [
+"TLN +12.4% on 3.2x volume, big move on the day",
+"CIEN +13.8% on 2.6x volume, big move on the day",
+"MRVL +5.8% on 2.4x volume, big move on the day",
+"ALAB +7.6% on 1.6x volume, breakout past buy point, already extended"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 2,
+"pass": 4,
+"no": "2.4"
+},
+{
+"kind": "edition",
+"date": "2026-10-06",
+"at": "2026-10-06T21:33:35+00:00",
+"href": "2026-10-06.html",
+"syms": [
+"ANET",
+"NVDA",
+"ALAB",
+"TMO",
+"ZETA",
+"ABBV",
+"TSM",
+"FAST",
+"ULTA",
+"V"
+],
+"heads": [
+"Arista Networks Rises 4% As AI Networking Demand Lifts Gear Makers",
+"Nvidia Edges Higher, Holds Near Peak As Tech Giants Carry Rally",
+"Astera Labs Jumps 7.6%, Sets Third-Quarter Earnings Call; Still Below June Peak",
+"Thermo Fisher Slides 3% In Heavy Trade Despite New Clinical Trial Contract",
+"Zeta Global Names New UK President As Shares Hold Narrow Gain",
+"AbbVie Edges Up After Lymphoma Drug With Genmab Scores In Trial",
+"Taiwan Semiconductor Slips From Record Area Ahead Of Oct. 15 Earnings",
+"Fastenal Holds Steady As Third-Quarter Earnings Report Nears On Oct. 14",
+"Ulta Beauty Edges Up After Raising Outlook On E-Commerce Momentum",
+"Visa Extends OpenTable Deal, Finds Asian Appetite For Stablecoins",
+"New America: Hewlett Packard Enterprise Gains 193.4% This Year As Earnings Surge"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 2,
+"pass": 5,
+"no": "2.5"
 }
 ]
