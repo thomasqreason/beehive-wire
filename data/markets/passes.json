@@ -337,5 +337,26 @@
 "day": 3,
 "pass": 1,
 "no": "3.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-07",
+"at": "2026-10-07T18:57:11+00:00",
+"href": "movers/2026-10-07-1257.html",
+"syms": [
+"VST",
+"VRSN",
+"STZ",
+"CTVA"
+],
+"heads": [
+"VST +3.9% on 2.1x volume, nearing buy point",
+"VRSN +1.9% on 2.1x volume, bounce off 50-day line"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 3,
+"pass": 2,
+"no": "3.2"
 }
 ]
