@@ -10,10 +10,14 @@ name: market-desk
 on:
   schedule:
     # UTC. During Mountain daylight time: 14:05 = 8:05am, 17:05 = 11:05am, 21:20 = 3:20pm.
-    # When Mountain falls back in November, add one hour to each: "5 15", "5 18", "20 22".
-    - cron: "5 14 * * 1-5"
-    - cron: "5 17 * * 1-5"
-    - cron: "20 21 * * 1-5"
+    # GitHub drops scheduled runs outright some days (Oct 7, 2026: neither the 8:05 nor the 11:05 fired),
+    # so each slot gets three shots twenty minutes apart. The check job stands the extras down once a
+    # pass has printed, so a slot is never printed twice. The cron-job.org pinger (via build.yml's check
+    # job) and the hourly siren are the real safety net; these are the backup clock.
+    # When Mountain falls back in November, add one hour to each: "5,25,45 15", "5,25,45 18", "20,40 22".
+    - cron: "5,25,45 14 * * 1-5"
+    - cron: "5,25,45 17 * * 1-5"
+    - cron: "20,40 21 * * 1-5"
   workflow_dispatch:
     inputs:
       mode:
@@ -21,6 +25,10 @@ on:
         type: choice
         options: [edition, movers, lists, corner]
         default: edition
+      catchup:
+        description: "Catch-up run (sent by build.yml or breaking.yml): stand down if the overdue pass has since printed"
+        type: boolean
+        default: false
       run_at:
         description: "Optional: hold this run until a UTC time today, HH:MM (e.g. 18:00 = noon Mountain in daylight time)"
         type: string
@@ -49,8 +57,49 @@ jobs:
           fi
       - run: echo "go"
 
+  # Should this run print at all? Scheduled runs and catch-up dispatches ask markets.py which pass, if any,
+  # is overdue; if none is, the run stands down here (no prices pulled, no Claude call). A hand-run always goes.
+  # Takes the build lock so it reads the artifacts AFTER any pass that is printing right now has finished.
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: build
+      cancel-in-progress: false
+    outputs:
+      go: ${{ steps.due.outputs.go }}
+      mode: ${{ steps.due.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                  # the branch as it is NOW, not as it was when the run was queued
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q pyyaml
+      - id: due
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.catchup }}" != "true" ]; then
+            echo "Hand-run: this run goes (mode=${{ inputs.mode }})."
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          due=$(python markets.py due)
+          if [ "$due" = "none" ] || [ -z "$due" ]; then
+            echo "No Market Desk pass is overdue. This run stands down."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+            echo "mode=none" >> "$GITHUB_OUTPUT"
+          else
+            echo "The $due pass is overdue. This run goes."
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+            echo "mode=$due" >> "$GITHUB_OUTPUT"
+          fi
+
   desk:
-    needs: hold
+    needs: [hold, check]
+    if: needs.check.outputs.go == 'yes'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     concurrency:
@@ -72,12 +121,12 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      # Which pass is this? Scheduled runs before 20:00 UTC are intraday movers passes; the late one is the edition.
+      # Which pass is this? The check job decided: the hand-run's input, or whichever pass markets.py says is overdue.
       - name: Decide the pass
         id: mode
         run: |
-          mode="${{ inputs.mode }}"
-          if [ -z "$mode" ]; then
+          mode="${{ needs.check.outputs.mode }}"
+          if [ -z "$mode" ] || [ "$mode" = "none" ]; then
             if [ "$(date -u +%H)" -lt 20 ]; then mode=movers; else mode=edition; fi
           fi
           friday=no; [ "$(TZ=America/Denver date +%u)" = "5" ] && friday=yes

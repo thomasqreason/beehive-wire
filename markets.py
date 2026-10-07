@@ -1308,6 +1308,7 @@ def due_pass(now_utc: datetime | None = None) -> str | None:
             edition_time = gen.hour * 60 + gen.minute if gen.date().isoformat() == today else None
         except Exception:  # noqa: BLE001
             edition_time = None
+    overdue = []
     for kind, slot in SLOTS:
         if mins < slot:
             break
@@ -1318,8 +1319,11 @@ def due_pass(now_utc: datetime | None = None) -> str | None:
         # a movers slot is also satisfied by any later edition (the edition runs movers itself)
         if kind == "movers" and edition_time is not None and edition_time >= slot:
             continue
-        return kind
-    return None
+        overdue.append(kind)
+    if not overdue:
+        return None
+    # the edition prints its own movers list, so once its slot has come round it settles everything at once
+    return "edition" if "edition" in overdue else overdue[0]
 
 
 # ────────────────────────────────────────────────────────────────────────── main

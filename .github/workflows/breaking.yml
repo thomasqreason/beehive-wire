@@ -59,6 +59,23 @@ jobs:
           echo "The ${{ steps.overdue.outputs.slot }} edition for ${{ steps.overdue.outputs.date }} has not printed (${{ steps.overdue.outputs.overdue_min }} min past the slot). Dispatching build.yml."
           gh workflow run build.yml --ref main -f catchup=true
 
+      # 0b. Same for the Market Desk (8:05, 11:05, 3:20 Mountain, weekdays). GitHub dropped both morning
+      #     passes on Oct 7, 2026 and nothing noticed until a reader did. markets.py reads the printed
+      #     artifacts, and markets.yml checks again before it prints, so nothing runs twice.
+      - name: Is a Market Desk pass overdue?
+        id: desk
+        run: python markets.py due
+
+      - name: Send the overdue Market Desk pass
+        if: steps.desk.outputs.desk != 'none' && steps.desk.outputs.desk != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          echo "Market Desk ${{ steps.desk.outputs.desk }} pass is overdue. Dispatching markets.yml."
+          gh workflow run markets.yml --ref main -f mode=${{ steps.desk.outputs.desk }} -f catchup=true
+
       # 1. Free: is anything actually surging?
       - name: Watch the wire
         run: python breaking.py --emit-payload data/build/breaking.json

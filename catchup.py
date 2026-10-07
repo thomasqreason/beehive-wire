@@ -33,6 +33,7 @@ from zoneinfo import ZoneInfo
 import build
 
 GRACE_MIN = 45   # build.py's own grace: a run that fires this much before a slot belongs to that slot
+EARLY_MIN = 15   # a cron or catch-up run may start this early (the pinger fires at :50 for a :00 slot)
 
 
 def clock(dt: datetime) -> str:
@@ -74,7 +75,11 @@ def answer(cfg: dict, now: datetime, event: str, catchup_run: bool, min_overdue:
     elif event == "workflow_dispatch" and not catchup_run:
         go = True                                  # a hand-run always prints, even a re-print
     else:
-        go = printed_at is None                    # cron and catch-up runs stand down if it's out
+        # cron and catch-up runs stand down if it's out. The pinger fires at :50, ten minutes BEFORE
+        # the slot, so the ~20-minute build lands on time; that early start is allowed (EARLY_MIN).
+        # A ping that lands earlier still (:10, :25) waits for the clock rather than printing early,
+        # which lets the pinger run several times an hour for the Market Desk's sake.
+        go = printed_at is None and overdue >= -EARLY_MIN
     catchup = printed_at is None and overdue >= min_overdue
 
     return {

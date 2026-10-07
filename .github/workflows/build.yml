@@ -71,7 +71,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           echo "Market Desk ${{ steps.desk.outputs.desk }} pass is overdue. Dispatching markets.yml."
-          gh workflow run markets.yml --ref main -f mode=${{ steps.desk.outputs.desk }}
+          gh workflow run markets.yml --ref main -f mode=${{ steps.desk.outputs.desk }} -f catchup=true
 
   build:
     needs: check
