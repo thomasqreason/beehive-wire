@@ -41,8 +41,8 @@
   function show(sym){
     scrim.classList.add('on');body.className='wait';body.textContent='Loading '+sym+'…';
     fetch('series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
-      var b=d.base||{},h='<div class="kick"><span class="st">'+esc(STATUS[d.status]||d.status||'')+'</span>'+esc(d.name||d.sym)+' ('+esc(d.sym)+')</div>';
-      h+='<h2>'+esc(d.sym)+' '+f2(d.close)+' <span class="'+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
+      var b=d.base||{},h='<div class="kick"><span class="st">'+esc(STATUS[d.status]||d.status||'')+'</span>'+esc(d.industry||'')+'</div>';
+      h+='<h2>'+esc(d.sym)+(d.name?' <span class="nm">&middot; '+esc(d.name)+'</span>':'')+' '+f2(d.close)+' <span class="'+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
       h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+chart(d);
       h+='<div class="facts">';
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');

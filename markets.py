@@ -811,6 +811,8 @@ def render_site(site_cfg: dict | None = None) -> int:
     ls = load_lists()
     if ls and ls.get("date"):
         ls["human"] = human_date(ls["date"])
+        q = datetime.fromisoformat(ls["quotes_as_of"]).astimezone(tz) if ls.get("quotes_as_of") else datetime.fromisoformat(ls["generated"]).astimezone(tz)
+        ls["quotes_human"] = q.strftime("%A %I:%M %p %Z").replace(" 0", " ")
     # The page is dated by its freshest pass: an intraday movers run makes it today's page even while the
     # written edition below still reflects yesterday's close.
     for i, e in enumerate(eds):
@@ -1100,6 +1102,10 @@ def movers(cfg: dict) -> dict:
                      from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"))
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
+    try:
+        refresh_lists(prices, bench, cfg, rs_rank_of, now, live)
+    except Exception as e:  # noqa: BLE001
+        log(f"list quote refresh failed ({e}); the lists keep their last quotes")
     if not live and after_hours_window(now):
         ahq = after_hours([r["sym"] for r in ups + downs], {r["sym"]: r["close"] for r in ups + downs})
         for r in ups + downs:
@@ -1115,6 +1121,54 @@ def movers(cfg: dict) -> dict:
     return out
 
 
+NAMES_FILE = DATA / "names.json"
+
+
+def identities(syms: list[str], max_fetch: int = 40) -> dict:
+    """{sym: {"name", "industry"}} for the chart headers. Reads the fundamentals cache first (any age — a company's
+    name and industry do not go stale), then a small names cache, and fetches at most `max_fetch` unknown names
+    per run so a pass never stalls on Yahoo; the rest fill in over the next passes."""
+    out, names = {}, {}
+    if NAMES_FILE.is_file():
+        try:
+            names = json.loads(NAMES_FILE.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            names = {}
+    missing = []
+    for sym in dict.fromkeys(syms):
+        fc = FUND_CACHE / f"{sym}.json"
+        if fc.is_file():
+            try:
+                c = json.loads(fc.read_text(encoding="utf-8"))
+                if c.get("name"):
+                    out[sym] = {"name": c.get("name"), "industry": c.get("industry")}
+                    continue
+            except Exception:  # noqa: BLE001
+                pass
+        if sym in names and names[sym].get("name"):
+            out[sym] = names[sym]
+            continue
+        missing.append(sym)
+    if missing:
+        import yfinance as yf
+        fetched = 0
+        for sym in missing[:max_fetch]:
+            try:
+                info = yf.Ticker(sym).info or {}
+                nm = info.get("longName") or info.get("shortName")
+                if nm:
+                    names[sym] = out[sym] = {"name": nm, "industry": info.get("industry")}
+                    fetched += 1
+            except Exception as e:  # noqa: BLE001
+                log(f"{sym}: name lookup failed ({e})")
+            time.sleep(0.15)
+        if fetched:
+            DATA.mkdir(parents=True, exist_ok=True)
+            NAMES_FILE.write_text(json.dumps(names, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")
+        log(f"identities: {len(out)} known, {fetched} fetched, {max(0, len(missing) - max_fetch)} left for later passes")
+    return out
+
+
 SERIES_DIR = DATA / "series"
 
 
@@ -1123,12 +1177,15 @@ def save_series(facts: list[dict]) -> int:
     Overwritten on every scan that touches the symbol; copied into site/markets/series/ at render."""
     SERIES_DIR.mkdir(parents=True, exist_ok=True)
     n = 0
+    ids = identities([f["sym"] for f in facts if f.get("series") and not (f.get("name") and f.get("industry"))])
     for f in facts:
         s = f.get("series")
         if not s:
             continue
         b = f.get("base") or {}
-        doc = {"sym": f["sym"], "name": f.get("name"), "date": f["date"], "close": f["close"], "chg": f.get("chg"), "chg_pct": f.get("chg_pct"),
+        ident = ids.get(f["sym"]) or {}
+        doc = {"sym": f["sym"], "name": f.get("name") or ident.get("name"), "industry": f.get("industry") or ident.get("industry"),
+               "date": f["date"], "close": f["close"], "chg": f.get("chg"), "chg_pct": f.get("chg_pct"),
                "status": f.get("status"), "angle": f.get("angle") or angle(f), "rs_rank": f.get("rs_rank"), "vol_ratio": f.get("vol_ratio"),
                "from_pivot": f.get("from_pivot"), "hi52": f.get("hi52"), "from_hi52": f.get("from_hi52"), "vs_sma50": f.get("vs_sma50"),
                "ipo_sessions": f.get("ipo_sessions"),
@@ -1325,6 +1382,42 @@ def leader_lists(cfg: dict) -> dict:
                       "big_cap_min": big_min, "min_price": m.get("min_price", 15), "min_dollar_volume": m.get("min_dollar_volume", 20_000_000)}}
     log(f"beehive 50: {', '.join(r['sym'] for r in b50[:10])} …  big cap 20: {', '.join(r['sym'] for r in b20[:8])} …")
     return out
+
+
+def refresh_lists(prices: dict, bench, cfg: dict, rs_rank_of, now: datetime, live: bool) -> None:
+    """Every pass re-quotes the Beehive 50 and Big Cap 20 from the prices the movers pass already downloaded:
+    last price, day change, RS rank, chart status, buy point and distance from it. Ranks, scores and the
+    fundamentals stay as the Friday rebuild set them. Costs nothing extra — no new downloads, no Claude."""
+    ls = load_lists()
+    if not ls:
+        return
+    facts, n = [], 0
+    for key in ("beehive50", "bigcap20"):
+        for r in ls.get(key) or []:
+            d = prices.get(r["sym"])
+            if d is None or len(d) < 55:
+                continue
+            try:
+                f = analyze(r["sym"], d, bench, cfg)
+            except Exception as e:  # noqa: BLE001
+                log(f"{r['sym']}: list refresh failed ({e})")
+                f = None
+            if not f:
+                continue
+            b = f.get("base") or {}
+            f["rs_rank"] = rs_rank_of(r["sym"]) or r.get("rs_rank")
+            f["name"], f["industry"] = r.get("name") or f.get("name"), r.get("industry")
+            r.update(close=f["close"], chg_pct=f.get("chg_pct"), rs_rank=f["rs_rank"], status=f["status"], from_pivot=f.get("from_pivot"),
+                     from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"),
+                     buy_point=b.get("buy_point"), buy_max=b.get("buy_max"), base_kind=b.get("kind"))
+            facts.append(f)
+            n += 1
+    ls["quotes_as_of"] = now.isoformat(timespec="seconds")
+    ls["quotes_live"] = live
+    DATA.mkdir(parents=True, exist_ok=True)
+    (DATA / "lists-latest.json").write_text(json.dumps(ls, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    save_series(facts)
+    log(f"lists re-quoted: {n} names ({'live' if live else 'at the close'})")
 
 
 def save_lists(ls: dict) -> Path:

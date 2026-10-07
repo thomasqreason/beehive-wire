@@ -201,9 +201,9 @@
   </table></div>
   {% endmacro %}
   {{ ltable(lists.beehive50, "beehive50", "The Beehive 50",
-     "The desk's own growth-leader list, rebuilt after Friday's close (" ~ lists.human ~ "). Not IBD's list. Universe: S&P 500, Nasdaq-100 and the desk list, price $" ~ lists.method.min_price ~ "+, $" ~ (lists.method.min_dollar_volume / 1e6)|int ~ "M+ daily dollar volume; a name needs EPS growth " ~ lists.method.min_eps_growth ~ "%+ or revenue growth " ~ lists.method.min_rev_growth ~ "%+ in its latest quarter. Score = " ~ lists.method.rs ~ "% RS rank + " ~ lists.method.eps ~ "% EPS growth + " ~ lists.method.rev ~ "% revenue growth + " ~ lists.method.tech ~ "% chart (above the 50- and 200-day lines, within 15% of the high, in a buyable pattern; bonuses for an RS-line high and accelerating EPS). Number in parentheses is last week's rank; ↑ marks EPS growth faster than the prior quarter.") }}
+     "The desk's own growth-leader list, rebuilt after Friday's close (" ~ lists.human ~ "). Not IBD's list. Universe: S&P 500, Nasdaq-100 and the desk list, price $" ~ lists.method.min_price ~ "+, $" ~ (lists.method.min_dollar_volume / 1e6)|int ~ "M+ daily dollar volume; a name needs EPS growth " ~ lists.method.min_eps_growth ~ "%+ or revenue growth " ~ lists.method.min_rev_growth ~ "%+ in its latest quarter. Score = " ~ lists.method.rs ~ "% RS rank + " ~ lists.method.eps ~ "% EPS growth + " ~ lists.method.rev ~ "% revenue growth + " ~ lists.method.tech ~ "% chart (above the 50- and 200-day lines, within 15% of the high, in a buyable pattern; bonuses for an RS-line high and accelerating EPS). Number in parentheses is last week's rank; ↑ marks EPS growth faster than the prior quarter. Last price, RS, chart status and buy point re-quoted every pass — as of " ~ lists.quotes_human ~ (", live" if lists.quotes_live else "") ~ ".") }}
   {{ ltable(lists.bigcap20, "bigcap20", "The Big Cap 20",
-     "Same score, restricted to companies worth $" ~ (lists.method.big_cap_min / 1e9)|int ~ "B or more, no growth floor. Rebuilt " ~ lists.human ~ ".") }}
+     "Same score, restricted to companies worth $" ~ (lists.method.big_cap_min / 1e9)|int ~ "B or more, no growth floor. Rebuilt " ~ lists.human ~ "; quotes as of " ~ lists.quotes_human ~ ".") }}
   {% endif %}
 
   {% if ed.lists %}
