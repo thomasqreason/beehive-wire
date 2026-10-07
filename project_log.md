@@ -78,3 +78,5 @@ This repository holds two things:
 1. Open the email's "Open indexing report", tap "Page with redirect" and look at the example addresses.
 2. If they are http://, www., or no-trailing-slash versions, ignore them; they're fine.
 3. If real pages that should be in Google are listed, or the sitemap contains them, send Claude the list to fix.
+
+**Update, same day:** the email was about **utahhomesguide.com**. The Search Console Pages report (last updated 10/3/26) shows **2.94K pages indexed and 4.13K not indexed, for 5 reasons**. Indexing started around 9/5/26, when the site went from zero indexed pages. Much of the "not indexed" group is expected: about 1,200–1,900 thin trade-city pages carry a deliberate noindex tag, and Google is slow to index thousands of new pages. Next: the owner scrolls down to the "Why pages aren't indexed" table and shares the 5 reasons with their counts.
