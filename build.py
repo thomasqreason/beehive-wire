@@ -657,7 +657,11 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
     if current and cap_churn:
         adds = [it for it in items if it["id"] not in current]
         shortfall = max(0, room - len(state.get("items", [])))  # empty slots (aged-out stories) may always be filled
-        allowed = max_swaps + 3 + shortfall
+        # Hard fifty (Oct 7, 2026): the page as a whole gets max_swaps new stories, so a new top or flash line
+        # counts against it. No slack, and aged-out slots no longer stack on top of the fifty; they only raise
+        # the ceiling when more than max_swaps slots are actually empty.
+        new_up_top = sum(1 for x in ([top] if top else []) + flash if x["id"] not in current)
+        allowed = max(max_swaps - new_up_top, shortfall, 0)
         if len(adds) > allowed:
             log(f"editor over-swapped ({len(adds)} adds); trimming to {allowed}")
             keep_add = {a["id"] for a in adds[:allowed]}
@@ -688,6 +692,11 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
     seen = {k: v for k, v in (state.get("seen") or {}).items() if (hours_since(v, now) or 0) <= 72}
     for c in cands:
         seen.setdefault(c["id"], iso(now))
+
+    if current and cap_churn:
+        fresh_n = sum(1 for x in ([top] if top else []) + flash + items if x["id"] not in current)
+        if fresh_n != max_swaps:
+            log(f"hard fifty: this edition has {fresh_n} new stories, the rule is {max_swaps}")
 
     new_state = {
         "updated": iso(now),

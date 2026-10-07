@@ -21,7 +21,7 @@ page:
 # Tuned for TWO builds a day (morning and late afternoon). If you move to a faster
 # cadence, drop max_swaps_per_run to ~4 and max_story_age_hours to ~36.
 rolling:
-  max_swaps_per_run: 50            # half the page turns over each build: about fifty new, about fifty held over
+  max_swaps_per_run: 50            # HARD RULE (Oct 7, 2026): exactly fifty new and fifty held over, every edition
   max_story_age_hours: 60          # a story can live across ~5 builds before it is dropped
   top_story_max_age_hours: 16      # the giant headline is re-picked every build
   candidate_window_hours: 26       # double-covers the ~12h gap, so a skipped run loses nothing
