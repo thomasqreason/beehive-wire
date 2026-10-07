@@ -80,3 +80,14 @@ This repository holds two things:
 3. If real pages that should be in Google are listed, or the sitemap contains them, send Claude the list to fix.
 
 **Update, same day:** the email was about **utahhomesguide.com**. The Search Console Pages report (last updated 10/3/26) shows **2.94K pages indexed and 4.13K not indexed, for 5 reasons**. Indexing started around 9/5/26, when the site went from zero indexed pages. Much of the "not indexed" group is expected: about 1,200–1,900 thin trade-city pages carry a deliberate noindex tag, and Google is slow to index thousands of new pages. Next: the owner scrolls down to the "Why pages aren't indexed" table and shares the 5 reasons with their counts.
+
+**Update, same day: the 5 reasons on utahhomesguide.com** (Search Console, data as of 10/3/26)
+- Discovered – currently not indexed: **3,954**. Google knows these addresses but hasn't visited them yet. This is the main issue.
+- Excluded by 'noindex' tag: **147**. These are deliberate. Correction to the note above: the count is lower than the ~1,200–1,900 noindexed pages because Google hasn't visited most of them yet. They are probably sitting in "Discovered".
+- Crawled – currently not indexed: **21**. Google visited these and chose not to index them. Watch this one: if it grows, Google thinks the pages are too thin or too similar.
+- Alternate page with proper canonical tag: **4**. Harmless.
+- Page with redirect: **1**. Harmless, and this single address is what triggered the email.
+
+**Conclusion:** nothing is broken. Google is crawling the site slowly, which is normal for a site that went from 1 to ~7,000 pages in September.
+
+**Watch:** if "Discovered" isn't shrinking by early November, or "Crawled – not indexed" climbs into the hundreds, treat it as Google judging the trade-city pages too templated (the doorway-page risk in section 8 of the Utah Homes Guide handoff doc). Then improve internal links and content on the pages that have providers.
