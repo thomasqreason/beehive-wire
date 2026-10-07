@@ -1,6 +1,6 @@
 name: market-desk
 
-# The Market Desk. Three passes a day, weekdays, all Mountain time:
+# The Market Desk. Three passes a day on NYSE trading days (weekdays minus exchange holidays), all Mountain time:
 #   8:05 a.m. and 11:05 a.m. — "Stocks on the Move": the biggest volume surges, projected to the full session, with
 #                              each name's chart status, so possible entries can be found before the close. No Claude call.
 #   3:20 p.m.                — the full edition: stories, New America, Investor's Corner (Fridays), the final movers list,

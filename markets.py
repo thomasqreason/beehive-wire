@@ -957,13 +957,79 @@ def broad_universe(cfg: dict) -> list[str]:
     return sorted(syms)
 
 
+# ────────────────────────────────────────────────────────────────────────── NYSE trading calendar
+
+def _easter(year: int):
+    """Western Easter Sunday (Anonymous Gregorian algorithm)."""
+    from datetime import date
+    a = year % 19; b, c = divmod(year, 100); d, e = divmod(b, 4); f = (b + 8) // 25
+    g = (b - f + 1) // 3; h = (19 * a + b - d - g + 15) % 30; i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7; m = (a + 11 * h + 22 * l) // 451
+    month, day = divmod(h + l - 7 * m + 114, 31)
+    return date(year, month, day + 1)
+
+
+def _nth_weekday(year: int, month: int, weekday: int, n: int):
+    """The n-th given weekday of a month (n=-1 for the last)."""
+    from datetime import date, timedelta
+    if n > 0:
+        d = date(year, month, 1)
+        d += timedelta(days=(weekday - d.weekday()) % 7)
+        return d + timedelta(weeks=n - 1)
+    d = date(year + (month == 12), month % 12 + 1, 1) - timedelta(days=1)
+    return d - timedelta(days=(d.weekday() - weekday) % 7)
+
+
+def _observed(d):
+    """NYSE observance: a Saturday holiday closes Friday, a Sunday holiday closes Monday —
+    except New Year's Day on a Saturday, which the exchange does not observe on Dec 31."""
+    from datetime import timedelta
+    if d.weekday() == 5:
+        return None if (d.month == 1 and d.day == 1) else d - timedelta(days=1)
+    if d.weekday() == 6:
+        return d + timedelta(days=1)
+    return d
+
+
+def nyse_holidays(year: int) -> set:
+    """Full-day NYSE closures for a year (NYSE's standing holiday rules; special closures such as a
+    national day of mourning are not known in advance and are not here)."""
+    from datetime import date, timedelta
+    fixed = [date(year, 1, 1), date(year, 6, 19), date(year, 7, 4), date(year, 12, 25)]
+    floating = [
+        _nth_weekday(year, 1, 0, 3),      # Martin Luther King Jr. Day — third Monday in January
+        _nth_weekday(year, 2, 0, 3),      # Washington's Birthday — third Monday in February
+        _easter(year) - timedelta(days=2),  # Good Friday
+        _nth_weekday(year, 5, 0, -1),     # Memorial Day — last Monday in May
+        _nth_weekday(year, 9, 0, 1),      # Labor Day — first Monday in September
+        _nth_weekday(year, 11, 3, 4),     # Thanksgiving — fourth Thursday in November
+    ]
+    days = {_observed(d) for d in fixed} | set(floating)
+    days.discard(None)
+    return days
+
+
+def is_trading_day(d) -> bool:
+    """Weekday and not an NYSE holiday."""
+    return d.weekday() < 5 and d not in nyse_holidays(d.year)
+
+
+def nyse_early_close(d) -> bool:
+    """1:00 p.m. Eastern closes: the day after Thanksgiving, and July 3 / December 24 when they fall on a
+    weekday that is itself a trading day."""
+    from datetime import date, timedelta
+    if d == _nth_weekday(d.year, 11, 3, 4) + timedelta(days=1):
+        return True
+    return d in (date(d.year, 7, 3), date(d.year, 12, 24)) and is_trading_day(d)
+
+
 def session_fraction(now_utc: datetime) -> tuple[float, bool]:
     """How much of the regular session (9:30-16:00 Eastern) has elapsed, and whether we are inside it."""
     et = now_utc.astimezone(ZoneInfo("America/New_York"))
-    if et.weekday() >= 5:
+    if not is_trading_day(et.date()):
         return 1.0, False
     mins = et.hour * 60 + et.minute
-    start, end = 9 * 60 + 30, 16 * 60
+    start, end = 9 * 60 + 30, (13 * 60 if nyse_early_close(et.date()) else 16 * 60)
     if mins <= start + 5:
         return 0.0, False
     if mins >= end:
@@ -1290,9 +1356,9 @@ SLOTS = [("movers", 8 * 60 + 5), ("movers", 11 * 60 + 5), ("edition", 15 * 60 + 
 def due_pass(now_utc: datetime | None = None) -> str | None:
     """GitHub drops and delays cron runs, so the hourly pinger-driven build asks: is a Market Desk pass
     overdue? Returns 'movers' / 'edition' for the earliest slot of today that has come round with no
-    artifact printed since it, else None."""
+    artifact printed since it, else None. Never on a weekend or an NYSE holiday."""
     now = (now_utc or datetime.now(timezone.utc)).astimezone(ZoneInfo("America/Denver"))
-    if now.weekday() >= 5:
+    if not is_trading_day(now.date()):          # weekends and NYSE holidays: no passes
         return None
     today = now.date().isoformat()
     mins = now.hour * 60 + now.minute
