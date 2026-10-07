@@ -358,5 +358,63 @@
 "day": 3,
 "pass": 2,
 "no": "3.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-07",
+"at": "2026-10-07T22:28:38+00:00",
+"href": "movers/2026-10-07-1628.html",
+"syms": [
+"VST",
+"TLN",
+"CTVA",
+"STZ",
+"NRG"
+],
+"heads": [
+"VST +3.9% on 2.3x volume, nearing buy point",
+"TLN +1.4% on 1.7x volume, in base"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 3,
+"pass": 3,
+"no": "3.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-07",
+"at": "2026-10-07T22:30:49+00:00",
+"href": "2026-10-07.html",
+"syms": [
+"ANET",
+"ABBV",
+"ALAB",
+"MU",
+"ZETA",
+"PANW",
+"PFE",
+"V",
+"NVDA",
+"NET"
+],
+"heads": [
+"Arista Networks Unveils Rack-Scale AI Fabrics, Holds Near 52-Week High",
+"AbbVie Rises 1.8% As FDA Grants Two Breakthrough Therapy Designations",
+"Astera Labs Sets Earnings Call As Stock Gives Back 1.9%",
+"Micron Jumps 4.1% On Street-High Price Target, AI Demand",
+"Zeta Global Climbs 2.4% As It Expands AI Arsenal With Buyout",
+"Palo Alto Networks Drops 3.4% After Tuesday's Cybersecurity Rally",
+"Pfizer Rises 1.8% After FDA Approves Tukysa Regimen For Breast Cancer",
+"Visa Edges Higher Ahead Of Oct. 27 Earnings; Ackman Bullish",
+"Nvidia Dips 0.7% On Light Volume After Earning About Twice Apple",
+"Cloudflare Falls 3.4% In Light Trade As Basin Data Platform Expands",
+"New America: Quanta Services Wires The Data Center Boom As Profit Nearly Doubles"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 3,
+"pass": 4,
+"no": "3.4"
 }
 ]
