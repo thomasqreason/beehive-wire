@@ -308,5 +308,34 @@
 "day": 2,
 "pass": 6,
 "no": "2.6"
+},
+{
+"kind": "movers",
+"date": "2026-10-07",
+"at": "2026-10-07T14:34:01+00:00",
+"href": "movers/2026-10-07-0834.html",
+"syms": [
+"VRSN",
+"INTC",
+"HPE",
+"NTAP",
+"BIIB",
+"VST",
+"CTVA",
+"KR",
+"TJX"
+],
+"heads": [
+"VRSN +1.7% on 6.8x volume, bounce off 50-day line",
+"INTC +1.5% on 2.1x volume, extended",
+"HPE +2.2% on 1.6x volume, new 52-week high",
+"NTAP +2.4% on 1.6x volume, new 52-week high",
+"BIIB +1.1% on 1.5x volume, still in buy range after breakout"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 3,
+"pass": 1,
+"no": "3.1"
 }
 ]
