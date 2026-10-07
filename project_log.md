@@ -56,3 +56,25 @@ This repository holds two things:
 2. Put the KSL wording, the rates and the unit details into `utahhomesguide/build_units.py`, rebuild, and re-make the zips.
 3. Upload to SiteGround. In Site Tools → File Manager → `public_html`, upload each zip and extract it, add the photos to `1077A/photos` and `1077B/photos`, then purge the cache.
 4. Open https://utahhomesguide.com/1077A/ and /1077B/ on a phone to check them, then send the links to tenants.
+
+---
+
+## 2026-10-07 — Google Search Console "Page with redirect" email
+
+**Worked on**
+- The owner got a Search Console email: "New reason preventing your pages from being indexed: Page with redirect". The screenshot didn't show which property it was about (utahhomesguide.com or beehivewire.com).
+- No code changed. Explained what it means and how to check it.
+
+**Decisions and why**
+- No fix yet. "Page with redirect" means Google found a web address that forwards to a different address, so it indexes the destination and not the forwarding one. That is usually harmless and expected. Common causes are http → https, www → no-www, and WordPress adding a trailing slash (/plumber-sandy → /plumber-sandy/). Action is only needed if real pages are dropping out of Google, or if the sitemap lists addresses that redirect.
+
+**Status**
+- Not investigated in Search Console. This cloud session can't log in there, and utahhomesguide.com is blocked by its network.
+
+**Blockers and open questions**
+- Which property sent the email, and which addresses are listed under "Page with redirect" in the indexing report?
+
+**Next steps**
+1. Open the email's "Open indexing report", tap "Page with redirect" and look at the example addresses.
+2. If they are http://, www., or no-trailing-slash versions, ignore them; they're fine.
+3. If real pages that should be in Google are listed, or the sitemap contains them, send Claude the list to fix.
