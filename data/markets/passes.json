@@ -416,5 +416,32 @@
 "day": 3,
 "pass": 4,
 "no": "3.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-08",
+"at": "2026-10-08T15:40:50+00:00",
+"href": "movers/2026-10-08-0940.html",
+"syms": [
+"PLTR",
+"GNRC",
+"ASML",
+"MDT",
+"CMG",
+"PEP",
+"FICO",
+"STZ",
+"ROL"
+],
+"heads": [
+"PLTR +2.5% on 2.4x volume, nearing buy point",
+"GNRC +1.4% on 1.6x volume, in base",
+"ASML +1.2% on 1.5x volume, in base"
+],
+"extra": "3 qualifiers",
+"live": true,
+"day": 4,
+"pass": 1,
+"no": "4.1"
 }
 ]
