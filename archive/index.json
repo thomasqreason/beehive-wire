@@ -515,5 +515,16 @@
   "iso": "2026-10-07T06:28:06-06:00",
   "top": "PUTIN'S BIRTHDAY STRIKES KILL 19...",
   "count": 100
+ },
+ {
+  "no": 48,
+  "file": "2026-10-07-evening.html",
+  "date": "2026-10-07",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "8:10 p.m.",
+  "iso": "2026-10-07T20:10:09-06:00",
+  "top": "REPORT: TRUMP WEIGHS BOMBING IRAN BEFORE MIDTERMS...",
+  "count": 100
  }
 ]
