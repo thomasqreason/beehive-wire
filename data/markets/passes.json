@@ -443,5 +443,24 @@
 "day": 4,
 "pass": 1,
 "no": "4.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-08",
+"at": "2026-10-08T19:42:13+00:00",
+"href": "movers/2026-10-08-1342.html",
+"syms": [
+"MDT",
+"CMG",
+"FICO",
+"PEP",
+"WY"
+],
+"heads": [],
+"extra": "0 qualifiers",
+"live": true,
+"day": 4,
+"pass": 2,
+"no": "4.2"
 }
 ]
