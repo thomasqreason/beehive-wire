@@ -462,5 +462,81 @@
 "day": 4,
 "pass": 2,
 "no": "4.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-08",
+"at": "2026-10-08T21:26:25+00:00",
+"href": "movers/2026-10-08-1526.html",
+"syms": [
+"VRSN",
+"ACN",
+"CBOE",
+"DOW",
+"LYB",
+"MDT",
+"CMG",
+"PEP",
+"WY",
+"STZ",
+"HSIC",
+"FICO",
+"MCD",
+"ROL",
+"BRO",
+"CME",
+"EXR",
+"HD",
+"MKC",
+"AXP"
+],
+"heads": [
+"VRSN +1.2% on 2.5x volume, bounce off 50-day line",
+"ACN +6.0% on 2.0x volume, big move on the day",
+"CBOE +4.4% on 1.7x volume, big move on the day",
+"DOW +3.0% on 1.6x volume, in base",
+"LYB +3.2% on 1.6x volume, in base"
+],
+"extra": "5 qualifiers",
+"live": false,
+"day": 4,
+"pass": 3,
+"no": "4.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-08",
+"at": "2026-10-08T21:29:03+00:00",
+"href": "2026-10-08.html",
+"syms": [
+"SPCX",
+"ABBV",
+"MU",
+"ZETA",
+"FAST",
+"DIS",
+"MA",
+"V",
+"ULTA",
+"TMO"
+],
+"heads": [
+"SpaceX Rises 2% After Hours As Spectrum Acquisition News Slams Telecoms",
+"AbbVie Nears High After Cancer Drug Wins Two FDA Breakthrough Tags",
+"Micron Drops 4.8% As Samsung's Record Profit Fails To Lift It",
+"Zeta Global Slips 2.1% After Digital Audience Buyout Expands AI Push",
+"Fastenal Rises 1.3% Ahead Of Third-Quarter Earnings Next Week",
+"Disney Rises 2.2% On Talks With Studios Over Imax Rival Format",
+"Mastercard Edges Up 0.8% After Setting Third-Quarter Earnings Call",
+"Visa Rises 0.8% Ahead Of Oct. 27 Fiscal Fourth-Quarter Report",
+"Ulta Beauty Jumps 3.4% As E-Commerce Momentum Backs Raised Outlook",
+"Thermo Fisher Slips 1.5% After Launching New Digital CMC Consortium",
+"New America: Cloudflare Grows Sales 35.9% As It Pushes Into Post-Quantum Security"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 4,
+"pass": 4,
+"no": "4.4"
 }
 ]
