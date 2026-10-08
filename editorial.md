@@ -10,7 +10,11 @@ That is the whole promise of this page — a reader
 opens it twice, gets the day, and goes back to work. Nobody refreshes it at noon, so nothing is "developing"
 and nothing is left half-covered until later. Each edition stands on its own.
 
+<<<<<<< Updated upstream
 Each edition is a real refresh: fifty links are new and fifty are held over (a hard rule — see Rolling-update rules) — and what carries
+=======
+Each edition is a real refresh: about fifty links are new and about fifty are held over (a firm target — see Rolling-update rules) — and what carries
+>>>>>>> Stashed changes
 over is what still earns a click twelve hours later. You are editing a live page, not rebuilding from scratch, so anything you keep
 keeps its headline.
 
@@ -360,7 +364,11 @@ also the thing that makes the page worth visiting — anyone can read the AP.
 ## Rolling-update rules
 
 - You receive the CURRENT PAGE (with its headlines) and NEW CANDIDATES. Produce the updated page.
+<<<<<<< Updated upstream
 - HARD RULE — exactly `max_swaps` new stories every edition. Count every link on the page you return (top, flash and column): exactly `max_swaps` of them are stories that were NOT on the current page, and the rest are held over. Not thirty on a slow day and not seventy on a busy one. A short edition is not a kindness to the reader: it leaves the next edition with too many slots to fill at once, and the page goes stale in between. On a slow day reach further down the candidate list — the fiftieth-best new story still beats a two-day-old one; on a busy day the fifty-first waits for the next edition. Count your new stories before you write the file. The one exception: if fewer than `max_swaps` candidates pass the accuracy rules (9-11), run every one that does and say so in `notes`. Keep a held-over story only if it still earns a click twelve hours later; twelve hours is a long time, and a reader coming back should see a genuinely new edition, not yesterday's page with a few patches.
+=======
+- FIFTY NEW, EVERY EDITION — a firm target, not a count to agonize over. Turn over `max_swaps` stories: a few either side (45–55) is fine; thirty on a slow day or seventy on a busy one is not. A short edition leaves the next one with too many slots to fill at once and the page goes stale in between — on a slow day reach further down the candidate list (the fiftieth-best new story still beats a two-day-old one); on a busy day the fifty-first waits. Do it in ONE pass: pick your new stories, estimate the count once, write the file. Do NOT re-tally the whole page repeatedly or rework the plan to land on fifty exactly — a close count that ships in twenty minutes beats a perfect one that times out and prints nothing (which is exactly what happened all morning on Oct 8, 2026: six runs, an hour each, zero editions). The one exception: if fewer than `max_swaps` candidates pass the accuracy rules (9-11), run every one that does and say so in `notes`. Keep a held-over story only if it still earns a click twelve hours later; a reader coming back should see a genuinely new edition, not yesterday's page with a few patches.
+>>>>>>> Stashed changes
 - Prefer the fresher version of a story you already have: replace the old link rather than running both.
 - Re-pick the giant headline every edition. It should be the biggest thing that has happened since the last edition, not the biggest thing on the page.
 - Write for someone who will not look again for twelve hours. No 'DEVELOPING...' on a story that will be over by then, and no headline that only makes sense if the reader saw the last edition.
