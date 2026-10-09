@@ -548,5 +548,16 @@
   "iso": "2026-10-08T22:35:04-06:00",
   "top": "NYC ICE SHOOTING, CHILD IN CAR...",
   "count": 100
+ },
+ {
+  "no": 51,
+  "file": "2026-10-09-morning.html",
+  "date": "2026-10-09",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:29 a.m.",
+  "iso": "2026-10-09T04:29:53-06:00",
+  "top": "ICE SHOOTS NY DAD, TODDLER IN CAR...",
+  "count": 100
  }
 ]
