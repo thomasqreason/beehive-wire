@@ -538,5 +538,50 @@
 "day": 4,
 "pass": 4,
 "no": "4.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-09",
+"at": "2026-10-09T14:50:48+00:00",
+"href": "movers/2026-10-09-0850.html",
+"syms": [
+"HUM",
+"COHR",
+"MRNA",
+"LITE",
+"SNOW",
+"CF",
+"SPCX",
+"CRCL",
+"ASML",
+"ZS",
+"TEM",
+"PLTR",
+"CRDO",
+"MSTR",
+"AMT",
+"CCI",
+"SBAC",
+"ECHO",
+"TSLA",
+"PYPL"
+],
+"heads": [
+"HUM +11.5% on 9.7x volume, breakout past buy point",
+"COHR +1.9% on 3.1x volume, in base",
+"MRNA +5.2% on 2.6x volume, new 52-week high",
+"LITE +6.6% on 2.6x volume, breakout past buy point",
+"SNOW +3.7% on 2.4x volume, in base",
+"CF +3.3% on 2.3x volume, in base",
+"SPCX +1.9% on 2.2x volume, breakout past buy point",
+"CRCL +6.4% on 2.2x volume, bounce off 50-day line",
+"ASML +1.2% on 1.8x volume, in base",
+"ZS +4.4% on 1.8x volume, big move on the day"
+],
+"extra": "14 qualifiers",
+"live": true,
+"day": 5,
+"pass": 1,
+"no": "5.1"
 }
 ]
