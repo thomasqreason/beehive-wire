@@ -604,5 +604,73 @@
 "day": 5,
 "pass": 2,
 "no": "5.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-09",
+"at": "2026-10-09T21:35:51+00:00",
+"href": "movers/2026-10-09-1535.html",
+"syms": [
+"HUM",
+"SNOW",
+"CLF",
+"CIEN",
+"CCI",
+"AMT",
+"SBAC",
+"ELV",
+"SE",
+"WFC",
+"ECHO",
+"UNH"
+],
+"heads": [
+"HUM +11.6% on 4.2x volume, breakout past buy point",
+"SNOW +7.4% on 1.7x volume, nearing buy point",
+"CLF +6.5% on 1.6x volume, big move on the day",
+"CIEN +5.6% on 1.5x volume, big move on the day"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 5,
+"pass": 3,
+"no": "5.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-09",
+"at": "2026-10-09T21:38:25+00:00",
+"href": "2026-10-09.html",
+"syms": [
+"DDOG",
+"PLTR",
+"ABBV",
+"PANW",
+"ANET",
+"V",
+"SPCX",
+"GILD",
+"ZETA",
+"EXEL"
+],
+"heads": [
+"Datadog Jumps 7% To New High As Cloud Peers Rally With Fastly",
+"Palantir Rallies 5.2% To New High On Goldman Sachs Upgrade",
+"AbbVie Hits New High After Cancer Drug Wins Two FDA Breakthrough Tags",
+"Palo Alto Networks Gains 5.1% As Zscaler Outlook Lifts Security Stocks",
+"Arista Networks Hits New High As Quarterly Sales Keep Climbing",
+"Visa Climbs 2.8% As Gate Crypto Card Rolls Out In 40 Markets",
+"SpaceX Snaps Up T-Mobile Spectrum For $2.9 Billion; Stock Edges Up 1.2%",
+"Gilead Climbs 2.8% Ahead Of Oct. 29 Earnings Report",
+"Zeta Global Edges Up After Unveiling AthenaOS For AI Marketing",
+"Exelixis Rises 1.4% Toward Its High As Cabometyx Revenue Grows",
+"New America: AMD Earnings Jump 155.6% As Revenue Climbs 50.1% In June Quarter",
+"Investor's Corner: How To Buy A Breakout: Buy Point, Buy Range And Volume"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 5,
+"pass": 4,
+"no": "5.4"
 }
 ]
