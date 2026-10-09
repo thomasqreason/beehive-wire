@@ -559,5 +559,16 @@
   "iso": "2026-10-09T04:29:53-06:00",
   "top": "ICE SHOOTS NY DAD, TODDLER IN CAR...",
   "count": 100
+ },
+ {
+  "no": 52,
+  "file": "2026-10-09-evening.html",
+  "date": "2026-10-09",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:12 p.m.",
+  "iso": "2026-10-09T16:12:17-06:00",
+  "top": "7.7 QUAKE ROCKS PANAMA, TSUNAMI FEARED...",
+  "count": 100
  }
 ]
