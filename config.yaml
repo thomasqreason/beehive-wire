@@ -25,7 +25,7 @@ rolling:
   max_story_age_hours: 60          # a story can live across ~5 builds before it is dropped
   top_story_max_age_hours: 16      # the giant headline is re-picked every build
   candidate_window_hours: 26       # double-covers the ~12h gap, so a skipped run loses nothing
-  max_candidates: 280              # a bigger pool, since there are only two chances a day to pick (and 100 slots to fill)
+  max_candidates: 180              # 280 -> 180 on Oct 8, 2026: fewer stories for the editor to weigh, so an edition takes minutes, not an hour (was 280 from Sep 16)
   max_per_source: 6                # per-feed cap inside the candidate list
   quiet_hours:                     # pointless on a twice-daily schedule; left here if you speed up
     start: 1
@@ -102,12 +102,12 @@ blocklist:
 mix:
   iran_mideast: 6
   ukraine_russia: 4
-  world: 5
+  world: 4                        # 5 -> 4 on Oct 8, 2026 (mix retuned to 100 after investing was added)
   immigration: 2                  # HARD CAP: max 2 ICE/illegal-immigration links on the page (see editorial.md)
   crime: 5
   trump_watch: 5
   elections: 5
-  politics_culture_world: 5       # Washington and the culture war
+  politics_culture_world: 4       # Washington and the culture war (5 -> 4, Oct 8, 2026)
   media: 2
   faith_family_schools: 4
   military: 3
@@ -115,11 +115,11 @@ mix:
   tech: 4
   surveillance: 3               # the surveillance state and civil liberties — added Sep 18, 2026
   american_life: 5              # how Americans actually live — added Sep 18, 2026
-  economy: 7
+  economy: 6                      # 7 -> 6 on Oct 8, 2026; investing has its own line now
   investing: 4                  # stocks and investing, 3-5 links every edition; the Market Desk's own pieces count (added Oct 5, 2026)
   energy: 3
   housing: 3
-  health: 5
+  health: 4                       # 5 -> 4 on Oct 8, 2026
   utah_mormon: 4
   sports: 4
   pop_culture: 3
