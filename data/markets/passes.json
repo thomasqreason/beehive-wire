@@ -583,5 +583,26 @@
 "day": 5,
 "pass": 1,
 "no": "5.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-09",
+"at": "2026-10-09T19:18:46+00:00",
+"href": "movers/2026-10-09-1318.html",
+"syms": [
+"HUM",
+"CCI",
+"AMT",
+"SBAC",
+"ELV"
+],
+"heads": [
+"HUM +12.8% on 3.6x volume, breakout past buy point"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 5,
+"pass": 2,
+"no": "5.2"
 }
 ]
