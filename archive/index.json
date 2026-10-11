@@ -592,5 +592,16 @@
   "iso": "2026-10-10T16:01:51-06:00",
   "top": "HOUTHIS HIT RIYADH AIRPORT AGAIN...",
   "count": 100
+ },
+ {
+  "no": 55,
+  "file": "2026-10-11-morning.html",
+  "date": "2026-10-11",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:02 a.m.",
+  "iso": "2026-10-11T04:02:24-06:00",
+  "top": "RIYADH AIRPORT STRIKE KILLS 12...",
+  "count": 100
  }
 ]
