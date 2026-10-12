@@ -63,8 +63,11 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      # Until the YouTube secrets exist, `due` answers no and the run ends quietly instead of failing every day.
       - id: due
-        run: python video.py due ${{ inputs.force && '--force' || '' }}
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python video.py due ${{ inputs.force && '--force' || '' }} ${{ inputs.dry_run && '--dry-run' || '' }}
 
       - name: Install ffmpeg and a backup voice
         if: steps.due.outputs.go == 'yes'
