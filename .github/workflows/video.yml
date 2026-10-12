@@ -1,0 +1,135 @@
+name: video
+
+# Makes and uploads the YouTube video for the edition that just printed, to the Boring Money channel.
+#
+#   build (workflow_run) -> due? -> payload -> Claude writes the narration -> render -> upload -> record
+#
+# Triggers: the build workflow finishing (the normal path), a backup clock twice a day, and a hand-run.
+# The backup clock exists because GitHub drops and delays scheduled runs. Every path asks `video.py due`
+# first, which looks in data/video/published.json for the edition's date and slot, so an edition is never
+# uploaded twice and an old one is never backfilled.
+#
+# Secrets (Settings > Secrets and variables > Actions): CLAUDE_CODE_OAUTH_TOKEN (already used by build.yml),
+# YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN. See README, "The YouTube video".
+
+on:
+  workflow_run:
+    workflows: [build]
+    types: [completed]
+  schedule:
+    # The cron: twice a day, three shots each, UTC. Editions land at 10:00 and 22:00 UTC (Mountain daylight)
+    # and a build takes ~20 minutes, so the first shot of each trio is just after the edition is up and the
+    # other two catch a late build or a dropped run (GitHub delays and drops scheduled runs). Extra shots cost
+    # nothing: `due` decides by edition, not by the hour, so an edition is only ever made once and daylight
+    # saving needs no edit.
+    - cron: "10,50 11 * * *"      # morning edition
+    - cron: "30 12 * * *"
+    - cron: "10,50 23 * * *"      # evening edition
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Make a video even if this edition already has one (uploads a duplicate)"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Render only: build the video and keep it as a run artifact, no upload"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: video
+  cancel-in-progress: false
+
+jobs:
+  video:
+    # A build that failed outright printed nothing new; its last edition already has (or had) its video.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                    # the branch as it is NOW, with the edition the build just committed
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Until the YouTube secrets exist, `due` answers no and the run ends quietly instead of failing every day.
+      - id: due
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python video.py due ${{ inputs.force && '--force' || '' }} ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Install ffmpeg and a backup voice
+        if: steps.due.outputs.go == 'yes'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng fonts-liberation
+
+      - name: Pick the stories
+        if: steps.due.outputs.go == 'yes'
+        run: python video.py --emit-payload data/video/payload.json
+
+      # Claude reads video_editorial.md and writes the narration. Same CLI call as build.yml's editor.
+      # If it fails, `render --fallback` below reads the headlines straight, so the slot still gets a video.
+      - name: Write the script
+        if: steps.due.outputs.go == 'yes'
+        continue-on-error: true
+        timeout-minutes: 30
+        shell: bash
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "You write the narration for the Beehive Wire video. Read video_editorial.md for your standing orders, then read data/video/payload.json. Write the script to data/video/script.json as a single JSON object in exactly the schema video_editorial.md specifies. Write only that file. No prose, no markdown fences, no commit." \
+            --model claude-sonnet-5 \
+            --effort medium \
+            --allowedTools "Read,Write" \
+            --permission-mode acceptEdits \
+            --max-turns 8 \
+            < /dev/null 2>&1 | tee data/video/editor.log | cut -c1-300
+
+      - name: Render the video
+        if: steps.due.outputs.go == 'yes'
+        run: |
+          if [ -s data/video/script.json ]; then
+            python video.py render
+          else
+            echo "No script from Claude -- reading the headlines straight."
+            python video.py render --fallback
+          fi
+
+      - name: Keep the render (dry run)
+        if: steps.due.outputs.go == 'yes' && inputs.dry_run
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ steps.due.outputs.key }}
+          path: data/video/out/
+          retention-days: 7
+
+      - name: Upload to YouTube
+        if: steps.due.outputs.go == 'yes' && !inputs.dry_run
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python video.py upload
+
+      - name: Record the upload
+        if: steps.due.outputs.go == 'yes' && !inputs.dry_run
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/video/published.json
+          if ! git diff --cached --quiet; then
+            git commit -m "video: ${{ steps.due.outputs.key }}"
+            git pull --rebase --autostash origin main
+            git push
+          fi

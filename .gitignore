@@ -5,3 +5,7 @@ feeds.yaml.bak
 data/research/
 site/
 data/build/
+data/video/out/
+data/video/payload.json
+data/video/script.json
+data/video/editor.log
