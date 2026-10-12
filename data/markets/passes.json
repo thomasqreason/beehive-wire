@@ -724,5 +724,64 @@
 "day": 6,
 "pass": 2,
 "no": "6.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-12",
+"at": "2026-10-12T21:15:27+00:00",
+"href": "movers/2026-10-12-1515.html",
+"syms": [
+"BIIB",
+"FICO",
+"BF-B",
+"MDT",
+"CCI",
+"TMUS",
+"ASTS"
+],
+"heads": [
+"BIIB +1.6% on 1.6x volume, still in buy range after breakout"
+],
+"extra": "1 qualifiers",
+"live": false,
+"day": 6,
+"pass": 3,
+"no": "6.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-12",
+"at": "2026-10-12T21:17:27+00:00",
+"href": "2026-10-12.html",
+"syms": [
+"GTLB",
+"EXEL",
+"PLTR",
+"V",
+"FAST",
+"ZETA",
+"ABBV",
+"AMD",
+"PANW",
+"CVX"
+],
+"heads": [
+"GitLab Nears High After Unveiling Governed Software Factory Platform",
+"Exelixis Holds Near High As Cabometyx Sales Keep Cancer Drugmaker Climbing",
+"Palantir Teams With Ondas On Defense AI Venture, Holds Near High",
+"Visa Rises 1% Toward 52-Week High Ahead Of October Earnings Report",
+"Fastenal Gains 1.5% As Earnings Report Arrives Wednesday",
+"Zeta Global Edges Higher After AthenaOS Launch And Audience Buyout",
+"AbbVie Rises 1.7% To Near High After Two FDA Breakthrough Tags",
+"AMD Joins Nvidia, Google, Meta On Data Center Blueprint; Shares Slip",
+"Palo Alto Networks Drops 3.6%, Giving Back Friday's Cybersecurity Rally",
+"Chevron Rises 1.4% As CEO Calls Fuel Export Decision Unwise",
+"New America: ConocoPhillips Grows Earnings 107% As Oil Holds Above $100"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 6,
+"pass": 4,
+"no": "6.4"
 }
 ]
