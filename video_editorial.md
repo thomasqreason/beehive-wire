@@ -9,7 +9,8 @@ sourcing in the payload.
 
 Read `data/video/payload.json`: the edition (morning or evening, date), and the stories in running order.
 Each story has an `id`, the front-page `headline` (Drudge-style), the publisher's own `title`, its `source`
-and `topic`. Write `data/video/script.json` as ONE JSON object, nothing else, no fences:
+`topic`, and `context` (the opening of the article page: its description and first paragraphs, when it could be
+fetched; empty otherwise). Write `data/video/script.json` as ONE JSON object, nothing else, no fences:
 
 {
   "title": "...",                    // YouTube title, 60-90 chars, no ALL CAPS, no emoji, no clickbait lies
@@ -19,13 +20,16 @@ and `topic`. Write `data/video/script.json` as ONE JSON object, nothing else, no
   "tags": ["...", "..."]             // 5-10 topical tags, specific to today's stories
 }
 
-Total narration (intro + segments + outro) is `target_words` words, [min, max]. About 40-70 words per story;
-the top story gets the most. Short sentences. It is spoken aloud.
+Total narration (intro + segments + outro) is `target_words` words, [min, max]: a ten-minute video.
+The top story gets 150-220 words; the rest 70-110 each, more where `context` gives you real material and
+less where it does not. Short sentences. It is spoken aloud. Hit the length by being specific about what the
+sources say, never by padding, repeating yourself, or speculating. If a story is thin, keep it short and let
+the richer ones run longer.
 
 ## What you may say
 
-- ONLY facts in the story's `title` and `source`. You have no article text. Do not invent numbers, quotes,
-  names, causes, or what happened next. If the title is thin, say less, not more.
+- ONLY facts in the story's `title`, `source` and `context`. Do not invent numbers, quotes,
+  names, causes, or what happened next. If the sources are thin, say less, not more.
 - Attribute it. "The BBC reports...", "According to Middle East Eye...". Allegations, claims and battlefield
   or political assertions are claims ("Zelenskyy says", "DHS says"), never settled fact.
 - Widely known background is allowed in one clause, only if you are certain of it. Never guess at it.

@@ -132,8 +132,8 @@ mix:
 video:
   channel_name: "Boring Money"
   expect_channel: "boring money"   # upload refuses unless the credentials belong to a channel whose name contains this
-  stories: 8                       # top story + flash lines + the page's next links, at most two per topic
-  target_words: [350, 520]         # narration length Claude aims for (about 3 to 4 minutes)
+  stories: 14                      # top story + flash lines + the page's next links, at most two per topic
+  target_words: [1350, 1650]       # narration length Claude aims for: about 9 to 11 minutes at the voice's pace
   max_edition_age_hours: 10        # a slot that was missed is skipped, not backfilled with a stale video
   privacy: "public"                # public | unlisted | private. Google forces "private" on uploads from API
                                    # projects that have not passed its audit, whatever this says (see README)

@@ -145,6 +145,40 @@ def story_view(s: dict) -> dict:
     return {k: s.get(k) for k in ("id", "headline", "title", "source", "topic", "published", "url")}
 
 
+META_RE = re.compile(r'<meta[^>]+(?:property|name)=["\'](?:og:description|description)["\'][^>]*>', re.I)
+CONTENT_RE = re.compile(r'content=["\']([^"\']+)["\']', re.I)
+P_RE = re.compile(r"<p[^>]*>(.*?)</p>", re.I | re.S)
+
+
+def extract_context(page: str, limit: int = 1300) -> str:
+    """The description plus the first real paragraphs of an article page: enough to say more than the headline does."""
+    bits = []
+    m = META_RE.search(page)
+    if m and (c := CONTENT_RE.search(m.group(0))):
+        bits.append(build.clean_text(c.group(1), 400))
+    page = re.sub(r"<(script|style|nav|header|footer|aside)\b.*?</\1>", " ", page, flags=re.I | re.S)
+    for para in P_RE.findall(page):
+        t = build.clean_text(para, 500)
+        if len(t) >= 80 and t not in bits:
+            bits.append(t)
+        if sum(map(len, bits)) >= limit:
+            break
+    return " ".join(bits)[:limit]
+
+
+def fetch_context(url: str, ua: str) -> str:
+    """Best effort. Google News links are redirect pages with no article behind them, so they get nothing."""
+    if not url or "news.google.com" in url:
+        return ""
+    try:
+        r = requests.get(url, headers={"User-Agent": ua}, timeout=10)
+        if r.status_code == 200 and "html" in r.headers.get("content-type", ""):
+            return extract_context(r.text)
+    except requests.RequestException:
+        pass
+    return ""
+
+
 def cmd_payload(args) -> int:
     v = cfg_video()
     ed = latest_edition()
@@ -156,12 +190,18 @@ def cmd_payload(args) -> int:
     if not stories:
         log("front page is empty")
         return 1
+    ua = build.load_yaml(build.ROOT / "config.yaml")["fetch"]["user_agent"]
+    views = [story_view(s) for s in stories]
+    with build.cf.ThreadPoolExecutor(8) as ex:
+        for view, ctx in zip(views, ex.map(lambda x: fetch_context(x["url"], ua), views)):
+            view["context"] = ctx
+    log(f"context found for {sum(1 for x in views if x['context'])} of {len(views)} stories")
     payload = {
         "channel": v.get("channel_name", "Boring Money"),
         "edition": {k: ed.get(k) for k in ("no", "date", "slot", "edition", "time")},
         "weekday": datetime.strptime(ed["date"], "%Y-%m-%d").strftime("%A, %B %d").replace(" 0", " "),
         "target_words": v.get("target_words", [350, 520]),
-        "stories": [story_view(s) for s in stories],
+        "stories": views,
     }
     path = Path(args.emit_payload)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -188,7 +228,7 @@ def validate_script(raw: dict, payload: dict) -> dict:
         say = clean_say(seg.get("narration", ""))
         if sid in by_id and sid not in seen and len(say.split()) >= 6:
             seen.add(sid)
-            segs.append({"id": sid, "narration": " ".join(say.split()[:90])})
+            segs.append({"id": sid, "narration": " ".join(say.split()[:240])})
     if len(segs) < 3:
         raise ValueError(f"script has only {len(segs)} usable segments")
     return {

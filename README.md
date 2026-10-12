@@ -47,8 +47,8 @@ ANTHROPIC_API_KEY=sk-... python build.py
 
 ## The YouTube video (Boring Money channel)
 
-After each edition prints, `.github/workflows/video.yml` makes a 3-4 minute video of the top story, the flash
-lines and the next links on the page, and uploads it to the Boring Money channel. Twice a day, no extra work.
+After each edition prints, `.github/workflows/video.yml` makes a roughly ten-minute video of the top story, the flash
+lines and the next dozen links on the page, and uploads it to the Boring Money channel. Twice a day, no extra work.
 
 ```
 build finishes ─► video.py due ─► --emit-payload ─► Claude (video_editorial.md) ─► script.json
