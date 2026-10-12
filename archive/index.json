@@ -614,5 +614,16 @@
   "iso": "2026-10-11T16:02:38-06:00",
   "top": "AMERICAN KILLED IN HOUTHI AIRPORT STRIKE...",
   "count": 100
+ },
+ {
+  "no": 57,
+  "file": "2026-10-12-morning.html",
+  "date": "2026-10-12",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:00 a.m.",
+  "iso": "2026-10-12T04:00:10-06:00",
+  "top": "HOUTHIS SHUT DOWN RIYADH AIRPORT AGAIN...",
+  "count": 100
  }
 ]
