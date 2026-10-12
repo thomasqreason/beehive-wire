@@ -672,5 +672,38 @@
 "day": 5,
 "pass": 4,
 "no": "5.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-12",
+"at": "2026-10-12T14:51:28+00:00",
+"href": "movers/2026-10-12-0851.html",
+"syms": [
+"SHOP",
+"META",
+"BIIB",
+"SPCX",
+"TLN",
+"ASTS",
+"TMUS",
+"MDT",
+"FSLR",
+"VZ",
+"SBUX",
+"MKC",
+"TXT"
+],
+"heads": [
+"SHOP +3.8% on 1.9x volume, nearing buy point",
+"META +3.3% on 1.9x volume, in base",
+"BIIB +3.3% on 1.8x volume, new 52-week high",
+"SPCX +1.2% on 1.6x volume, still in buy range after breakout",
+"TLN +2.5% on 1.6x volume, in base"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 6,
+"pass": 1,
+"no": "6.1"
 }
 ]
