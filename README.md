@@ -45,6 +45,54 @@ python build.py --dry-run        # no API key: heuristic picks, headlines = titl
 ANTHROPIC_API_KEY=sk-... python build.py
 ```
 
+## The YouTube video (Boring Money channel)
+
+After each edition prints, `.github/workflows/video.yml` makes a 3-4 minute video of the top story, the flash
+lines and the next links on the page, and uploads it to the Boring Money channel. Twice a day, no extra work.
+
+```
+build finishes ─► video.py due ─► --emit-payload ─► Claude (video_editorial.md) ─► script.json
+                                                                                       │
+        YouTube ◄── video.py upload ◄── video.py render (slides + voice + ffmpeg) ◄───┘
+```
+
+White Drudge-style slides with the front-page headline and its source, a synthetic voice reading narration
+Claude writes from the headlines (video_editorial.md bars it from inventing facts), chapters and source
+links in the description. If the Claude step fails the video still goes out, with the headlines read straight.
+Each edition gets exactly one video (`data/video/published.json`), and a missed slot is skipped, not backfilled.
+
+**One-time setup** (about 15 minutes):
+
+1. [Google Cloud Console](https://console.cloud.google.com/): create a project, enable **YouTube Data API v3**,
+   configure the OAuth consent screen (External; add yourself as a test user), then create an
+   **OAuth client ID** of type **Desktop app**. Note the client ID and secret.
+2. On your own computer: `pip install requests`, then
+   `python youtube_auth.py --client-id <ID> --client-secret <SECRET>`. Sign in as the Google account that owns
+   Boring Money and **pick the Boring Money channel** when asked. It prints a refresh token.
+3. Add three repo secrets: `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`, `YOUTUBE_REFRESH_TOKEN`.
+   (`CLAUDE_CODE_OAUTH_TOKEN` is already there for the editions.)
+4. Check the target: `YOUTUBE_CLIENT_ID=... YOUTUBE_CLIENT_SECRET=... YOUTUBE_REFRESH_TOKEN=... python video.py whoami`
+   should name Boring Money. The upload also refuses to run if the channel name does not contain
+   `video.expect_channel` in `config.yaml`.
+5. Actions tab -> **video** -> Run workflow with **dry_run** ticked. The rendered video is attached to the run;
+   watch it. Then run it once without dry_run to post for real.
+
+**Things to know**
+
+- **Private uploads.** Google locks videos uploaded through the API to *private* until the API project passes
+  its compliance audit (the form is linked from the YouTube API docs, "Required minimum functionality"). Until
+  then every video lands private on the channel and you flip it public by hand, whatever `video.privacy` says.
+  Submit the audit once the first few have gone up.
+- **Quota.** An upload costs 1,600 of the 10,000 daily units, so two a day is far inside the free limit.
+- **Voice.** edge-tts (free Microsoft voices, no key). If Microsoft's service refuses the runner, the render falls
+  back to espeak-ng, which works but sounds robotic; switch `video.tts`/`video.voice` in `config.yaml` if you prefer.
+- **Content.** Slides are text only, with no publishers' photos. Headlines and sources are credited in the
+  description, which links to each story. The description says the voice is synthetic;
+  set `video.synthetic_disclosure: true` to also turn on YouTube's altered/synthetic label.
+- **Cost.** One short Claude call per video on the same subscription as the editions; hosting and rendering are free Actions minutes.
+- Local test, no accounts needed: `python video.py --emit-payload data/video/payload.json && python video.py render --fallback --tts silent`
+  writes `data/video/out/video.mp4` (silent). Needs ffmpeg and Pillow.
+
 ## Tune it
 
 | File | What it controls |

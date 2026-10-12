@@ -126,3 +126,22 @@ mix:
   weather_disasters: 2
   weird: 2
   video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot
+
+# The YouTube video (video.py, .github/workflows/video.yml): a few minutes on each edition's top stories,
+# posted after the morning and evening editions print.
+video:
+  channel_name: "Boring Money"
+  expect_channel: "boring money"   # upload refuses unless the credentials belong to a channel whose name contains this
+  stories: 8                       # top story + flash lines + the page's next links, at most two per topic
+  target_words: [350, 520]         # narration length Claude aims for (about 3 to 4 minutes)
+  max_edition_age_hours: 10        # a slot that was missed is skipped, not backfilled with a stale video
+  privacy: "public"                # public | unlisted | private. Google forces "private" on uploads from API
+                                   # projects that have not passed its audit, whatever this says (see README)
+  category_id: 25                  # 25 = News & Politics
+  synthetic_disclosure: false      # true sets YouTube's "altered or synthetic content" label
+  tts: "edge"                      # edge (free Microsoft voices, no key) | espeak (robotic, always available)
+  voice: "en-US-AndrewNeural"
+  rate: "+5%"
+  pad_seconds: 0.7
+  watermark: "beehivewire.com"
+  tags: ["news", "headlines", "Beehive Wire", "Boring Money", "daily news"]
