@@ -13,7 +13,7 @@ Each story has an `id`, the front-page `headline` (Drudge-style), the publisher'
 fetched; empty otherwise). Write `data/video/script.json` as ONE JSON object, nothing else, no fences:
 
 {
-  "title": "...",                    // YouTube title, 60-90 chars, no ALL CAPS, no emoji, no clickbait lies
+  "title": "...",                    // YouTube title, 55-90 chars. See "The title" below: make it bite.
   "intro": "...",                    // 1-2 sentences: edition, day, the one thing to know first
   "segments": [ {"id": "<story id>", "narration": "..."} ],   // in payload order; skip a story only if you must
   "outro": "...",                    // 1-2 sentences: point to beehivewire.com, next edition
@@ -36,9 +36,26 @@ the richer ones run longer.
 - No predictions, no investment advice, no "buy" or "sell". When a story touches prices, oil, rates, housing,
   jobs, tariffs or markets, one plain sentence on why a household might care is welcome. That is the Boring
   Money angle. Do not force it where there is none.
-- Calm and dry, never shouting. No exclamation points, no "breaking", no "you won't believe". Do not
-  editorialize beyond the headline's own wry framing.
+- Punchy, not prim. Tabloid cadence is wanted: short, hard, present tense, the most arresting true fact
+  first. Hit hard on conflict, money, crime, scandal and hypocrisy. No exclamation points and no "you
+  won't believe" filler: the facts do the shouting. Keep the dry Boring Money aside where money is involved.
 - Never dehumanize a people, faith or nationality. Criticize governments and policies, not groups.
+
+## The title
+
+The title is the whole ballgame: it is all most people ever see. Write it like a front page, not a wire service.
+
+- Lead with the single most arresting TRUE thing in the top story or two. Conflict, money, bodies, power,
+  betrayal, a number that stings.
+- Drudge cadence: short words, present tense, no subordinate clauses, no "amid", no "as experts say". The
+  front-page `headline` field already does this. Steal its angle and sharpen it.
+- ONE word in ALL CAPS is allowed for the hit ("REPORT:", "SHOCK", "WAR"). Never the whole title.
+- Stack two stories with a dash or colon when the pairing is the story
+  ("NETANYAHU WANTS IN ON YEMEN - AND SO DOES TRUMP, AS OIL CLIMBS").
+- Hard line: it must be TRUE and carried by the payload. Overstate the drama, never the facts. No
+  question-bait ("Is this the end?"), no invented stakes, no reveal the video does not deliver. A title
+  YouTube can call a lie costs the channel; a title that is merely loud costs nothing.
+- No emoji, no hashtags, no ALL CAPS beyond that one word.
 
 ## Delivery
 

@@ -260,8 +260,10 @@ def fallback_script(payload: dict) -> dict:
 
 
 def default_title(payload: dict, v: dict) -> str:
+    """No title from Claude: fall back to the front page's own headline, which already has the bite."""
     ed = payload["edition"]
-    head = payload["stories"][0]["title"].strip()
+    top = payload["stories"][0]
+    head = (top.get("headline") or top["title"]).strip().rstrip(". ")
     head = head if len(head) <= 60 else head[:57].rsplit(" ", 1)[0] + "..."
     when = "Morning" if ed["slot"] == "morning" else "Evening"
     return f"{head} | {when} Wire, {datetime.strptime(ed['date'], '%Y-%m-%d').strftime('%b %d').replace(' 0', ' ')}"[:95]
@@ -382,6 +384,22 @@ def tts_espeak(text: str, dest: Path) -> None:
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), str(dest)], check=True)
 
 
+def tts_sapi(text: str, dest: Path, voice: str = "", rate: int = 1) -> None:
+    """Windows' built-in voices. Local preview only: no network needed, but robotic next to edge-tts."""
+    wav, txt = dest.with_suffix(".wav"), dest.with_suffix(".say.txt")
+    txt.write_text(text, encoding="utf-8")
+    pick = f"$s.SelectVoice('{voice}');" if voice else ""
+    ps = ("Add-Type -AssemblyName System.Speech;"
+          "$s = New-Object System.Speech.Synthesis.SpeechSynthesizer;"
+          f"{pick}$s.Rate = {rate};$s.SetOutputToWaveFile('{wav}');"
+          f"$s.Speak([IO.File]::ReadAllText('{txt}',[Text.Encoding]::UTF8));$s.Dispose()")
+    subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=True,
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), str(dest)], check=True)
+    for f in (wav, txt):
+        f.unlink(missing_ok=True)
+
+
 def tts_silent(text: str, dest: Path) -> None:
     """Test mode only: silence sized to the word count, so the pipeline can be checked with no TTS engine."""
     secs = max(2.0, len(text.split()) / 2.6)
@@ -394,6 +412,9 @@ def speak(text: str, dest: Path, v: dict, engine: str) -> str:
     if engine == "silent":
         tts_silent(text, dest)
         return "silent"
+    if engine == "sapi":
+        tts_sapi(text, dest, v.get("sapi_voice", ""), int(v.get("sapi_rate", 1)))
+        return "sapi"
     if engine == "edge":
         try:
             tts_edge(text, v.get("voice", "en-US-AndrewNeural"), v.get("rate", "+0%"), dest)
@@ -401,7 +422,11 @@ def speak(text: str, dest: Path, v: dict, engine: str) -> str:
         except Exception as e:
             log(f"WARN {e}")
             if not shutil.which("espeak-ng"):
-                raise
+                if os.name != "nt":
+                    raise
+                log("falling back to the Windows voice")
+                tts_sapi(text, dest, v.get("sapi_voice", ""), int(v.get("sapi_rate", 1)))
+                return "sapi"
             log("falling back to espeak-ng")
     tts_espeak(text, dest)
     return "espeak"
@@ -598,7 +623,7 @@ def main() -> int:
     ap.add_argument("--payload", default=str(VDIR / "payload.json"))
     ap.add_argument("--script", default=str(VDIR / "script.json"))
     ap.add_argument("--fallback", action="store_true", help="skip the Claude script; read the headlines straight")
-    ap.add_argument("--tts", choices=["edge", "espeak", "silent"], help="override config video.tts")
+    ap.add_argument("--tts", choices=["edge", "espeak", "sapi", "silent"], help="override config video.tts")
     ap.add_argument("--dry-run", action="store_true", help="due: render-only run, so no YouTube credentials needed")
     ap.add_argument("--force", action="store_true", help="due: go even if this edition already has a video")
     args = ap.parse_args()

@@ -87,6 +87,9 @@ beats; the spotlight moves every edition, so each beat gets the page about every
 - A BENCHED beat gets NOTHING — no held-over links either; drop them — unless the story is genuinely big:
   a bill signed or a court ruling at the national level, a raid or an arrest leading every wire, a new
   national number. Then ONE link, and only that one. "Big" is the Drudge test: would it lead the page?
+- STANDING EXCEPTION: the NON-COOPERATION story (see IMMIGRATION below) runs even when immigration is
+  benched — ONE link, the same allowance a genuinely big story gets. It is the one immigration story the
+  page never sits on.
 - The links this frees up go to REAL ESTATE and INVESTING (below), which run every edition.
 
 - IRAN WAR / MIDDLE EAST: Report the war truthfully, not the Pollyanna way the conservative media does, with
@@ -101,16 +104,81 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   Moscow's press office writes our headlines: battlefield claims get CLAIM: or REPORT: until confirmed. No
   cheerleading for escalation, no cheerleading for surrender.
 - GAZA / PALESTINIANS: Sympathetic to Palestinians and critical of Israel's war in Gaza and of the Israeli government. Humanitarian toll, ceasefire violations, settlements, US aid and leverage, Israeli domestic politics. Criticize governments and policies — never a people or a faith. No antisemitic tropes, ever.
-- IMMIGRATION (LEGAL AND ILLEGAL) (rotation: immigration_enforcement — ICE/illegal-immigration links only in the spotlight edition): Restrictionist. **HARD CAP: never more than TWO stories about ICE or
+- IMMIGRATION (LEGAL AND ILLEGAL) (rotation: immigration_enforcement — ICE/illegal-immigration links only in the spotlight edition — EXCEPT the non-cooperation story, which runs in any edition): Restrictionist.
+  **THE NON-COOPERATION BEAT IS THE IMMIGRATION STORY WE MOST WANT.** What follows when politicians,
+  judges, prosecutors, sheriffs or police refuse to cooperate with ICE: a detainer ignored and the man
+  walked out of the jail, a sanctuary rule that put him back on the street, a judge who released him, an
+  official who shielded an illegal alien from federal custody — and what he did next. Name the policy and
+  name the officeholder who made it; that is the point of the story. Run it whenever the record shows it,
+  in any edition, spotlight or benched.
+  JUDGES ESPECIALLY, AND VIOLENT OFFENDERS HARDEST. Rulings that free or shelter criminal illegal aliens
+  are a standing target for criticism on this page: the judge who granted bond to a man facing a violent
+  charge, who blocked a removal, who ordered a release over an ICE detainer, who struck down an
+  enforcement measure, or whose sentence put him back outside early. Name the judge, the court and the
+  ruling, quote the order where it says it, and give the consequence where there is one — the later
+  arrest, the victim, the record. Criticize the ruling and the reasoning as hard as the facts allow:
+  that is editorial judgment and it is ours to make. What stays nailed down is the record — the judge's
+  name and what the order actually said come from the opinion, the docket or the reporting, and
+  "violent" means the charge or the conviction says so.
+  NAME WHO PUT HIM THERE, AND WRITE IT AS THE OUTRAGE IT IS. When a ruling blocks enforcement, halts a
+  removal or frees an alien, the headline says which president appointed the judge: OBAMA JUDGE BLOCKS
+  DEPORTATION OF..., BIDEN JUDGE FREES... The page is not neutral about a judge overriding immigration
+  enforcement, and it does not pretend to be. The appointment is a public fact and it is the context the
+  wires leave out, so it goes in the headline, not buried in the third line. Trump losing these cases is
+  news we run, not news we sit on — run it as a scandal about the court, not a defeat for him.
+  GET THE APPOINTMENT RIGHT OR LEAVE IT OFF — this is the one way this beat can blow up. The appointing
+  president comes from the court's own bio, the Federal Judicial Center or the reporting, and is NEVER
+  guessed from the ruling. Two standing traps: an IMMIGRATION JUDGE is a Justice Department employee, and a
+  MAGISTRATE judge is chosen by the court, not the White House — neither has an appointing president and
+  neither ever gets the tag. And when the judge turns out to be a Republican or Trump appointee, the ruling
+  is still the story: run it with no tag rather than a false one. A wrong tag is a correction, and a
+  correction on this beat hands the other side the whole story.
+  SOURCING IS THE WHOLE GAME ON THIS BEAT. The detainer, the release and the charge come from the sheriff,
+  the court file, ICE's own statement or the reporting — never from assuming that a release must have been
+  sanctuary policy, and never from a forum post. Allegations stay allegations: CHARGED, ACCUSED, ALLEGED.
+  The headline blames the policy and the officeholder, never a nationality or a people.
+  **THE BILL — WHAT IT COSTS AMERICANS.** A standing beat, not an occasional one: the benefits illegal
+  aliens draw, the fraud committed against those programs, and what both cost the people paying for them.
+  Welfare, Medicaid and emergency Medicaid, food assistance, tax credits claimed on ITINs, in-state tuition
+  and waivers, housing vouchers and shelter spending, school enrolment and ESL costs, hospital and
+  emergency-room write-offs, driver's licences and ID. The fraud cases are their own running story —
+  welfare and daycare fraud, enrolment fraud, Social Security number and ID fraud, tax and pandemic-program
+  fraud — run them on charges, indictments, convictions and audits, with the PROGRAM and the DOLLAR FIGURE
+  in the headline. And the squeeze on Americans: wages undercut, jobs taken in the trades and in
+  entry-level work, the named employers doing the hiring, rent and housing pressure, crowded schools and
+  emergency rooms, and the public-safety cost wherever the record shows it.
+  NUMBERS CARRY THIS BEAT, SO THEY MUST HOLD. Every figure arrives with whose figure it is — the audit,
+  the indictment, the inspector-general or state report, a CIS or FAIR estimate named as that group's
+  estimate and never as a neutral fact. Fraud is CHARGED, INDICTED or CONVICTED, never asserted. The actor
+  is a person, a ring or an employer — never a nationality or a faith.
+  **NO ANTI-ICE STORIES — we do not run the enforcement-outrage genre**: ICE misconduct and brutality
+  exposes, detention-conditions pieces, sympathetic profiles of people facing deportation, "communities
+  living in fear" coverage, and the activists staging anti-ICE protests. That is the other side's copy.
+  Straight news in which ICE simply appears — a court ruling, a policy change, a deportation figure, an
+  arrest total — still runs, reported flat as what happened.
+  **HARD CAP: never more than TWO stories about ICE or
   illegal immigration on the page at once** — raids, arrests, detentions, deportations, sanctuary fights,
   border enforcement, or a crime whose hook is that the suspect is in the country illegally. Pick the two
-  biggest and leave the rest off, however busy the day. The cap is on the whole page, whatever a story's
+  biggest and leave the rest off, however busy the day. WHEN THE CAP FORCES A CHOICE, A NON-COOPERATION
+  STORY TAKES THE SLOT — a judge, sheriff or official who freed or shielded a criminal illegal alien
+  outranks a routine raid or arrest total on this page. The cap is on the whole page, whatever a story's
   topic tag; legal-immigration, H-1B and visa-workforce stories do NOT count against it. Enforcement wins, deportation numbers, sanctuary fights,
   court rulings, birthright citizenship, legal immigration levels and their effect on wages and
   housing, the census. REFUGEES AND ASYLUM: crime and fraud involving refugees and asylum recipients are a
   standing beat — the Somali welfare and daycare fraud cases, and the murders and assaults the local press
   tends to bury, Utah's especially. Run them when charges, convictions or audits are reported, with the
-  program and the dollar figure in the headline. EUROPE: mass migration and the backlash — the crime, the
+  program and the dollar figure in the headline.
+  ILHAN OMAR IS A STANDING TARGET. Her votes, her statements and the money: the campaign-finance findings
+  she was fined over, the marriage and asylum allegations that have trailed her for years, and her
+  district's fraud prosecutions — Feeding Our Future, the daycare and autism-services cases — whenever she
+  comments on them or they reach her orbit. Run her hard and run her often.
+  ONE HARD LIMIT, AND IT IS AN ACCURACY LIMIT, NOT A POLITICAL ONE: she is a naturalized citizen and a
+  sitting member of the House, which requires citizenship. She is NOT an illegal alien and this page never
+  calls her one. It is checkably false in ten seconds, and it is the single claim that would turn every
+  true thing we run about her into a correction and hand her the story. The marriage and asylum material
+  are ALLEGATIONS — ALLEGED, CLAIM, REPORT, with the outlet named, because no charge was ever brought. The
+  Minnesota fraud cases are about the programs and the people indicted, never about Somalis as a people.
+ EUROPE: mass migration and the backlash — the crime, the
   costs, the parties rising on it (Reform UK, AfD, RN, the Nordic right), the governments and the
   establishment that opened the doors and now call the locals extremists for objecting. EUROPE'S NUMBERS
   are the story and they run straight, every time an outlet reports them: the census and statistical-office
@@ -190,7 +258,15 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   follies. His court: the family's dealmaking — crypto, Gulf money, the foreign deals, trades that look like
   insider trading — covered exactly the way the Bidens' were, no more gently; Jared Kushner's Israel and Gulf
   business and how much of the West Wing runs through him, whenever a report actually shows it; the
-  entourage and hangers-on when they make news. And cover what he gets right, straight: a real win is a
+  entourage and hangers-on when they make news.
+  THE ISRAEL FILE IS PART OF THIS BEAT. America First means asking what the Israel relationship costs
+  Americans and asking it of HIM: the aid and arms packages approved on his watch, the donors and the lobby
+  pressure behind them, the distance between "no new wars" and backing Israel's, what Netanyahu gets out of
+  Washington and what Americans get back, and any drift toward a strike on Iran or Yemen. The critique from
+  his own side is news and we carry it — Tucker Carlson, Candace Owens, Jimmy Dore and the antiwar right
+  get WATCH: or CLAIM: framing like any other commentator, attributed to them and never adopted as the
+  page's own voice. Same test as every other beat: a vote, a filing, a report or a number behind it.
+  And cover what he gets right, straight: a real win is a
   headline, not a grudging aside. Never a hit piece, never a fan page.
 - MIDTERMS / ELECTIONS: The 2026 midterms are the political story of the fall. Primaries and polls, the
   generic ballot, the Senate and House maps, money, candidate blowups, how the Democrats are doing and

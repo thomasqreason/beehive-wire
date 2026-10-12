@@ -60,6 +60,11 @@ feeds:
   - {name: "Border Report", url: "https://www.borderreport.com/feed/", topic: immigration}
   - {name: "Breitbart Europe", url: "https://www.breitbart.com/europe/feed/", topic: immigration}
   - {name: "Google News: Immigration", url: "https://news.google.com/rss/search?q=immigration+OR+deportation+OR+%22H-1B%22+OR+migrants+when:1d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true}
+  # The non-cooperation beat (see editorial.md IMMIGRATION): sanctuary policy, ignored ICE detainers,
+  # and judges blocking removals. The generic immigration search above drowns these; this one hunts them.
+  - {name: "Google News: Sanctuary and detainers", url: "https://news.google.com/rss/search?q=%28%22ICE+detainer%22+OR+%22immigration+detainer%22+OR+%22sanctuary+city%22+OR+%22sanctuary+state%22+OR+%22blocked+deportation%22+OR+%22blocks+deportation%22+OR+%22halted+deportation%22%29+when%3A2d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true, weight: 1.3}
+  # The bill (see editorial.md IMMIGRATION): benefits fraud prosecutions and fiscal-cost reporting.
+  - {name: "Google News: Benefits fraud and cost", url: "https://news.google.com/rss/search?q=%28%22welfare+fraud%22+OR+%22benefits+fraud%22+OR+%22Medicaid+fraud%22+OR+%22food+stamp+fraud%22+OR+%22daycare+fraud%22+OR+%22cost+of+illegal+immigration%22%29+when%3A3d&hl=en-US&gl=US&ceid=US:en", topic: immigration, google: true, weight: 1.2}
 
   # ── H-1B, offshoring and the American tech workforce (added Sep 18, 2026) ──────
   # A reader beat. H-1B used to ride inside the immigration search above and got drowned;
