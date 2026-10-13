@@ -42,14 +42,33 @@
     scrim.classList.add('on');body.className='wait';body.textContent='Loading '+sym+'…';
     fetch('series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
       var b=d.base||{},h='<div class="kick"><span class="st">'+esc(STATUS[d.status]||d.status||'')+'</span>'+esc(d.industry||'')+'</div>';
-      h+='<h2>'+esc(d.sym)+(d.name?' <span class="nm">&middot; '+esc(d.name)+'</span>':'')+' '+f2(d.close)+' <span class="'+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
+      h+='<h2>'+esc(d.sym)+(d.name?' <span class="nm">&middot; '+esc(d.name)+'</span>':'')+' <span class="px">'+f2(d.close)+'</span> <span class="pchg '+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
       h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+chart(d);
       h+='<div class="facts">';
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
       h+='<div><b>RS rank</b>'+esc(d.rs_rank==null?'–':d.rs_rank)+'</div><div><b>Volume vs 50-day</b>'+(d.vol_ratio==null?'–':Number(d.vol_ratio).toFixed(1)+'x')+'</div><div><b>52-week high</b>'+f2(d.hi52)+' ('+pc(d.from_hi52)+')</div><div><b>vs 50-day line</b>'+pc(d.vs_sma50)+'</div>'+(d.ipo_sessions?'<div><b>New issue</b>'+d.ipo_sessions+' sessions</div>':'')+'</div>';
-      body.className='';body.innerHTML=h;
+      body.className='';body.innerHTML=h;body.setAttribute('data-sym',d.sym);
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,d.series);}
+      live(d.sym);
     }).catch(function(e){body.className='wait';body.textContent='No chart saved for '+sym+' yet; the next scan that covers it will draw one.';});
+  }
+  // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.
+  var RELAY={{ (desk.quote_relay or '')|tojson }};
+  var SESSION={pre:'Pre-market',post:'After hours',overnight:'Overnight'};
+  function clock(t){try{return new Date(t*1000).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT';}catch(e){return '';}}
+  function day(t){try{var d=new Date(t*1000),n=new Date();return d.toDateString()===n.toDateString()?'':d.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Denver'})+' ';}catch(e){return '';}}
+  function line(label,p,c,cp,t,cl){return '<div class="lq'+(cl?' '+cl:'')+'"><b>'+label+'</b> '+f2(p)+' <span class="'+cls(c)+'">'+(c>=0?'+':'')+f2(c)+' ('+pc(cp)+')</span> <span class="lt">'+day(t)+clock(t)+'</span></div>';}
+  function live(sym){
+    if(!RELAY)return;
+    fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'s='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      var q=j&&j.quotes&&j.quotes[sym];if(!q||!q.regular||body.getAttribute('data-sym')!==sym)return;
+      var r=q.regular,x=q.extended,h=body.querySelector('h2'),el=document.createElement('div');el.className='lquote';
+      el.innerHTML=line(q.live?'Live':'At close',r.price,r.chg,r.chgPct,r.time,q.live?'on':'')+(x?line(SESSION[x.session]||'Extended',x.price,x.chg,x.chgPct,x.time,'on'):'');
+      if(h){h.parentNode.insertBefore(el,h.nextSibling);
+        var top=x||r,px=h.querySelector('.px'),pg=h.querySelector('.pchg');   // the headline shows the freshest price
+        if(px)px.textContent=f2(top.price);
+        if(pg){pg.className='pchg '+cls(top.chg);pg.textContent=(top.chg>=0?'+':'')+f2(top.chg)+' ('+pc(top.chgPct)+')';}}
+    }).catch(function(){});
   }
   function hide(){scrim.classList.remove('on');if(location.hash.indexOf('#chart=')===0)history.replaceState(null,'',location.pathname+location.search);}
   document.addEventListener('click',function(e){var a=e.target.closest('a.tk');if(a){e.preventDefault();history.replaceState(null,'','#chart='+a.getAttribute('data-sym'));show(a.getAttribute('data-sym'));}});
