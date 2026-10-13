@@ -14,7 +14,7 @@ desk:
   breakout_volume_ratio: 1.2       # volume vs 50-day average that counts as conviction
   history_period: "2y"
   # Live prices in the chart pop-up: the Cloudflare Worker in relay/quote-worker.js. Leave empty to turn it off.
-  quote_relay: ""
+  quote_relay: "https://beehive-quotes.toddridgway.workers.dev/"
 
 # The watch list: big companies and the names most likely to lead the next leg.
 # Grouped for your eyes only — the scanner flattens it.
