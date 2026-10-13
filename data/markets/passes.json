@@ -783,5 +783,42 @@
 "day": 6,
 "pass": 4,
 "no": "6.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-13",
+"at": "2026-10-13T14:23:25+00:00",
+"href": "movers/2026-10-13-0823.html",
+"syms": [
+"META",
+"MDB",
+"AAPL",
+"MSFT",
+"VEEV",
+"ZS",
+"CTSH",
+"GS",
+"FIS",
+"AOS",
+"IBM",
+"FSLR",
+"DIS",
+"ORCL",
+"VST"
+],
+"heads": [
+"META +3.6% on 3.4x volume, nearing buy point",
+"MDB +3.9% on 2.9x volume, in base",
+"AAPL +1.6% on 2.2x volume, breakout past buy point",
+"MSFT +1.4% on 2.1x volume, nearing buy point",
+"VEEV +3.3% on 1.9x volume, nearing buy point",
+"ZS +3.4% on 1.8x volume, extended",
+"CTSH +3.8% on 1.7x volume, bounce off 50-day line"
+],
+"extra": "7 qualifiers",
+"live": true,
+"day": 7,
+"pass": 1,
+"no": "7.1"
 }
 ]
