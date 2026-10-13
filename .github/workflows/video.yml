@@ -96,19 +96,33 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
           npm install -g @anthropic-ai/claude-code
-          claude -p "You write the narration for the Beehive Wire video. Read video_editorial.md for your standing orders, then read data/video/payload.json. Write the script to data/video/script.json as a single JSON object in exactly the schema video_editorial.md specifies. Write only that file. No prose, no markdown fences, no commit." \
-            --model claude-sonnet-5 \
-            --effort medium \
-            --allowedTools "Read,Write" \
-            --permission-mode acceptEdits \
-            --max-turns 20 \
-            < /dev/null 2>&1 | tee data/video/editor.log | cut -c1-300
+          # The writer sometimes burns every turn without writing the file, so it gets three tries, and each
+          # try reports which tools it reached for (the log of a failed run used to say nothing).
+          for attempt in 1 2 3; do
+            rm -f data/video/script.json
+            claude -p "You write the narration for the Beehive Wire video. Read video_editorial.md for your standing orders, then read data/video/payload.json. Write the script to data/video/script.json as a single JSON object in exactly the schema video_editorial.md specifies. You have exactly two tools, Read and Write: do not reach for any other, do not count words with a tool, and do not re-read or rewrite your file. Two reads, one Write, then stop. No prose, no markdown fences, no commit." \
+              --model claude-sonnet-5 \
+              --effort medium \
+              --allowedTools "Read,Write" \
+              --permission-mode acceptEdits \
+              --max-turns 30 \
+              --output-format stream-json --verbose \
+              < /dev/null > data/video/editor.log 2>&1 || true
+            echo "attempt $attempt tools: $(grep -o '"type":"tool_use","id":"[^"]*","name":"[A-Za-z_]*"' data/video/editor.log | sed 's/.*"name"://' | sort | uniq -c | tr '\n' ' ')"
+            tail -c 400 data/video/editor.log | cut -c1-400; echo
+            [ -s data/video/script.json ] && break
+          done
+          [ -s data/video/script.json ]
 
       - name: Render the video
         if: steps.due.outputs.go == 'yes'
         run: |
           if [ -s data/video/script.json ]; then
             python video.py render
+          elif [ "${{ inputs.force }}" = "true" ] && [ "${{ inputs.dry_run }}" != "true" ]; then
+            # A remake replaces a video that is already up; a bare headline read is not an improvement on it.
+            echo "No script from Claude. A remake needs a full script, so nothing is replaced."
+            exit 1
           else
             echo "No script from Claude -- reading the headlines straight."
             python video.py render --fallback
