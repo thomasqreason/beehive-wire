@@ -833,5 +833,60 @@
 "day": 7,
 "pass": 2,
 "no": "7.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-13",
+"at": "2026-10-13T21:48:28+00:00",
+"href": "movers/2026-10-13-1548.html",
+"syms": [
+"IFF",
+"OTIS",
+"MDT"
+],
+"heads": [
+"IFF +3.8% on 1.8x volume, bounce off 50-day line"
+],
+"extra": "1 qualifiers",
+"live": false,
+"day": 7,
+"pass": 3,
+"no": "7.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-13",
+"at": "2026-10-13T21:50:58+00:00",
+"href": "2026-10-13.html",
+"syms": [
+"ABBV",
+"MA",
+"V",
+"ZETA",
+"SPCX",
+"PLTR",
+"ULTA",
+"MU",
+"GTLB",
+"NVDA"
+],
+"heads": [
+"AbbVie Slips 2.4% On Heavy Volume Ahead Of Oct. 30 Earnings",
+"Mastercard Climbs To New High As It Expands Into Africa, Asia Pacific",
+"Visa Rises 1.7% To New High As It Moves Ahead In China",
+"Zeta Global Edges Higher After AthenaOS Launch And Digital Audience Buyout",
+"SpaceX Slides 4.2% As AI Memory Trade Crumbles In South Korea",
+"Palantir Holds 2% Below Its High As Volume Dries Up",
+"Ulta Beauty Rises 2% Two Weeks After Raising 2026 Outlook",
+"Micron Falls 3.6% As China's CXMT Sparks Global Chip Rout",
+"GitLab Slides 3.2% After Hours After 7.2% Drop In Regular Trading",
+"Nvidia Rises 1% While China Scare Sinks Memory Chip Stocks",
+"New America: Chevron Nears Its High As Gulf Oil Output Recovers After Hurricane"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 7,
+"pass": 4,
+"no": "7.4"
 }
 ]
