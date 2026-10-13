@@ -143,6 +143,17 @@ video:
                                    # Microsoft voices; blocked since 2026-10-12) | espeak (robotic, last resort)
   kokoro_voice: "af_heart"
   kokoro_speed: 1.05
+  say_as:                          # words Kokoro mispronounces -> a spelling it reads right. Whole words, case-sensitive.
+    Houthis: "Hoothees"            # Add a line here whenever Todd hears a wrong one.
+    Houthi: "Hoothee"
+    ICE: "Ice"
+    GOP: "G O P"
+    Xi: "Shee"
+    Putin: "Pootin"
+    MAGA: "Magga"
+    Kyiv: "Keev"
+    Riyadh: "Reeyahd"
+    Zelenskyy: "Zelensky"
   voice: "en-US-AndrewNeural"      # edge-tts voice, used only if Kokoro fails
   rate: "+5%"
   pad_seconds: 0.7

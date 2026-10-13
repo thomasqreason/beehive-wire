@@ -414,6 +414,15 @@ def tts_kokoro(text: str, voice: str, speed: float, dest: Path) -> None:
     wav.unlink(missing_ok=True)
 
 
+def say_fix(text: str, v: dict) -> str:
+    """Respell what Kokoro gets wrong. It pauses on every dot of "U.S.", so dotted initialisms lose their dots,
+    and config video.say_as maps a word to a spelling it reads right ("Houthis" -> "Hoothees")."""
+    text = re.sub(r"\b(?:[A-Z]\.){2,}", lambda m: m.group(0).replace(".", ""), text)
+    for word, said in sorted((v.get("say_as") or {}).items(), key=lambda kv: -len(kv[0])):
+        text = re.sub(rf"\b{re.escape(word)}\b", said, text)
+    return text if text[-1:] in ".!?" else text + "."
+
+
 def tts_espeak(text: str, dest: Path) -> None:
     wav = dest.with_suffix(".wav")
     subprocess.run(["espeak-ng", "-v", "en-us", "-s", "160", "-w", str(wav), text], check=True)
@@ -451,7 +460,7 @@ def speak(text: str, dest: Path, v: dict, engine: str) -> str:
         return "silent"
     if engine == "kokoro":
         try:
-            tts_kokoro(text, v.get("kokoro_voice", "af_heart"), float(v.get("kokoro_speed", 1.0)), dest)
+            tts_kokoro(say_fix(text, v), v.get("kokoro_voice", "af_heart"), float(v.get("kokoro_speed", 1.0)), dest)
             return "kokoro"
         except Exception as e:
             log(f"WARN kokoro failed: {e}")
