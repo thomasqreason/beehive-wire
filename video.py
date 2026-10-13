@@ -200,7 +200,7 @@ def cmd_payload(args) -> int:
             view["context"] = ctx
     log(f"context found for {sum(1 for x in views if x['context'])} of {len(views)} stories")
     payload = {
-        "channel": v.get("channel_name", "Boring Money"),
+        "channel": v.get("channel_name", "Beehive Wire"),
         "edition": {k: ed.get(k) for k in ("no", "date", "slot", "edition", "time")},
         "weekday": datetime.strptime(ed["date"], "%Y-%m-%d").strftime("%A, %B %d").replace(" 0", " "),
         "target_words": v.get("target_words", [350, 520]),
@@ -274,7 +274,7 @@ def tame_title(title: str) -> str:
         return title
     out = []
     for i, (w, c) in enumerate(zip(words, core)):
-        if i == 0 or c in ACRONYMS or not c.isupper():
+        if (i == 0 and w.endswith(":")) or c in ACRONYMS or not c.isupper():
             out.append(w)
         elif c.lower() in SMALL:
             out.append(w.lower())
@@ -286,12 +286,18 @@ def tame_title(title: str) -> str:
 
 def default_title(payload: dict, v: dict) -> str:
     """No title from Claude: fall back to the front page's own headline, which already has the bite."""
-    ed = payload["edition"]
     top = payload["stories"][0]
-    head = (top.get("headline") or top["title"]).strip().rstrip(". ")
-    head = head if len(head) <= 60 else head[:57].rsplit(" ", 1)[0] + "..."
-    when = "Morning" if ed["slot"] == "morning" else "Evening"
-    return f"{head} | {when} Wire, {datetime.strptime(ed['date'], '%Y-%m-%d').strftime('%b %d').replace(' 0', ' ')}"[:95]
+    return (top.get("headline") or top["title"]).strip().rstrip(". ")
+
+
+def brand_title(headline: str) -> str:
+    """Every video is titled "BEEHIVE WIRE: <headline>". A leading "REPORT:" would make two colons, so it goes;
+    the capitals are tamed; and the whole stays inside YouTube's 100 characters."""
+    head = re.sub(r"^\s*(?:BEEHIVE WIRE|REPORT)\s*[:|-]\s*", "", headline.strip(), flags=re.I)
+    head = tame_title(head[:1].upper() + head[1:])
+    if len(head) > 85:
+        head = head[:83].rsplit(" ", 1)[0].rstrip(",;:- ") + "..."
+    return f"BEEHIVE WIRE: {head}"
 
 
 # ──────────────────────────────────────────────────────────────────────── slides
@@ -329,15 +335,55 @@ def fit_block(draw, text: str, paths: list[str], max_w: int, max_h: int, start: 
     return f, wrap(draw, text, f, max_w), floor
 
 
+BRAND_BG, BRAND_GOLD, BRAND_INK = (0x12, 0x16, 0x1b), (0xfd, 0xb5, 0x12), (0xf2, 0xef, 0xe9)
+BRAND_DIM = (0x9a, 0xa0, 0xa8)
+LOGO = ROOT / "assets" / "source-icon.png"
+
+
+def brand_card(headline: str, ed_label: str, size: tuple[int, int] = (1280, 720)) -> "Image":
+    """The Beehive Wire card: gold banner, the logo on the left, the headline in caps beside it with its first
+    word in gold. Drawn for 1280x720 (the thumbnail) and scaled for the video's own title cards."""
+    from PIL import Image, ImageDraw
+    w, h = size
+    k = w / 1280
+    px = lambda n: round(n * k)
+    img = Image.new("RGB", size, BRAND_BG)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, w, px(84)], fill=BRAND_GOLD)
+    d.text((px(40), px(42)), f"BEEHIVE WIRE  |  {ed_label}", font=font(FONT_BOLD, px(38)), fill=BRAND_BG, anchor="lm")
+
+    side = px(420)
+    top = px(84) + (h - px(84) - side) // 2
+    logo = Image.open(LOGO).convert("RGBA").resize((side, side), Image.LANCZOS)
+    img.paste(logo, (px(40), top), logo)
+
+    x0, max_w, max_h = px(500), w - px(500) - px(40), h - px(84) - px(80)
+    for fs in range(px(132), px(44), -4):         # largest size where no line (or single long word) spills
+        f = font(FONT_BOLD, fs)
+        lines = [ln for part in headline.upper().split("\n") for ln in wrap(d, part, f, max_w)]
+        if len(lines) * fs * 1.12 <= max_h and all(d.textlength(ln, font=f) <= max_w for ln in lines):
+            break
+    y = px(84) + (h - px(84) - len(lines) * fs * 1.12) / 2
+    first = True
+    for ln in lines:
+        x = x0
+        for word in ln.split():
+            d.text((x, y), word, font=f, fill=BRAND_GOLD if first else BRAND_INK)
+            x += d.textlength(word + " ", font=f)
+            first = False
+        y += fs * 1.12
+    return img
+
+
 def frame(banner: str, right: str = ""):
     from PIL import Image, ImageDraw
-    img = Image.new("RGB", (W, H), WHITE)
+    img = Image.new("RGB", (W, H), BRAND_BG)
     d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, W, 96], fill=RED)
-    d.text((64, 48), banner, font=font(FONT_BOLD, 44), fill=WHITE, anchor="lm")
+    d.rectangle([0, 0, W, 96], fill=BRAND_GOLD)
+    d.text((64, 48), banner, font=font(FONT_BOLD, 44), fill=BRAND_BG, anchor="lm")
     if right:
-        d.text((W - 64, 48), right, font=font(FONT_BOLD, 36), fill=WHITE, anchor="rm")
-    d.rectangle([0, H - 12, W, H], fill=BLACK)
+        d.text((W - 64, 48), right, font=font(FONT_BOLD, 36), fill=BRAND_BG, anchor="rm")
+    d.rectangle([0, H - 12, W, H], fill=BRAND_GOLD)
     return img, d
 
 
@@ -347,44 +393,20 @@ def slide_story(s: dict, idx: int, total: int, ed_label: str, wm: str) -> "Image
     block = len(lines) * size * 1.12
     y = 96 + (H - 96 - 150 - block) / 2 + 20
     for ln in lines:
-        d.text((80, y), ln, font=f, fill=BLACK)
+        d.text((80, y), ln, font=f, fill=BRAND_INK)
         y += size * 1.12
-    d.text((80, H - 120), f"Source: {s['source']}", font=font(FONT_REG, 40), fill=GREY, anchor="ls")
-    d.text((W - 80, H - 120), wm, font=font(FONT_BOLD, 34), fill=RED, anchor="rs")
+    d.text((80, H - 120), f"Source: {s['source']}", font=font(FONT_REG, 40), fill=BRAND_DIM, anchor="ls")
+    d.text((W - 80, H - 120), wm, font=font(FONT_BOLD, 34), fill=BRAND_GOLD, anchor="rs")
     return img
 
 
-def slide_card(title: str, sub: str, ed_label: str, wm: str) -> "Image":
-    img, d = frame(f"BEEHIVE WIRE  |  {ed_label}")
-    f, lines, size = fit_block(d, title, FONT_BOLD, W - 200, 420, 150, 70)
-    y = 300
-    for ln in lines:
-        d.text((100, y), ln, font=f, fill=BLACK)
-        y += size * 1.12
-    d.rectangle([100, y + 20, 460, y + 32], fill=RED)
-    fs, slines, ssize = fit_block(d, sub, FONT_REG, W - 200, 260, 56, 36)
-    y += 70
-    for ln in slines:
-        d.text((100, y), ln, font=fs, fill=GREY)
-        y += ssize * 1.2
-    d.text((W - 80, H - 120), wm, font=font(FONT_BOLD, 34), fill=RED, anchor="rs")
-    return img
+def slide_card(headline: str, ed_label: str) -> "Image":
+    """The video's opening and closing title cards: the thumbnail's design at full frame size."""
+    return brand_card(headline, ed_label, (W, H))
 
 
-def thumbnail(top: dict, ed_label: str, wm: str) -> "Image":
-    from PIL import Image, ImageDraw
-    img = Image.new("RGB", (1280, 720), WHITE)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 1280, 84], fill=RED)
-    d.text((40, 42), f"BEEHIVE WIRE  |  {ed_label}", font=font(FONT_BOLD, 38), fill=WHITE, anchor="lm")
-    f, lines, size = fit_block(d, top["headline"], FONT_BOLD, 1200, 460, 150, 70)
-    y = 84 + (720 - 84 - 80 - len(lines) * size * 1.12) / 2
-    for ln in lines:
-        d.text((40, y), ln, font=f, fill=BLACK)
-        y += size * 1.12
-    d.rectangle([0, 700, 1280, 720], fill=BLACK)
-    d.text((1240, 672), wm, font=font(FONT_BOLD, 34), fill=RED, anchor="rs")
-    return img
+def thumbnail(top: dict, ed_label: str) -> "Image":
+    return brand_card(top["headline"], ed_label)
 
 
 # ──────────────────────────────────────────────────────────────────────── voice
@@ -545,7 +567,7 @@ def cmd_render(args) -> int:
     if script is None:
         script = fallback_script(payload)
     by_id = {s["id"]: s for s in payload["stories"]}
-    title = tame_title(script["title"] or default_title(payload, v))
+    title = brand_title(script["title"] or default_title(payload, v))
 
     work = OUT / "work"
     if OUT.exists():
@@ -553,14 +575,13 @@ def cmd_render(args) -> int:
     work.mkdir(parents=True)
 
     # (kind, image, narration, story)
-    beats = [("intro", slide_card(f"The {ed['edition']}", f"{payload['channel']}  -  {payload['weekday']}",
-                                  ed_label, wm), script["intro"], None)]
+    beats = [("intro", slide_card(payload["stories"][0]["headline"], ed_label), script["intro"], None)]
     total = len(script["segments"])
     for i, seg in enumerate(script["segments"], 1):
         s = by_id[seg["id"]]
         beats.append(("story", slide_story(s, i, total, ed_label, wm), seg["narration"], s))
-    beats.append(("outro", slide_card("The full front page", "beehivewire.com  -  two editions a day, nothing in between",
-                                      ed_label, wm), f"{script['outro']} {v.get('signoff', '')}".strip(), None))
+    beats.append(("outro", slide_card("More at\nbeehivewire.com\n6 AM & 6 PM Eastern", ed_label),
+                  f"{script['outro']} {v.get('signoff', '')}".strip(), None))
     beats = [b for b in beats if b[2]]
 
     engine = args.tts or v.get("tts", "edge")
@@ -584,7 +605,7 @@ def cmd_render(args) -> int:
     video = OUT / "video.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(listing),
                     "-c", "copy", "-movflags", "+faststart", str(video)], check=True)
-    thumbnail(payload["stories"][0], ed_label, wm).save(OUT / "thumbnail.png")
+    thumbnail(payload["stories"][0], ed_label).save(OUT / "thumbnail.png")
 
     # Chapters need a 0:00 start and at least three of them; the intro card supplies the first.
     lines = []
@@ -593,15 +614,17 @@ def cmd_render(args) -> int:
         lines.append(f"{fmt_ts(c['t'])} {label}")
     src = [f"- {c['story']['source']}: {c['story']['title']}" + (f"\n  {c['story']['url']}" if len(c['story']['url']) <= 200 else "")
            for c in chapters if c["story"]]
-    description = "\n".join([
-        "Every story, with links, on the full front page: https://beehivewire.com",
-        "New editions every day at 6 a.m. and 6 p.m. Eastern.", "",
-        f"The {ed['edition']} of Beehive Wire for {payload['weekday']}: the front page, read out in a few minutes.", "",
-        "CHAPTERS", *lines, "", "STORIES AND SOURCES", *src, "",
-        "Narrated by a synthetic voice. Headlines and summaries are drawn from the linked publishers' reporting; "
-        "follow the links for the full story.",
-    ])
-    meta = {"key": key_of(ed), "edition": ed, "title": title, "description": description[:4900],
+    head = ["beehivewire.com — the news, twice a day", "", "STORIES AND SOURCES"]
+    tail = ["", "CHAPTERS", *lines, "",
+            f"The {ed['edition']} of Beehive Wire for {payload['weekday']}. New editions every day at 6 a.m. and "
+            "6 p.m. Eastern: https://beehivewire.com", "",
+            "Narrated by a synthetic voice. Headlines and summaries are drawn from the linked publishers' reporting; "
+            "follow the links for the full story."]
+    room = 4900 - len("\n".join(head + tail))        # YouTube caps a description at 5,000; the chapters must survive
+    while src and len("\n".join(src)) > room:
+        src.pop()
+    description = "\n".join(head + src + tail)
+    meta = {"key": key_of(ed), "edition": ed, "title": title, "description": description,
             "tags": (v.get("tags") or []) + script["tags"], "duration": t, "tts": sorted(used),
             "stories": [s["id"] for s in payload["stories"] if s["id"] in {x["id"] for x in script["segments"]}]}
     (OUT / "meta.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")

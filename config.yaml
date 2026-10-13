@@ -161,4 +161,4 @@ video:
   rate: "+5%"
   pad_seconds: 0.7
   watermark: "beehivewire.com"
-  tags: ["news", "headlines", "Beehive Wire", "Boring Money", "daily news"]
+  tags: ["news", "headlines", "Beehive Wire", "beehivewire.com", "daily news"]
