@@ -800,9 +800,10 @@ def render_site(site_cfg: dict | None = None) -> int:
         (SITE / "series").mkdir(exist_ok=True)
         for f in SERIES_DIR.glob("*.json"):
             shutil.copy2(f, SITE / "series" / f.name)
-    if (DATA / "rs_dist.json").is_file():
-        import shutil
-        shutil.copy2(DATA / "rs_dist.json", SITE / "rs_dist.json")
+    for name in ("rs_dist.json", "screen.json"):
+        if (DATA / name).is_file():
+            import shutil
+            shutil.copy2(DATA / name, SITE / name)
     tz = ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))
     site_name = ((site_cfg or {}).get("site") or {}).get("name") or "BEEHIVE WIRE"
     index = [{"date": e["date"], "human": human_date(e["date"]), "count": len(e["stories"]),
@@ -1110,6 +1111,10 @@ def movers(cfg: dict) -> dict:
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
     try:
+        save_screen(prices, bench, cfg, rs_all, rs_rank_of, today, now, live, m)
+    except Exception as e:  # noqa: BLE001
+        log(f"live-screen snapshot failed ({e}); the page keeps the pass's tables")
+    try:
         refresh_lists(prices, bench, cfg, rs_rank_of, now, live)
     except Exception as e:  # noqa: BLE001
         log(f"list quote refresh failed ({e}); the lists keep their last quotes")
@@ -1389,6 +1394,85 @@ def leader_lists(cfg: dict) -> dict:
                       "big_cap_min": big_min, "min_price": m.get("min_price", 15), "min_dollar_volume": m.get("min_dollar_volume", 20_000_000)}}
     log(f"beehive 50: {', '.join(r['sym'] for r in b50[:10])} …  big cap 20: {', '.join(r['sym'] for r in b20[:8])} …")
     return out
+
+
+def outer_base(b: dict, dates: list, cfg: dict) -> list:
+    """When analyze() measured from an inner base (the stock sat 10%+ under its old high), it switches back to the
+    old base once price recovers to within 10% of that high. Save the old base so the live screen can do the same."""
+    ins = (b or {}).get("inside")
+    if not ins:
+        return [None, None, None, None, None]
+    pivot, low = float(ins["high"]), float(ins["low"])
+    zone = cfg["desk"].get("buy_zone_pct", 5)
+    bp = round(pivot + 0.10, 2)
+    depth = round((pivot - low) / pivot * 100, 1) if pivot else 0
+    kind = "flat base" if depth <= 15 else ("cup" if depth <= 35 else "deep cup")
+    length = (len(dates) - 1 - dates.index(ins["high_date"])) if ins.get("high_date") in dates else None   # rim to today
+    return [round(pivot, 4), bp, round(bp * (1 + zone / 100), 2), kind, max(1, round(length / 5)) if length else None]
+
+
+def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today: str, now: datetime, live: bool, m: dict) -> None:
+    """The page's live screen (templates/markets_live.js) re-runs Stocks on the Move and the buy-range watch lists
+    every minute of the regular session from live quotes. Everything it needs that does NOT change during the day is
+    saved here, per name, from the bars BEFORE today's: prior close, 50-day average volume, RS rank, the base and
+    its buy point, and the pieces of the 50-day line, 52-week high and breakdown test. The browser adds today's
+    price, high, low and volume and applies analyze()'s own rules (same thresholds as movers())."""
+    import numpy as np
+    desk = set(universe(cfg))
+    desk_scores = sorted(v for k, v in rs_all.items() if k in desk)
+    import bisect
+
+    def desk_rank(sym):
+        v = rs_all.get(sym)
+        return None if v is None or not desk_scores else max(1, min(99, round(100 * (bisect.bisect_left(desk_scores, v) + 1) / (len(desk_scores) + 1))))
+
+    rows, hist_dates = [], []
+    for sym, d in prices.items():
+        hist = d.iloc[:-1] if (live and d.index[-1].date().isoformat() == today) else d
+        if len(hist) < 54:
+            continue
+        hist_dates.append(hist.index[-1].date().isoformat())
+        # analyze() picks its base from a window that slides with each new session, so run it as of the session being
+        # screened: the history plus a placeholder bar for today (a copy of the last close). The base it lands on is
+        # the one analyze() will use today; the browser supplies today's real price.
+        import pandas as pd
+        syn = pd.concat([hist, hist.iloc[[-1]].set_axis([hist.index[-1] + pd.offsets.BDay(1)])])
+        try:
+            f = analyze(sym, syn, bench, cfg)
+        except Exception:  # noqa: BLE001
+            f = None
+        if not f:
+            continue
+        C, H, V = (hist[k].to_numpy(dtype=float) for k in ("Close", "High", "Volume"))
+        s50 = sma(C, 50)
+        b = f.get("base") or {}
+        n50 = min(50, len(C))
+        rows.append([sym, round(float(C[-1]), 4), int(np.mean(V[-50:])), rs_rank_of(sym), desk_rank(sym) if sym in desk else None,
+                     b.get("buy_point"), b.get("buy_max"), b.get("kind"), b.get("weeks"),
+                     round(float(b["pivot"]), 4) if b.get("pivot") is not None else None,
+                     (len(C) - b["breakout"]) if b.get("breakout") is not None else None,          # sessions since, counting today
+                     round(float(np.sum(C[-49:])), 4),
+                     int(np.sum(C[-n50:] > s50[-n50:])), n50,
+                     round(float(np.max(H[-252:])), 4),
+                     bool(np.nanmax(C[-5:]) > np.nanmax(s50[-5:])) if not np.all(np.isnan(s50[-5:])) else False,
+                     len(C) if len(C) < 129 else None,
+                     *outer_base(b, [x.date().isoformat() for x in syn.index], cfg)])
+    yr = datetime.now(timezone.utc).year
+    from datetime import date as _date, timedelta as _td
+    early = [dd.isoformat() for y in (yr, yr + 1) for dd in (_nth_weekday(y, 11, 3, 4) + _td(days=1), _date(y, 7, 3), _date(y, 12, 24))
+             if nyse_early_close(dd)]
+    out = {"built": now.isoformat(timespec="seconds"), "hist_date": max(hist_dates) if hist_dates else None,
+           "criteria": {"min_price": float(m.get("min_price", 10)), "min_avg_volume": float(m.get("min_avg_volume", 400_000)),
+                        "min_volume_ratio": float(m.get("min_volume_ratio", 1.5)), "min_up_pct": float(m.get("min_up_pct", 1.0)),
+                        "min_rs_rank": int(m.get("min_rs_rank", 70)), "rows_up": int(m.get("rows_up", 20)), "rows_down": int(m.get("rows_down", 10)),
+                        "buy_zone_pct": float(cfg["desk"].get("buy_zone_pct", 5))},
+           "early_closes": early, "universe_size": len(prices),
+           "cols": ["sym", "prev", "avgv", "rs", "rsd", "bp", "bm", "kind", "wk", "pv", "dsb", "s49", "a50", "n50", "hip", "bdp", "ipo",
+                    "opv", "obp", "obm", "okind", "owk"],
+           "rows": rows}
+    DATA.mkdir(parents=True, exist_ok=True)
+    (DATA / "screen.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    log(f"live-screen snapshot: {len(rows)} names (history through {out['hist_date']})")
 
 
 def refresh_lists(prices: dict, bench, cfg: dict, rs_rank_of, now: datetime, live: bool) -> None:

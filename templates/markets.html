@@ -56,6 +56,7 @@
 
   {% if movers %}
   <h3 class="sec" id="movers" style="margin-top:22px">Stocks on the Move</h3>
+  <div id="mv-live">
   <div class="legend">As of {{ movers.as_of_human }}{% if movers.live %}, {{ (movers.session_fraction * 100)|round|int }}% of the session done; volume is projected to the full day{% else %}, full-session volume{% endif %}.
     {{ movers.universe_size }} names screened (S&amp;P 500, Nasdaq-100, the desk list). To qualify: price ${{ movers.criteria.min_price|int }}+,
     50-day average volume {{ (movers.criteria.min_avg_volume / 1000)|int }}K+, volume {{ movers.criteria.min_volume_ratio }}x average or more,
@@ -83,6 +84,7 @@
   {% if not movers.up %}<div class="none" style="font-size:13px;color:var(--mut)">No qualifying up-on-volume names at this hour.</div>{% endif %}
   {{ mvtable(movers.up_low_rs, "Up on volume — RS below " ~ movers.criteria.min_rs_rank ~ " (for the record)") }}
   {{ mvtable(movers.down, "Down on volume") }}
+  </div>
   {% endif %}
 
   <ul class="toc">
@@ -208,9 +210,10 @@
 
   {% if ed.lists %}
   <h3 class="sec" id="lists">Watch lists</h3>
-  {% macro mini(title, rows, blurb) %}
+  {% macro mini(title, rows, blurb, live_id=none) %}
   <div class="list">
     <b>{{ title }}</b><span class="blurb">{{ blurb }}</span>
+    {% if live_id %}<div id="wl-{{ live_id }}">{% endif %}
     {% if rows %}<table class="mini">
       {% for r in rows %}<tr>
         <td class="sym">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>
@@ -220,12 +223,13 @@
         <td class="st">RS {{ r.rs_rank }}{% if r.base_weeks %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}{% if r.ipo_sessions %} &middot; {{ r.ipo_sessions }} sessions{% endif %}</td>
       </tr>{% endfor %}
     </table>{% else %}<div class="none">None today.</div>{% endif %}
+    {% if live_id %}</div>{% endif %}
   </div>
   {% endmacro %}
   <div class="lists">
-    {{ mini("Breakouts this week", ed.lists.breakouts_week, "Cleared a buy point in the last five sessions.") }}
-    {{ mini("In the buy range", ed.lists.in_buy_range, "Between the buy point and 5% above it.") }}
-    {{ mini("Near a buy point", ed.lists.near_buy_point, "Within 5% below a buy point, base complete.") }}
+    {{ mini("Breakouts this week", ed.lists.breakouts_week, "Cleared a buy point in the last five sessions.", "breakouts_week") }}
+    {{ mini("In the buy range", ed.lists.in_buy_range, "Between the buy point and 5% above it.", "in_buy_range") }}
+    {{ mini("Near a buy point", ed.lists.near_buy_point, "Within 5% below a buy point, base complete.", "near_buy_point") }}
     {{ mini("IPO watch", ed.lists.ipo_watch, "New issues with under six months of trading.") }}
     {{ mini("Sell signals", ed.lists.sell_signals, "Leaders breaking the 50-day line, or 7%+ under a buy point after a breakout.") }}
   </div>
@@ -272,6 +276,10 @@
 </div>
 {% include "markets_quotebox.html" %}
 {% include "markets_popup.html" %}
+{% if latest and desk.quote_relay %}
+<script>window.BW_RELAY={{ desk.quote_relay|tojson }};window.BW_MBASE={{ ((root or '../') ~ 'markets/')|tojson }};window.BW_STORY={{ story_syms|tojson }};</script>
+<script>{% include "markets_live.js" %}</script>
+{% endif %}
 <script>
 (function(){var K='bw-theme',r=document.documentElement,b=document.getElementById('theme-btn');
 function set(d){if(d){r.setAttribute('data-theme','dark');}else{r.removeAttribute('data-theme');}try{localStorage.setItem(K,d?'dark':'light');}catch(e){}b.textContent=d?'Light mode':'Dark mode';}

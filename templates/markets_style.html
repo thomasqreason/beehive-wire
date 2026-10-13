@@ -93,6 +93,11 @@
   .modal .x{position:absolute;top:8px;right:10px;font:900 22px/1 Arial,sans-serif;background:none;border:0;color:var(--mut);cursor:pointer}
   .modal h2{font:900 22px/1.15 "Arial Black",Impact,Arial,sans-serif;margin:4px 28px 4px 0}
   .modal h2 .nm{font:700 15px/1.2 Arial,sans-serif;color:var(--mut);letter-spacing:0}
+  .livetag{font-size:13px;color:var(--mut);margin:4px 0 8px}
+  .livetag .dot,.livemini .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--pivot);margin-right:6px;vertical-align:1px;animation:bwpulse 2s infinite}
+  .livemini{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--pivot);margin:2px 0 4px}
+  .relive{border:1px solid var(--soft);background:var(--bg);color:var(--ink);font-size:14px;line-height:1;padding:3px 7px;cursor:pointer;margin-left:4px}
+  @keyframes bwpulse{0%,100%{opacity:1}50%{opacity:.3}}
   /* The quote box: pinned to the bottom of the screen on every Market Desk page, above the chart pop-up so
      another ticker can be typed without closing the one that's open. */
   .qbox{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;align-items:center;margin:0;

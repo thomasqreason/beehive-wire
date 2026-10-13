@@ -3,6 +3,7 @@
 // The site is static, and Yahoo refuses requests from other websites' pages, so the chart popup asks
 // this relay instead:   GET https://<your-worker>.workers.dev/?s=DELL      (up to 25 symbols: ?s=DELL,MU,AMD)
 //
+//   GET https://<your-worker>.workers.dev/?q=AAPL,MSFT,…   → bulk live price/volume/day range for the live screen (≤120)
 //   GET https://<your-worker>.workers.dev/?hist=DELL   → two years of daily bars + company name and industry,
 //   which the page's quote box runs through the same chart analysis the desk uses (cached 60 s).
 //
@@ -43,6 +44,29 @@ export default {
                           exchange: bars.exchange || null, ...bars.cols }, 200, { "Cache-Control": "public, max-age=60" });
       ctx.waitUntil(caches.default.put(hkey, hres.clone()));
       return withHeaders(hres, cors);
+    }
+    // ── Bulk mode for the page's live screen: ?q=AAPL,MSFT,... (up to 120). Quote feed only — one Yahoo call per
+    //    request, so a page refresh of the whole 583-name universe is six calls, shared by every reader for 60 s.
+    const bulk = url.searchParams.get("q");
+    if (bulk) {
+      const list = [...new Set(bulk.toUpperCase().split(",").map(x => x.trim()).filter(x => SYM.test(x)))].slice(0, 120);
+      if (!list.length) return json({ error: "pass ?q=SYM,SYM" }, 400, cors);
+      const bkey = new Request("https://quote-cache.local/q/" + list.join(","));
+      const bhit = await caches.default.match(bkey);
+      if (bhit) return withHeaders(bhit, cors);
+      const qs = await quoteFeed(list).catch(() => ({}));
+      const out = {};
+      let state = null;
+      for (const sym of list) {
+        const q = qs[sym]; if (!q) continue;
+        state = state || q.marketState || null;
+        out[sym] = [num(q.regularMarketPrice), num(q.regularMarketPreviousClose), num(q.regularMarketVolume),
+                    num(q.regularMarketDayHigh), num(q.regularMarketDayLow), num(q.regularMarketTime)];
+      }
+      const bres = json({ asOf: Math.floor(Date.now() / 1000), marketState: state, cols: ["p", "pc", "v", "hi", "lo", "t"], quotes: out },
+                        200, { "Cache-Control": "public, max-age=60" });
+      if (Object.keys(out).length) ctx.waitUntil(caches.default.put(bkey, bres.clone()));
+      return withHeaders(bres, cors);
     }
     const syms = [...new Set((url.searchParams.get("s") || "").toUpperCase().split(",").map(s => s.trim()).filter(s => SYM.test(s)))].slice(0, 25);
     if (!syms.length) return json({ error: "pass ?s=SYMBOL or ?hist=SYMBOL" }, 400, cors);

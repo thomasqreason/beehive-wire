@@ -40,6 +40,7 @@
   }
   function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(sym){
+    if(window.BW_LIVE_ON&&RELAY)return fresh(sym);   // tables are live, so the chart is too: same price, same status
     scrim.classList.add('on');body.className='wait';body.textContent='Loading '+sym+'…';
     fetch(MBASE+'series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(render)
       .catch(function(e){if(RELAY){fresh(sym);}else{body.className='wait';body.textContent='No chart saved for '+sym+' yet; the next scan that covers it will draw one.';}});
