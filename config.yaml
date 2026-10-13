@@ -130,7 +130,7 @@ mix:
 # The YouTube video (video.py, .github/workflows/video.yml): a few minutes on each edition's top stories,
 # posted after the morning and evening editions print.
 video:
-  channel_name: "Boring Money"
+  channel_name: "Beehive Wire"     # what the intro card and the narrator call the show (the YouTube channel is BoringMoney)
   expect_channel: "boringmoney"    # upload refuses unless the credentials belong to a channel whose name contains this
   stories: 14                      # top story + flash lines + the page's next links, at most two per topic
   target_words: [1350, 1650]       # narration length Claude aims for: about 9 to 11 minutes at the voice's pace
@@ -139,8 +139,11 @@ video:
                                    # public). Private until Todd has approved the voice; he publishes from Studio
   category_id: 25                  # 25 = News & Politics
   synthetic_disclosure: false      # true sets YouTube's "altered or synthetic content" label
-  tts: "edge"                      # edge (free Microsoft voices, no key) | espeak (robotic, always available)
-  voice: "en-US-AndrewNeural"
+  tts: "kokoro"                    # kokoro (neural, runs on the runner, the voice Todd picked) | edge (free
+                                   # Microsoft voices; blocked since 2026-10-12) | espeak (robotic, last resort)
+  kokoro_voice: "af_heart"
+  kokoro_speed: 1.05
+  voice: "en-US-AndrewNeural"      # edge-tts voice, used only if Kokoro fails
   rate: "+5%"
   pad_seconds: 0.7
   watermark: "beehivewire.com"

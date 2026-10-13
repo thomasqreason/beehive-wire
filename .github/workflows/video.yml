@@ -73,6 +73,14 @@ jobs:
         if: steps.due.outputs.go == 'yes'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng fonts-liberation
 
+      # Kokoro's model files are about 350 MB; video.py fetches them when this cache is cold.
+      - name: Keep the voice model between runs
+        if: steps.due.outputs.go == 'yes'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/kokoro
+          key: kokoro-v1.0
+
       - name: Pick the stories
         if: steps.due.outputs.go == 'yes'
         run: python video.py --emit-payload data/video/payload.json

@@ -13,7 +13,7 @@ Same three-step shape as build.py: Python picks the stories, Claude (video_edito
 narration, Python renders and publishes. If the Claude step fails, `render --fallback` reads the front-page
 headlines and their sources aloud, so a slot is never skipped over a bad script.
 
-Needs ffmpeg on the PATH, Pillow, and a text-to-speech engine: edge-tts (default, free, no key) or espeak-ng.
+Needs ffmpeg on the PATH, Pillow, and a text-to-speech engine: Kokoro (default, runs locally), edge-tts or espeak-ng.
 Upload credentials come from environment variables -- see README "The YouTube video".
 """
 from __future__ import annotations
@@ -252,8 +252,8 @@ def fallback_script(payload: dict) -> dict:
         segs.append({"id": s["id"], "narration": f"{title}. That's from {s['source']}."})
     return {
         "title": "",
-        "intro": f"Here are the top stories on Beehive Wire for the {ed['edition']}, {payload['weekday']}.",
-        "outro": "That's the front page. The full list, with links to every story, is at beehivewire.com.",
+        "intro": f"This is the Beehive Wire {ed['edition']} for {payload['weekday']}, from beehivewire dot com.",
+        "outro": "That's the front page. The full list, with links to every story, is at beehivewire dot com.",
         "tags": [],
         "segments": segs,
     }
@@ -378,6 +378,42 @@ def tts_edge(text: str, voice: str, rate: str, dest: Path) -> None:
     raise RuntimeError(f"edge-tts failed: {last}")
 
 
+KOKORO_FILES = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/"
+_kokoro = None
+
+
+def kokoro_engine():
+    """Load Kokoro once. Its two model files (about 350 MB) are fetched the first time and kept in KOKORO_DIR."""
+    global _kokoro
+    if _kokoro is None:
+        from kokoro_onnx import Kokoro
+        home = Path(os.environ.get("KOKORO_DIR") or Path.home() / ".cache" / "kokoro")
+        home.mkdir(parents=True, exist_ok=True)
+        files = [home / "kokoro-v1.0.onnx", home / "voices-v1.0.bin"]
+        for f in files:
+            if not f.exists():
+                log(f"fetching {f.name}")
+                part = f.with_suffix(".part")
+                with requests.get(KOKORO_FILES + f.name, stream=True, timeout=120) as r:
+                    r.raise_for_status()
+                    with open(part, "wb") as fh:
+                        for chunk in r.iter_content(1 << 20):
+                            fh.write(chunk)
+                part.replace(f)
+        _kokoro = Kokoro(str(files[0]), str(files[1]))
+    return _kokoro
+
+
+def tts_kokoro(text: str, voice: str, speed: float, dest: Path) -> None:
+    """A neural voice that runs on this machine: free, no key, no service that can refuse the call."""
+    import soundfile as sf
+    audio, rate = kokoro_engine().create(text, voice=voice, speed=speed, lang="en-us")
+    wav = dest.with_suffix(".wav")
+    sf.write(str(wav), audio, rate)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), str(dest)], check=True)
+    wav.unlink(missing_ok=True)
+
+
 def tts_espeak(text: str, dest: Path) -> None:
     wav = dest.with_suffix(".wav")
     subprocess.run(["espeak-ng", "-v", "en-us", "-s", "160", "-w", str(wav), text], check=True)
@@ -408,10 +444,18 @@ def tts_silent(text: str, dest: Path) -> None:
 
 
 def speak(text: str, dest: Path, v: dict, engine: str) -> str:
-    """Speak with the chosen engine; edge-tts falls back to espeak-ng if Microsoft's service won't answer."""
+    """Speak with the chosen engine. Kokoro falls back to edge-tts, and edge-tts to espeak-ng, so a slot
+    still gets a video; meta.json records which voice actually spoke."""
     if engine == "silent":
         tts_silent(text, dest)
         return "silent"
+    if engine == "kokoro":
+        try:
+            tts_kokoro(text, v.get("kokoro_voice", "af_heart"), float(v.get("kokoro_speed", 1.0)), dest)
+            return "kokoro"
+        except Exception as e:
+            log(f"WARN kokoro failed: {e}")
+            engine = "edge"
     if engine == "sapi":
         tts_sapi(text, dest, v.get("sapi_voice", ""), int(v.get("sapi_rate", 1)))
         return "sapi"
@@ -516,8 +560,8 @@ def cmd_render(args) -> int:
     src = [f"- {c['story']['source']}: {c['story']['title']}" + (f"\n  {c['story']['url']}" if len(c['story']['url']) <= 200 else "")
            for c in chapters if c["story"]]
     description = "\n".join([
-        f"The {ed['edition']} of Beehive Wire for {payload['weekday']}: the front page, read out in a few minutes.",
-        "", "Full front page, updated twice a day: https://beehivewire.com", "",
+        "Every story, with links, on the full front page: https://beehivewire.com", "",
+        f"The {ed['edition']} of Beehive Wire for {payload['weekday']}: the front page, read out in a few minutes.", "",
         "CHAPTERS", *lines, "", "STORIES AND SOURCES", *src, "",
         "Narrated by a synthetic voice. Headlines and summaries are drawn from the linked publishers' reporting; "
         "follow the links for the full story.",
@@ -623,7 +667,7 @@ def main() -> int:
     ap.add_argument("--payload", default=str(VDIR / "payload.json"))
     ap.add_argument("--script", default=str(VDIR / "script.json"))
     ap.add_argument("--fallback", action="store_true", help="skip the Claude script; read the headlines straight")
-    ap.add_argument("--tts", choices=["edge", "espeak", "sapi", "silent"], help="override config video.tts")
+    ap.add_argument("--tts", choices=["kokoro", "edge", "espeak", "sapi", "silent"], help="override config video.tts")
     ap.add_argument("--dry-run", action="store_true", help="due: render-only run, so no YouTube credentials needed")
     ap.add_argument("--force", action="store_true", help="due: go even if this edition already has a video")
     args = ap.parse_args()

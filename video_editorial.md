@@ -14,9 +14,11 @@ fetched; empty otherwise). Write `data/video/script.json` as ONE JSON object, no
 
 {
   "title": "...",                    // YouTube title, 55-90 chars. See "The title" below: make it bite.
-  "intro": "...",                    // 1-2 sentences: edition, day, the one thing to know first
+  "intro": "...",                    // 1-2 sentences: edition, day, the one thing to know first. Open "This is the
+                                     // Beehive Wire morning|evening edition for ..."; never name it for the channel
   "segments": [ {"id": "<story id>", "narration": "..."} ],   // in payload order; skip a story only if you must
-  "outro": "...",                    // 1-2 sentences: point to beehivewire.com, next edition
+  "outro": "...",                    // 1-2 sentences: send them to the site, said aloud as "beehivewire dot com"
+                                     // (every story is linked there, and the link is in the description); next edition
   "tags": ["...", "..."]             // 5-10 topical tags, specific to today's stories
 }
 
