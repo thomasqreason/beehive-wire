@@ -616,6 +616,33 @@ def cmd_whoami(args) -> int:
     return 0
 
 
+def hide_video(tok: str, vid: str) -> bool:
+    """Set one of our videos to private. Needs the wider 'youtube' scope (youtube_auth.py asks for it); a token
+    minted before that can upload but not edit, so this warns and returns False rather than failing the run."""
+    auth = {"Authorization": f"Bearer {tok}"}
+    api = "https://www.googleapis.com/youtube/v3/videos"
+    got = requests.get(api, params={"part": "status", "id": vid}, headers=auth, timeout=30)
+    items = got.json().get("items") if got.status_code == 200 else None
+    if not items:
+        log(f"WARN cannot hide {vid}: not found or not ours ({got.status_code})")
+        return False
+    status = {k: items[0]["status"][k] for k in ("embeddable", "license", "publicStatsViewable",
+                                                 "selfDeclaredMadeForKids") if k in items[0]["status"]}
+    put = requests.put(api, params={"part": "status"}, headers=auth, timeout=30,
+                       json={"id": vid, "status": {**status, "privacyStatus": "private"}})
+    if put.status_code != 200:
+        log(f"WARN cannot hide {vid} ({put.status_code}): {put.text[:200]}")
+        return False
+    log(f"hid https://youtu.be/{vid} (now private)")
+    return True
+
+
+def cmd_hide(args) -> int:
+    if not args.id:
+        raise SystemExit("hide needs --id VIDEO_ID")
+    return 0 if hide_video(access_token(), args.id) else 1
+
+
 def cmd_upload(args) -> int:
     v = cfg_video()
     meta = json.loads((OUT / "meta.json").read_text(encoding="utf-8"))
@@ -658,10 +685,16 @@ def cmd_upload(args) -> int:
     vid = up.json()["id"]
     log(f"uploaded https://youtu.be/{vid} to {ch['title']} ({up.json().get('status', {}).get('privacyStatus')})")
 
+    # A forced run is a remake: the edition's earlier videos come down so the channel shows one per edition.
+    earlier = published()
+    for p in earlier:
+        if p.get("key") == meta["key"] and not p.get("hidden") and hide_video(tok, p["video_id"]):
+            p["hidden"] = True
+
     rec = {"key": meta["key"], "video_id": vid, "title": meta["title"], "channel": ch["title"],
            "uploaded": build.iso(build.utcnow())}
     PUBLISHED.parent.mkdir(parents=True, exist_ok=True)
-    PUBLISHED.write_text(json.dumps(published() + [rec], indent=1), encoding="utf-8")
+    PUBLISHED.write_text(json.dumps(earlier + [rec], indent=1), encoding="utf-8")
 
     th = requests.post("https://www.googleapis.com/upload/youtube/v3/thumbnails/set", params={"videoId": vid},
                        headers={**auth, "Content-Type": "image/png"}, data=(OUT / "thumbnail.png").read_bytes(), timeout=60)
@@ -672,7 +705,8 @@ def cmd_upload(args) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", nargs="?", choices=["due", "render", "upload", "whoami"])
+    ap.add_argument("cmd", nargs="?", choices=["due", "render", "upload", "whoami", "hide"])
+    ap.add_argument("--id", help="hide: the YouTube video id to set private")
     ap.add_argument("--emit-payload", metavar="PATH")
     ap.add_argument("--payload", default=str(VDIR / "payload.json"))
     ap.add_argument("--script", default=str(VDIR / "script.json"))
@@ -685,7 +719,8 @@ def main() -> int:
         return cmd_payload(args)
     if not args.cmd:
         ap.error("give a command or --emit-payload")
-    return {"due": cmd_due, "render": cmd_render, "upload": cmd_upload, "whoami": cmd_whoami}[args.cmd](args)
+    return {"due": cmd_due, "render": cmd_render, "upload": cmd_upload, "whoami": cmd_whoami,
+            "hide": cmd_hide}[args.cmd](args)
 
 
 if __name__ == "__main__":

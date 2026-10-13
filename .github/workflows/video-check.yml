@@ -2,9 +2,15 @@ name: video-check
 
 # Hand-run only. Signs in to YouTube with the repo's secrets and prints which channel they post to.
 # Uploads nothing. Run it after changing any YOUTUBE_* secret, instead of waiting for the next edition to fail.
+# Give it a video id in "hide" and it also sets that one video to private.
 
 on:
   workflow_dispatch:
+    inputs:
+      hide:
+        description: "Optional: a YouTube video id to set to private (e.g. 00ureCJy9_k)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -13,6 +19,10 @@ jobs:
   whoami:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -20,8 +30,8 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - env:
-          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: python video.py whoami
+      - run: python video.py whoami
+      - if: inputs.hide != ''
+        env:
+          HIDE_ID: ${{ inputs.hide }}
+        run: python video.py hide --id "$HIDE_ID"

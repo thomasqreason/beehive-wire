@@ -21,7 +21,9 @@ import webbrowser
 
 import requests
 
-SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly"
+# youtube.upload posts; youtube (manage) lets a remake set the video it replaces to private.
+SCOPES = ("https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly "
+          "https://www.googleapis.com/auth/youtube")
 
 
 def main() -> None:
