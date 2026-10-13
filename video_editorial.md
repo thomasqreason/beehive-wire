@@ -17,8 +17,8 @@ fetched; empty otherwise). Write `data/video/script.json` as ONE JSON object, no
   "intro": "...",                    // 1-2 sentences: edition, day, the one thing to know first. Open "This is the
                                      // Beehive Wire morning|evening edition for ..."; never name it for the channel
   "segments": [ {"id": "<story id>", "narration": "..."} ],   // in payload order; skip a story only if you must
-  "outro": "...",                    // 1-2 sentences: send them to the site, said aloud as "beehivewire dot com"
-                                     // (every story is linked there, and the link is in the description); next edition
+  "outro": "...",                    // ONE short closing sentence ("That is the Monday evening Wire."). Nothing else:
+                                     // a fixed sign-off (like, subscribe, the site, edition times) is added after it
   "tags": ["...", "..."]             // 5-10 topical tags, specific to today's stories
 }
 

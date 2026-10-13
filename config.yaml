@@ -143,9 +143,12 @@ video:
                                    # Microsoft voices; blocked since 2026-10-12) | espeak (robotic, last resort)
   kokoro_voice: "af_heart"
   kokoro_speed: 1.05
-  say_as:                          # words Kokoro mispronounces -> a spelling it reads right. Whole words, case-sensitive.
+  # Spoken word for word after the writer's outro, on every video. Todd's wording (2026-10-12).
+  signoff: "Like, subscribe, and be sure to ring the bell to get notified. To see these stories and more, check out the morning and evening editions of the Beehive Wire, at 6 AM and 6 PM Eastern, at beehivewire dot com."
+  say_as:                       # words Kokoro mispronounces -> a spelling it reads right. Whole words, case-sensitive.
     Houthis: "Hoothees"            # Add a line here whenever Todd hears a wrong one.
     Houthi: "Hoothee"
+    beehivewire: "beehive wire"    # it read the one-word site name as "bee-hiv-wire"
     ICE: "Ice"
     GOP: "G O P"
     Xi: "Shee"

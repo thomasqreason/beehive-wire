@@ -253,7 +253,7 @@ def fallback_script(payload: dict) -> dict:
     return {
         "title": "",
         "intro": f"This is the Beehive Wire {ed['edition']} for {payload['weekday']}, from beehivewire dot com.",
-        "outro": "That's the front page. The full list, with links to every story, is at beehivewire dot com.",
+        "outro": "That's the front page.",
         "tags": [],
         "segments": segs,
     }
@@ -535,7 +535,7 @@ def cmd_render(args) -> int:
         s = by_id[seg["id"]]
         beats.append(("story", slide_story(s, i, total, ed_label, wm), seg["narration"], s))
     beats.append(("outro", slide_card("The full front page", "beehivewire.com  -  two editions a day, nothing in between",
-                                      ed_label, wm), script["outro"], None))
+                                      ed_label, wm), f"{script['outro']} {v.get('signoff', '')}".strip(), None))
     beats = [b for b in beats if b[2]]
 
     engine = args.tts or v.get("tts", "edge")
@@ -569,7 +569,8 @@ def cmd_render(args) -> int:
     src = [f"- {c['story']['source']}: {c['story']['title']}" + (f"\n  {c['story']['url']}" if len(c['story']['url']) <= 200 else "")
            for c in chapters if c["story"]]
     description = "\n".join([
-        "Every story, with links, on the full front page: https://beehivewire.com", "",
+        "Every story, with links, on the full front page: https://beehivewire.com",
+        "New editions every day at 6 a.m. and 6 p.m. Eastern.", "",
         f"The {ed['edition']} of Beehive Wire for {payload['weekday']}: the front page, read out in a few minutes.", "",
         "CHAPTERS", *lines, "", "STORIES AND SOURCES", *src, "",
         "Narrated by a synthetic voice. Headlines and summaries are drawn from the linked publishers' reporting; "
