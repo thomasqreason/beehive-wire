@@ -13,6 +13,17 @@ cached 30 seconds, so the cost is at most one Yahoo call per symbol per 30 secon
 
 Test it: open https://beehive-quotes.<your-name>.workers.dev/?s=DELL in a browser.
 
+## Updating the worker
+After a change to quote-worker.js: Cloudflare → Workers & Pages → beehive-quotes → Edit code → select all →
+paste the new file from the raw GitHub link above → Deploy. The site side ships on its own with each push.
+
+## The quote box
+Pinned to the bottom of every Market Desk page. Any ticker → the relay's `?hist=SYM` mode returns two years of
+daily bars plus name and industry → templates/markets_analyze.js runs the desk's own chart rules on them in the
+browser (base, buy point, buy range, status, distance from the buy point) → RS rank comes from rs_dist.json, the
+universe the last pass ranked. markets_analyze.js is a port of analyze() in markets.py; after changing either,
+run `python relay/parity_test.py` (400 synthetic charts, must be identical).
+
 ## What readers see
 The pop-up opens on the pass's saved chart, then within a second the headline switches to the freshest
 price, with "Live" (or "At close") and, outside regular hours, "Pre-market" / "After hours" / "Overnight"

@@ -1,4 +1,5 @@
 <div class="scrim" id="scrim"><div class="modal" id="modal"><button class="x" id="mx" aria-label="Close">&times;</button><div id="mbody" class="wait">Loading chart…</div></div></div>
+<script>{% include "markets_analyze.js" %}</script>
 <script>
 (function(){
   var scrim=document.getElementById('scrim'),body=document.getElementById('mbody');
@@ -40,7 +41,24 @@
   function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(sym){
     scrim.classList.add('on');body.className='wait';body.textContent='Loading '+sym+'…';
-    fetch('series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
+    fetch(MBASE+'series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(render)
+      .catch(function(e){if(RELAY){fresh(sym);}else{body.className='wait';body.textContent='No chart saved for '+sym+' yet; the next scan that covers it will draw one.';}});
+  }
+  // The quote box: any ticker, analysed on the spot with the desk's own rules (markets_analyze.js) from two years
+  // of daily bars the relay fetches. RS rank is against the universe the last pass ranked (rs_dist.json).
+  var RELAY={{ (desk.quote_relay or '')|tojson }};
+  var MBASE={{ ((root or '../') ~ 'markets/')|tojson }};   // pages one folder down (movers/) still read /markets/series/
+  var DIST=null;
+  function dist(){return DIST?Promise.resolve(DIST):fetch(MBASE+'rs_dist.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(j){DIST=j&&j.scores||[];return DIST;}).catch(function(){return [];});}
+  function fresh(sym){
+    scrim.classList.add('on');body.className='wait';body.textContent='Charting '+sym+'…';
+    Promise.all([fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'hist='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}),dist()]).then(function(x){
+      var j=x[0];if(!j||!j.c||!j.c.length)throw new Error('none');
+      var d=window.BWA&&BWA.analyze(sym,j,{buyZonePct:{{ desk.buy_zone_pct or 5 }},chartBars:{{ desk.chart_bars or 130 }}});if(!d)throw new Error('short');
+      d.name=j.name;d.industry=j.industry||j.sector;d.rs_rank=BWA.rsRank(d.rs_score,x[1]);render(d);
+    }).catch(function(){body.className='wait';body.textContent='Couldn\'t find '+sym+'. Check the ticker (class shares use a dash, like BRK-B).';});
+  }
+  function render(d){
       var b=d.base||{},h='<div class="kick"><span class="st">'+esc(STATUS[d.status]||d.status||'')+'</span>'+esc(d.industry||'')+'</div>';
       h+='<h2>'+esc(d.sym)+(d.name?' <span class="nm">&middot; '+esc(d.name)+'</span>':'')+' <span class="px">'+f2(d.close)+'</span> <span class="pchg '+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
       h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+chart(d);
@@ -50,10 +68,8 @@
       body.className='';body.innerHTML=h;body.setAttribute('data-sym',d.sym);
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,d.series);}
       live(d.sym);
-    }).catch(function(e){body.className='wait';body.textContent='No chart saved for '+sym+' yet; the next scan that covers it will draw one.';});
   }
   // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.
-  var RELAY={{ (desk.quote_relay or '')|tojson }};
   var SESSION={pre:'Pre-market',post:'After hours',overnight:'Overnight'};
   function clock(t){try{return new Date(t*1000).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT';}catch(e){return '';}}
   function day(t){try{var d=new Date(t*1000),n=new Date();return d.toDateString()===n.toDateString()?'':d.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Denver'})+' ';}catch(e){return '';}}
@@ -70,12 +86,17 @@
         if(pg){pg.className='pchg '+cls(top.chg);pg.textContent=(top.chg>=0?'+':'')+f2(top.chg)+' ('+pc(top.chgPct)+')';}}
     }).catch(function(){});
   }
-  function hide(){scrim.classList.remove('on');if(location.hash.indexOf('#chart=')===0)history.replaceState(null,'',location.pathname+location.search);}
+  function hide(){scrim.classList.remove('on');if(/^#(chart|quote)=/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}
+  var qb=document.getElementById('qbox');
+  if(qb)qb.addEventListener('submit',function(e){e.preventDefault();var inp=document.getElementById('qsym');
+    var s=(inp.value||'').trim().toUpperCase().replace(/^\$/,'').replace(/^([A-Z]+)[.\/]([A-Z])$/,'$1-$2');
+    if(!/^[A-Z0-9.\-^=]{1,12}$/.test(s))return;inp.blur();history.replaceState(null,'','#quote='+s);fresh(s);});
   document.addEventListener('click',function(e){var a=e.target.closest('a.tk');if(a){e.preventDefault();history.replaceState(null,'','#chart='+a.getAttribute('data-sym'));show(a.getAttribute('data-sym'));}});
   document.getElementById('mx').addEventListener('click',hide);
   scrim.addEventListener('click',function(e){if(e.target===scrim)hide();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')hide();});
   if(location.hash.indexOf('#chart=')===0)show(decodeURIComponent(location.hash.slice(7)));
+  else if(location.hash.indexOf('#quote=')===0&&RELAY)fresh(decodeURIComponent(location.hash.slice(7)));
 })();
 </script>
 {% include "markets_crosshair.html" %}

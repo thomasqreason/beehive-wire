@@ -93,6 +93,18 @@
   .modal .x{position:absolute;top:8px;right:10px;font:900 22px/1 Arial,sans-serif;background:none;border:0;color:var(--mut);cursor:pointer}
   .modal h2{font:900 22px/1.15 "Arial Black",Impact,Arial,sans-serif;margin:4px 28px 4px 0}
   .modal h2 .nm{font:700 15px/1.2 Arial,sans-serif;color:var(--mut);letter-spacing:0}
+  /* The quote box: pinned to the bottom of the screen on every Market Desk page, above the chart pop-up so
+     another ticker can be typed without closing the one that's open. */
+  .qbox{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;align-items:center;margin:0;
+        padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+        border-top:2px solid var(--rule);background:var(--card);box-shadow:0 -4px 14px rgba(0,0,0,.12)}
+  .qbox>*{max-width:860px}
+  .qbox label{font:900 11px/1 Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+  .qbox input{flex:1;min-width:0;font:700 16px/1.2 Arial,sans-serif;text-transform:uppercase;padding:8px;border:1px solid var(--soft);background:var(--bg);color:var(--ink);border-radius:0}
+  .qbox input::placeholder{text-transform:none;font-weight:400;color:var(--mut)}
+  .qbox button{font:900 12px/1 Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:10px 12px;border:0;background:var(--tag);color:var(--tagink);cursor:pointer;white-space:nowrap}
+  body.has-qbox{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  body.has-qbox .scrim{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
   .modal .lquote{margin:2px 0 6px;font-size:14px}
   .modal .lq{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;color:var(--mut)}
   .modal .lq b{font-size:10px;letter-spacing:.15em;text-transform:uppercase;min-width:86px}

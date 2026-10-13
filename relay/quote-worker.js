@@ -3,6 +3,9 @@
 // The site is static, and Yahoo refuses requests from other websites' pages, so the chart popup asks
 // this relay instead:   GET https://<your-worker>.workers.dev/?s=DELL      (up to 25 symbols: ?s=DELL,MU,AMD)
 //
+//   GET https://<your-worker>.workers.dev/?hist=DELL   → two years of daily bars + company name and industry,
+//   which the page's quote box runs through the same chart analysis the desk uses (cached 60 s).
+//
 // Returns, per symbol: the regular-session price and change, plus the latest extended-hours price
 // (pre-market, after hours, or overnight) when there is one, each with its time. Quotes are cached
 // for 30 seconds, so a busy page costs Yahoo — and the free plan — one call per symbol per 30 s.
@@ -28,8 +31,21 @@ export default {
     };
     if (req.method === "OPTIONS") return new Response(null, { headers: cors });
     const url = new URL(req.url);
+    const hist = (url.searchParams.get("hist") || "").toUpperCase().trim();
+    if (hist) {
+      if (!SYM.test(hist)) return json({ error: "bad symbol" }, 400, cors);
+      const hkey = new Request("https://quote-cache.local/hist/" + hist);
+      const hhit = await caches.default.match(hkey);
+      if (hhit) return withHeaders(hhit, cors);
+      const [bars, prof] = await Promise.all([dailyBars(hist).catch(() => null), profile(hist).catch(() => null)]);
+      if (!bars) return json({ error: "no data for " + hist }, 404, cors);
+      const hres = json({ sym: hist, name: prof?.name || bars.name || null, industry: prof?.industry || null, sector: prof?.sector || null,
+                          exchange: bars.exchange || null, ...bars.cols }, 200, { "Cache-Control": "public, max-age=60" });
+      ctx.waitUntil(caches.default.put(hkey, hres.clone()));
+      return withHeaders(hres, cors);
+    }
     const syms = [...new Set((url.searchParams.get("s") || "").toUpperCase().split(",").map(s => s.trim()).filter(s => SYM.test(s)))].slice(0, 25);
-    if (!syms.length) return json({ error: "pass ?s=SYMBOL" }, 400, cors);
+    if (!syms.length) return json({ error: "pass ?s=SYMBOL or ?hist=SYMBOL" }, 400, cors);
 
     const cache = caches.default;
     const key = new Request("https://quote-cache.local/" + syms.join(","));
@@ -59,6 +75,38 @@ async function chartFeed(sym) {
   let last = null;
   for (let i = ts.length - 1; i >= 0; i--) if (c[i] != null) { last = { price: c[i], time: ts[i] }; break; }
   return { meta: m, last };
+}
+
+// ── Two years of daily bars for the quote box (same source and shape the desk's Python download uses)
+async function dailyBars(sym) {
+  const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2y`,
+    { headers: { "User-Agent": UA }, cf: { cacheTtl: 60 } });
+  if (!r.ok) return null;
+  const res = (await r.json())?.chart?.result?.[0];
+  if (!res?.timestamp) return null;
+  const m = res.meta || {}, q = res.indicators?.quote?.[0] || {}, off = m.gmtoffset || 0;
+  const cols = { d: [], o: [], h: [], l: [], c: [], v: [] };
+  res.timestamp.forEach((t, i) => {
+    const o = q.open?.[i], h = q.high?.[i], l = q.low?.[i], c = q.close?.[i], v = q.volume?.[i];
+    if ([o, h, l, c, v].some(x => x == null) || !(v > 0)) return;     // the desk drops empty and zero-volume days too
+    const d = new Date((t + off) * 1000).toISOString().slice(0, 10);
+    if (cols.d.length && cols.d[cols.d.length - 1] === d) {           // a duplicate live bar: keep the newer one
+      for (const k of ["d", "o", "h", "l", "c", "v"]) cols[k].pop();
+    }
+    cols.d.push(d); cols.o.push(o); cols.h.push(h); cols.l.push(l); cols.c.push(c); cols.v.push(v);
+  });
+  if (cols.d.length < 15) return null;
+  return { cols, name: m.longName || m.shortName, exchange: m.fullExchangeName };
+}
+
+async function profile(sym, retried) {
+  const s = await getSession(retried);
+  const r = await fetch(`https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(sym)}?modules=assetProfile,price&crumb=${encodeURIComponent(s.crumb)}`,
+    { headers: { "User-Agent": UA, Cookie: s.cookie } });
+  if ((r.status === 401 || r.status === 403) && !retried) return profile(sym, true);
+  if (!r.ok) return null;
+  const x = (await r.json())?.quoteSummary?.result?.[0] || {};
+  return { name: x.price?.longName || x.price?.shortName || null, industry: x.assetProfile?.industry || null, sector: x.assetProfile?.sector || null };
 }
 
 // ── Yahoo quote feed: adds overnight. Needs a cookie + crumb.

@@ -800,6 +800,9 @@ def render_site(site_cfg: dict | None = None) -> int:
         (SITE / "series").mkdir(exist_ok=True)
         for f in SERIES_DIR.glob("*.json"):
             shutil.copy2(f, SITE / "series" / f.name)
+    if (DATA / "rs_dist.json").is_file():
+        import shutil
+        shutil.copy2(DATA / "rs_dist.json", SITE / "rs_dist.json")
     tz = ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))
     site_name = ((site_cfg or {}).get("site") or {}).get("name") or "BEEHIVE WIRE"
     index = [{"date": e["date"], "human": human_date(e["date"]), "count": len(e["stories"]),
@@ -1061,6 +1064,10 @@ def movers(cfg: dict) -> dict:
             if v is not None:
                 rs_all[sym] = v
     ordered = sorted(rs_all.values())
+    if len(ordered) >= 100:     # the quote box ranks any ticker against this same universe (templates/markets_analyze.js)
+        DATA.mkdir(parents=True, exist_ok=True)
+        (DATA / "rs_dist.json").write_text(json.dumps({"as_of": now.isoformat(timespec="seconds"), "n": len(ordered),
+                                                       "scores": [round(v, 6) for v in ordered]}, separators=(",", ":")), encoding="utf-8")
     import bisect
 
     def rs_rank_of(sym):

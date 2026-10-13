@@ -1,0 +1,8 @@
+{% if desk.quote_relay %}
+<form class="qbox" id="qbox" autocomplete="off" role="search">
+  <label for="qsym">Quote</label>
+  <input id="qsym" name="s" placeholder="Any ticker, e.g. NVDA" maxlength="12" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go">
+  <button type="submit">Chart it</button>
+</form>
+<script>document.body.classList.add("has-qbox");</script>
+{% endif %}
