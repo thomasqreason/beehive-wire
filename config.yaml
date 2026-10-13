@@ -135,8 +135,8 @@ video:
   stories: 14                      # top story + flash lines + the page's next links, at most two per topic
   target_words: [1350, 1650]       # narration length Claude aims for: about 9 to 11 minutes at the voice's pace
   max_edition_age_hours: 10        # a slot that was missed is skipped, not backfilled with a stale video
-  privacy: "private"               # public | unlisted | private. Google honors this (the first upload went out
-                                   # public). Private until Todd has approved the voice; he publishes from Studio
+  privacy: "public"                # public | unlisted | private. Google honors this. Todd's standing order
+                                   # (2026-10-12): always public by default
   category_id: 25                  # 25 = News & Politics
   synthetic_disclosure: false      # true sets YouTube's "altered or synthetic content" label
   tts: "kokoro"                    # kokoro (neural, runs on the runner, the voice Todd picked) | edge (free
