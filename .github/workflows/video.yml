@@ -101,7 +101,7 @@ jobs:
             --effort medium \
             --allowedTools "Read,Write" \
             --permission-mode acceptEdits \
-            --max-turns 8 \
+            --max-turns 20 \
             < /dev/null 2>&1 | tee data/video/editor.log | cut -c1-300
 
       - name: Render the video
@@ -128,7 +128,7 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: python video.py upload
+        run: python video.py upload ${{ inputs.force && '--force' || '' }}
 
       - name: Record the upload
         if: steps.due.outputs.go == 'yes' && !inputs.dry_run

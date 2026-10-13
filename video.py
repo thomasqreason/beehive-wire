@@ -610,7 +610,7 @@ def cmd_upload(args) -> int:
     v = cfg_video()
     meta = json.loads((OUT / "meta.json").read_text(encoding="utf-8"))
     video = OUT / "video.mp4"
-    if any(p.get("key") == meta["key"] for p in published()):
+    if not args.force and any(p.get("key") == meta["key"] for p in published()):
         log(f"{meta['key']} already uploaded; standing down")
         return 0
     tok = access_token()
@@ -669,7 +669,7 @@ def main() -> int:
     ap.add_argument("--fallback", action="store_true", help="skip the Claude script; read the headlines straight")
     ap.add_argument("--tts", choices=["kokoro", "edge", "espeak", "sapi", "silent"], help="override config video.tts")
     ap.add_argument("--dry-run", action="store_true", help="due: render-only run, so no YouTube credentials needed")
-    ap.add_argument("--force", action="store_true", help="due: go even if this edition already has a video")
+    ap.add_argument("--force", action="store_true", help="due, upload: go even if this edition already has a video")
     args = ap.parse_args()
     if args.emit_payload:
         return cmd_payload(args)
