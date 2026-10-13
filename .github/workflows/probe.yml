@@ -1,0 +1,21 @@
+name: probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          pip install -q yfinance
+          python - <<'PY'
+          import json, requests, yfinance as yf
+          H={"User-Agent":"Mozilla/5.0"}
+          r=requests.get("https://query1.finance.yahoo.com/v8/finance/chart/DELL?interval=1m&range=1d&includePrePost=true",headers=H,timeout=20)
+          print("CHART", r.status_code, r.headers.get("access-control-allow-origin"))
+          j=r.json()["chart"]["result"][0]; m=j["meta"]
+          print(json.dumps(m)[:3000])
+          ts=j.get("timestamp") or []; c=j["indicators"]["quote"][0]["close"]
+          print("last", ts[-3:], c[-3:], "n", len(ts))
+          info=yf.Ticker("DELL").info
+          print("QUOTE KEYS", sorted(k for k in info if any(w in k.lower() for w in ("overnight","post","pre","regularmarket","market"))))
+          print({k:info.get(k) for k in info if "overnight" in k.lower() or "postmarket" in k.lower() or "premarket" in k.lower() or k in ("marketState","regularMarketPrice","regularMarketTime")})
+          PY
