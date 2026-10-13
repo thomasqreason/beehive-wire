@@ -259,6 +259,31 @@ def fallback_script(payload: dict) -> dict:
     }
 
 
+ACRONYMS = {"US", "USA", "UK", "OK", "UN", "EU", "AI", "ICE", "GOP", "DHS", "FBI", "CIA", "DOJ", "IRS", "NATO", "DOGE",
+            "MAGA", "IDF", "IRGC", "CEO", "GDP", "SCOTUS", "TV", "DC", "NYC", "LA", "OPEC", "IMF", "NFL", "NBA"}
+SMALL = {"a", "an", "and", "as", "at", "but", "by", "for", "in", "of", "on", "or", "the", "to", "vs"}
+
+
+def tame_title(title: str) -> str:
+    """The house rule is ONE word in capitals. When the writer shouts the whole title, keep a leading capped
+    word ("REPORT:") and set the rest in title case; known acronyms keep their capitals."""
+    words = title.split()
+    core = [re.sub(r"[^A-Za-z]", "", w) for w in words]
+    loud = [i for i, c in enumerate(core) if len(c) >= 2 and c.isupper() and c not in ACRONYMS]
+    if len(loud) <= 1:
+        return title
+    out = []
+    for i, (w, c) in enumerate(zip(words, core)):
+        if i == 0 or c in ACRONYMS or not c.isupper():
+            out.append(w)
+        elif c.lower() in SMALL:
+            out.append(w.lower())
+        else:
+            out.append("-".join(p if "." in p.rstrip(".,:;!?") or re.sub(r"[^A-Za-z]", "", p) in ACRONYMS
+                                else p[:1] + p[1:].lower() for p in w.split("-")))
+    return " ".join(out)
+
+
 def default_title(payload: dict, v: dict) -> str:
     """No title from Claude: fall back to the front page's own headline, which already has the bite."""
     ed = payload["edition"]
@@ -520,7 +545,7 @@ def cmd_render(args) -> int:
     if script is None:
         script = fallback_script(payload)
     by_id = {s["id"]: s for s in payload["stories"]}
-    title = script["title"] or default_title(payload, v)
+    title = tame_title(script["title"] or default_title(payload, v))
 
     work = OUT / "work"
     if OUT.exists():
@@ -637,6 +662,30 @@ def hide_video(tok: str, vid: str) -> bool:
     return True
 
 
+def cmd_retitle(args) -> int:
+    """Rename a video already on the channel: --title sets it outright, otherwise its own title is tamed."""
+    if not args.id:
+        raise SystemExit("retitle needs --id VIDEO_ID")
+    auth = {"Authorization": f"Bearer {access_token()}"}
+    api = "https://www.googleapis.com/youtube/v3/videos"
+    got = requests.get(api, params={"part": "snippet", "id": args.id}, headers=auth, timeout=30)
+    items = got.json().get("items") if got.status_code == 200 else None
+    if not items:
+        raise SystemExit(f"cannot retitle {args.id}: not found or not ours ({got.status_code})")
+    old = items[0]["snippet"]
+    new = (args.title or tame_title(old["title"])).strip()[:95]
+    if new == old["title"]:
+        log(f"title already fine: {new}")
+        return 0
+    snippet = {"title": new, "description": old.get("description", ""), "tags": old.get("tags", []),
+               "categoryId": old["categoryId"]}
+    put = requests.put(api, params={"part": "snippet"}, headers=auth, timeout=30, json={"id": args.id, "snippet": snippet})
+    if put.status_code != 200:
+        raise SystemExit(f"retitle failed ({put.status_code}): {put.text[:300]}")
+    log(f"retitled https://youtu.be/{args.id}: {new}")
+    return 0
+
+
 def cmd_hide(args) -> int:
     if not args.id:
         raise SystemExit("hide needs --id VIDEO_ID")
@@ -705,8 +754,9 @@ def cmd_upload(args) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", nargs="?", choices=["due", "render", "upload", "whoami", "hide"])
-    ap.add_argument("--id", help="hide: the YouTube video id to set private")
+    ap.add_argument("cmd", nargs="?", choices=["due", "render", "upload", "whoami", "hide", "retitle"])
+    ap.add_argument("--id", help="hide, retitle: the YouTube video id")
+    ap.add_argument("--title", help="retitle: the new title (default: the current one with the capitals tamed)")
     ap.add_argument("--emit-payload", metavar="PATH")
     ap.add_argument("--payload", default=str(VDIR / "payload.json"))
     ap.add_argument("--script", default=str(VDIR / "script.json"))
@@ -720,7 +770,7 @@ def main() -> int:
     if not args.cmd:
         ap.error("give a command or --emit-payload")
     return {"due": cmd_due, "render": cmd_render, "upload": cmd_upload, "whoami": cmd_whoami,
-            "hide": cmd_hide}[args.cmd](args)
+            "hide": cmd_hide, "retitle": cmd_retitle}[args.cmd](args)
 
 
 if __name__ == "__main__":

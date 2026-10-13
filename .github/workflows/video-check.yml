@@ -11,6 +11,10 @@ on:
         description: "Optional: a YouTube video id to set to private (e.g. 00ureCJy9_k)"
         type: string
         default: ""
+      retitle:
+        description: "Optional: a YouTube video id whose all-caps title should be put in normal case"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -35,3 +39,7 @@ jobs:
         env:
           HIDE_ID: ${{ inputs.hide }}
         run: python video.py hide --id "$HIDE_ID"
+      - if: inputs.retitle != ''
+        env:
+          RETITLE_ID: ${{ inputs.retitle }}
+        run: python video.py retitle --id "$RETITLE_ID"
