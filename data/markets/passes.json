@@ -933,5 +933,30 @@
 "day": 8,
 "pass": 2,
 "no": "8.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-14",
+"at": "2026-10-14T20:35:55+00:00",
+"href": "movers/2026-10-14-1435.html",
+"syms": [
+"FAST",
+"BIIB",
+"MDT",
+"VRTX",
+"LHX",
+"UNH",
+"KMB",
+"IDXX"
+],
+"heads": [
+"FAST +1.1% on 3.6x volume, bounce off 50-day line",
+"BIIB +1.7% on 2.0x volume, extended"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 8,
+"pass": 3,
+"no": "8.3"
 }
 ]
