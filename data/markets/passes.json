@@ -920,5 +920,18 @@
 "day": 8,
 "pass": 1,
 "no": "8.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-14",
+"at": "2026-10-14T18:21:41+00:00",
+"href": "movers/2026-10-14-1221.html",
+"syms": [],
+"heads": [],
+"extra": "0 qualifiers",
+"live": true,
+"day": 8,
+"pass": 2,
+"no": "8.2"
 }
 ]
