@@ -656,6 +656,19 @@ def compact_json(obj, level: int = 0) -> str:
     return json.dumps(obj, ensure_ascii=False)
 
 
+def prewritten_headlines() -> dict:
+    """Headlines written between editions by prewrite.py, keyed by story id.
+
+    Missing or unreadable is the normal case and means nothing: the editor simply writes every
+    headline itself, exactly as it did before the pre-writer existed.
+    """
+    try:
+        data = json.loads((DATA / "headlines.json").read_text())
+        return {k: v for k, v in data.items() if isinstance(v, dict) and v.get("headline")}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
 def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> dict:
     def brief(it: dict) -> dict:
         return {
@@ -676,6 +689,10 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
     wheel = ["immigration_enforcement", "h1b_workforce", "election_integrity"]
     spot = wheel[no % 3]
     clusters = find_clusters(cands, state, cfg)
+    pre = prewritten_headlines()
+    if pre:
+        n = sum(1 for c in cands if c["id"] in pre)
+        log(f"payload: {n}/{len(cands)} candidates arrive with a headline already written")
     return {
         "now_utc": iso(now),
         "now_local": local.strftime("%a %b %d %Y %I:%M %p %Z"),
@@ -699,7 +716,8 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
             "items": [brief(x) for x in state.get("items", [])],
         },
         "candidates": [
-            {"id": c["id"], "source": c["source"], "title": c["title"], "summary": (c["summary"] or "")[:220], "age_h": c["age_h"], "topic_hint": c["topic_hint"]}
+            {"id": c["id"], "source": c["source"], "title": c["title"], "summary": (c["summary"] or "")[:220], "age_h": c["age_h"], "topic_hint": c["topic_hint"],
+             **({"suggested": pre[c["id"]]["headline"]} if c["id"] in pre else {})}
             for c in cands
         ],
     }

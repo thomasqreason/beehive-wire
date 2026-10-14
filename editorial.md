@@ -555,6 +555,28 @@ also the thing that makes the page worth visiting — anyone can read the AP.
 - Order the columns in loose clusters (related stories next to each other) — the layout inserts a rule between clusters. Within a cluster, stack what belongs stacked: see "Story stacks".
 - Every story on the page must be a distinct URL.
 
+## Headlines written ahead of the deadline
+
+Some candidates arrive with a `suggested` field: a headline already written for that story between
+editions, in this paper's voice, by an earlier pass that saw the story on its own and nothing else.
+
+It is a draft handed to you, not a decision. Use it when it is good — that is the point, and it is
+why you have the time to think about the page instead of typing fifty headlines. Rewrite it
+whenever the page gives you a reason the earlier pass could not have known:
+
+- It is leading a STACK, or sitting under one. A lead headline carries the news; a follow-up runs
+  shorter and does not repeat the subject's name. The suggestion was written for neither.
+- It is the giant headline or a flash line. Those are 2-6 and 4-9 words and belong to the whole
+  page, so write them fresh.
+- It sits next to a story it should echo or play against.
+- The story has MOVED since the suggestion was written — a number changed, a thing was confirmed or
+  denied. The suggestion is stale and the candidate's own title is now the better source.
+- It breaks an accuracy rule, repeats a device already used too often on the page, or is simply not
+  as good as what you would write.
+
+A suggestion is never a reason to run a story you would otherwise leave off. Pick the page first,
+then dress it. Candidates without a `suggested` field are perfectly normal — write those yourself.
+
 ## Output JSON schema
 
 {
