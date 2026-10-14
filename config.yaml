@@ -100,8 +100,8 @@ blocklist:
 # How the 100 links should roughly break down. These are targets the editor aims for, not hard caps.
 # Positive stories are not a topic — every beat is expected to carry its own (see editorial.md).
 mix:
-  iran_mideast: 6
-  ukraine_russia: 4
+  iran_mideast: 3                 # 6 -> 3 on Oct 13, 2026: the page was putting far too many headlines on the wars
+  ukraine_russia: 2               # 4 -> 2 on Oct 13, 2026 (same reason)
   world: 4                        # 5 -> 4 on Oct 8, 2026 (mix retuned to 100 after investing was added)
   immigration: 2                  # HARD CAP: max 2 ICE/illegal-immigration links on the page (see editorial.md)
   crime: 5
@@ -110,11 +110,11 @@ mix:
   politics_culture_world: 4       # Washington and the culture war (5 -> 4, Oct 8, 2026)
   media: 2
   faith_family_schools: 4
-  military: 3
+  military: 2                     # 3 -> 2 on Oct 13, 2026 (same reason)
   business_ai: 6                  # AI and the data-center controversies, one beat
   tech: 4
   surveillance: 3               # the surveillance state and civil liberties — added Sep 18, 2026
-  american_life: 5              # how Americans actually live — added Sep 18, 2026
+  american_life: 6              # how Americans actually live — added Sep 18, 2026; 5 -> 6 on Oct 13
   economy: 6                      # 7 -> 6 on Oct 8, 2026; investing has its own line now
   investing: 4                  # stocks and investing, 3-5 links every edition; the Market Desk's own pieces count (added Oct 5, 2026)
   energy: 3
@@ -122,9 +122,9 @@ mix:
   health: 4                       # 5 -> 4 on Oct 8, 2026
   utah_mormon: 4
   sports: 4
-  pop_culture: 3
+  pop_culture: 4                  # 3 -> 4 on Oct 13, 2026: big-star news earns its slots
   weather_disasters: 2
-  weird: 2
+  weird: 6                        # 2 -> 6 on Oct 13, 2026: the odd-corner tail is what makes the page scrollable
   video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot
 
 # The YouTube video (video.py, .github/workflows/video.yml): a few minutes on each edition's top stories,

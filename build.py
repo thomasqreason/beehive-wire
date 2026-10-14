@@ -333,6 +333,209 @@ def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, 
     return picked
 
 
+# ───────────────────────────────────────────────────────────── story stacks (clustering)
+
+# Words that link two stories only by accident. Everything here is either grammar, a word every
+# news title uses, or a name so common on this page (TRUMP, ISRAEL) that sharing it means nothing.
+STACK_STOP = {
+    "about", "after", "again", "against", "ahead", "alleged", "also", "amid", "among", "announce",
+    "announced", "announces", "another", "around", "back", "because", "been", "before", "being",
+    "between", "biden", "biggest", "billion", "break", "breaking", "called", "calls", "claim",
+    "claims", "come", "comes", "coming", "could", "court", "data", "deal", "december", "despite",
+    "does", "done", "down", "during", "each", "early", "every", "exclusive", "expected", "faces",
+    "first", "following", "former", "found", "from", "full", "gets", "going", "government", "group",
+    "have", "here", "high", "higher", "house", "huge", "into", "investigation", "january", "just",
+    "keep", "known", "large", "last", "late", "later", "launch", "leader", "less", "like", "likely",
+    "little", "long", "longer", "look", "looking", "major", "make", "makes", "making", "many",
+    "march", "massive", "many", "million", "more", "most", "move", "much", "must", "near", "need",
+    "never", "news", "next", "night", "northern", "note", "november", "october", "offer", "official",
+    "officials", "only", "open", "order", "other", "others", "over", "part", "past", "people",
+    "percent", "plan", "plans", "possible", "president", "press", "public", "push", "really",
+    "record", "released", "report", "reportedly", "reports", "revealed", "reveals", "right",
+    "rises", "said", "says", "second", "sees", "september", "set", "several", "share", "should",
+    "show", "shows", "since", "some", "southern", "start", "state", "states", "still", "story",
+    "support", "take", "takes", "talks", "tells", "than", "that", "their", "them", "then", "there",
+    "these", "they", "thing", "things", "think", "third", "this", "those", "three", "through",
+    "time", "times", "today", "told", "took", "trump", "under", "united", "until", "update",
+    "video", "warn", "warns", "watch", "week", "weeks", "were", "what", "when", "where", "which",
+    "while", "will", "with", "within", "without", "work", "world", "would", "year", "years",
+    "american", "america", "washington", "white", "york", "video", "live", "latest", "after",
+    # verbs a headline uses whoever the story is about
+    "accused", "arrested", "backs", "bans", "blasts", "blocks", "boost", "charged", "cuts",
+    "dies", "drops", "ends", "faces", "fight", "fights", "hits", "jumps", "kills", "leaves",
+    "loses", "names", "opens", "picks", "quits", "raises", "rejects", "rips", "searched",
+    "seeks", "sends", "signs", "slams", "slashing", "sues", "unveils", "urges", "vows", "wins",
+}
+
+# Names that scope a BEAT rather than a story. Two Utah stories share "Utah" the way two sports
+# stories share "game" — it is the section, not the subject. Left out of the linking signal so a
+# stack is built on what actually happened (HOUTHI, GUILFOYLE, CORNELL), not on where.
+STACK_THEME_NAMES = {
+    "africa", "afghan", "afghanistan", "arabia", "asia", "australia", "brazil", "britain",
+    "british", "california", "canada", "chinese", "china", "congress", "democrat", "democrats",
+    "egypt", "england", "europe", "european", "florida", "france", "french", "gaza", "german",
+    "germany", "india", "indian", "iran", "iranian", "iraq", "israel", "israeli", "italy",
+    "japan", "japanese", "jerusalem", "korea", "kremlin", "lebanon", "london", "mexico",
+    "michigan", "moscow", "nato", "ohio", "ottawa", "pakistan", "palestine", "palestinian",
+    "paris", "pennsylvania", "qatar", "republican", "republicans", "russia", "russian", "saudi",
+    "senate", "spain", "supreme", "syria", "taiwan", "tehran", "texas", "turkey", "ukraine",
+    "ukrainian", "utah", "venezuela", "virginia", "yemen",
+}
+
+_STACK_WORD = re.compile(r"[A-Za-z][A-Za-z'\-]{2,}")
+
+
+def _stack_tokens(text: str) -> tuple[set[str], set[str], set[str]]:
+    """(all distinctive tokens, tokens capitalized mid-title, tokens whose casing was judgeable).
+
+    The second set is the proper-noun vote, and it is only meaningful when the title's casing
+    carries information. ALL-CAPS and Title Case titles capitalize everything, so they vote on
+    nothing — otherwise every word in a Title Case feed would read as a name.
+    """
+    words = _STACK_WORD.findall(text or "")
+    keep, caps = set(), set()
+    big = [w for w in words if len(w) >= 4]
+    if big:
+        cap_share = sum(1 for w in big if w[0].isupper()) / len(big)
+    else:
+        cap_share = 0.0
+    informative = cap_share < 0.65          # not ALL CAPS, not Title Case
+    judged = set()
+    for i, w in enumerate(words):
+        lw = w.lower().strip("'-")
+        if len(lw) < 4 or lw in STACK_STOP:
+            continue
+        keep.add(lw)
+        # Position 0 is capitalized whatever it is, so it votes on nothing either way. Counting it
+        # in the denominator is what used to sink "Cornell bans..." — a real name, never judged.
+        if informative and i > 0:
+            judged.add(lw)
+            if w[0].isupper():
+                caps.add(lw)
+    return keep, caps, judged
+
+
+def find_clusters(cands: list[dict], state: dict, cfg: dict, max_clusters: int = 14) -> list[dict]:
+    """Group stories that are plainly about the same thing, so the editor is handed ready-made
+    stacks instead of hunting for them in 180 flat lines.
+
+    The signal is token RARITY, not capitalization — RSS titles are inconsistently cased, but a
+    word carried by two or three stories out of two hundred is almost always the thing itself
+    (GUILFOYLE, ZACHARIA, HORMUZ), while a word carried by twenty is noise. Held-over page items
+    are included so an evening development can stack under a story the morning edition already ran.
+
+    Returns [{"lead": id, "followers": [id, ...], "shared": [token, ...]}].
+    """
+    page = {x["id"]: x for x in page_links(state)}
+    docs: dict[str, set[str]] = {}
+    cap_votes: dict[str, int] = {}
+    seen_votes: dict[str, int] = {}
+    def absorb(sid: str, text: str) -> None:
+        toks, caps, judged = _stack_tokens(text)
+        docs[sid] = toks
+        for t in judged:
+            seen_votes[t] = seen_votes.get(t, 0) + 1
+        for t in caps:
+            cap_votes[t] = cap_votes.get(t, 0) + 1
+
+    for c in cands:
+        absorb(c["id"], f'{c["title"]} {(c.get("summary") or "")[:120]}')
+    for sid, it in page.items():
+        absorb(sid, it.get("title") or it.get("headline") or "")
+
+    df: dict[str, int] = {}
+    for toks in docs.values():
+        for t in toks:
+            df[t] = df.get(t, 0) + 1
+
+    # A name is a token that shows up capitalized mid-title most of the times it appears somewhere
+    # the casing means something. HOUTHI and ZACHARIA pass; "race", "choose" and "power" do not,
+    # which is the whole difference between a real stack and three strangers sharing a verb.
+    names = {
+        t for t, n in cap_votes.items()
+        if n >= 1 and n / max(seen_votes.get(t, 1), 1) >= 0.6 and t not in STACK_THEME_NAMES
+    }
+    # A token too rare to have been judged (it only ever led a title, or only appeared in Title
+    # Case feeds) still counts as a name when it is distinctive enough — but a pair linked only by
+    # these needs two of them, so one stray capital cannot invent a stack.
+    weak = {
+        t for t, n in df.items()
+        if n <= 3 and t not in names and t not in STACK_THEME_NAMES and cap_votes.get(t, 0) == 0
+        and seen_votes.get(t, 0) == 0
+    }
+
+    # a token shared by 2-6 of the pool identifies a story; 1 is unique, 7+ is a theme
+    linking = {t: n for t, n in df.items() if 2 <= n <= 6}
+    index: dict[str, list[str]] = {}
+    for sid, toks in docs.items():
+        for t in toks & linking.keys():
+            index.setdefault(t, []).append(sid)
+
+    # Pair up on EVIDENCE, not transitively. A shared name is the floor — two ordinary words in
+    # common is a coincidence ("CUTS INTERNET" twice over) — and the stack is then built as a star
+    # around one lead rather than a chain, so A-B-C-D cannot drag four unrelated wars into one blob.
+    shared_of: dict[tuple[str, str], set[str]] = {}
+    for t, ids in index.items():
+        for i, a in enumerate(ids):
+            for b in ids[i + 1:]:
+                shared_of.setdefault((a, b) if a < b else (b, a), set()).add(t)
+
+    links: dict[str, dict[str, float]] = {}
+    for (a, b), toks in shared_of.items():
+        shared_names = toks & names
+        shared_weak = toks & weak
+        if not shared_names and len(shared_weak) < 2:
+            continue                      # no subject in common, only grammar
+        if shared_names:
+            rarest = min(linking[t] for t in shared_names)
+            if len(toks) < 2 and rarest > 3:
+                continue                  # a single common name is not a story
+        shared_names = shared_names or shared_weak
+        strength = sum(1.0 / linking[t] for t in toks) + len(shared_names)
+        links.setdefault(a, {})[b] = strength
+        links.setdefault(b, {})[a] = strength
+
+    weight = {c["id"]: c.get("weight", 1.0) for c in cands}
+    age = {c["id"]: c.get("age_h", 0.0) for c in cands}
+
+    # Leads first: a story already on the page leads (an evening development stacks under the
+    # morning's headline), then the heaviest and freshest.
+    order = sorted(
+        links.keys(),
+        key=lambda s: (0 if s in page else 1, -weight.get(s, 1.0), age.get(s, 0.0)),
+    )
+    taken: set[str] = set()
+    clusters = []
+    for lead in order:
+        if lead in taken:
+            continue
+        kin = sorted(
+            (s for s in links[lead] if s not in taken and s != lead),
+            key=lambda s: -links[lead][s],
+        )[:3]
+        if not kin:
+            continue
+        members = [lead] + kin
+        if all(m in page for m in members):
+            continue                      # nothing new to say; the page already has all of it
+        taken.update(members)
+        shared = sorted(
+            {t for k in kin for t in shared_of.get((lead, k) if lead < k else (k, lead), set())},
+            key=lambda t: linking[t],
+        )[:4]
+        clusters.append({
+            "lead": lead,
+            "followers": kin,
+            "shared": shared,
+            "_score": sum(links[lead][k] for k in kin) + sum(weight.get(m, 1.0) for m in members),
+        })
+
+    clusters.sort(key=lambda c: -c["_score"])
+    for c in clusters:
+        c.pop("_score", None)
+    return clusters[:max_clusters]
+
+
 # ────────────────────────────────────────────────────────────────────────── page helpers
 
 def page_links(state: dict) -> list[dict]:
@@ -472,11 +675,16 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
     # the other two sit out unless the news is genuinely big (see editorial.md, "The rotation").
     wheel = ["immigration_enforcement", "h1b_workforce", "election_integrity"]
     spot = wheel[no % 3]
+    clusters = find_clusters(cands, state, cfg)
     return {
         "now_utc": iso(now),
         "now_local": local.strftime("%a %b %d %Y %I:%M %p %Z"),
         "edition_no": no,
         "rotation": {"spotlight": spot, "benched": [w for w in wheel if w != spot]},
+        # Pre-grouped stories that look like the same thing (see find_clusters). These are a
+        # starting point for stacks, not orders: ignore a group that is a coincidence, and stack
+        # two stories the grouper missed if they belong together.
+        "clusters": clusters,
         "rules": {
             "total_links": cfg["page"]["total_links"],
             "flash_lines": cfg["page"]["flash_lines"],
@@ -598,6 +806,7 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
             it = dict(current[sid])
             if entry.get("topic") in TOPICS and not it.get("topic"):
                 it["topic"] = entry["topic"]
+            it.pop("under", None)  # stacks are re-decided every edition, even for kept stories
         else:
             it = {
                 "id": sid,
@@ -610,6 +819,8 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
                 "topic": entry.get("topic") if entry.get("topic") in TOPICS else src.get("topic_hint") or src.get("topic"),
                 "headline": finish_headline(entry.get("headline", ""), src["title"]),
             }
+        if isinstance(entry.get("under"), str) and entry["under"].strip():
+            it["under"] = entry["under"].strip()
         return it
 
     used: set[str] = set()
@@ -693,6 +904,31 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
     for c in cands:
         seen.setdefault(c["id"], iso(now))
 
+    # ── story stacks: validate every `under` pointer before it reaches the page ──
+    # A follower must point at a column item that is itself a lead, stacks are one level deep,
+    # and no lead carries more than four. Anything else loses its pointer and renders as a
+    # normal link, so a confused plan degrades to a flat page rather than a broken one.
+    by_id = {it["id"]: it for it in items}
+    for it in items:
+        tgt = it.get("under")
+        if not tgt or tgt == it["id"] or tgt not in by_id:
+            it.pop("under", None)
+    for it in items:                      # no chains: a follower cannot be led by a follower
+        tgt = it.get("under")
+        if tgt and by_id[tgt].get("under"):
+            it.pop("under", None)
+    tally: dict[str, int] = {}
+    for it in items:
+        tgt = it.get("under")
+        if not tgt:
+            continue
+        tally[tgt] = tally.get(tgt, 0) + 1
+        if tally[tgt] > 4:
+            it.pop("under", None)
+    n_stacks = len({it["under"] for it in items if it.get("under")})
+    if n_stacks:
+        log(f"stacks: {n_stacks} leads carrying {sum(1 for it in items if it.get('under'))} follow-ups")
+
     if current and cap_churn:
         fresh_n = sum(1 for x in ([top] if top else []) + flash + items if x["id"] not in current)
         if fresh_n != max_swaps:
@@ -767,6 +1003,39 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
 
 # ────────────────────────────────────────────────────────────────────────── render
 
+def _ordered_items(items: list[dict]) -> list[dict]:
+    """Reading order with stacks intact: each lead is followed immediately by its follow-ups.
+
+    The editor sends `items` in its own reading order and marks a follow-up with `under: <lead id>`.
+    Followers may sit anywhere in that list, so they are lifted out and re-seated under their lead;
+    a pointer to a story that is not on the page has already been stripped in apply_plan, but one
+    is tolerated here too and simply renders flat."""
+    kids: dict[str, list[dict]] = {}
+    for it in items:
+        tgt = it.get("under")
+        if tgt:
+            kids.setdefault(tgt, []).append(it)
+    out: list[dict] = []
+    for it in items:
+        if it.get("under"):
+            continue
+        row = dict(it)
+        row["sub"] = False
+        out.append(row)
+        for k in kids.get(it["id"], []):
+            sub = dict(k)
+            sub["sub"] = True
+            out.append(sub)
+    if len(out) != len(items):  # orphaned follow-ups keep their slot rather than vanishing
+        placed = {x["id"] for x in out}
+        for it in items:
+            if it["id"] not in placed:
+                row = dict(it)
+                row["sub"] = False
+                out.append(row)
+    return out
+
+
 def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False, edition_no: int = 0):
     """Render one edition. `root` is how many levels up the assets sit; archived pages
     carry a banner and skip the install prompt."""
@@ -776,7 +1045,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     tpl = env.get_template("page.html")
 
     ncols = cfg["page"]["columns"]
-    items = state.get("items") or []
+    items = _ordered_items(state.get("items") or [])
     per = -(-len(items) // ncols) if items else 0
 
     # Held over or new this edition? A story's first_seen is stamped the edition it arrived, so
@@ -792,7 +1061,10 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     for i in range(ncols):
         col = [dict(x) for x in items[i * per : (i + 1) * per]]
         for j, it in enumerate(col):
-            it["sep"] = j > 0 and it.get("topic") != col[j - 1].get("topic")
+            prev = col[j - 1] if j else None
+            # A rule separates topic clusters, but never cuts into a stack: a follow-up is part of
+            # the block above it, so it never carries one.
+            it["sep"] = bool(prev) and not it.get("sub") and it.get("topic") != prev.get("topic")
             it["held"] = held(it)
         columns.append(col)
     flash = [dict(x) for x in state.get("flash") or []]

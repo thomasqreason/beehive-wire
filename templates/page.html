@@ -54,6 +54,13 @@
   .cols.one .col{max-width:720px;margin:0 auto}
   .cols.one .col a{font-size:15px;margin-bottom:13px}
   .col a.held,.flash a.held{color:#8a8a8a}
+  /* Story stacks: a lead headline with its follow-ups indented beneath it, read as one block.
+     The negative top margin pulls each follow-up up against the line above so the group reads
+     tighter than the gap between unrelated stories. */
+  .col a.sub{margin-left:27px;margin-top:-5px;margin-bottom:10px;font-size:13px;position:relative}
+  .cols.one .col a.sub{font-size:13.5px}
+  .col a.sub::before{content:"";position:absolute;left:-15px;top:.62em;width:9px;height:1px;background:#000}
+  .col a.sub.held::before{background:#8a8a8a}
   .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
   .mast .fresh b{color:#000;font-weight:bold}
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
@@ -141,6 +148,8 @@
   html[data-theme="dark"] .top img{border-color:#39434f}
   html[data-theme="dark"] .top a.head.urgent{color:#ff5b5b}
   html[data-theme="dark"] .top a.head.urgent:hover{background:#ff5b5b;color:#12161b}
+  html[data-theme="dark"] .col a.sub::before{background:#f2efe9}
+  html[data-theme="dark"] .col a.sub.held::before{background:#697381}
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
@@ -195,7 +204,7 @@
   <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
     <div class="col">
-      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}<a{% if it.held %} class="held"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
+      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}{% set cls = ([] + (['held'] if it.held else []) + (['sub'] if it.sub else [])) %}<a{% if cls %} class="{{ cls|join(' ') }}"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
       {% endfor %}
     </div>
     {% endfor %}
