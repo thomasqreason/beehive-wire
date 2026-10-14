@@ -70,6 +70,27 @@
   .col a.sub.held::before{background:#8a8a8a}
   .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
   .mast .fresh b{color:#000;font-weight:bold}
+  /* ── the edition's video ─────────────────────────────────────────────────
+     A click-to-play poster: no iframe, no YouTube request and no cookie until the
+     reader presses play. 16:9 is held by aspect-ratio so nothing jumps as it loads. */
+  .watch{margin:26px auto 0;max-width:720px}
+  .watch .lbl{font:bold 11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    text-align:center;margin-bottom:8px}
+  .watch .player{position:relative;aspect-ratio:16/9;background:#12161b;border:1px solid #000;cursor:pointer}
+  .watch .player img,.watch .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .watch .player img{object-fit:cover}
+  .watch .player button{position:absolute;inset:0;width:100%;height:100%;border:0;background:none;cursor:pointer;padding:0}
+  .watch .player button span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:68px;height:48px;border-radius:12px;background:rgba(18,22,27,.82);border:2px solid #fdb512;display:block}
+  .watch .player button span::after{content:"";position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);
+    border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdb512}
+  .watch .player button:hover span{background:#fdb512}
+  .watch .player button:hover span::after{border-left-color:#12161b}
+  .watch .player button:focus-visible span{outline:3px solid #fdb512;outline-offset:3px}
+  .watch .cap{text-align:center;margin-top:7px;font:italic 12px/1.4 Georgia,"Times New Roman",serif}
+  .watch .cap a{color:#333}
+  @media(max-width:700px){.watch{margin-top:20px}.watch .player button span{width:56px;height:40px}}
+
   /* ── the evergreen shelf ─────────────────────────────────────────────────
      The permanent links: never news, always worth a look. Sits below the
      sign-off so it can never bury the edition. */
@@ -179,6 +200,8 @@
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .watch .player{border-color:#39434f}
+  html[data-theme="dark"] .watch .cap a{color:#8b949e}
   html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
   html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
@@ -228,6 +251,23 @@
     {% if top.image %}<a href="{{ top.url }}"{{ target }}><img src="{{ top.image }}" alt=""></a>{% endif %}
     <a class="head{% if top.urgent %} urgent{% endif %}" href="{{ top.url }}"{{ target }} title="{{ top.source }}: {{ top.title }}">{{ top.headline }}</a>
   </div>
+
+  {% if video %}
+  {# The edition's own YouTube video. build.py finds it by edition key, so it appears within a
+     minute of the upload and disappears on its own when the next edition prints. The player is
+     not loaded until the reader clicks: until then this is a thumbnail and a button, so the page
+     stays as fast as it was and YouTube sets nothing on a reader who never presses play. #}
+  <div class="watch">
+    <div class="lbl">Watch the {{ edition|lower }}</div>
+    <div class="player" data-video="{{ video.id }}">
+      <img src="https://i.ytimg.com/vi/{{ video.id }}/maxresdefault.jpg" alt="" loading="lazy"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg'">
+      <button type="button" aria-label="Play the {{ edition|lower }} video"><span></span></button>
+      <noscript><a href="{{ video.url }}"{{ target }}>Watch on YouTube</a></noscript>
+    </div>
+    <div class="cap"><a href="{{ video.url }}"{{ target }}>The whole front page, read aloud &mdash; watch on YouTube</a></div>
+  </div>
+  {% endif %}
 
   <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
@@ -417,6 +457,28 @@
   s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
   s.setAttribute('data-cf-beacon', '{"token": "bb536ae7a0964426a2c1860344ee8a29"}');
   document.head.appendChild(s);
+})();
+</script>
+<script>
+// Click-to-play for the edition's video. Swaps the poster for the player on the first click only,
+// so a reader who never presses play never touches youtube.com. nocookie + autoplay=1 because the
+// click WAS the play. Does nothing at all on a page with no video block.
+(function () {
+  var box = document.querySelector('.watch .player');
+  if (!box) return;
+  var id = box.getAttribute('data-video');
+  if (!id) return;
+  box.addEventListener('click', function play() {
+    box.removeEventListener('click', play);
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+    f.title = 'Beehive Wire video';
+    f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    box.textContent = '';
+    box.appendChild(f);
+    box.style.cursor = 'default';
+  });
 })();
 </script>
 <!-- End Cloudflare Web Analytics -->

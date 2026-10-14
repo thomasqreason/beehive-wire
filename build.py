@@ -39,6 +39,7 @@ SITE = ROOT / "site"
 ARCHIVE = ROOT / "archive"  # every edition ever printed, committed so it survives each build
 STATIC = ROOT / "static"   # icons, manifest, service worker — copied verbatim into site/
 STATE_FILE = DATA / "state.json"
+VIDEO_PUBLISHED = DATA / "video" / "published.json"  # what video.py recorded after each YouTube upload
 TOPICS = ["iran_mideast", "ukraine_russia", "world", "immigration", "crime", "trump_watch", "elections",
           "politics_culture_world", "media", "faith_family_schools", "military", "business_ai", "tech", "surveillance",
           "american_life", "economy", "investing", "energy", "housing", "health", "utah_mormon", "sports", "pop_culture",
@@ -1318,6 +1319,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         edition_no=edition_no,
         extra=bool(state.get("extra")),
         shelf=shelf_rows,
+        video=edition_video(local, edition, state, cfg),
     )
     return html_out, local, edition
 
@@ -1352,6 +1354,38 @@ def _archive_index() -> list[dict]:
 
 def _slot_of(edition: str) -> str:
     return "morning" if edition.lower().startswith("morning") else "evening"
+
+
+def edition_video(local: datetime, edition: str, state: dict, cfg: dict) -> dict | None:
+    """The YouTube video for the edition being rendered, or None.
+
+    video.py records every upload in data/video/published.json under the same
+    `{date}-{slot}` key the archive uses, so the page can find its own video without
+    knowing anything about YouTube. Three deliberate rules:
+
+      * key match only — the moment a new edition prints, the previous edition's video
+        stops matching and the block disappears by itself. No stale video on a fresh page.
+      * a remake hides the video it replaces (`hidden`), so hidden records are skipped and
+        the newest surviving record for the key wins.
+      * an EXTRA never gets a video, and its key never matches one.
+
+    Never raises: a missing or malformed file just means no video block.
+    """
+    if not (cfg.get("video") or {}).get("show_on_site", True):
+        return None
+    if state.get("extra"):
+        return None
+    key = f"{local.strftime('%Y-%m-%d')}-{_slot_of(edition)}"
+    try:
+        records = json.loads(VIDEO_PUBLISHED.read_text(encoding="utf-8"))
+    except Exception:                      # noqa: BLE001 — no video is a normal state, not an error
+        return None
+    live = [r for r in records
+            if isinstance(r, dict) and r.get("key") == key and r.get("video_id") and not r.get("hidden")]
+    if not live:
+        return None
+    v = live[-1]
+    return {"id": v["video_id"], "title": v.get("title") or "", "url": f"https://www.youtube.com/watch?v={v['video_id']}"}
 
 
 def edition_number(local: datetime, edition: str, slot: str | None = None) -> int:

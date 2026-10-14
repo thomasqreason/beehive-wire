@@ -19,7 +19,9 @@ fetched; empty otherwise). Write `data/video/script.json` as ONE JSON object, no
                                      // Beehive Wire morning|evening edition for ..."; never name it for the channel
   "segments": [ {"id": "<story id>", "narration": "..."} ],   // in payload order; skip a story only if you must
   "outro": "...",                    // ONE short closing sentence ("That is the Monday evening Wire."). Nothing else:
-                                     // a fixed sign-off (like, subscribe, the site, edition times) is added after it
+                                     // a fixed sign-off is spoken straight after it, and it already covers like and
+                                     // subscribe, the site address, the links in the description, and the edition
+                                     // times. Never say any of those yourself — you would only say them twice
   "tags": ["...", "..."]             // 5-10 topical tags, specific to today's stories
 }
 

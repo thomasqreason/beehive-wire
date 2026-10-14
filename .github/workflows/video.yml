@@ -39,6 +39,8 @@ on:
 
 permissions:
   contents: write
+  pages: write                 # the publish job below puts the finished video on the front page
+  id-token: write
 
 concurrency:
   group: video
@@ -50,6 +52,9 @@ jobs:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    outputs:
+      uploaded: ${{ steps.record.outputs.uploaded }}
+      key: ${{ steps.due.outputs.key }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -145,6 +150,7 @@ jobs:
         run: python video.py upload ${{ inputs.force && '--force' || '' }}
 
       - name: Record the upload
+        id: record
         if: steps.due.outputs.go == 'yes' && !inputs.dry_run
         run: |
           git config user.name "beehive-wire-bot"
@@ -154,4 +160,59 @@ jobs:
             git commit -m "video: ${{ steps.due.outputs.key }}"
             git pull --rebase --autostash origin main
             git push
+            echo "uploaded=yes" >> "$GITHUB_OUTPUT"
           fi
+
+  # Put the video on beehivewire.com, right after it goes up on YouTube.
+  #
+  # Why a job of its own: the front page is deployed by build.yml, breaking.yml and markets.yml, which all
+  # share `concurrency: group: build` so two of them never push Pages at once. This job joins that group, so
+  # it queues politely behind an edition instead of racing it -- but the hour-long video job above must NOT
+  # hold that lock (that is what starved the Market Desk on Oct 8), so only this two-minute job is in it.
+  #
+  # There is no Claude call and no new edition here: build.py --render-only re-renders the edition already in
+  # data/state.json, and build.py now finds the video by its edition key in data/video/published.json. If a new
+  # edition happened to print while the video was rendering, the key no longer matches and the page simply
+  # comes out without it -- which is right: that video belongs to the edition before.
+  #
+  # A pushed commit cannot do this itself: pushes made with GITHUB_TOKEN never trigger another workflow, and
+  # build.yml's push trigger ignores data/** anyway.
+  publish:
+    needs: video
+    if: needs.video.outputs.uploaded == 'yes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: build
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                    # includes the published.json commit the job above just pushed
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Put the video on the front page
+        run: python build.py --render-only
+      - name: Commit the re-rendered archive copy
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/shelf.json archive
+          if ! git diff --cached --quiet; then
+            git commit -m "video on page: ${{ needs.video.outputs.key }}"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -70,6 +70,27 @@
   .col a.sub.held::before{background:#8a8a8a}
   .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
   .mast .fresh b{color:#000;font-weight:bold}
+  /* ── the edition's video ─────────────────────────────────────────────────
+     A click-to-play poster: no iframe, no YouTube request and no cookie until the
+     reader presses play. 16:9 is held by aspect-ratio so nothing jumps as it loads. */
+  .watch{margin:26px auto 0;max-width:720px}
+  .watch .lbl{font:bold 11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    text-align:center;margin-bottom:8px}
+  .watch .player{position:relative;aspect-ratio:16/9;background:#12161b;border:1px solid #000;cursor:pointer}
+  .watch .player img,.watch .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .watch .player img{object-fit:cover}
+  .watch .player button{position:absolute;inset:0;width:100%;height:100%;border:0;background:none;cursor:pointer;padding:0}
+  .watch .player button span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:68px;height:48px;border-radius:12px;background:rgba(18,22,27,.82);border:2px solid #fdb512;display:block}
+  .watch .player button span::after{content:"";position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);
+    border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdb512}
+  .watch .player button:hover span{background:#fdb512}
+  .watch .player button:hover span::after{border-left-color:#12161b}
+  .watch .player button:focus-visible span{outline:3px solid #fdb512;outline-offset:3px}
+  .watch .cap{text-align:center;margin-top:7px;font:italic 12px/1.4 Georgia,"Times New Roman",serif}
+  .watch .cap a{color:#333}
+  @media(max-width:700px){.watch{margin-top:20px}.watch .player button span{width:56px;height:40px}}
+
   /* ── the evergreen shelf ─────────────────────────────────────────────────
      The permanent links: never news, always worth a look. Sits below the
      sign-off so it can never bury the edition. */
@@ -179,6 +200,8 @@
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .watch .player{border-color:#39434f}
+  html[data-theme="dark"] .watch .cap a{color:#8b949e}
   html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
   html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
@@ -228,6 +251,20 @@
     <a href="https://variety.com/2026/tv/global/russell-brand-rape-trial-ruthless-calculated-prosecution-1236911046/" target=&#34;_blank&#34; rel=&#34;noopener&#34;><img src="https://variety.com/wp-content/uploads/2026/10/russell-2-1000.jpg" alt=""></a>
     <a class="head" href="https://variety.com/2026/tv/global/russell-brand-rape-trial-ruthless-calculated-prosecution-1236911046/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Variety: Russell Brand Was ‘Ruthless and Calculated’ With a ‘Voracious’ Desire for ‘Sexual Contact,’ Prosecution Alleges in Rape Trial Opening Statement">BRAND RAPE TRIAL OPENS...</a>
   </div>
+
+  
+  
+  <div class="watch">
+    <div class="lbl">Watch the morning edition</div>
+    <div class="player" data-video="0vZWukyRP5M">
+      <img src="https://i.ytimg.com/vi/0vZWukyRP5M/maxresdefault.jpg" alt="" loading="lazy"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/0vZWukyRP5M/hqdefault.jpg'">
+      <button type="button" aria-label="Play the morning edition video"><span></span></button>
+      <noscript><a href="https://www.youtube.com/watch?v=0vZWukyRP5M" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Watch on YouTube</a></noscript>
+    </div>
+    <div class="cap"><a href="https://www.youtube.com/watch?v=0vZWukyRP5M" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The whole front page, read aloud &mdash; watch on YouTube</a></div>
+  </div>
+  
 
   <div class="cols one">
     
@@ -357,6 +394,7 @@
         <li><a href="https://kalshi.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ELECTION ODDS — KALSHI</a></li>
         <li><a href="https://gasprices.aaa.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GAS PRICES — AAA</a></li>
         <li><a href="https://www.eia.gov/petroleum/gasdiesel/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PUMP + DIESEL — EIA</a></li>
+        <li><a href="https://fred.stlouisfed.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FRED — EVERY ECONOMIC SERIES</a></li>
         
       </ul>
     </div>
@@ -377,6 +415,7 @@
       <h2>The charts</h2>
       <ul>
         <li><a href="https://www.boxofficemojo.com/daily/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BOX OFFICE — DAILY</a></li>
+        <li><a href="https://www.the-numbers.com/box-office-chart/daily" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BOX OFFICE — THE NUMBERS</a></li>
         <li><a href="https://www.nielsen.com/data-center/top-ten/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TV RATINGS — NIELSEN TOP TEN</a></li>
         <li><a href="https://podcastcharts.byspotify.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — SPOTIFY</a></li>
         <li><a href="https://podcasts.apple.com/us/charts" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — APPLE</a></li>
@@ -529,6 +568,28 @@
   s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
   s.setAttribute('data-cf-beacon', '{"token": "bb536ae7a0964426a2c1860344ee8a29"}');
   document.head.appendChild(s);
+})();
+</script>
+<script>
+// Click-to-play for the edition's video. Swaps the poster for the player on the first click only,
+// so a reader who never presses play never touches youtube.com. nocookie + autoplay=1 because the
+// click WAS the play. Does nothing at all on a page with no video block.
+(function () {
+  var box = document.querySelector('.watch .player');
+  if (!box) return;
+  var id = box.getAttribute('data-video');
+  if (!id) return;
+  box.addEventListener('click', function play() {
+    box.removeEventListener('click', play);
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+    f.title = 'Beehive Wire video';
+    f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    box.textContent = '';
+    box.appendChild(f);
+    box.style.cursor = 'default';
+  });
 })();
 </script>
 <!-- End Cloudflare Web Analytics -->

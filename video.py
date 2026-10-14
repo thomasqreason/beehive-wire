@@ -580,7 +580,7 @@ def cmd_render(args) -> int:
     for i, seg in enumerate(script["segments"], 1):
         s = by_id[seg["id"]]
         beats.append(("story", slide_story(s, i, total, ed_label, wm), seg["narration"], s))
-    beats.append(("outro", slide_card("More at\nbeehivewire.com\n6 AM & 6 PM Eastern", ed_label),
+    beats.append(("outro", slide_card("beehivewire.com\nLink in the description\n6 AM & 6 PM Eastern", ed_label),
                   f"{script['outro']} {v.get('signoff', '')}".strip(), None))
     beats = [b for b in beats if b[2]]
 
@@ -614,7 +614,9 @@ def cmd_render(args) -> int:
         lines.append(f"{fmt_ts(c['t'])} {label}")
     src = [f"- {c['story']['source']}: {c['story']['title']}" + (f"\n  {c['story']['url']}" if len(c['story']['url']) <= 200 else "")
            for c in chapters if c["story"]]
-    head = ["beehivewire.com — the news, twice a day", "", "STORIES AND SOURCES"]
+    head = ["Read the full front page: https://beehivewire.com",
+            f"Every story below ran in {payload['weekday']}'s {ed['edition'].lower()}, "
+            "and every link goes to the publisher.", "", "STORIES AND SOURCES"]
     tail = ["", "CHAPTERS", *lines, "",
             f"The {ed['edition']} of Beehive Wire for {payload['weekday']}. New editions every day at 6 a.m. and "
             "6 p.m. Eastern: https://beehivewire.com", "",

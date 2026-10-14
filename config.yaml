@@ -147,7 +147,7 @@ video:
   kokoro_voice: "af_heart"
   kokoro_speed: 1.05
   # Spoken word for word after the writer's outro, on every video. Todd's wording (2026-10-12).
-  signoff: "Like, subscribe, and be sure to ring the bell to get notified. To see these stories and more, check out the morning and evening editions of the Beehive Wire, at 6 AM and 6 PM Eastern, at beehivewire dot com."
+  signoff: "Like, subscribe, and be sure to ring the bell to get notified. Every story in this video, and the link to the site, are in the description below. The whole front page is waiting for you at beehivewire dot com, with a new edition every morning at 6 AM Eastern and every evening at 6 PM."
   say_as:                       # words Kokoro mispronounces -> a spelling it reads right. Whole words, case-sensitive.
     Houthis: "Hoothees"            # Add a line here whenever Todd hears a wrong one.
     Houthi: "Hoothee"
@@ -164,4 +164,7 @@ video:
   rate: "+5%"
   pad_seconds: 0.7
   watermark: "beehivewire.com"
+  show_on_site: true            # put the finished video on the front page of beehivewire.com, under the
+                                # giant headline, as soon as it is up on YouTube. Set false to stop that
+                                # without touching the upload.
   tags: ["news", "headlines", "Beehive Wire", "beehivewire.com", "daily news"]
