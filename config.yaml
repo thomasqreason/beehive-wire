@@ -16,6 +16,9 @@ site:
 page:
   total_links: 100                 # top + flash + column links. The editor keeps the page at this size. (100 from Sep 16, 2026; was 50, then 75.)
   flash_lines: 3                   # small lines above the giant headline (0-4)
+  images_per_edition: 3            # column stories that run with their picture, on top of the giant
+                                   # headline (which always gets one if an image can be found).
+                                   # 3 per edition x 2 editions = about 6 pictures a day.
   columns: 1                       # one column, single file — not the three-column Drudge grid
 
 # Tuned for TWO builds a day (morning and late afternoon). If you move to a faster

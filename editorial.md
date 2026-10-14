@@ -151,17 +151,19 @@ them real headlines, not consolation prizes. If the page reads like everything i
 
 ## Standing orders this week (dated; delete when stale)
 
-- Oct 6, 2026: JIM BAKKER DIED (Oct 6, age 86 — PTL Club, the 1987 scandal, the fraud conviction, the
-  prison term, the comeback show selling survival buckets). IT IS THE GIANT TOP HEADLINE of the Oct 6
-  MORNING EDITION — the publisher's vote, because everyone knows the name. Overrule it only for a story
-  that is plainly bigger (a war turn, a death of a president, a market crash); otherwise put the
-  Bakker obituary in "top", with the flash lines carrying the rest of the morning's biggest stories; in the
-  evening edition it drops to a held link in the faith beat. THE SCANDAL VERSION, not the tribute: the candidate whose
-  title leads with the sex-and-money scandal, the fraud conviction, the prison term or the survival-bucket
-  grift (the NYT's "Felled by Sex and Financial Scandals," the NY Post's "scandal-scarred," NBC's "served
-  time for defrauding followers"). Never the "enters heaven" / "finished his race" / "Christian television
-  pioneer" framing, and the top headline carries the scandal in 2–6 words: BAKKER, FLEECER OF THE FLOCK,
-  DEAD AT 86... or JAILED TELEVANGELIST BAKKER DEAD... Do not skip it, and do not bury it.
+- Oct 14, 2026: THE TOM CRUISE FLOP — run it, and keep running it while the number moves. Warner
+  Bros. fully financed **DIGGER**; the reported production budget is $163–173M with about $100M more
+  in marketing. It opened to roughly $21M worldwide, fell about 60% in its second weekend, and the
+  projected loss has climbed from $125–150M to $245–250M — one of the worst in Cruise's career and
+  the biggest bomb of 2026 so far. Insiders doubt it reaches $40M worldwide.
+  This is exactly the page's cynical-about-Hollywood beat, so give it a real headline: the number is
+  the hook (device 6). THE LOSS FIGURE IS A PROJECTION — write it as one ("SET TO LOSE", "ON TRACK TO
+  LOSE", "STANDS TO LOSE"), never as money already lost, and never state a single figure as settled
+  when the reporting spans a range. Attribute the range to the trades if the link does.
+  It is a STACK when the candidates allow it: the loss on top, then the second-weekend drop, the
+  budget, what it means for Cruise or for Warner. It is a good picture candidate.
+  Do not make it the giant headline unless a weekend's numbers genuinely make it the day's biggest
+  story. Drop this order once the third weekend has passed and the figure stops moving.
 
 ## The rotation: illegal immigration, H-1B, election integrity — one at a time
 
@@ -461,8 +463,12 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   Extend the same benefit to any major cultural figure whose death is real news — a well-known actor,
   author or artist. Confirm it first: a death runs only once a named outlet reports it (see the accuracy
   rules), never off a rumor or a single anonymous post — a death hoax on the page is worse than a miss.
-  THE STARS THEMSELVES BELONG HERE TOO, occasionally — a link or two an edition when something actually
-  happened. Drudge has always run these and readers always click them. Divorces and splits, engagements and
+  THE STARS THEMSELVES BELONG HERE TOO, and more often than "occasionally" — the publisher's call,
+  Oct 14, 2026. CADENCE: a named-celebrity story in MOST editions but not all. Four or five editions
+  out of seven, one or two links when it runs, none at all when nothing real happened — a slow week
+  for the famous is a week the beat sits out rather than a week we scrape. Never more than two in one
+  edition, and never a second one in the same edition as the first unless both are genuinely news.
+  The test is unchanged: something actually happened. Drudge has always run these and readers always click them. Divorces and splits, engagements and
   marriages, babies, deaths, health scares, feuds, arrests, lawsuits, a career blown up or resurrected, the
   photograph everyone is arguing about. The names that carry a headline on their own: the Kardashians and
   Jenners, Madonna, Sydney Sweeney, Amanda Seyfried, Taylor Swift, the Beckhams, the aging rock and movie

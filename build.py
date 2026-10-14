@@ -1149,6 +1149,48 @@ def shelf(cfg: dict, now: datetime, check: bool = True) -> dict | None:
         return None
     return {"house": sh.get("house") or [], "sections": rows}
 
+def _pick_pictures(items: list[dict], cfg: dict, now: datetime) -> None:
+    """Mark a few column stories to run with their picture.
+
+    Costs nothing: most feeds hand us an image with the story, so this is choosing which of the
+    ones we already have to show. Pictures go to NEW stories (a reader should see what changed),
+    never to a stack follow-up (which must stay tight under its lead), and never two in a row.
+    """
+    want = int(cfg["page"].get("images_per_edition", 3))
+    for it in items:
+        it.pop("show_image", None)
+    if want <= 0:
+        return
+    ref = parse_iso(items[0].get("first_seen")) if items else None
+
+    def is_new(it: dict) -> bool:
+        fs = parse_iso(it.get("first_seen"))
+        return bool(fs) and (now - fs).total_seconds() < 3600 * 6
+
+    # Beats where a picture earns its place. A chart-free economy link gains nothing from one.
+    PICTORIAL = {"pop_culture", "weird", "sports", "weather_disasters", "american_life",
+                 "utah_mormon", "world", "crime", "health"}
+    # Leave the first few slots clear: a photo directly beneath the giant headline competes
+    # with it, and the lead is supposed to own the top of the page.
+    FLOOR = 4
+    cand = [i for i, it in enumerate(items)
+            if i >= FLOOR and it.get("image") and not it.get("under") and is_new(it)]
+    if not cand:
+        cand = [i for i, it in enumerate(items)
+                if i >= FLOOR and it.get("image") and not it.get("under")]
+    cand.sort(key=lambda i: (0 if items[i].get("topic") in PICTORIAL else 1, i))
+
+    chosen: list[int] = []
+    for i in cand:
+        if len(chosen) >= want:
+            break
+        if any(abs(i - j) < 6 for j in chosen):      # never bunch them up
+            continue
+        chosen.append(i)
+    for i in chosen:
+        items[i]["show_image"] = True
+
+
 def _ordered_items(items: list[dict]) -> list[dict]:
     """Reading order with stacks intact: each lead is followed immediately by its follow-ups.
 
@@ -1171,6 +1213,7 @@ def _ordered_items(items: list[dict]) -> list[dict]:
         for k in kids.get(it["id"], []):
             sub = dict(k)
             sub["sub"] = True
+            sub.pop("show_image", None)          # a follow-up stays a line, never a picture
             out.append(sub)
     if len(out) != len(items):  # orphaned follow-ups keep their slot rather than vanishing
         placed = {x["id"] for x in out}
@@ -1192,6 +1235,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     tpl = env.get_template("page.html")
 
     ncols = cfg["page"]["columns"]
+    _pick_pictures(state.get("items") or [], cfg, now)
     items = _ordered_items(state.get("items") or [])
     per = -(-len(items) // ncols) if items else 0
 
@@ -1574,12 +1618,14 @@ def main() -> int:
 
     new_state = apply_plan(plan, state, cands, cfg, now, cap_churn=not args.plan_json)
 
-    # top image
+    # The giant headline should carry a picture whenever one can be found. Retry every build while
+    # it has none — a held-over top used to be stuck without one forever, because this only ran
+    # when the top story changed.
     top = new_state.get("top")
     if top and not top.get("image") and not args.no_network:
-        prev = state.get("top") or {}
-        if prev.get("id") != top["id"]:
-            top["image"] = fetch_og_image(top["url"], cfg)
+        top["image"] = fetch_og_image(top["url"], cfg)
+        if not top.get("image"):
+            log(f"top image: none found for {top['source']}")
 
     save_state(new_state)
     render(new_state, cfg, now)

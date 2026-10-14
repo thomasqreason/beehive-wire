@@ -53,6 +53,13 @@
   .col a{display:block;text-transform:uppercase;margin:0 0 12px;font-size:13px}
   .cols.one .col{max-width:720px;margin:0 auto}
   .cols.one .col a{font-size:15px;margin-bottom:13px}
+  /* A column story running with its picture. Drudge-sized: big enough to stop the scroll,
+     small enough that the page is still a list of headlines. */
+  .col a.pic{margin-bottom:14px}
+  .col .shot{display:block;margin:4px 0 7px;max-width:100%}
+  .col .shot img{display:block;width:100%;max-width:330px;height:auto;border:1px solid #000}
+  .cols.one .col .shot img{max-width:360px}
+  @media (max-width:640px){.col .shot img{max-width:100%}}
   .col a.held,.flash a.held{color:#8a8a8a}
   /* Story stacks: a lead headline with its follow-ups indented beneath it, read as one block.
      The negative top margin pulls each follow-up up against the line above so the group reads
@@ -168,6 +175,7 @@
   html[data-theme="dark"] .top a.head.urgent:hover{background:#ff5b5b;color:#12161b}
   html[data-theme="dark"] .col a.sub::before{background:#f2efe9}
   html[data-theme="dark"] .col a.sub.held::before{background:#697381}
+  html[data-theme="dark"] .col .shot img{border-color:#39434f}
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
@@ -224,7 +232,7 @@
   <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
     <div class="col">
-      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}{% set cls = ([] + (['held'] if it.held else []) + (['sub'] if it.sub else [])) %}<a{% if cls %} class="{{ cls|join(' ') }}"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
+      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}{% if it.show_image and it.image %}<a class="shot" href="{{ it.url }}"{{ target }} tabindex="-1" aria-hidden="true"><img src="{{ it.image }}" alt="" loading="lazy"></a>{% endif %}{% set cls = ([] + (['held'] if it.held else []) + (['sub'] if it.sub else []) + (['pic'] if (it.show_image and it.image) else [])) %}<a{% if cls %} class="{{ cls|join(' ') }}"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
       {% endfor %}
     </div>
     {% endfor %}
