@@ -1008,6 +1008,16 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
 
 SHELF_STATE = DATA / "shelf.json"
 
+# A few feeds are published from a host that is not the paper's front door. Without these the
+# shelf would link readers at bbci.co.uk or content.dowjones.io, which are plumbing, not papers.
+OUTLET_HOSTS = {
+    "bbci.co.uk": "bbc.com",
+    "content.dowjones.io": "marketwatch.com",
+    "972mag.com": "www.972mag.com",
+    "cbo.gov": "www.cbo.gov",
+    "news.antiwar.com": "antiwar.com",
+}
+
 
 def _outlet_links(limit: int) -> list[dict]:
     """The outlet columns, derived from feeds.yaml so the shelf points at the wire we actually read.
@@ -1022,6 +1032,7 @@ def _outlet_links(limit: int) -> list[dict]:
         if not host or "news.google.com" in host:
             continue
         host = re.sub(r"^(www|rss|feeds?|cms|moxie|api)\.", "", host)
+        host = OUTLET_HOSTS.get(host, host)
         # Trim a feed's section suffix ("Daily Mail Health") without eating a hyphenated
         # masthead ("Al-Monitor", "19FortyFive"): only a SPACED dash or a bracket starts a suffix.
         name = re.sub(r"\s+[-—–]\s.*$|\s*[(\[].*$", "", f.get("name") or "").strip()
@@ -1055,13 +1066,21 @@ def _check_links(urls: list[str], timeout: int) -> set[str]:
         except Exception:  # noqa: BLE001 — timeout, DNS, TLS: not today
             return None
 
+    # What we are actually asking is "can a READER open this", not "will this server talk to a
+    # datacenter IP". Plenty of live sites (congress.gov, FRED, Kalshi, Substack) answer a bot
+    # with 403 or 429, and treating that as death quietly guts the shelf. So a link counts as
+    # dead only when the page is really gone or the host does not exist.
+    GONE = {404, 410}
+
     def probe(u: str) -> str | None:
         st = once(u, "HEAD")
-        # Retry with GET only for a server that refuses the METHOD. A timeout or a dead host is
-        # already answered, and retrying it would double the worst-case cost of every build.
-        if st in (403, 405, 501):
+        if st in (403, 405, 501, 429):        # refused the method or the visitor, not missing
             st = once(u, "GET")
-        return u if st is not None and st < 400 else None
+            if st in (403, 429, 401):
+                return u                      # it is there; it just does not like us
+        if st is None:
+            return None                       # DNS, TLS or timeout: nothing answered
+        return None if st in GONE else u
 
     with cf.ThreadPoolExecutor(max_workers=12) as ex:
         for got in ex.map(probe, urls):
