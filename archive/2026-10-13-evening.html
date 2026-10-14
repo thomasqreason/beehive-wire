@@ -63,6 +63,24 @@
   .col a.sub.held::before{background:#8a8a8a}
   .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
   .mast .fresh b{color:#000;font-weight:bold}
+  /* ── the evergreen shelf ─────────────────────────────────────────────────
+     The permanent links: never news, always worth a look. Sits below the
+     sign-off so it can never bury the edition. */
+  .shelf{margin-top:40px;border-top:4px double #000;padding-top:20px}
+  .shelf .house{text-align:center;margin-bottom:26px}
+  .shelf .house a{display:inline-block;margin:0 10px 8px;font:bold 13px/1.4 Arial,Helvetica,sans-serif;
+    text-transform:uppercase;letter-spacing:.04em}
+  .shelf .grp{margin-bottom:22px}
+  .shelf h2{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    color:#555;margin:0 0 9px;padding-bottom:5px;border-bottom:1px solid #ccc;font-weight:bold}
+  .shelf ul{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+  .shelf .wide ul{columns:3;column-gap:22px}
+  .shelf li{break-inside:avoid;margin:0 0 7px}
+  .shelf li a{font:12px/1.35 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.02em}
+  @media (max-width:640px){
+    .shelf ul,.shelf .wide ul{columns:2;column-gap:16px}
+    .shelf li a{font-size:11px}
+  }
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
   .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
   .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
@@ -153,6 +171,8 @@
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
+  html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
   .foot .desk{display:inline-block;margin-top:14px;color:#999;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
   .foot .desk:hover{background:none;color:#888}
@@ -309,6 +329,112 @@
   <div class="next">That&rsquo;s the evening edition. Next edition tomorrow morning at 6:00 a.m. Eastern &mdash; go get something done.</div>
   
 
+  
+
+  
+  <div class="shelf">
+    
+    <div class="house">
+      <a href="../markets/">MARKET DESK</a><a href="../archive/">ARCHIVE — EVERY EDITION</a><a href="../sources/">THE WIRE WE READ</a>
+    </div>
+    
+    
+    <div class="grp">
+      <h2>The numbers</h2>
+      <ul>
+        <li><a href="https://www.natesilver.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SILVER BULLETIN</a></li>
+        <li><a href="https://polymarket.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ELECTION ODDS — POLYMARKET</a></li>
+        <li><a href="https://gasprices.aaa.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GAS PRICES — AAA</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The record</h2>
+      <ul>
+        <li><a href="https://www.federalregister.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FEDERAL REGISTER</a></li>
+        <li><a href="https://www.supremecourt.gov/opinions/slipopinion/25" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SUPREME COURT OPINIONS</a></li>
+        <li><a href="https://www.whitehouse.gov/presidential-actions/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>WHITE HOUSE ACTIONS</a></li>
+        <li><a href="https://www.bls.gov/schedule/news_release/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BLS RELEASE CALENDAR</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The charts</h2>
+      <ul>
+        <li><a href="https://www.boxofficemojo.com/daily/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BOX OFFICE — DAILY</a></li>
+        <li><a href="https://www.nielsen.com/data-center/top-ten/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TV RATINGS — NIELSEN TOP TEN</a></li>
+        <li><a href="https://podcastcharts.byspotify.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — SPOTIFY</a></li>
+        <li><a href="https://podcasts.apple.com/us/charts" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — APPLE</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The map</h2>
+      <ul>
+        <li><a href="https://earthquake.usgs.gov/earthquakes/map/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>EARTHQUAKES — USGS LIVE</a></li>
+        <li><a href="https://www.nhc.noaa.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>HURRICANES — NHC</a></li>
+        <li><a href="https://droughtmonitor.unl.edu/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DROUGHT MONITOR</a></li>
+        <li><a href="https://www.flightradar24.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FLIGHTS ALOFT</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp wide">
+      <h2>The wire</h2>
+      <ul>
+        <li><a href="https://19fortyfive.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>19FORTYFIVE</a></li>
+        <li><a href="https://404media.co/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>404 MEDIA</a></li>
+        <li><a href="https://aljazeera.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AL JAZEERA</a></li>
+        <li><a href="https://al-monitor.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AL-MONITOR</a></li>
+        <li><a href="https://amgreatness.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AMERICAN GREATNESS</a></li>
+        <li><a href="https://news.antiwar.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ANTIWAR.COM</a></li>
+        <li><a href="https://arstechnica.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ARS TECHNICA</a></li>
+        <li><a href="https://axios.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AXIOS</a></li>
+        <li><a href="https://billboard.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BILLBOARD</a></li>
+        <li><a href="https://bls.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BLS RELEASES</a></li>
+        <li><a href="https://feedburner.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BREITBART</a></li>
+        <li><a href="https://breitbart.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BREITBART EUROPE</a></li>
+        <li><a href="https://brownstone.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BROWNSTONE INSTITUTE</a></li>
+        <li><a href="https://brusselssignal.eu/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BRUSSELS SIGNAL</a></li>
+        <li><a href="https://businessinsider.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BUSINESS INSIDER</a></li>
+        <li><a href="https://cbsnews.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBS NEWS</a></li>
+        <li><a href="https://cbssports.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBS SPORTS: COLLEGE FOOTBALL</a></li>
+        <li><a href="https://cis.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CENTER FOR IMMIGRATION STUDIES</a></li>
+        <li><a href="https://compactmag.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>COMPACT</a></li>
+        <li><a href="https://dailymail.co.uk/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DAILY MAIL</a></li>
+        <li><a href="https://deadline.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DEADLINE</a></li>
+        <li><a href="https://justice.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DOJ PRESS</a></li>
+        <li><a href="https://eff.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>EFF</a></li>
+        <li><a href="https://fbi.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FBI PRESS</a></li>
+        <li><a href="https://investors.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>INVESTOR&#39;S BUSINESS DAILY</a></li>
+        <li><a href="https://sports.ksl.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>KSL</a></li>
+        <li><a href="https://middleeasteye.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MIDDLE EAST EYE</a></li>
+        <li><a href="https://modernity.news/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MODERNITY</a></li>
+        <li><a href="https://mormonstories.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MORMON STORIES</a></li>
+        <li><a href="https://nypost.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>NEW YORK POST</a></li>
+        <li><a href="https://pagesix.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PAGE SIX</a></li>
+        <li><a href="https://youtube.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PAUL JOSEPH WATSON</a></li>
+        <li><a href="https://radiofreemormon.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RADIO FREE MORMON</a></li>
+        <li><a href="https://reclaimthenet.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RECLAIM THE NET</a></li>
+        <li><a href="https://rmx.news/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>REMIX NEWS</a></li>
+        <li><a href="https://responsiblestatecraft.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RESPONSIBLE STATECRAFT</a></li>
+        <li><a href="https://sltrib.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SALT LAKE TRIBUNE</a></li>
+        <li><a href="https://sciencedaily.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SCIENCEDAILY</a></li>
+        <li><a href="https://studyfinds.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>STUDYFINDS</a></li>
+        <li><a href="https://theamericanconservative.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE AMERICAN CONSERVATIVE</a></li>
+        <li><a href="https://thefp.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE FREE PRESS</a></li>
+        <li><a href="https://theregister.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE REGISTER</a></li>
+        <li><a href="https://tmz.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TMZ</a></li>
+        <li><a href="https://variety.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>VARIETY</a></li>
+        <li><a href="https://zerohedge.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ZEROHEDGE</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
   
 
   <div class="foot">
