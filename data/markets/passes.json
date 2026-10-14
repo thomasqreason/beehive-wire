@@ -958,5 +958,68 @@
 "day": 8,
 "pass": 3,
 "no": "8.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-14",
+"at": "2026-10-14T22:38:46+00:00",
+"href": "movers/2026-10-14-1638.html",
+"syms": [
+"FAST",
+"BIIB",
+"MDT",
+"VRTX",
+"LHX",
+"UNH",
+"IDXX",
+"KMB",
+"COST",
+"NOC"
+],
+"heads": [
+"FAST +1.1% on 3.7x volume, bounce off 50-day line",
+"BIIB +1.7% on 2.1x volume, extended"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 8,
+"pass": 4,
+"no": "8.4"
+},
+{
+"kind": "edition",
+"date": "2026-10-14",
+"at": "2026-10-14T22:41:08+00:00",
+"href": "2026-10-14.html",
+"syms": [
+"MA",
+"XOM",
+"CVX",
+"COP",
+"EOG",
+"MU",
+"FAST",
+"GILD",
+"CLH",
+"EXEL"
+],
+"heads": [
+"Mastercard Eases 0.3% Near Its High Ahead Of Oct. 29 Earnings",
+"Exxon Mobil Rises 1.7% To Near High After Rating Upgrade To Buy",
+"Chevron Gains 2% As Big Oil Stocks Rally Against A Falling Market",
+"ConocoPhillips Rises Again After $7 Billion Asset Offer, Analyst Optimism",
+"EOG Resources Edges Up 0.7% Near Its High On Light Volume",
+"Micron Slides 2.3% After Hours Following 4.1% Drop In Chip Sell-Off",
+"Fastenal Reverses To 1.1% Gain After Earnings-Day Plunge On Heavy Volume",
+"Gilead Jumps 3.8% As It Signs Solid-Tumor Pact With Vir Biotechnology",
+"Clean Harbors Rises 0.6% With EnviroServe, ES&H Deals Now Closed",
+"Exelixis Climbs 2.5% Toward Its High Ahead Of Oct. 27 Report",
+"New America: Dell Falls 2.2% After Hours After Worst Day In Over A Year"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 8,
+"pass": 5,
+"no": "8.5"
 }
 ]
