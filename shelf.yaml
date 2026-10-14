@@ -1,0 +1,65 @@
+# Beehive Wire — the evergreen shelf
+#
+# The permanent links at the foot of the page: the things that are never news but are always
+# worth a look. Drudge's shelf is half of why people come back to a page they have already read.
+#
+# Nothing here costs a Claude call. build.py renders it straight from this file.
+#
+# EVERY LINK IS CHECKED AT BUILD TIME. A link that fails is left off that edition and tried
+# again next build; one that has not answered for `stale_after_days` is dropped until it comes
+# back. So a tracker that dies quietly disappears from the page instead of sitting there broken.
+# Last-good times are remembered in data/shelf.json.
+
+enabled: true
+stale_after_days: 7        # keep a link through a blip; drop it if it stays dead this long
+check_timeout_seconds: 8
+
+# The site's own pages. Never checked — they are built in the same run.
+house:
+  - {name: "MARKET DESK", path: "markets/"}
+  - {name: "ARCHIVE — EVERY EDITION", path: "archive/"}
+  - {name: "THE WIRE WE READ", path: "sources/"}
+
+sections:
+  - title: "The numbers"
+    links:
+      - {name: "TRUMP APPROVAL TRACKER", url: "https://www.realclearpolling.com/polls/approval/donald-trump/approval-rating"}
+      - {name: "GENERIC CONGRESSIONAL BALLOT", url: "https://www.realclearpolling.com/polls/generic-congressional-vote"}
+      - {name: "SILVER BULLETIN", url: "https://www.natesilver.net/"}
+      - {name: "ELECTION ODDS — POLYMARKET", url: "https://polymarket.com/"}
+      - {name: "ELECTION ODDS — KALSHI", url: "https://kalshi.com/"}
+      - {name: "GAS PRICES — AAA", url: "https://gasprices.aaa.com/"}
+      - {name: "PUMP + DIESEL — EIA", url: "https://www.eia.gov/petroleum/gasdiesel/"}
+      - {name: "FRED — EVERY ECONOMIC SERIES", url: "https://fred.stlouisfed.org/"}
+
+  - title: "The record"
+    links:
+      - {name: "CONGRESS — BILLS AND VOTES", url: "https://www.congress.gov/"}
+      - {name: "FEDERAL REGISTER", url: "https://www.federalregister.gov/"}
+      - {name: "SUPREME COURT OPINIONS", url: "https://www.supremecourt.gov/opinions/slipopinion/25"}
+      - {name: "WHITE HOUSE ACTIONS", url: "https://www.whitehouse.gov/presidential-actions/"}
+      - {name: "BLS RELEASE CALENDAR", url: "https://www.bls.gov/schedule/news_release/"}
+
+  - title: "The charts"
+    links:
+      - {name: "BOX OFFICE — DAILY", url: "https://www.boxofficemojo.com/daily/"}
+      - {name: "BOX OFFICE — THE NUMBERS", url: "https://www.the-numbers.com/box-office-chart/daily"}
+      - {name: "TV RATINGS — NIELSEN TOP TEN", url: "https://www.nielsen.com/data-center/top-ten/"}
+      - {name: "PODCAST RANKS — SPOTIFY", url: "https://podcastcharts.byspotify.com/"}
+      - {name: "PODCAST RANKS — APPLE", url: "https://podcasts.apple.com/us/charts"}
+
+  - title: "The map"
+    links:
+      - {name: "EARTHQUAKES — USGS LIVE", url: "https://earthquake.usgs.gov/earthquakes/map/"}
+      - {name: "HURRICANES — NHC", url: "https://www.nhc.noaa.gov/"}
+      - {name: "DROUGHT MONITOR", url: "https://droughtmonitor.unl.edu/"}
+      - {name: "FLIGHTS ALOFT", url: "https://www.flightradar24.com/"}
+      - {name: "WORLD FRONT PAGES", url: "https://en.kiosko.net/"}
+
+# The outlet columns are not listed here — they are derived from feeds.yaml, so the shelf always
+# points at the wire the paper actually reads. `outlets.count` is how many of the heaviest-weighted
+# sources to show.
+outlets:
+  enabled: true
+  count: 56
+  title: "The wire"

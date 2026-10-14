@@ -63,6 +63,24 @@
   .col a.sub.held::before{background:#8a8a8a}
   .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
   .mast .fresh b{color:#000;font-weight:bold}
+  /* ── the evergreen shelf ─────────────────────────────────────────────────
+     The permanent links: never news, always worth a look. Sits below the
+     sign-off so it can never bury the edition. */
+  .shelf{margin-top:40px;border-top:4px double #000;padding-top:20px}
+  .shelf .house{text-align:center;margin-bottom:26px}
+  .shelf .house a{display:inline-block;margin:0 10px 8px;font:bold 13px/1.4 Arial,Helvetica,sans-serif;
+    text-transform:uppercase;letter-spacing:.04em}
+  .shelf .grp{margin-bottom:22px}
+  .shelf h2{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    color:#555;margin:0 0 9px;padding-bottom:5px;border-bottom:1px solid #ccc;font-weight:bold}
+  .shelf ul{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+  .shelf .wide ul{columns:3;column-gap:22px}
+  .shelf li{break-inside:avoid;margin:0 0 7px}
+  .shelf li a{font:12px/1.35 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.02em}
+  @media (max-width:640px){
+    .shelf ul,.shelf .wide ul{columns:2;column-gap:16px}
+    .shelf li a{font-size:11px}
+  }
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
   .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
   .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
@@ -153,6 +171,8 @@
   html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
   html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
   html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
+  html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
   .foot .desk{display:inline-block;margin-top:14px;color:#999;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
   .foot .desk:hover{background:none;color:#888}
@@ -216,6 +236,25 @@
   <div class="next">That&rsquo;s the {{ edition|lower }}. {{ next_edition }} &mdash; go get something done.</div>
   {% endif %}
 
+  {% endif %}
+
+  {% if shelf %}
+  <div class="shelf">
+    {% if shelf.house %}
+    <div class="house">
+      {% for h in shelf.house %}<a href="{{ root }}{{ h.path }}">{{ h.name }}</a>{% endfor %}
+    </div>
+    {% endif %}
+    {% for g in shelf.sections %}
+    <div class="grp{% if g.wide %} wide{% endif %}">
+      <h2>{{ g.title }}</h2>
+      <ul>
+        {% for l in g.links %}<li><a href="{{ l.url }}"{{ target }}>{{ l.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
   {% endif %}
 
   <div class="foot">

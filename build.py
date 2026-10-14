@@ -1003,6 +1003,133 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
 
 # ────────────────────────────────────────────────────────────────────────── render
 
+
+# ───────────────────────────────────────────────────────── the evergreen shelf
+
+SHELF_STATE = DATA / "shelf.json"
+
+
+def _outlet_links(limit: int) -> list[dict]:
+    """The outlet columns, derived from feeds.yaml so the shelf points at the wire we actually read.
+
+    One entry per publisher (several feeds often share a domain), heaviest weight first, and the
+    Google News search feeds are left out — they are a query, not a paper anyone would want to visit.
+    """
+    best: dict[str, dict] = {}
+    for f in _feed_list():
+        url = f.get("url") or ""
+        host = urlparse(url).netloc.lower()
+        if not host or "news.google.com" in host:
+            continue
+        host = re.sub(r"^(www|rss|feeds?|cms|moxie|api)\.", "", host)
+        # Trim a feed's section suffix ("Daily Mail Health") without eating a hyphenated
+        # masthead ("Al-Monitor", "19FortyFive"): only a SPACED dash or a bracket starts a suffix.
+        name = re.sub(r"\s+[-—–]\s.*$|\s*[(\[].*$", "", f.get("name") or "").strip()
+        name = re.sub(r"\s+(Health|Business|World|US|SciTech|Femail|Politics|Sports|Tech)$", "", name).strip()
+        if not name:
+            continue
+        w = float(f.get("weight", 1.0) or 1.0)
+        cur = best.get(host)
+        if not cur or w > cur["weight"]:
+            best[host] = {"name": name.upper(), "url": f"https://{host}/", "weight": w}
+    out = sorted(best.values(), key=lambda x: (-x["weight"], x["name"]))[:limit]
+    return sorted(out, key=lambda x: x["name"])
+
+
+def _check_links(urls: list[str], timeout: int) -> set[str]:
+    """Which of these answer right now. HEAD, then GET for the servers that refuse HEAD."""
+    import urllib.request
+
+    ok: set[str] = set()
+
+    hdrs = {"User-Agent": "Mozilla/5.0 (compatible; BeehiveWire/1.0)",
+            "Accept": "text/html,application/xhtml+xml"}
+
+    def once(u: str, method: str) -> int | None:
+        try:
+            req = urllib.request.Request(u, method=method, headers=hdrs)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.status
+        except urllib.error.HTTPError as e:
+            return e.code
+        except Exception:  # noqa: BLE001 — timeout, DNS, TLS: not today
+            return None
+
+    def probe(u: str) -> str | None:
+        st = once(u, "HEAD")
+        # Retry with GET only for a server that refuses the METHOD. A timeout or a dead host is
+        # already answered, and retrying it would double the worst-case cost of every build.
+        if st in (403, 405, 501):
+            st = once(u, "GET")
+        return u if st is not None and st < 400 else None
+
+    with cf.ThreadPoolExecutor(max_workers=12) as ex:
+        for got in ex.map(probe, urls):
+            if got:
+                ok.add(got)
+    return ok
+
+
+def shelf(cfg: dict, now: datetime, check: bool = True) -> dict | None:
+    """The permanent links at the foot of the page, with the dead ones left off.
+
+    A link is shown if it answered this build, or answered within `stale_after_days` — so one bad
+    minute on someone else's server does not blank a row, but a tracker that genuinely dies drops
+    off the page on its own. No Claude call, no editor time: this is all deterministic.
+    """
+    try:
+        sh = load_yaml(ROOT / "shelf.yaml")
+    except Exception as e:  # noqa: BLE001
+        log(f"shelf: no shelf.yaml ({e})")
+        return None
+    if not sh or not sh.get("enabled", True):
+        return None
+
+    sections = sh.get("sections") or []
+    outlets_cfg = sh.get("outlets") or {}
+    outlets = _outlet_links(int(outlets_cfg.get("count", 56))) if outlets_cfg.get("enabled", True) else []
+
+    every = [l["url"] for s in sections for l in (s.get("links") or [])] + [o["url"] for o in outlets]
+    try:
+        seen = json.loads(SHELF_STATE.read_text()) if SHELF_STATE.exists() else {}
+    except Exception:  # noqa: BLE001
+        seen = {}
+
+    trusted = False
+    if check and every:
+        alive = _check_links(every, int(sh.get("check_timeout_seconds", 8)))
+        # Only believe the check if most of the web answered. If a quarter or fewer did, the
+        # problem is this runner's network, not twenty dead trackers at once — and letting that
+        # verdict stand would blank the whole shelf over one bad minute.
+        trusted = len(alive) > len(every) * 0.25
+        if trusted:
+            for u in alive:
+                seen[u] = iso(now)
+            SHELF_STATE.parent.mkdir(parents=True, exist_ok=True)
+            SHELF_STATE.write_text(json.dumps(seen, indent=0, sort_keys=True))
+        log(f"shelf: {len(alive)}/{len(every)} links answered"
+            f"{'' if trusted else ' — too few to trust, keeping the last known-good shelf'}")
+    stale = float(sh.get("stale_after_days", 7)) * 24
+
+    def live(u: str) -> bool:
+        h = hours_since(seen.get(u), now)
+        if h is None:
+            # Never confirmed either way: show it unless a check we trust has just had its say.
+            return not trusted
+        return h <= stale
+
+    rows = []
+    for s in sections:
+        links = [l for l in (s.get("links") or []) if live(l["url"])]
+        if links:
+            rows.append({"title": s.get("title", ""), "links": links})
+    kept_outlets = [o for o in outlets if live(o["url"])]
+    if kept_outlets:
+        rows.append({"title": outlets_cfg.get("title", "The wire"), "links": kept_outlets, "wide": True})
+    if not rows and not sh.get("house"):
+        return None
+    return {"house": sh.get("house") or [], "sections": rows}
+
 def _ordered_items(items: list[dict]) -> list[dict]:
     """Reading order with stacks intact: each lead is followed immediately by its follow-ups.
 
@@ -1036,7 +1163,8 @@ def _ordered_items(items: list[dict]) -> list[dict]:
     return out
 
 
-def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False, edition_no: int = 0):
+def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False,
+               edition_no: int = 0, shelf_rows: dict | None = None):
     """Render one edition. `root` is how many levels up the assets sit; archived pages
     carry a banner and skip the install prompt."""
     from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -1108,6 +1236,7 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         og_desc=f'{cfg["site"]["name"]} — {edition}. {cfg["site"].get("tagline", "")}'.strip(),
         edition_no=edition_no,
         extra=bool(state.get("extra")),
+        shelf=shelf_rows,
     )
     return html_out, local, edition
 
@@ -1304,7 +1433,12 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
     probe = (parse_iso(state.get("updated")) or now).astimezone(ZoneInfo(cfg["site"]["timezone"]))
     no = edition_number(probe, edition_of(probe, cfg)[0],
                         f"extra-{state.get('extra_seq', 1)}" if state.get("extra") else None)
-    html_out, local, edition = _page_html(state, cfg, now, edition_no=no)
+    try:                                       # one network check per build, shared by both renders
+        shelf_rows = shelf(cfg, now)
+    except Exception as e:  # noqa: BLE001 — the shelf must never take the front page down
+        log(f"shelf: skipped ({e})")
+        shelf_rows = None
+    html_out, local, edition = _page_html(state, cfg, now, edition_no=no, shelf_rows=shelf_rows)
     SITE.mkdir(parents=True, exist_ok=True)
     out = SITE / "index.html"
     out.write_text(html_out, encoding="utf-8")
@@ -1317,7 +1451,8 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
             if f.is_file():
                 shutil.copy2(f, SITE / f.name)
 
-    arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True, edition_no=no)
+    arc_html, _, _ = _page_html(state, cfg, now, root="../", archived=True, edition_no=no,
+                                shelf_rows=shelf_rows)
     archive_edition(arc_html, state, local, edition, no)
     n = publish_archive(cfg)
     publish_sources(cfg)
