@@ -12,7 +12,7 @@
 
 enabled: true
 stale_after_days: 7        # keep a link through a blip; drop it if it stays dead this long
-check_timeout_seconds: 8
+check_timeout_seconds: 14      # some government sites (FRED, EIA) are slow to answer a HEAD
 
 # The site's own pages. Never checked — they are built in the same run.
 house:
