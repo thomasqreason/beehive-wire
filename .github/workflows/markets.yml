@@ -1,22 +1,26 @@
 name: market-desk
 
 # The Market Desk. Three passes a day on NYSE trading days (weekdays minus exchange holidays), all Mountain time:
-#   8:05 a.m. and 11:05 a.m. — "Stocks on the Move": the biggest volume surges, projected to the full session, with
-#                              each name's chart status, so possible entries can be found before the close. No Claude call.
+#   8:05 a.m., 11:05 a.m. and 2:05 p.m. — "Stocks on the Move": the biggest volume surges, projected to the full
+#                              session, with each name's chart status, so possible entries can be found before the
+#                              close. The 2:05 pass is five minutes after the bell, so the page carries the closing
+#                              numbers instead of waiting for the edition. No Claude call.
 #   3:20 p.m.                — the full edition: stories, New America, Investor's Corner (Fridays), the final movers list,
 #                              and on Fridays the Beehive 50 and Big Cap 20.
 # Prices come from Yahoo (free); Claude writes the prose from the numbers; the site is re-rendered and deployed.
 
 on:
   schedule:
-    # UTC. During Mountain daylight time: 14:05 = 8:05am, 17:05 = 11:05am, 21:20 = 3:20pm.
+    # UTC. During Mountain daylight time: 14:05 = 8:05am, 17:05 = 11:05am, 20:05 = 2:05pm, 21:20 = 3:20pm.
     # GitHub drops scheduled runs outright some days (Oct 7, 2026: neither the 8:05 nor the 11:05 fired),
     # so each slot gets three shots twenty minutes apart. The check job stands the extras down once a
     # pass has printed, so a slot is never printed twice. The cron-job.org pinger (via build.yml's check
     # job) and the hourly siren are the real safety net; these are the backup clock.
-    # When Mountain falls back in November, add one hour to each: "5,25,45 15", "5,25,45 18", "20,40 22".
+    # When Mountain falls back in November, add one hour to each: "5,25,45 15", "5,25,45 18", "5,25,45 21",
+    # "20,40 22".
     - cron: "5,25,45 14 * * 1-5"
     - cron: "5,25,45 17 * * 1-5"
+    - cron: "5,25,45 20 * * 1-5"
     - cron: "20,40 21 * * 1-5"
   workflow_dispatch:
     inputs:
@@ -127,7 +131,8 @@ jobs:
         run: |
           mode="${{ needs.check.outputs.mode }}"
           if [ -z "$mode" ] || [ "$mode" = "none" ]; then
-            if [ "$(date -u +%H)" -lt 20 ]; then mode=movers; else mode=edition; fi
+            # only the 3:20 p.m. slot (21:20 UTC in daylight time) is the edition; 8:05, 11:05 and 2:05 are movers
+            if [ "$(date -u +%H%M)" -lt 2110 ]; then mode=movers; else mode=edition; fi
           fi
           friday=no; [ "$(TZ=America/Denver date +%u)" = "5" ] && friday=yes
           echo "mode=$mode" >> "$GITHUB_OUTPUT"

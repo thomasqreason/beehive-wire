@@ -1534,7 +1534,10 @@ def load_lists() -> dict | None:
 
 # ────────────────────────────────────────────────────────────────────────── catch-up: which pass is overdue?
 
-SLOTS = [("movers", 8 * 60 + 5), ("movers", 11 * 60 + 5), ("edition", 15 * 60 + 20)]   # Mountain time, weekdays
+SLOTS = [("movers", 8 * 60 + 5), ("movers", 11 * 60 + 5), ("movers", 14 * 60 + 5),
+         ("edition", 15 * 60 + 20)]   # Mountain time, trading days. 2:05 p.m. is the closing bell pass:
+# without it the page sat on 11:05 numbers from the close until the 3:20 edition — the stretch when the
+# final prices matter most. On an early-close day the 1:05 p.m. ET bell is past by then either way.
 
 
 def due_pass(now_utc: datetime | None = None) -> str | None:
