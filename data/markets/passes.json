@@ -1021,5 +1021,50 @@
 "day": 8,
 "pass": 5,
 "no": "8.5"
+},
+{
+"kind": "movers",
+"date": "2026-10-15",
+"at": "2026-10-15T14:26:43+00:00",
+"href": "movers/2026-10-15-0826.html",
+"syms": [
+"WMT",
+"BIIB",
+"NOW",
+"LLY",
+"MO",
+"KDP",
+"ACN",
+"TMO",
+"VEEV",
+"ABBV",
+"MNST",
+"GILD",
+"MA",
+"CHD",
+"VRSN",
+"UNH",
+"USB",
+"KMB",
+"IP",
+"LEN"
+],
+"heads": [
+"WMT +3.7% on 3.2x volume, in base",
+"BIIB +1.7% on 3.0x volume, new 52-week high",
+"NOW +4.6% on 2.6x volume, nearing buy point",
+"LLY +4.6% on 2.5x volume, nearing buy point",
+"MO +2.7% on 2.5x volume, nearing buy point",
+"KDP +3.7% on 2.4x volume, nearing buy point",
+"ACN +5.3% on 2.4x volume, big move on the day",
+"TMO +1.9% on 2.3x volume, extended",
+"VEEV +3.3% on 2.3x volume, nearing buy point",
+"ABBV +2.0% on 2.2x volume, new 52-week high"
+],
+"extra": "15 qualifiers",
+"live": true,
+"day": 9,
+"pass": 1,
+"no": "9.1"
 }
 ]
