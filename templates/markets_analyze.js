@@ -26,6 +26,18 @@
     for (var i = n; i < x.length; i++) out[i] = x[i] * k + out[i - 1] * (1 - k);
     return out;
   }
+  function atr(h, l, c, n) {
+    n = n || 14;
+    var out = c.map(function () { return NaN_; });
+    if (c.length < n + 1) return out;
+    var tr = c.map(function (_, i) {
+      var pc = i === 0 ? c[0] : c[i - 1];
+      return Math.max(h[i] - l[i], Math.abs(h[i] - pc), Math.abs(l[i] - pc));
+    });
+    out[n] = mean(tr, 1, n + 1);
+    for (var i = n + 1; i < c.length; i++) out[i] = (out[i - 1] * (n - 1) + tr[i]) / n;
+    return out;
+  }
   function rsScore(c) {
     var n = c.length; if (n < 30) return null;
     function r(a, b) { if (n < a) return null; var end = b === 0 ? c[n - 1] : c[n - b]; return end / c[n - a] - 1; }
@@ -100,6 +112,16 @@
     var newHigh = H[t] >= hi252;
     var rs = rsScore(C);
 
+    var a14 = atr(H, L, C, 14);
+    // Distance from the 21-day EMA in ATRs: positive when the session's low held above
+    // the line, negative when its high stayed under. Mirrors analyze() in markets.py.
+    var extAtr = null;
+    if (!isnan(s21[t]) && !isnan(a14[t]) && a14[t] > 0) {
+      if (L[t] > s21[t]) extAtr = rnd((L[t] - s21[t]) / a14[t], 2);
+      else if (H[t] < s21[t]) extAtr = rnd((H[t] - s21[t]) / a14[t], 2);
+      else extAtr = 0;
+    }
+
     var nb = opt.chartBars || 130, s0 = Math.max(0, t - nb + 1);
     function sl(a, f) { return a.slice(s0).map(f); }
     var series = { d: dates.slice(s0), o: sl(O, function (x) { return rnd(x, 2); }), h: sl(H, function (x) { return rnd(x, 2); }),
@@ -117,6 +139,7 @@
     var f = { sym: sym, date: dates[t], close: rnd(C[t], 2), chg: chg, chg_pct: chgPct, volume: Math.trunc(V[t]), avg_vol50: Math.round(avgv50),
               vol_ratio: volRatio, hi52: rnd(hi252, 2), lo52: rnd(lo252, 2), from_hi52: pct(C[t], hi252),
               ema21: isnan(s21[t]) ? null : rnd(s21[t], 2), sma50: isnan(s50[t]) ? null : rnd(s50[t], 2), sma200: isnan(s200[t]) ? null : rnd(s200[t], 2),
+              atr14: isnan(a14[t]) ? null : rnd(a14[t], 2), vs_ema21: isnan(s21[t]) ? null : pct(C[t], s21[t]), ext_atr: extAtr,
               vs_sma50: isnan(s50[t]) ? null : pct(C[t], s50[t]), vs_sma200: isnan(s200[t]) ? null : pct(C[t], s200[t]),
               rs_score: rs, base: baseOut, status: status, from_pivot: fromPivot, days_since_breakout: daysSince, breakout_vol_ratio: boVol,
               new_high: newHigh, bounce50: bounce50, breakdown50: breakdown50, ipo_sessions: ipo, series: series };

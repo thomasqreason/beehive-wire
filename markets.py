@@ -114,6 +114,23 @@ def ema(x, n):
     return out
 
 
+def atr(h, l, c, n=14):
+    """Wilder's Average True Range. Used to measure how far price has run from the
+    21-day EMA in units of the stock's own daily range, so a $600 name and a $30 name
+    are judged on the same scale."""
+    import numpy as np
+    h, l, c = (np.asarray(x, dtype=float) for x in (h, l, c))
+    out = np.full_like(c, np.nan)
+    if len(c) < n + 1:
+        return out
+    pc = np.concatenate(([c[0]], c[:-1]))
+    tr = np.maximum(h - l, np.maximum(np.abs(h - pc), np.abs(l - pc)))
+    out[n] = tr[1:n + 1].mean()
+    for i in range(n + 1, len(c)):
+        out[i] = (out[i - 1] * (n - 1) + tr[i]) / n
+    return out
+
+
 def rs_score(c) -> float | None:
     """MarketSurge-style recency-weighted 12-month return built from NON-overlapping periods:
     3.0*last 25 sessions + 2.0*rest of the latest quarter + 1.0*q2 + 1.0*q3 + 0.5*q4. Short histories drop old terms."""
@@ -148,8 +165,20 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         return None
     ipo_sessions = len(C) if len(C) < 130 else None   # a new issue: fewer than ~6 months of trading
     s21, s50, s200 = ema(C, 21), sma(C, 50), sma(C, 200)
+    a14 = atr(H, L, C, 14)
     avgv50 = float(np.mean(V[max(0, t - 50):t])) if t >= 10 else float(V[t])
     vol_ratio = round(V[t] / avgv50, 2) if avgv50 else None
+    # How far the stock has run from its 21-day EMA, in ATRs. Positive = the session's LOW
+    # is still above the line (an intact uptrend); negative = the HIGH is below it. Roughly
+    # +3 and beyond is a stretched tape; 0 means price is straddling the line.
+    ext_atr = None
+    if not (np.isnan(s21[t]) or np.isnan(a14[t])) and a14[t] > 0:
+        if L[t] > s21[t]:
+            ext_atr = round((L[t] - s21[t]) / a14[t], 2)
+        elif H[t] < s21[t]:
+            ext_atr = round((H[t] - s21[t]) / a14[t], 2)
+        else:
+            ext_atr = 0.0
     hi252 = float(np.max(H[max(0, t - 252):t + 1]))
     lo252 = float(np.min(L[max(0, t - 252):t + 1]))
 
@@ -256,6 +285,9 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         "volume": int(V[t]), "avg_vol50": round(avgv50), "vol_ratio": vol_ratio,
         "hi52": round(hi252, 2), "lo52": round(lo252, 2), "from_hi52": pct(C[t], hi252),
         "ema21": None if np.isnan(s21[t]) else round(s21[t], 2),
+        "atr14": None if np.isnan(a14[t]) else round(a14[t], 2),
+        "vs_ema21": None if np.isnan(s21[t]) else pct(C[t], s21[t]),
+        "ext_atr": ext_atr,
         "sma50": None if np.isnan(s50[t]) else round(s50[t], 2),
         "sma200": None if np.isnan(s200[t]) else round(s200[t], 2),
         "vs_sma50": None if np.isnan(s50[t]) else pct(C[t], s50[t]),
@@ -587,14 +619,14 @@ def template_article(f: dict) -> dict:
         head = f"{name} Breaks Below 50-Day Line"
     paras = []
     move = f"{name} ({sym}) closed at {f['close']:.2f}, {'up' if (f['chg'] or 0) >= 0 else 'down'} {abs(f['chg_pct'] or 0):.1f}% on the day"
-    move += f", on volume {f['vol_ratio']:.1f}x its 50-day average." if f.get("vol_ratio") else "."
+    move += f", trading {f['vol_ratio']:.1f}x its 50-day average volume." if f.get("vol_ratio") else "."
     paras.append(move)
     if b:
         base_line = (f"The chart shows a {b['weeks']}-week {b['kind']} with a {b['depth']:.0f}% correction from the {b['rim_date']} high. "
                      f"The buy point is {b['buy_point']:.2f}, ten cents above that high, and the buy range runs to {b['buy_max']:.2f}.")
         if b.get("breakout_date"):
-            base_line += (f" Shares cleared the buy point on {b['breakout_date']} on volume {f['breakout_vol_ratio']:.1f}x average"
-                          f" and now sit {f['from_pivot']:+.1f}% from it.")
+            base_line += (f" Shares cleared the buy point on {b['breakout_date']}, with {f['breakout_vol_ratio']:.1f}x average"
+                          f" volume that session, and now sit {f['from_pivot']:+.1f}% from it.")
         else:
             base_line += f" Shares are {abs(f['from_pivot']):.1f}% below the buy point."
         paras.append(base_line)
@@ -612,16 +644,25 @@ def template_article(f: dict) -> dict:
     else:
         rs += "."
     paras.append(rs)
+    if f.get("ext_atr") is not None:
+        e = f["ext_atr"]
+        where = ("the session's low held above the 21-day line" if e > 0 else
+                 "the session's high stayed under the 21-day line" if e < 0 else
+                 "price straddled the 21-day line")
+        reach = (" — a stretched reading" if e >= 3 else
+                 " — deep under it" if e <= -3 else "")
+        paras.append(f"Measured against its own daily range, {sym} sits {abs(e):.1f} ATRs "
+                     f"from the 21-day exponential average: {where}{reach}.")
     watch = {"breakout": "Watch for the stock to hold above the buy point on any pullback; a close 7-8% below it is the standard sell rule.",
              "buy_zone": "The buy range closes 5% above the buy point; beyond it the entry is extended.",
              "extended": "Extended stocks are watched, not chased; the next entry is a new base or a pullback to the 21-day or 50-day line.",
              "retest": "A quick recovery above the buy point would keep the breakout alive; a close 7-8% below it would not.",
-             "setting_up": "A move through the buy point on volume at least 1.2x average is what counts as a breakout.",
+             "setting_up": "A decisive close through the buy point is what starts the clock; the desk notes the day's volume but does not treat it as confirmation.",
              "in_base": "The base needs to finish forming before any buy point counts.", "no_base": "No proper base yet."}[st]
     if f["bounce50"]:
         watch = "A bounce off the 50-day line is an early entry; the line itself is the stop."
     if f["breakdown50"]:
-        watch = "A decisive close below the 50-day line on heavy volume is a sell signal for holders."
+        watch = "A decisive close below the 50-day line is a sell signal for holders."
     return {"sym": sym, "headline": head, "deck": f"{STATUS_LABEL[st]} · RS {f.get('rs_rank')} · {f['close']:.2f}",
             "body": paras, "watch": watch, "by": "desk"}
 
