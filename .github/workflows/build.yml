@@ -24,6 +24,9 @@ on:
   push:
     branches: [main]
     paths-ignore: ["data/**", "archive/**"]
+    # NOTE: data/** is ignored so the bot's own state commits don't loop. A hand-set lead
+    # (editing data/state.json by hand between editions) therefore does NOT deploy on its own --
+    # push it together with a change outside data/ to get the render-only redeploy.
 
 permissions:
   contents: write
