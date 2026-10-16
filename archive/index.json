@@ -702,5 +702,16 @@
   "iso": "2026-10-15T16:18:40-06:00",
   "top": "GUNMAN DOWN AFTER OREGON SCHOOL ATTACK...",
   "count": 100
+ },
+ {
+  "no": 65,
+  "file": "2026-10-16-morning.html",
+  "date": "2026-10-16",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:27 a.m.",
+  "iso": "2026-10-16T04:27:43-06:00",
+  "top": "ARMED BYSTANDER KILLED SCHOOL GUNMAN...",
+  "count": 100
  }
 ]
