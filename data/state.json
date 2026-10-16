@@ -1,15 +1,15 @@
 {
  "updated": "2026-10-16T10:27:43+00:00",
  "top": {
-  "id": "99000f8004",
-  "url": "https://www.dailymail.com/news/article-16213577/hero-citizen-teen-oregon-gunman-school-shot-dead.html?ns_mchannel=rss&ns_campaign=1490",
-  "title": "Armed citizen chased teen Oregon gunman into elementary school and shot him dead minutes into attack: Police say hero saved multiple children's lives",
-  "source": "Daily Mail US",
-  "published": "2026-10-16T09:44:51+00:00",
-  "image": "https://i.dailymail.com/1s/2026/10/16/07/111897803-0-image-a-2_1792131148855.jpg",
-  "first_seen": "2026-10-16T10:27:43+00:00",
+  "id": "d3f50eb49e",
+  "url": "https://nypost.com/2026/10/16/us-news/hero-dad-kaylub-giamanco-stopped-oregon-shooter-john-j-griffin-during-lunch-break/",
+  "title": "New details revealed about hero girl dad who stopped Oregon school shooter John J. Griffin during his lunch break",
+  "source": "New York Post",
+  "published": "2026-10-16T16:44:58+00:00",
+  "image": "https://nypost.com/wp-content/uploads/sites/2/2026/10/kaylub-kelsey-giamanco-seen-undated-145303764.jpg?w=1024",
+  "first_seen": "2026-10-16T19:00:02+00:00",
   "topic": "american_life",
-  "headline": "ARMED BYSTANDER KILLED SCHOOL GUNMAN...",
+  "headline": "CARPENTER ON HIS LUNCH BREAK HEARD THE SHOTS... RAN IN AFTER HIM...",
   "urgent": false
  },
  "flash": [
@@ -48,6 +48,31 @@
   }
  ],
  "items": [
+  {
+   "id": "99000f8004",
+   "url": "https://www.dailymail.com/news/article-16213577/hero-citizen-teen-oregon-gunman-school-shot-dead.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Armed citizen chased teen Oregon gunman into elementary school and shot him dead minutes into attack: Police say hero saved multiple children's lives",
+   "source": "Daily Mail US",
+   "published": "2026-10-16T09:44:51+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/16/07/111897803-0-image-a-2_1792131148855.jpg",
+   "first_seen": "2026-10-16T10:27:43+00:00",
+   "topic": "american_life",
+   "headline": "POLICE: HE SAVED MULTIPLE CHILDREN'S LIVES...",
+   "urgent": false
+  },
+  {
+   "id": "217304e152",
+   "url": "https://nypost.com/2026/10/16/us-news/john-j-griffin-16-idd-as-oregon-school-shooter/",
+   "title": "Ex-student ID'd as Oregon elementary school teen gunman who killed 3 students, teacher in rampage",
+   "source": "New York Post",
+   "published": "2026-10-16T12:00:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-16T19:00:02+00:00",
+   "topic": "american_life",
+   "headline": "SHOOTER WAS A FORMER STUDENT THERE, 16...",
+   "urgent": false,
+   "under": "99000f8004"
+  },
   {
    "id": "e1d3ad7acc",
    "url": "https://www.zerohedge.com/energy/iran-hormuz-attack-spree-starts-choking-oil-flows-again-ubs-warns",
