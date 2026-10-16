@@ -1261,5 +1261,25 @@
 "day": 10,
 "pass": 1,
 "no": "10.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-16",
+"at": "2026-10-16T17:34:49+00:00",
+"href": "movers/2026-10-16-1134.html",
+"syms": [
+"AA",
+"CCI",
+"CMS",
+"LHX",
+"WFC",
+"TFC"
+],
+"heads": [],
+"extra": "0 qualifiers",
+"live": true,
+"day": 10,
+"pass": 2,
+"no": "10.2"
 }
 ]
