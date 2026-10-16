@@ -1281,5 +1281,80 @@
 "day": 10,
 "pass": 2,
 "no": "10.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-16",
+"at": "2026-10-16T21:27:55+00:00",
+"href": "movers/2026-10-16-1527.html",
+"syms": [
+"TRV",
+"EOG",
+"KO",
+"AA",
+"CCI",
+"USB",
+"WFC",
+"LHX",
+"CMS",
+"EXE",
+"BLK",
+"TFC",
+"MKC",
+"RTX",
+"ROK",
+"ALL",
+"PKG",
+"NI",
+"VMC",
+"NOC"
+],
+"heads": [
+"TRV +1.5% on 2.3x volume, bounce off 50-day line",
+"EOG +3.5% on 1.8x volume, breakout past buy point",
+"KO +2.1% on 1.5x volume, breakout past buy point"
+],
+"extra": "3 qualifiers",
+"live": false,
+"day": 10,
+"pass": 3,
+"no": "10.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-16",
+"at": "2026-10-16T21:29:36+00:00",
+"href": "2026-10-16.html",
+"syms": [
+"MA",
+"EOG",
+"COP",
+"EXEL",
+"XOM",
+"CVX",
+"V",
+"HPE",
+"PANW",
+"MU"
+],
+"heads": [
+"Mastercard Hits Record As It Takes Stablecoin Platform Global With BVNK",
+"EOG Resources Jumps 3.5% To New High As Oil Stocks Rally",
+"ConocoPhillips Climbs 3.4% To New High As Market Slides",
+"Exelixis Slips 1% Ahead Of Oct. 29 Third-Quarter Report",
+"ExxonMobil Rises 2.5% On $4.5 Billion Refining Profit Estimate",
+"Chevron Gains 2.6% To New High After Analysts Lift Fair Value",
+"Visa Hits Record As Stablecoin Payouts Move Into Commercial Deployment",
+"Hewlett Packard Enterprise Falls 6% As AI Financing Worries Hit Hardware",
+"Palo Alto Networks Drops 7.6% Amid Vulnerability, Leading Cybersecurity Slide",
+"Micron Falls 5.6% In Chip Selloff; Netlist Settles For $600 Million",
+"New America: Amgen Nears Record As Earnings Rebound And Trial Data Draw Notice",
+"Investor's Corner: The 7%-8% Sell Rule: Set The Stop Before You Buy"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 10,
+"pass": 4,
+"no": "10.4"
 }
 ]
