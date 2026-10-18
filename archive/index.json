@@ -757,5 +757,16 @@
   "iso": "2026-10-18T05:02:01-06:00",
   "top": "BLAST KILLS AT LEAST 7 AT CANADIAN MILITARY BASE...",
   "count": 98
+ },
+ {
+  "no": 70,
+  "file": "2026-10-18-evening.html",
+  "date": "2026-10-18",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:13 p.m.",
+  "iso": "2026-10-18T16:13:09-06:00",
+  "top": "TRUMP TOUTS UKRAINE PEACE PROGRESS...",
+  "count": 100
  }
 ]
