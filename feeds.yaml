@@ -36,7 +36,7 @@ feeds:
   - {name: "Axios", url: "https://api.axios.com/feed/", topic: politics_culture_world}
   - {name: "NYT Home", url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", topic: politics_culture_world}
   - {name: "CBS News", url: "https://www.cbsnews.com/latest/rss/main", topic: politics_culture_world}
-  - {name: "Google News: Top", url: "https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en", topic: politics_culture_world, google: true}
+  - {name: "Google News: Top", url: "https://news.google.com/rss/search?q=when:1d&hl=en-US&gl=US&ceid=US:en", topic: politics_culture_world, google: true}
 
   # ── Iran war / Middle East / Palestine ─────────────────────────────────────────
   - {name: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml", topic: iran_mideast, weight: 1.2}
@@ -166,7 +166,12 @@ feeds:
   - {name: "Entertainment Weekly", url: "https://ew.com/feed/", topic: pop_culture}
   - {name: "Vulture", url: "https://www.vulture.com/rss/index.xml", topic: pop_culture}
   - {name: "Box Office Mojo / The Numbers", url: "https://www.the-numbers.com/feed/News", topic: pop_culture, weight: 0.9}
-  - {name: "Google News: Notable deaths", url: "https://news.google.com/rss/search?q=%28%22dies+at%22+OR+%22dead+at%22+OR+obituary+OR+%22found+dead%22%29+%28musician+OR+singer+OR+rapper+OR+songwriter+OR+composer+OR+band+OR+actor%29+when%3A2d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true, weight: 1.2}
+  # REMOVED Oct 18, 2026 — "Google News: Notable deaths". A standing query for "dies at"/"dead at"/
+  # obituary is an evergreen trap: Google re-surfaces months-old obituaries stamped with the date it
+  # indexed them, not the date of the death, so the page ran Dolly Parton (died Aug 25) and ZZ Top's
+  # Frank Beard as breaking news on Oct 17-18. Real celebrity deaths arrive on the day from TMZ, Page
+  # Six, Variety, Deadline, People, Rolling Stone and Billboard, all already on this list, all dated
+  # honestly. Do not put a death-keyword search feed back.
   - {name: "Google News: Pop culture", url: "https://news.google.com/rss/search?q=Emmys+OR+%22box+office%22+OR+Hollywood+OR+%22Taylor+Swift%22+OR+Netflix+when:1d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true}
 
   # ── Business / AI / futurism / data centers ────────────────────────────────────

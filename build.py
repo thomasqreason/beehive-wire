@@ -121,6 +121,26 @@ def story_id(url: str) -> str:
     return hashlib.sha1(canonical_url(url).encode()).hexdigest()[:10]
 
 
+URL_DATE_RE = re.compile(r"/(20\d{2})[/-](\d{1,2})[/-](\d{1,2})(?:/|-|$)")
+
+
+def url_date(url: str) -> datetime | None:
+    """The date a publisher put in its own URL path, e.g. /2026/08/25/.
+
+    Costs nothing and it does not lie. A feed's timestamp does: an aggregator restamps a story with
+    the moment IT saw the piece, which is how a months-old obituary reached the page dated today.
+    When the publisher's own path disagrees with the feed, the path wins.
+    """
+    m = URL_DATE_RE.search(urlparse(url).path)
+    if not m:
+        return None
+    try:
+        y, mo, d = (int(x) for x in m.groups())
+        return datetime(y, mo, d, 12, tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
 
@@ -312,6 +332,15 @@ def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, 
         age = hours_since(c["published"], now)
         if age is not None and age > window:
             continue
+        # The publisher's own URL date overrules the feed's timestamp (see url_date): this is the
+        # cheap half of the stale-story guard, and it needs no network call.
+        real = url_date(c["url"])
+        if real is not None:
+            true_age = round((now - real).total_seconds() / 3600, 1)
+            if true_age > window + 24:        # a day of slack for timezone and backdated paths
+                log(f"stale: {c['source']} — {c['title'][:60]} is dated {real:%b %d} in its own URL")
+                continue
+            age = max(age or 0.0, true_age)
         nt = norm_title(c["title"])
         if nt in seen_titles:
             continue
@@ -549,17 +578,42 @@ def page_links(state: dict) -> list[dict]:
 
 
 def age_out(state: dict, cfg: dict, now: datetime) -> dict:
-    max_age = cfg["rolling"]["max_story_age_hours"]
+    """Retire stories from the page.
 
-    def fresh(it: dict) -> bool:
+    Two rules, and the EDITION COUNT is the one that matters (Todd's rule, Oct 18 2026: a story
+    never rides more than two editions). Counted in editions, not hours, because hours were the
+    bug: `max_story_age_hours` measured the age the FEED claimed for the article, so a story the
+    feed stamped fresh could sit on the page for five editions. A re-print of the same slot does
+    not count twice — the stamp is the edition's own id, so a catch-up run or a hand-dispatched
+    rebuild leaves the counter alone.
+
+    `editions` is how many editions the story has been HELD OVER into; it debuts uncounted, so
+    max_editions_on_page=2 means one debut plus one hold-over, then it goes.
+    `max_story_age_hours` stays underneath as a backstop for anything that arrives mis-dated.
+    """
+    max_age = cfg["rolling"]["max_story_age_hours"]
+    max_eds = int(cfg["rolling"].get("max_editions_on_page", 2))
+    local = now.astimezone(ZoneInfo(cfg["site"]["timezone"]))
+    this_ed = f"{local:%Y-%m-%d}-{_slot_of(edition_of(local, cfg)[0])}"
+
+    def keep(it: dict) -> bool:
+        if it.get("last_edition") != this_ed:        # first build of a new edition: tick it over
+            it["editions"] = int(it.get("editions") or 0) + 1
+            it["last_edition"] = this_ed
+        if max_eds > 0 and int(it.get("editions") or 0) >= max_eds:
+            return False
         ref = it.get("published") or it.get("first_seen")
         age = hours_since(ref, now)
         return age is None or age <= max_age
 
-    state["items"] = [it for it in state.get("items", []) if fresh(it)]
-    state["flash"] = [it for it in state.get("flash", []) if fresh(it)]
-    if state.get("top") and not fresh(state["top"]):
+    before = len(page_links(state))
+    state["items"] = [it for it in state.get("items", []) if keep(it)]
+    state["flash"] = [it for it in state.get("flash", []) if keep(it)]
+    if state.get("top") and not keep(state["top"]):
         state["top"] = None
+    retired = before - len(page_links(state))
+    if retired:
+        log(f"retired {retired} stories that had run their {max_eds} editions")
     return state
 
 
@@ -919,6 +973,42 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
             if y:
                 items.append(y)
 
+    # ── fifty is a FLOOR, not just a ceiling (Oct 18, 2026) ──
+    # The cap above stops the editor over-swapping. Nothing stopped the opposite, and the opposite
+    # is what actually made the page stale: an editor that returned 33 new stories left the other
+    # 67 slots holding yesterday's links, every edition, for ever. If the plan came up short, take
+    # the best candidates it did not use and put them in, retiring whichever stories have ridden
+    # longest to make room. Stacks are never broken apart to do it, and a backfilled story keeps a
+    # written headline when the pre-writer already made one for it.
+    if current and cap_churn:
+        short = max_swaps - sum(1 for x in ([top] if top else []) + flash + items if x["id"] not in current)
+        if short > 0:
+            pre = prewritten_headlines()
+            leads = {x["under"] for x in items if x.get("under")}
+            riders = sorted((i for i, it in enumerate(items)
+                             if it["id"] in current and not it.get("under") and it["id"] not in leads),
+                            key=lambda i: (-int(items[i].get("editions") or 0),
+                                           items[i].get("first_seen") or ""))
+            spare = [c for c in sorted(cands, key=lambda c: (-c["weight"], c["age_h"]))
+                     if c["id"] not in used and c["id"] not in current]
+            filled = 0
+            for c in spare:
+                if short <= 0 or not riders:
+                    break
+                head = (pre.get(c["id"]) or {}).get("headline") or c["title"]
+                y = make({"id": c["id"], "headline": head, "topic": c.get("topic_hint")}, keep_headline=False)
+                if not y or y["id"] in used or y["url"] in used_urls:
+                    continue
+                used.add(y["id"])
+                used_urls.add(y["url"])
+                items[riders.pop(0)] = y
+                short -= 1
+                filled += 1
+            if filled:
+                log(f"backfill: added {filled} fresh stories the editor left out")
+            if short > 0:
+                log(f"backfill: still {short} short of {max_swaps} — not enough fresh candidates")
+
     seen = {k: v for k, v in (state.get("seen") or {}).items() if (hours_since(v, now) or 0) <= 72}
     for c in cands:
         seen.setdefault(c["id"], iso(now))
@@ -1192,18 +1282,21 @@ def _pick_pictures(items: list[dict], cfg: dict, now: datetime) -> None:
     # Leave the first few slots clear: a photo directly beneath the giant headline competes
     # with it, and the lead is supposed to own the top of the page.
     FLOOR = 4
-    cand = [i for i, it in enumerate(items)
-            if i >= FLOOR and it.get("image") and not it.get("under") and is_new(it)]
-    if not cand:
-        cand = [i for i, it in enumerate(items)
-                if i >= FLOOR and it.get("image") and not it.get("under")]
+    # New stories get the pictures first, but a short night should not leave the page grey: once
+    # the new ones with art are used up we keep going into the held-over ones until we hit `want`.
+    eligible = [i for i, it in enumerate(items) if i >= FLOOR and it.get("image") and not it.get("under")]
+    cand = [i for i in eligible if is_new(items[i])]
     cand.sort(key=lambda i: (0 if items[i].get("topic") in PICTORIAL else 1, i))
+    rest = [i for i in eligible if not is_new(items[i])]
+    rest.sort(key=lambda i: (0 if items[i].get("topic") in PICTORIAL else 1, i))
+    cand += rest
 
+    GAP = 5                                          # never bunch them up
     chosen: list[int] = []
     for i in cand:
         if len(chosen) >= want:
             break
-        if any(abs(i - j) < 6 for j in chosen):      # never bunch them up
+        if any(abs(i - j) < GAP for j in chosen):
             continue
         chosen.append(i)
     for i in chosen:

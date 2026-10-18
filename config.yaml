@@ -16,7 +16,8 @@ site:
 page:
   total_links: 100                 # top + flash + column links. The editor keeps the page at this size. (100 from Sep 16, 2026; was 50, then 75.)
   flash_lines: 3                   # small lines above the giant headline (0-4)
-  images_per_edition: 3            # column stories that run with their picture, on top of the giant
+  images_per_edition: 8            # 3 -> 8 on Oct 18, 2026: Todd wants the page to carry more pictures.
+                                   # column stories that run with their picture, on top of the giant
                                    # headline (which always gets one if an image can be found).
                                    # 3 per edition x 2 editions = about 6 pictures a day.
   columns: 1                       # one column, single file — not the three-column Drudge grid
@@ -25,7 +26,9 @@ page:
 # cadence, drop max_swaps_per_run to ~4 and max_story_age_hours to ~36.
 rolling:
   max_swaps_per_run: 50            # HARD RULE (Oct 7, 2026): exactly fifty new and fifty held over, every edition
-  max_story_age_hours: 60          # a story can live across ~5 builds before it is dropped
+  max_editions_on_page: 2          # HARD RULE (Oct 18, 2026): a story rides at most TWO editions, then it is
+                                   # retired — counted in editions, not hours, so the page really does turn over
+  max_story_age_hours: 30          # backstop only, under the edition count (was 60, which let a story sit ~5 editions)
   top_story_max_age_hours: 16      # the giant headline is re-picked every build
   candidate_window_hours: 26       # double-covers the ~12h gap, so a skipped run loses nothing
   max_candidates: 180              # 280 -> 180 on Oct 8, 2026: fewer stories for the editor to weigh, so an edition takes minutes, not an hour (was 280 from Sep 16)
