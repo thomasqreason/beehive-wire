@@ -1009,6 +1009,24 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
             if short > 0:
                 log(f"backfill: still {short} short of {max_swaps} — not enough fresh candidates")
 
+        # ...and make sure the page is actually FULL. When more stories retire than max_swaps — which
+        # happens on the first edition after a retirement rule changes, and any time a whole day's
+        # links age out together — the empty slots are holes, not swaps, so they are filled from the
+        # candidate list rather than left blank. Without this the page simply prints short.
+        if len(items) < room:
+            pre = prewritten_headlines()
+            holes = room - len(items)
+            for c in sorted(cands, key=lambda c: (-c["weight"], c["age_h"])):
+                if len(items) >= room:
+                    break
+                if c["id"] in used or c["id"] in current:
+                    continue
+                head = (pre.get(c["id"]) or {}).get("headline") or c["title"]
+                y = make({"id": c["id"], "headline": head, "topic": c.get("topic_hint")}, keep_headline=False)
+                if y and take(y):
+                    items.append(y)
+            log(f"backfill: filled {holes - (room - len(items))} of {holes} empty slots to keep the page at {total}")
+
     seen = {k: v for k, v in (state.get("seen") or {}).items() if (hours_since(v, now) or 0) <= 72}
     for c in cands:
         seen.setdefault(c["id"], iso(now))
