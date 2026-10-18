@@ -746,5 +746,16 @@
   "iso": "2026-10-17T18:50:16-06:00",
   "top": "MACRON LOSES GRIP AS FRANCE BURNS...",
   "count": 100
+ },
+ {
+  "no": 69,
+  "file": "2026-10-18-morning.html",
+  "date": "2026-10-18",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "5:02 a.m.",
+  "iso": "2026-10-18T05:02:01-06:00",
+  "top": "BLAST KILLS AT LEAST 7 AT CANADIAN MILITARY BASE...",
+  "count": 100
  }
 ]
