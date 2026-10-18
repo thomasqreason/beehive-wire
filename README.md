@@ -136,3 +136,5 @@ says) and the `cron` in `.github/workflows/build.yml` (when it actually builds, 
 - Scheduled workflows pause after 60 days without a commit; the bot's state commits keep the repo active.
 - Feeds die. `python check_feeds.py --prune` once a month keeps the list clean; a dead feed never breaks a build.
 - The `<meta http-equiv="refresh">` in the template reloads the page in the reader's browser once an hour.
+
+<!-- Oct 18, 2026: pulled two re-dated obituaries (Parton, Beard) off the live page; see the obituary-trawler commit. -->
