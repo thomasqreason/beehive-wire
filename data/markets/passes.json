@@ -1420,5 +1420,61 @@
 "day": 11,
 "pass": 2,
 "no": "11.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-19",
+"at": "2026-10-19T21:26:15+00:00",
+"href": "movers/2026-10-19-1526.html",
+"syms": [
+"CLF",
+"AMZN",
+"APLD"
+],
+"heads": [
+"CLF +16.3% on 5.7x volume, big move on the day",
+"AMZN +5.0% on 1.6x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 11,
+"pass": 3,
+"no": "11.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-19",
+"at": "2026-10-19T21:27:53+00:00",
+"href": "2026-10-19.html",
+"syms": [
+"FTNT",
+"CVX",
+"XOM",
+"COP",
+"EOG",
+"PLTR",
+"MA",
+"SYK",
+"V",
+"PFE"
+],
+"heads": [
+"Fortinet Rises 1.4% As Cybersecurity Leader Heads Into Oct. 28 Earnings",
+"Chevron Holds Near Record High As Earnings Estimates Move Higher",
+"ExxonMobil Slips 0.4% Near High As Proponent Joins Aviation Lubricants Network",
+"ConocoPhillips Dips 0.9% After Run To High As Estimates Rise",
+"EOG Resources Pauses Near 52-Week High After 109.3% Earnings Gain",
+"Palantir Jumps 4.4% On Knox Federal Partnership After Last Week's Slide",
+"Mastercard Takes Fraud Tools To Stablecoin Payments, Holds Near High",
+"Stryker Rises 1.1% After Sonopet 3 Launch And $400 Million Robotics Deal",
+"Visa Signs Barclaycard Checkout Deal And Mesh Crypto Pact, Nears High",
+"Pfizer Slips As Dividend Freeze Draws Cash Flow Questions",
+"New America: Exelixis, A Cancer Drug Maker, Trades Near High Ahead Of Oct. 29 Report"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 11,
+"pass": 4,
+"no": "11.4"
 }
 ]
