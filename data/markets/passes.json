@@ -1401,5 +1401,24 @@
 "day": 11,
 "pass": 1,
 "no": "11.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-19",
+"at": "2026-10-19T17:37:38+00:00",
+"href": "movers/2026-10-19-1137.html",
+"syms": [
+"CLF",
+"APLD",
+"AMZN"
+],
+"heads": [
+"CLF +15.4% on 5.7x volume, big move on the day"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 11,
+"pass": 2,
+"no": "11.2"
 }
 ]
