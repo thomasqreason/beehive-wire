@@ -779,5 +779,16 @@
   "iso": "2026-10-19T04:12:52-06:00",
   "top": "FRANCE BURNS, COPS 'LOST CONTROL'...",
   "count": 100
+ },
+ {
+  "no": 72,
+  "file": "2026-10-19-evening.html",
+  "date": "2026-10-19",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:15 p.m.",
+  "iso": "2026-10-19T16:15:25-06:00",
+  "top": "PARIS BURNS, MACRON DIGS IN...",
+  "count": 100
  }
 ]
