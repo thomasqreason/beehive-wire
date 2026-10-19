@@ -1356,5 +1356,50 @@
 "day": 10,
 "pass": 4,
 "no": "10.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-19",
+"at": "2026-10-19T14:51:03+00:00",
+"href": "movers/2026-10-19-0851.html",
+"syms": [
+"CLF",
+"AMD",
+"TSM",
+"WDC",
+"SNDK",
+"INTC",
+"SNOW",
+"MU",
+"TER",
+"MRNA",
+"ASML",
+"CRWV",
+"APLD",
+"NBIS",
+"FITB",
+"ASTS",
+"IREN",
+"AMZN",
+"TSLA",
+"CORZ"
+],
+"heads": [
+"CLF +12.9% on 8.7x volume, big move on the day",
+"AMD +3.6% on 1.9x volume, slips back below buy point",
+"TSM +2.2% on 1.8x volume, slips back below buy point",
+"WDC +5.9% on 1.8x volume, big move on the day",
+"SNDK +7.0% on 1.7x volume, slips back below buy point",
+"INTC +4.5% on 1.6x volume, slips back below buy point",
+"SNOW +3.9% on 1.6x volume, breaks 50-day line",
+"MU +4.2% on 1.6x volume, breaks 50-day line",
+"TER +4.7% on 1.6x volume, slips back below buy point",
+"MRNA +3.0% on 1.6x volume, extended"
+],
+"extra": "11 qualifiers",
+"live": true,
+"day": 11,
+"pass": 1,
+"no": "11.1"
 }
 ]
