@@ -4,11 +4,6 @@
 "headline": "WE ASKED CHATGPT WHICH BILLS TO HAGGLE FIRST...",
 "title": "We Asked ChatGPT Which Household Bills To Negotiate First \u2014 Here's What It Said"
 },
-"017e5e57c4": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "'80TH-95TH PERCENTILE': CHATGPT'S FLATTERY TRICK...",
-"title": "Ask ChatGPT how smart you are, and it may rank you in the '80th-95th percentile'"
-},
 "01caae2a9c": {
 "at": "2026-10-17T23:21:23+00:00",
 "headline": "BRONCOS LEGEND JOHN BEAKE DEAD AT 87...",
@@ -28,6 +23,11 @@
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "VC: ANTHROPIC'S BENEFIT FUND A 'POSITIVE STEP'...",
 "title": "Anthropic's public benefit fund is positive step, says Plexo Capital's Lo Toney"
+},
+"0403ba58c6": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "OPENAI SPEEDS UP FUNDRAISING RACE...",
+"title": "OpenAI Accelerates Fundraising to Compete for AI Market Capital"
 },
 "04c4ad834b": {
 "at": "2026-10-17T20:53:28+00:00",
@@ -73,11 +73,6 @@
 "at": "2026-10-17T15:53:23+00:00",
 "headline": "BYU-NOTRE DAME PREGAME CEREMONY SET TO ROAR...",
 "title": "The BYU-Notre Dame game will be loud. Here\u2019s why the pregame ceremony will be even louder."
-},
-"0b4668f569": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ANTHROPIC: CLAUDE TRACED NIST CODE SEEDS TO 1990S RNG...",
-"title": "Anthropic Says Claude Traced NIST ECDSA Curve Seeds to a 1990S RNG"
 },
 "0e80eb7bff": {
 "at": "2026-10-18T23:35:52+00:00",
@@ -254,20 +249,25 @@
 "headline": "REPORT: GROK, CLAUDE, DEEPSEEK PRICES 13X APART...",
 "title": "Grok 4.7 vs Claude vs DeepSeek: 13x Price Gap [2026]"
 },
+"29f96efdc1": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "'MURDERER' DRAGGED HEADTEACHER 1.3 MILES, COURT SHOWN...",
+"title": "Moment 'murderer' overtakes car 'before hitting headteacher and dragging him under car for 1.3miles' is shown to court"
+},
 "2abc8a936e": {
 "at": "2026-10-18T23:35:52+00:00",
 "headline": "LEAKED ANTHROPIC AI BILL: 50 HURT OR $1B BEFORE DC ACTS...",
 "title": "Leaked AI safety bill from Anthropic only requires government intervention if 50+ injuries or $1 billion are at risk"
 },
-"2b2878d866": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "UTAHNS WILLING TO PAY MORE TO SAVE GREAT SALT LAKE...",
-"title": "Most Utahns are willing to pay higher taxes or water bills to help refill the Great Salt Lake. Here\u2019s how much."
-},
 "2b32f52910": {
 "at": "2026-10-17T11:07:36+00:00",
 "headline": "ANTHROPIC IPO TALK SLIPS TO $1.5 TRILLION...",
 "title": "Some Anthropic Investors Now See a $1.5 Trillion IPO, Not $2 Trillion"
+},
+"2b43cae24d": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "MAIL: 2.2M MIGRANTS SET TO WIN PERMANENT UK STAY...",
+"title": "DAVID BARRETT: Labour's time bomb of up to 2.2million migrants set to win the right to remain here permanently"
 },
 "2bca8c806a": {
 "at": "2026-10-19T13:51:48+00:00",
@@ -399,6 +399,11 @@
 "headline": "ANTHROPIC'S 5% STOCK PLEDGE RAISES CONTROL QUESTIONS...",
 "title": "Anthropic's 5% stock pledge raises big questions about who controls AI"
 },
+"4095e4d3ac": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "PUMP.FUN +8% ON OPENAI, POLYMARKET TOKEN LAUNCH...",
+"title": "Pump.fun Spikes 8% After Pre-IPO Token Launch for OpenAI, Polymarket"
+},
 "40a1399f7f": {
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "APPLEBEE'S HEIR'S $20M INHERITANCE FEUD EXPLODES...",
@@ -443,11 +448,6 @@
 "at": "2026-10-17T15:53:23+00:00",
 "headline": "ZACHARIA SETS RECORD: FASTEST-FIRED TRUMP OFFICIAL...",
 "title": "After Brutal Hannity Interview, Katie Zacharia Sets Record For Fastest-Fired Trump Official"
-},
-"4a8a2e7dd0": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "JESSIE JAMES DECKER SHEDS 30LBS AFTER FOURTH BABY...",
-"title": "Jessie James Decker, 38, reveals how she managed to shed 30lbs, and keep it off, after welcoming her fourth child"
 },
 "4c4ddc8963": {
 "at": "2026-10-18T20:59:22+00:00",
@@ -534,11 +534,6 @@
 "headline": "FRANK LLOYD WRIGHT HOME, BUILT 1951, LISTED AT $2.5M...",
 "title": "Impeccable Frank Lloyd Wright home built in 1951 with a fascinating history could be yours for $2.5 million"
 },
-"57d3a6599e": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "STUDY: TRADITIONAL BRITISH NAMES ARE DYING OUT...",
-"title": "Is YOUR surname dying out? Use our search tool to find out - as official figures reveal how traditional British names are falling out of fashion"
-},
 "57feb0560f": {
 "at": "2026-10-18T11:37:54+00:00",
 "headline": "'NO RESPECT' -- WNBA PLAYERS WALK OFF DURING ANTHEM...",
@@ -569,10 +564,10 @@
 "headline": "ANDY STANLEY STEPS DOWN AS PASTOR...",
 "title": "Breaking: Andy Stanley Stepping Down As Senior Pastor Of North Point Ministries, North Point Church"
 },
-"5ff0e464d2": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "12 MORE SICK IN E. COLI CHICKEN WRAP OUTBREAK, 50 TOTAL...",
-"title": "Another 12 people sickened in E.coli outbreak linked to chicken wraps"
+"5e17593e6b": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "CHATGPT, META MUSE, CLAUDE: THE $500 PLAN GAP...",
+"title": "ChatGPT Dots vs Meta Muse vs Claude: $500 Plan Gap [2026]"
 },
 "60360c84c2": {
 "at": "2026-10-19T20:41:55+00:00",
@@ -594,11 +589,6 @@
 "headline": "FORGECODE'S CLAIM TO BEAT CLAUDE CODE DOESN'T HOLD UP...",
 "title": "ForgeCode claims it beats Claude Code and Codex, but the fine print tells another story"
 },
-"6333806eb0": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "RECE DAVIS HYPES BYU CROWD, GRABS DIRTY SODA FIRST...",
-"title": "Rece Davis is ready for BYU\u2019s \u2018electric\u2019 \u2018GameDay\u2019 crowd. But first, a dirty soda."
-},
 "63923c9b54": {
 "at": "2026-10-17T23:21:23+00:00",
 "headline": "QUEENS MOM KILLS HER KINDERGARTENER...",
@@ -614,10 +604,20 @@
 "headline": "ANTHROPIC'S 5% PLEDGE REVIVES AI WEALTH-SHARING DEBATE...",
 "title": "Anthropic\u2019s 5% Pledge Opens a Bigger Conversation About Sharing AI\u2019s Wealth"
 },
+"642737feef": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "TRUCK PLOWS INTO KANSAS SOCCER GAME, KILLS DAD, BOY 6...",
+"title": "Heartbroken mom recalls terrifying moment pickup truck plowed through Kansas youth soccer game in horror that killed dad-of-three and a six-year-old boy"
+},
 "65f673be0a": {
 "at": "2026-10-18T23:35:52+00:00",
 "headline": "BAGLEY: NUKES, BIDEN'S SHADOW, SELF-POLICED AI...",
 "title": "This week from Bagley: Nuclear energy in Utah, Biden\u2019s shadow, self-regulated AI, Pamela Atkinson"
+},
+"6713556abb": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "TRIBUNE: UTAH POLITICS ROUNDUP...",
+"title": "Politics"
 },
 "678660a273": {
 "at": "2026-10-19T05:12:27+00:00",
@@ -628,11 +628,6 @@
 "at": "2026-10-18T05:02:59+00:00",
 "headline": "KC CURRENT STALL UTAH ROYALS' PLAYOFF PUSH...",
 "title": "Kansas City Current put Utah Royals\u2019 playoff pursuit on hold"
-},
-"69552e6457": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "HEALEY: THIRD HEATHROW RUNWAY WOULD DRIVE GROWTH...",
-"title": "Third runway at Heathrow Airport would drive growth, Healey says"
 },
 "6c2d62b2ef": {
 "at": "2026-10-17T23:21:23+00:00",
@@ -734,6 +729,11 @@
 "headline": "CLAUDE SYKES UNOPPOSED FOR VAN BUREN SUPERVISOR...",
 "title": "Claude Sykes unopposed for Van Buren Town Supervisor"
 },
+"7d76aa87a3": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "JIM BAKKER, DISGRACED TELEVANGELIST, DEAD AT 86...",
+"title": "Jim Bakker Dies: Disgraced Televangelist & Ex-Husband of Tammy Faye Bakker Was 86"
+},
 "7e74eda51e": {
 "at": "2026-10-17T11:07:36+00:00",
 "headline": "ANTHROPIC'S CLARK: AI ACTION WINDOW SHRINKING...",
@@ -759,15 +759,15 @@
 "headline": "ACCUSED OPENAI SPY HAD FOLDER: 'SAUDI GOV DOCS'...",
 "title": "Accused OpenAI spy had folder called \u201cSaudi Gov Docs,\u201d FBI says"
 },
+"843e64cb6c": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "NYT: ANTHROPIC'S IPO CHARITY PLAN...",
+"title": "Anthropic\u2019s I.P.O. Charity"
+},
 "8442731f06": {
 "at": "2026-10-18T20:59:22+00:00",
 "headline": "CLAUDE CODE CUTS FILE SEARCH TIME 96%, USER SAYS...",
 "title": "I made Claude Code build a map of my files, and it cut search times by 96%"
-},
-"84f6e8993c": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "NOVA SCOTIA TO HOST MASSIVE DATA CENTER FOR CLAUDE...",
-"title": "Nova Scotia to host massive data centre to power Anthropic's AI assistant Claude"
 },
 "85627949d7": {
 "at": "2026-10-18T11:37:54+00:00",
@@ -788,6 +788,11 @@
 "at": "2026-10-20T00:35:27+00:00",
 "headline": "ANTHROPIC GIVES 5% STAKE TO PUBLIC FUND, MUSK ANSWERS WITH SPACEX SHARES...",
 "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares"
+},
+"85e6cdf454": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "PROSECUTOR: EX-OPENAI STAFFER'S DEVICE PLOT HAD SAUDI TIES...",
+"title": "Ex-OpenAI employee accused of planting device has Saudi backing: Prosecutor"
 },
 "86e18959c1": {
 "at": "2026-10-18T11:37:54+00:00",
@@ -824,10 +829,10 @@
 "headline": "HOTELS CHASE GUESTS THROUGH CHATGPT ADS...",
 "title": "ChatGPT Ads Give Distinctive Hotels a New Place to Be Discovered"
 },
-"8bc159516d": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "H'WOOD SHOCK: WRESTLER PAC'S CAUSE OF DEATH REVEALED...",
-"title": "Wrestling icon PAC's cause of death revealed after AEW star, 40, was found 'slumped' in car"
+"8a962c1746": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "ANTHROPIC NEEDS INVESTOR OK FOR 5% CHARITY PLEDGE...",
+"title": "Anthropic needs stockholder approval to commit 5% of itself to a public benefit fund"
 },
 "8c6f6d2294": {
 "at": "2026-10-19T13:51:48+00:00",
@@ -843,11 +848,6 @@
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "HERO BYSTANDER DETAILS EMERGE IN HAINES ATTACK...",
 "title": "New details emerge about hero bystander who intervened after Helen Haines attack as Albo issues update on MP's emergency surgery"
-},
-"8e65711c03": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "KID ROCK DISHES ON TRUMP DINNER WITH MAHER, SMITH...",
-"title": "Kid Rock reveals intimate details about dinner with Trump after he was invited with White House alongside Bill Maher and Stephen A. Smith"
 },
 "8e90984c7b": {
 "at": "2026-10-17T20:53:28+00:00",
@@ -889,11 +889,6 @@
 "headline": "DOJ SEEKS TO DETAIN OPENAI ENGINEER OVER SAUDI TIES...",
 "title": "DOJ Calls for Detaining OpenAI Engineer, Citing Saudi Ties"
 },
-"968a3e5bf3": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "WORKSHOP: BUILD A 'SUPER AGENT' WITH CLAUDE...",
-"title": "Get 8x More Done: Build Your Super Agent with Claude | Free Workshop"
-},
 "975e085c15": {
 "at": "2026-10-18T20:59:22+00:00",
 "headline": "ANTHROPIC COMMITS 5% OF SHARES TO PUBLIC FUND...",
@@ -903,6 +898,11 @@
 "at": "2026-10-18T20:59:22+00:00",
 "headline": "CHATGPT CAN NOW TAKE OVER YOUR CHROME TABS...",
 "title": "ChatGPT Can Now Take Control of Your Chrome Tabs"
+},
+"984f734c5c": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "CHATGPT'S AD PUSH ROLLS ON; YOUTUBE LINKS ALIEXPRESS...",
+"title": "So Begins ChatGPT\u2019s Endless Ad Iterations; YouTube Affiliates With AliExpress"
 },
 "986b05fe4f": {
 "at": "2026-10-19T13:51:48+00:00",
@@ -928,6 +928,11 @@
 "at": "2026-10-18T23:35:52+00:00",
 "headline": "TRUMP: RUSSIA SANCTIONS PAUSED TO KEEP PEACE TALKS ALIVE...",
 "title": "Trump says suspension of Russia sanctions is to keep peace negotiations going"
+},
+"9bf467d06b": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "OPENAI CLAIMS 97.9% ACCURACY MODERNIZING OLD CODE...",
+"title": "OpenAI models make huge gains in modernizing decades-old software with 97.9% accuracy"
 },
 "9d0cd8bd2b": {
 "at": "2026-10-17T23:21:23+00:00",
@@ -969,11 +974,6 @@
 "headline": "BOOK FEST HEADLINER 'FURIOUS' OVER UTAH NOVEL BAN...",
 "title": "Salt Lake Book Festival headliner Jodi Picoult was \u2018furious\u2019 when Utah banned her novel"
 },
-"a2631a5ba6": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "TICKER: STATES SUE OPENAI; ADDICTION RECOVERY GETS BOOST...",
-"title": "Ticker: States sue AI giant OpenAI; Addiction recovery boost"
-},
 "a26addd07d": {
 "at": "2026-10-20T00:35:27+00:00",
 "headline": "RAF JET THAT CRASHED NEAR CAMPSITE 'HAD NO FUEL CAP'...",
@@ -984,10 +984,20 @@
 "headline": "CHATGPT VS CLAUDE VS GEMINI FOR SHOPPING: 8% TRUST...",
 "title": "ChatGPT vs Claude vs Gemini for Shopping: 8% Trust [2026]"
 },
+"a62147245b": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "TEENS WANT SCHOOLS TO TEACH WORK SKILLS, SURVEY FINDS...",
+"title": "We asked teens what schools should teach them about work. This is what they said"
+},
 "a72ed5737e": {
 "at": "2026-10-19T13:51:48+00:00",
 "headline": "STALKER WHO FAKED NUDE AI VIDEO OF VICTIM JAILED...",
 "title": "'Depraved' stalker who sent victim AI-generated video of herself naked is jailed"
+},
+"a7600317d6": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "MAIL: TEAR GAS, TEARS AND FURY ON PARIS STREETS...",
+"title": "A policeman lobbing a tear-gas grenade down the Metro. Shopkeepers weeping on the streets. And a student who tells me violence is 'legitimate': ROBERT HARDMAN in Paris"
 },
 "a86fc48956": {
 "at": "2026-10-19T05:12:27+00:00",
@@ -1044,10 +1054,10 @@
 "headline": "ABORTION ON OTHER STATES' BALLOTS TOO -- FAITH GROUPS SPLIT...",
 "title": "Abortion is on the ballot in other states, too, and faith groups are speaking out on all sides"
 },
-"af36e67cd1": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ANTHROPIC DANGLES 10%+ YIELD IN $60B CHIP DEAL...",
-"title": "Anthropic offers Blackstone over 10% yield in $60B AI chip financing - FT reports"
+"aeb82ca1c6": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "CANADIAN PUBLISHERS SUE ANTHROPIC OVER COPYRIGHT...",
+"title": "Anthropic sued by major Canadian news publishers for copyright claims in Ontario court"
 },
 "b006984161": {
 "at": "2026-10-18T05:02:59+00:00",
@@ -1149,11 +1159,6 @@
 "headline": "HEALTH CENTER HEADS TO POWER DISTRICT...",
 "title": "A new health center is coming to the Power District in another sign of the area\u2019s growth"
 },
-"bf1e2fd45b": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "JOHNNY DEPP: HOLLYWOOD CAN'T CANCEL HIM AFTER ALL...",
-"title": "Johnny Depp is the swashbuckling star they couldn't cancel! Eight years after Disney dropped him following his vicious split with Amber Heard, the world suddenly can't get enough, finds ALISON BOSHOFF"
-},
 "bf941bbb1d": {
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "AUSSIE MP FIGHTS FOR LIFE AFTER LOSING LEG...",
@@ -1183,11 +1188,6 @@
 "at": "2026-10-17T11:07:36+00:00",
 "headline": "ROYAL MAIL DELAY COSTS MOM \u00a313,500 HEART SURGERY...",
 "title": "Royal Mail delays forced mother-of-two to spend \u00a313,500 inheritance on private heart surgery... because the NHS letter offering op arrived late"
-},
-"c2b825b088": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ANTHROPIC QUIETLY PITCHES OWN AI SAFETY BILL...",
-"title": "Anthropic quietly pitches its own AI safety bill to lawmakers, Politico reports By Reuters"
 },
 "c39a4d983a": {
 "at": "2026-10-17T23:21:23+00:00",
@@ -1224,25 +1224,25 @@
 "headline": "REPORT: FTC DEMANDS TARGET OPENAI, ANTHROPIC...",
 "title": "FTC demands reportedly target OpenAI and Anthropic. That is not a verdict"
 },
-"c78fd03a46": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "CLAUDE OPUS TOPS HUMANS, AI CLOCK MOVES UP...",
-"title": "Claude Opus 5.5 beats a human baseline and AI researchers move up their self improvement clock"
+"c6e92a6b99": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "MAIL: WOMAN SHEDS WEIGHT WITHOUT COUNTING CALORIES...",
+"title": "How to transform your health AND lose a stone in time for Christmas... without counting calories. Thousands have had success with my plan to conquer stubborn weight gain. Now you can do the same:\u2026"
 },
 "c7dbf70227": {
 "at": "2026-10-19T13:51:48+00:00",
 "headline": "WORKDAY PUSHES HR, FINANCE TOOLS INTO CLAUDE...",
 "title": "Workday Extends Governed HR and Finance Workflows Into Claude"
 },
-"c816d47970": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ANTHROPIC'S CHIP DEAL: 10%+ YIELD TO BLACKSTONE...",
-"title": "Anthropic offers Blackstone double-digit yield in chip-financing deal, FT reports By Reuters"
-},
 "c912a0cc58": {
 "at": "2026-10-17T20:53:28+00:00",
 "headline": "GAMEDAY DESCENDS ON PROVO FOR BYU-NOTRE DAME...",
 "title": "Photos: \u2018College GameDay\u2019 takes over Provo ahead of BYU-Notre Dame"
+},
+"c919d91d29": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "FREE JAZZ: 'AT THE OASIS' SELF-RELEASED ALBUM REVIEWED...",
+"title": "Henri Herteman, Michel Kristof, Claude Parle, Jean-Luc Petit - At the oasis (self-released, 2026)"
 },
 "c9634539a3": {
 "at": "2026-10-17T20:53:28+00:00",
@@ -1274,11 +1274,6 @@
 "headline": "CAN THE JAZZ REWRITE MARKKANEN'S ENDING?...",
 "title": "Lauri Markkanen\u2019s story isn\u2019t finished. Can the Jazz change the ending?"
 },
-"cc959beafb": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ANTHROPIC OFFERS BLACKSTONE DOUBLE-DIGIT YIELD FOR CHIPS...",
-"title": "Anthropic offers Blackstone a double-digit yield to fund its chip habit"
-},
 "cd89241ca5": {
 "at": "2026-10-18T11:37:54+00:00",
 "headline": "BILLY RAY CYRUS, HURLEY ENGAGEMENT RUMORS GROW...",
@@ -1294,6 +1289,16 @@
 "headline": "CLAIM: TRUMP, MUSK, HEGSETH BEHIND STARLINK SLOWDOWN IN UKRAINE...",
 "title": "Donald Trump, Elon Musk and Pete Hegseth are prime suspects behind decision to 'slow down' Starlink satellite system in Ukraine"
 },
+"cfc075bc72": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "NSCALE, ANTHROPIC EYE $45B CLOUD DEAL...",
+"title": "Nscale, Anthropic Eye $45 Billion Cloud Deal as AI Trade Rebounds"
+},
+"d0b3465ae0": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "11 MISSING OFF MEXICO FEARED EATEN BY SHARKS...",
+"title": "Eleven people still missing after boat capsized off coast of Mexico now feared to have been eaten by sharks"
+},
 "d19dd5977d": {
 "at": "2026-10-18T11:37:54+00:00",
 "headline": "US QUIETLY SHIFTS REAPER DRONES INTO SOUTH AMERICA...",
@@ -1304,10 +1309,10 @@
 "headline": "OPENAI: OUR MODEL SPENT THIRD-PARTY TEST FUNDS...",
 "title": "OpenAI Says Model Spent Third-Party Sepolia Test Funds"
 },
-"d69d388ee8": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "EX-COP GETS DEATH FOR BURNING LOVE RIVAL ALIVE...",
-"title": "Former police officer will be put to death for burning his romantic rival alive after love triangle turned sour"
+"d8aa26e402": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "BBC VERIFY: HOW IS TRUMP'S ECONOMY REALLY DOING?...",
+"title": "How is the US economy really doing under President Trump?"
 },
 "d955c1080a": {
 "at": "2026-10-17T11:07:36+00:00",
@@ -1319,25 +1324,20 @@
 "headline": "USER: CLAUDE CODE MAKES ANDROID TV FASTER, AD-FREE...",
 "title": "How I Made My Android TV Faster and Ad-Free Using Claude Code"
 },
-"da4adf41bd": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "ZEROHEDGE: BLAME RUSSIA -- EVEN FOR GLOBAL WARMING...",
-"title": "Everything Is Russia's Fault (Even Global Warming!)"
-},
 "da51eeaec4": {
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "'I APOLOGIZE FROM THE DEPTHS OF MY SOUL'...",
 "title": "Jim Bakker's daughter is so, so sorry for all that homophobia: \"I want to publicly apologize from the depths of my soul\""
 },
+"da64e33501": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "'A FIREABLE OFFENSE': COMMANDERS BLUNDER AGAIN...",
+"title": "Fresh humiliation for the Commanders as ANOTHER shocking blunder piles pressure on Jayden Daniels and coach Dan Quinn: 'A fireable offense!'"
+},
 "da8d204d59": {
 "at": "2026-10-18T23:35:52+00:00",
 "headline": "ANTHROPIC'S 5% STAKE PLAN AIMED AT AI JOB LOSSES...",
 "title": "Anthropic Plans to Commit 5% Stake to Public-Benefit Fund to Address AI Job Disruption"
-},
-"daca37f755": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "IS ANTHROPIC WORTH $2 TRILLION -- OR $1.5 TRILLION?...",
-"title": "Is Anthropic worth $2 trillion? How about $1.5 trillion?"
 },
 "dc6b3a6215": {
 "at": "2026-10-17T15:53:23+00:00",
@@ -1353,11 +1353,6 @@
 "at": "2026-10-18T11:37:54+00:00",
 "headline": "POPE LEO THANKS WELLWISHERS IN FIRST EVENT SINCE CANCER SURGERY...",
 "title": "Pope Leo XIV thanks wellwishers in first event after cancer surgery"
-},
-"dd18f0930c": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "FREE TRAINS, BUSES FOR UTAH'S FALL WEEKEND...",
-"title": "Trains and buses are free this weekend. They can get you and your family to plenty of fall festivities."
 },
 "dd1c21f3c1": {
 "at": "2026-10-17T11:07:36+00:00",
@@ -1419,6 +1414,11 @@
 "headline": "REPORT: ANTHROPIC SAYS AI AGENTS WORK 6X LONGER THAN HUMANS...",
 "title": "Anthropic Unveils Internal Employment Report: AI Agents Work 6x Longer Than Humans, Ushering in the \"Meta-Work Era\""
 },
+"e333a405e2": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "WILL CHATGPT RECOMMEND YOU? YOU HAVE 9 MINUTES...",
+"title": "You Have 9 Minutes To Build Trust With AI. Will ChatGPT Recommend You?"
+},
 "e3caba690b": {
 "at": "2026-10-17T23:21:23+00:00",
 "headline": "OREGON SCHOOL GUNMAN'S SHOTGUN WAS HIS MOTHER'S: SOURCES...",
@@ -1428,6 +1428,11 @@
 "at": "2026-10-17T15:53:23+00:00",
 "headline": "ARRESTED OPENAI ENGINEER SEEKS BAIL, DENIES FLIGHT PLAN...",
 "title": "Arrested OpenAI Engineer Seeks Bail, Denies Planning to Flee"
+},
+"e5a61fc7bd": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "MAIL: MP CAR-ATTACK SUSPECT IS ANTI-ISRAEL CLIMATE ACTIVIST...",
+"title": "Man, 43, arrested over Australian MP car 'attack' is identified as radical anti-Israel climate campaigner - as Helen Haines remains fighting for her life after losing a leg"
 },
 "e6244e6d0d": {
 "at": "2026-10-19T13:51:48+00:00",
@@ -1544,11 +1549,6 @@
 "headline": "RIOTS JUMP TO MILAN AS LOOTING SPREADS...",
 "title": "Mayhem in Europe as streets are ablaze in France and luxury stores looted while Macron calls for calm - as riots spread to Milan for a second night"
 },
-"f76bedeb9b": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "CHINA UNVEILS TANK THAT HIDES UNDERWATER 2 HOURS...",
-"title": "Chinese Researchers Unveil Plans For Tank That Can Remain Submerged For Two Hours"
-},
 "f79a0f4ce6": {
 "at": "2026-10-19T20:41:55+00:00",
 "headline": "TRADER JOE'S COMING TO SALT LAKE COUNTY...",
@@ -1589,10 +1589,10 @@
 "headline": "ANTHROPIC STAFF GETTING OLDER, STUCK IN MORE MEETINGS...",
 "title": "Anthropic says its workforce has been getting older, but is also spending more time in meetings"
 },
-"fcafbe2620": {
-"at": "2026-10-17T04:55:15+00:00",
-"headline": "3 MEN GET 158 YEARS EACH FOR KILLING SURFERS IN MEXICO...",
-"title": "Three men jailed for 158 years each for murdering Australian and US surfers in Mexico"
+"fc9a0a8b61": {
+"at": "2026-10-20T05:13:13+00:00",
+"headline": "REPORT: ERIC SCHMIDT OWNS 1% OF ANTHROPIC...",
+"title": "Ex-Google CEO Eric Schmidt Reportedly Owns 1% Of Anthropic"
 },
 "fcb60e8e35": {
 "at": "2026-10-18T23:35:52+00:00",
