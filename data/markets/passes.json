@@ -1548,5 +1548,46 @@
 "day": 12,
 "pass": 2,
 "no": "12.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-20",
+"at": "2026-10-20T20:28:17+00:00",
+"href": "movers/2026-10-20-1428.html",
+"syms": [
+"HAS",
+"HLT",
+"TMO",
+"VTRS",
+"IT",
+"BIIB",
+"FITB",
+"MMM",
+"CRWV",
+"EFX",
+"MSCI",
+"KEY",
+"NOC",
+"HAL",
+"UAL",
+"CPRT",
+"CBRE",
+"J",
+"TMDX",
+"ARE"
+],
+"heads": [
+"HAS +11.2% on 4.8x volume, breakout past buy point",
+"HLT +3.8% on 2.3x volume, breakout past buy point",
+"TMO +1.2% on 1.7x volume, extended",
+"VTRS +2.1% on 1.6x volume, breakout past buy point",
+"IT +5.7% on 1.5x volume, breakout past buy point, already extended",
+"BIIB +4.1% on 1.5x volume, new 52-week high"
+],
+"extra": "6 qualifiers",
+"live": false,
+"day": 12,
+"pass": 3,
+"no": "12.3"
 }
 ]
