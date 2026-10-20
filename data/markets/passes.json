@@ -1476,5 +1476,50 @@
 "day": 11,
 "pass": 4,
 "no": "11.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-20",
+"at": "2026-10-20T14:31:06+00:00",
+"href": "movers/2026-10-20-0831.html",
+"syms": [
+"HAS",
+"HLT",
+"LLY",
+"NBIS",
+"IT",
+"UNH",
+"TSM",
+"PFE",
+"ACN",
+"WDC",
+"V",
+"MU",
+"NOW",
+"CBOE",
+"MRVL",
+"AMD",
+"STX",
+"CRWV",
+"NOC",
+"MMM"
+],
+"heads": [
+"HAS +5.2% on 11.6x volume, nearing buy point",
+"HLT +2.8% on 5.1x volume, nearing buy point",
+"LLY +4.9% on 2.8x volume, breakout past buy point",
+"NBIS +1.5% on 2.8x volume, in base",
+"IT +3.4% on 2.2x volume, breakout past buy point, already extended",
+"UNH +2.4% on 2.0x volume, in base",
+"TSM +1.4% on 1.9x volume, slips back below buy point",
+"PFE +1.4% on 1.8x volume, breakout past buy point",
+"ACN +1.2% on 1.8x volume, in base",
+"WDC +1.8% on 1.7x volume, in base"
+],
+"extra": "17 qualifiers",
+"live": true,
+"day": 12,
+"pass": 1,
+"no": "12.1"
 }
 ]
