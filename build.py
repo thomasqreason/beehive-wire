@@ -318,7 +318,8 @@ def _coerce_date(s) -> str | None:
     return iso(parse_iso(s)) if parse_iso(s) else None
 
 
-def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, offer_all: bool) -> list[dict]:
+def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, offer_all: bool,
+                      verify: bool = True) -> list[dict]:
     rolling = cfg["rolling"]
     on_page = {x["id"] for x in page_links(state)}
     seen = state.get("seen", {})
@@ -361,6 +362,15 @@ def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, 
         picked.append(c)
         if len(picked) >= rolling["max_candidates"]:
             break
+    if verify and picked:
+        # The expensive half of the stale-story guard: every candidate's own page is asked when it
+        # was published (see verify_dates). The feed's date decided nothing above but the window.
+        cache = load_dates()
+        n = len(picked)
+        picked = drop_stale(picked, window + 24, cfg, now, cache, "candidate")
+        save_dates(cache, now)
+        if len(picked) < n:
+            log(f"dates: {n - len(picked)} candidate(s) the feeds called new were old; {len(picked)} remain")
     return picked
 
 
@@ -1190,47 +1200,114 @@ def fetch_og_image(url: str, cfg: dict) -> str | None:
     return fetch_page_meta(url, cfg).get("image")
 
 
-def verify_top_slots(state: dict, cfg: dict, now: datetime) -> dict:
-    """The expensive half of the stale-story guard (Oct 20, 2026): the four slots at the top of the
-    page are checked against the publisher's own date before they print.
+# ───────────────────────────────────────── the publisher's date, for EVERY story (Oct 20, 2026)
+#
+# The feeds lie about dates and the editor can only see the feed's date. A Google News search
+# feed re-stamps an old page with the moment Google re-crawled it: that is how an Aug 8 story
+# about Caitlin Clark's technical foul, an Oct 12 raid and a three-week-old obituary all reached
+# the page on Oct 20 as the morning's news, after every standing order about old news had
+# already been written. So the date is no longer taken on trust from anyone. Before the editor
+# sees a candidate, the story's own page is asked when it was published, and the answer is
+# remembered in data/dates.json so each page is fetched once. The same check sweeps the page
+# itself, so a story that got through before this existed is pulled the next time the page
+# is built. No date on the page means no verdict (fail open); a date that says the story is
+# old means it is gone, whatever the feed said.
 
-    The cheap half (url_date) reads a date out of the URL path and costs nothing, but a Google News
-    link carries no date and an ABC URL never did — which is how the DOJ search of Ilhan Omar's home,
-    an Oct 12 story re-stamped Oct 20 by Google News, became the Oct 20 giant headline. Four page
-    fetches an edition is affordable; a week-old lead is not. A story whose page says it was
-    published more than `max_story_age_hours` + a day ago comes off the top: a stale giant headline
-    is replaced by the first flash line that passes, a stale flash line is dropped, and both are
-    remembered in `seen` so the wire cannot hand them back. No date found means no verdict — the
-    guard fails open, never blank. The fetch doubles as the giant headline's picture lookup.
+DATES_FILE = DATA / "dates.json"
+
+
+def load_dates() -> dict:
+    try:
+        d = json.loads(DATES_FILE.read_text(encoding="utf-8"))
+        return d if isinstance(d, dict) else {}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def save_dates(cache: dict, now: datetime) -> None:
+    keep = {k: v for k, v in cache.items()
+            if isinstance(v, dict) and (hours_since(v.get("t"), now) or 0) <= SEEN_HOURS}
+    DATA.mkdir(parents=True, exist_ok=True)
+    DATES_FILE.write_text(json.dumps(keep, indent=0, sort_keys=True), encoding="utf-8")
+
+
+def verify_dates(stories: list[dict], cfg: dict, now: datetime, cache: dict) -> dict:
+    """{story id: publisher's published datetime, or None when the page gives no date}.
+
+    The URL path answers first (free); then the cache; then one fetch of the page, in parallel.
+    Every fetch's answer is cached, including 'no date found', so a page is asked once in ten days.
     """
+    out: dict = {}
+    todo: list[dict] = []
+    for it in stories:
+        real = url_date(it["url"])
+        if real is not None:
+            out[it["id"]] = real
+            continue
+        rec = cache.get(it["id"])
+        if isinstance(rec, dict) and (hours_since(rec.get("t"), now) or 0) <= SEEN_HOURS:
+            out[it["id"]] = parse_iso(rec.get("p"))
+            continue
+        todo.append(it)
+    if todo:
+        with cf.ThreadPoolExecutor(max_workers=cfg["fetch"]["workers"]) as ex:
+            for it, meta in zip(todo, ex.map(lambda i: fetch_page_meta(i["url"], cfg), todo)):
+                dt = meta.get("published")
+                cache[it["id"]] = {"p": iso(dt), "t": iso(now)}
+                out[it["id"]] = dt
+        log(f"dates: asked {len(todo)} publishers, {sum(1 for i in todo if out.get(i['id']))} answered "
+            f"({len(stories) - len(todo)} known already)")
+    return out
+
+
+def drop_stale(stories: list[dict], limit_hours: float, cfg: dict, now: datetime, cache: dict, what: str) -> list[dict]:
+    """The stories whose publisher date is within `limit_hours`, or unknown. Logs every one it drops."""
+    if not stories:
+        return stories
+    dates = verify_dates(stories, cfg, now, cache)
+    keep = []
+    for it in stories:
+        dt = dates.get(it["id"])
+        age = (now - dt).total_seconds() / 3600 if dt else None
+        if age is not None and age > limit_hours:
+            log(f"STALE {what}: {it.get('source')} — {str(it.get('title'))[:70]} — the publisher dates it "
+                f"{dt:%b %d}, {age / 24:.0f} days ago (the feed said {it.get('published')})")
+            continue
+        if age is not None and age > (hours_since(it.get("published"), now) or 0):
+            it["published"] = iso(dt)             # the editor sees the true age, not the feed's
+            if "age_h" in it:
+                it["age_h"] = round(age, 1)
+        keep.append(it)
+    return keep
+
+
+def sweep_page(state: dict, cfg: dict, now: datetime, cache: dict) -> dict:
+    """Pull every story on the page whose publisher date says it is old. Held-over links are only
+    ever checked once (the cache), so this costs nothing after the first pass."""
     limit = float(cfg["rolling"]["max_story_age_hours"]) + 24
-    seen = state.setdefault("seen", {})
-
-    def stale(it: dict) -> bool:
-        meta = fetch_page_meta(it["url"], cfg)
-        if meta.get("image") and not it.get("image"):
-            it["image"] = meta["image"]
-        dt = meta.get("published")
-        if dt is None:
-            return False
-        age = (now - dt).total_seconds() / 3600
-        if age <= limit:
-            return False
-        log(f"STALE: {it['source']} — {it['title'][:70]} — the publisher dates it {dt:%b %d}, "
-            f"{age / 24:.0f} days ago (the feed said {it.get('published')}); pulled from the top of the page")
-        seen.setdefault(it["id"], iso(now))
-        return True
-
-    top = state.get("top")
-    if top and stale(top):
-        state["top"] = None
-    flash = [f for f in (state.get("flash") or []) if not stale(f)]
-    if not state.get("top") and flash:
-        promoted = flash.pop(0)
+    before = len(page_links(state))
+    ids_before = {it["id"] for it in page_links(state)}
+    top = drop_stale([state["top"]], limit, cfg, now, cache, "lead") if state.get("top") else []
+    state["top"] = top[0] if top else None
+    state["flash"] = drop_stale(list(state.get("flash") or []), limit, cfg, now, cache, "flash line")
+    state["items"] = drop_stale(list(state.get("items") or []), limit, cfg, now, cache, "story")
+    ids = {it["id"] for it in state["items"]}
+    for it in state["items"]:                                   # a follow-up whose lead is gone stands alone
+        if it.get("under") and it["under"] not in ids:
+            it.pop("under", None)
+    if not state.get("top") and state["flash"]:
+        promoted = state["flash"].pop(0)
         promoted["urgent"] = False
         state["top"] = promoted
         log(f"top: promoted the first flash line — {promoted['headline']}")
-    state["flash"] = flash
+    after = {it["id"] for it in page_links(state)}
+    for sid in ids_before - after:                              # never offered back by the wire
+        state.setdefault("seen", {}).setdefault(sid, iso(now))
+    gone = before - len(page_links(state))
+    if gone:
+        log(f"sweep: pulled {gone} re-dated stor{'y' if gone == 1 else 'ies'} off the page")
+    else:
+        log("sweep: every story on the page checks out against its publisher's date")
     return state
 
 
@@ -1810,6 +1887,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="no API call; heuristic picks")
     ap.add_argument("--render-only", action="store_true")
+    ap.add_argument("--sweep", action="store_true", help="pull re-dated stories off the current page (publisher dates), re-render, no editor")
     ap.add_argument("--candidates-json", type=Path)
     ap.add_argument("--plan-json", type=Path)
     ap.add_argument("--force", action="store_true", help="ignore quiet hours")
@@ -1835,10 +1913,22 @@ def main() -> int:
         render(state, cfg, now)
         return 0
 
+    if args.sweep:
+        cache = load_dates()
+        state = sweep_page(state, cfg, now, cache)
+        save_dates(cache, now)
+        save_state(state)
+        render(state, cfg, now)
+        return 0
+
     if stand_down(state):        # anything past here is a scheduled edition
         save_state(state)        # persist it now, so an early exit still clears the siren
 
     state = age_out(state, cfg, now)
+    if not args.no_network:
+        cache = load_dates()                 # held-over stories are checked once each; cached after
+        state = sweep_page(state, cfg, now, cache)
+        save_dates(cache, now)
     page_empty = not state.get("top") and not state.get("items")
 
     if not args.force and not args.plan_json and not page_empty and in_quiet_hours(cfg, now):
@@ -1858,7 +1948,8 @@ def main() -> int:
             log(f"market desk: offering {len(desk)} investing candidates")
             raw.extend(desk)
         offer_all = False
-    cands = select_candidates(normalize_candidates(raw, cfg), state, cfg, now, offer_all)
+    cands = select_candidates(normalize_candidates(raw, cfg), state, cfg, now, offer_all,
+                              verify=not (args.no_network or args.candidates_json))
     log(f"{len(raw)} raw items -> {len(cands)} candidates; page has {len(page_links(state))} links")
 
     if not cands and not page_empty:
@@ -1891,11 +1982,6 @@ def main() -> int:
             return 0
 
     new_state = apply_plan(plan, state, cands, cfg, now, cap_churn=not args.plan_json)
-
-    # Before anything prints at the top of the page, ask the publisher how old it really is
-    # (verify_top_slots). This fetch also picks up the giant headline's picture.
-    if not args.no_network:
-        new_state = verify_top_slots(new_state, cfg, now)
 
     # The giant headline should carry a picture whenever one can be found. Retry every build while
     # it has none — a held-over top used to be stuck without one forever, because this only ran

@@ -130,10 +130,10 @@ jobs:
         run: |
           git config user.name "beehive-wire-bot"
           git config user.email "beehive-wire-bot@users.noreply.github.com"
-          git add data/state.json archive
+          git add data/state.json data/dates.json archive
           if ! git diff --cached --quiet; then
             git commit -m "extra: $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git pull --rebase --autostash origin main
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi
 

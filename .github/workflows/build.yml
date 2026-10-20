@@ -21,6 +21,10 @@ on:
         description: "Catch-up run: stand down if this slot's edition has already printed"
         type: boolean
         default: false
+      sweep:
+        description: "Sweep: pull re-dated stories off the current page (publisher dates) and re-render. No editor, no new edition"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths-ignore: ["data/**", "archive/**"]
@@ -98,6 +102,7 @@ jobs:
 
       # 1. Pull the feeds and pick what the editor gets to see. No Claude call, no cost.
       - name: Gather the wire
+        if: inputs.sweep != true
         run: python build.py --emit-payload data/build/payload.json
 
       # 2. Claude reads the standing orders and writes the edition plan.
@@ -110,7 +115,7 @@ jobs:
       #    instead of twenty silent minutes, and the full stream is kept for the report below.
       - name: Edit the edition
         id: edit
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && inputs.sweep != true
         continue-on-error: true          # a failed edit keeps the last edition up rather than blanking the site
         timeout-minutes: 45              # a runaway gets killed before it can hold the build lock for an hour. Oct 8, 2026: at Sonnet 5's default effort (high) the editor thought for 36-60+ min per edition and eight evening runs died at this cap; --effort medium below is the fix
         shell: bash                      # bash -eo pipefail: a failed claude still fails the step through the log pipe
@@ -129,7 +134,7 @@ jobs:
 
       # One line on the run page: how long the editor took, how many turns and tokens, and the error if any.
       - name: Editor report
-        if: always() && github.event_name != 'push'
+        if: always() && github.event_name != 'push' && inputs.sweep != true
         continue-on-error: true
         timeout-minutes: 2
         run: |
@@ -174,7 +179,10 @@ jobs:
       # 3. Apply the plan and render. If Claude failed, re-render the edition already on the page.
       - name: Print the page
         run: |
-          if [ -s data/build/plan.json ]; then
+          if [ "${{ inputs.sweep }}" = "true" ]; then
+            echo "Sweep: checking every story on the page against its publisher's date."
+            python build.py --sweep
+          elif [ -s data/build/plan.json ]; then
             python build.py --candidates-json data/build/candidates.json --plan-json data/build/plan.json
           else
             echo "No plan produced -- keeping the last edition."
@@ -185,10 +193,12 @@ jobs:
         run: |
           git config user.name "beehive-wire-bot"
           git config user.email "beehive-wire-bot@users.noreply.github.com"
-          git add data/state.json data/shelf.json archive
+          git add data/state.json data/shelf.json data/dates.json archive
           if ! git diff --cached --quiet; then
             git commit -m "wire: $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git pull --rebase --autostash origin main
+            # -X theirs: if prewrite pushed data/dates.json meanwhile, this run's copy of the cache wins
+            # (prewrite's few entries are simply fetched again) instead of a conflict failing the deploy.
+            git pull --rebase --autostash -X theirs origin main
             git push
           fi
 
@@ -202,7 +212,7 @@ jobs:
       # A run that printed nothing new is a failure, and says so -- after the deploy, so the page
       # is still re-rendered. (On Sep 16, four runs in a row printed nothing under a green tick.)
       - name: Flag a missed edition
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && inputs.sweep != true
         run: |
           if [ ! -s data/build/plan.json ]; then
             echo "::error title=No new edition::The editor produced no plan, so the last edition was re-rendered, not replaced. See 'Edit the edition' and the run summary. The next catch-up ping will try again."
