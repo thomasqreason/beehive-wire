@@ -1521,5 +1521,32 @@
 "day": 12,
 "pass": 1,
 "no": "12.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-20",
+"at": "2026-10-20T18:23:14+00:00",
+"href": "movers/2026-10-20-1223.html",
+"syms": [
+"HAS",
+"HLT",
+"CRWV",
+"MMM",
+"NOC",
+"EFX",
+"KEY",
+"MSCI",
+"HAL",
+"FITB"
+],
+"heads": [
+"HAS +10.1% on 4.6x volume, breakout past buy point",
+"HLT +3.4% on 2.1x volume, nearing buy point"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 12,
+"pass": 2,
+"no": "12.2"
 }
 ]
