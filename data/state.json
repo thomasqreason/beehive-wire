@@ -1,15 +1,15 @@
 {
  "updated": "2026-10-20T10:13:57+00:00",
  "top": {
-  "id": "b1796a2a28",
-  "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPZGZXNWExZ2hvdGEyeG1lbE1NczViMlZNRlNQUlN1Z05qTkhBTUJ2MnllTWVuM0hvc1hFS2RXeFZoLVFhU3RIajNKMU90SWdhd1h1TUt2aU9lRmNiTTNmSzZTbDg1akxhd24teklWWHZhdTBQdkhBbTg1bTNJMUx5TTVSMzBNZFM5cDNkTDdBdFlCN2VibzVXY0Z2SklkajTSAaQBQVVfeXFMTmdVbEdBcEdhWERSa3A2cVdrY2tEYlJ6d0F1VlpKcWFNZFdBWmJ6MWptNGZaeUtZSHhMekFUa1FvVlprVzdGXzdVNTlRdERJZ0hGWmRmY3lIeXdMLVNZRTlTZWFVSXBfMVhwdXlTYVBXSXpKNExIVmRNaTAyR0xDb2VtdWVjbjJ5YnZudXJkTkJmUm9yQnlOX0h4X1lZUjBuZ2JpZm8?oc=5",
-  "title": "Rep. Ilhan Omar’s residence searched as part of ongoing criminal investigation, DOJ says",
-  "source": "ABC News - Breaking News, Latest News and Videos",
-  "published": "2026-10-20T08:16:02+00:00",
-  "image": "https://i.abcnewsfe.com/a/ba426381-9546-4508-94ad-27239ce93152/Ilhan-Omar-11-ap-gmh-261012_1791834540372_hpMain_16x9.jpg?w=1600",
-  "first_seen": "2026-10-20T10:13:57+00:00",
-  "topic": "crime",
-  "headline": "OMAR'S HOME SEARCHED BY FEDS...",
+  "id": "150b095978",
+  "url": "https://abcnews.com/US/wireStory/us-ties-ukraine-hit-new-low-trump-slights-137397527",
+  "title": "US ties with Ukraine hit new low as Trump slights Zelenskyy and eases up on Russia",
+  "source": "ABC News",
+  "published": "2026-10-19T23:05:00+00:00",
+  "image": "https://i.abcnewsfe.com/a/4866c384-7701-4002-9492-ca4c91723745/wirestory_5ff9a53edf6d0f338f40709af6dc9c11_16x9.jpg?w=1600",
+  "first_seen": "2026-10-20T12:50:59+00:00",
+  "topic": "ukraine_russia",
+  "headline": "TRUMP: 'TIME FOR SOMEBODY ELSE TO NEGOTIATE ON BEHALF OF UKRAINE'...",
   "urgent": false
  },
  "flash": [
@@ -22,7 +22,18 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4edf/live/fff77fe0-cc56-11f1-a64c-550be9e3c66b.jpg",
    "first_seen": "2026-10-20T10:13:57+00:00",
    "topic": "politics_culture_world",
-   "headline": "HISTORIC LIMOGES TOWN HALL TORCHED IN RIOTS..."
+   "headline": "LIMOGES TOWN HALL ARSON: FAR-LEFT SUSPECT, 34, ON FRENCH WATCH LIST, ARRESTED..."
+  },
+  {
+   "id": "a488870492",
+   "url": "https://oilprice.com/Latest-Energy-News/World-News/Brent-Tops-110-as-Tanker-Attacks-Threaten-Persian-Gulf-Supply.html",
+   "title": "Brent Tops $110 as Tanker Attacks Threaten Persian Gulf Supply",
+   "source": "OilPrice.com",
+   "published": "2026-10-20T04:56:00+00:00",
+   "image": "https://d32r1sh890xpii.cloudfront.net/news/1200x675/2026-10-19_hycomp1gl2.jpg",
+   "first_seen": "2026-10-20T12:50:59+00:00",
+   "topic": "energy",
+   "headline": "BRENT TOPS $110, WTI OVER $100 AS TANKER ATTACKS CHOKE GULF EXPORTS..."
   },
   {
    "id": "977d29b4b6",
@@ -34,7 +45,9 @@
    "first_seen": "2026-10-20T10:13:57+00:00",
    "topic": "business_ai",
    "headline": "OPENAI WORKER CHARGED IN SAUDI BUGGING PLOT..."
-  },
+  }
+ ],
+ "items": [
   {
    "id": "93f24801c4",
    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMk9Zd0w2QlRic1FSZ185djk4b0dzMzNnLWpDZGNNcWVpYjllcUZBOFViakxoY2xYaWJlTkJYN2ZpZVlpRkotTTFiV2tFOWFvSUFlVVlvMHVLVkNXTXA3cUpMTnlqRnppSTJBTkowYUhQMW5kVVNXaHdycmVkUUx0S1h5cE9iYTgwLUkyMWZGTE9lajBxcGdv?oc=5",
@@ -45,9 +58,7 @@
    "first_seen": "2026-10-20T10:13:57+00:00",
    "topic": "business_ai",
    "headline": "NSCALE NEARS SECOND $45B ANTHROPIC CLOUD DEAL..."
-  }
- ],
- "items": [
+  },
   {
    "id": "0ef925874f",
    "url": "https://rmx.news/article/2000-shops-looted-or-damaged-across-france-macron-rejects-interior-minister-nunez-resignation-offer/",
@@ -2474,7 +2485,9 @@
   "6b27044b40": "2026-10-20T10:13:57+00:00",
   "ad6a86fa26": "2026-10-20T10:13:57+00:00",
   "7575077d20": "2026-10-20T10:13:57+00:00",
-  "1a9274ceba": "2026-10-20T10:13:57+00:00"
+  "1a9274ceba": "2026-10-20T10:13:57+00:00",
+  "150b095978": "2026-10-20T12:50:59+00:00",
+  "a488870492": "2026-10-20T12:50:59+00:00"
  },
- "notes": "Led on the DOJ search of Omar's home (fresh, ABC-sourced), demoting France riots to flash/items after two editions up top. Spotlighted H-1B (Vance 'indentured servants' row, merit-based bill) per rotation; ran NYC sanctuary-law and a prosecutor-botch illegal-alien case as the two allowed ICE/illegal"
+ "notes": "Hand-fixed 06:50 MDT Oct 20: the Omar raid lead was an Oct 12 story re-dated by Google News and was pulled. Lead is now Trump on Zelensky; flash lines: Limoges arrest (headline updated), Brent $110, OpenAI/Saudi."
 }

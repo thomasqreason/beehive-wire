@@ -40,6 +40,7 @@ ARCHIVE = ROOT / "archive"  # every edition ever printed, committed so it surviv
 STATIC = ROOT / "static"   # icons, manifest, service worker — copied verbatim into site/
 STATE_FILE = DATA / "state.json"
 VIDEO_PUBLISHED = DATA / "video" / "published.json"  # what video.py recorded after each YouTube upload
+SEEN_HOURS = 240   # how long state.json remembers a story it was offered (10 days; was 72h until Oct 20, 2026)
 TOPICS = ["iran_mideast", "ukraine_russia", "world", "immigration", "crime", "trump_watch", "elections",
           "politics_culture_world", "media", "faith_family_schools", "military", "business_ai", "tech", "surveillance",
           "american_life", "economy", "investing", "energy", "housing", "health", "utah_mormon", "sports", "pop_culture",
@@ -711,17 +712,34 @@ def compact_json(obj, level: int = 0) -> str:
     return json.dumps(obj, ensure_ascii=False)
 
 
-def prewritten_headlines() -> dict:
+def prewritten_headlines(cands: list[dict] | None = None) -> dict:
     """Headlines written between editions by prewrite.py, keyed by story id.
 
     Missing or unreadable is the normal case and means nothing: the editor simply writes every
     headline itself, exactly as it did before the pre-writer existed.
+
+    A pre-written headline is only offered while the story still has the title it was written
+    for (Oct 20, 2026). Outlets rewrite a live story's title as it moves — 'Historic town hall set
+    alight' became 'Suspect arrested after historic town hall set alight' under the same URL — and
+    a headline written for the earlier title is a stale headline, not a draft.
     """
     try:
         data = json.loads((DATA / "headlines.json").read_text())
-        return {k: v for k, v in data.items() if isinstance(v, dict) and v.get("headline")}
+        pre = {k: v for k, v in data.items() if isinstance(v, dict) and v.get("headline")}
     except Exception:  # noqa: BLE001
         return {}
+    if cands is None:
+        return pre
+    titles = {c["id"]: norm_title(c.get("title") or "") for c in cands}
+    out, moved = {}, 0
+    for k, v in pre.items():
+        if k in titles and v.get("title") and norm_title(v["title"]) != titles[k]:
+            moved += 1
+            continue
+        out[k] = v
+    if moved:
+        log(f"prewrite: dropped {moved} headline(s) whose story has moved on since they were written")
+    return out
 
 
 def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> dict:
@@ -744,7 +762,7 @@ def editor_payload(state: dict, cands: list[dict], cfg: dict, now: datetime) -> 
     wheel = ["immigration_enforcement", "h1b_workforce", "election_integrity"]
     spot = wheel[no % 3]
     clusters = find_clusters(cands, state, cfg)
-    pre = prewritten_headlines()
+    pre = prewritten_headlines(cands)
     if pre:
         n = sum(1 for c in cands if c["id"] in pre)
         log(f"payload: {n}/{len(cands)} candidates arrive with a headline already written")
@@ -983,7 +1001,7 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
     if current and cap_churn:
         short = max_swaps - sum(1 for x in ([top] if top else []) + flash + items if x["id"] not in current)
         if short > 0:
-            pre = prewritten_headlines()
+            pre = prewritten_headlines(cands)
             leads = {x["under"] for x in items if x.get("under")}
             riders = sorted((i for i, it in enumerate(items)
                              if it["id"] in current and not it.get("under") and it["id"] not in leads),
@@ -1014,7 +1032,7 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
         # links age out together — the empty slots are holes, not swaps, so they are filled from the
         # candidate list rather than left blank. Without this the page simply prints short.
         if len(items) < room:
-            pre = prewritten_headlines()
+            pre = prewritten_headlines(cands)
             holes = room - len(items)
             for c in sorted(cands, key=lambda c: (-c["weight"], c["age_h"])):
                 if len(items) >= room:
@@ -1027,7 +1045,10 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
                     items.append(y)
             log(f"backfill: filled {holes - (room - len(items))} of {holes} empty slots to keep the page at {total}")
 
-    seen = {k: v for k, v in (state.get("seen") or {}).items() if (hours_since(v, now) or 0) <= 72}
+    # Ten days, not three (Oct 20, 2026). `seen` is also the memory that stops a story the page
+    # already ran from coming back as new when a feed re-stamps it: the Omar raid ran Oct 12,
+    # Google News re-dated ABC's piece on Oct 20, and three days of memory had long forgotten it.
+    seen = {k: v for k, v in (state.get("seen") or {}).items() if (hours_since(v, now) or 0) <= SEEN_HOURS}
     for c in cands:
         seen.setdefault(c["id"], iso(now))
 
@@ -1107,25 +1128,110 @@ def resolve_google_news(url: str) -> str | None:
     return None
 
 
-def fetch_og_image(url: str, cfg: dict) -> str | None:
-    # NOTE: a paywalled publisher (USA Today answers 402) yields no image; the editor-side fallback is a hand-set state image.
+PUB_DATE_KEYS = r"(?:article:published_time|og:article:published_time|article:published|pubdate|publishdate|publish-date|publish_date|date|dc\.date|dc\.date\.issued|dcterms\.created|parsely-pub-date|sailthru\.date|datepublished)"
+PUB_DATE_RES = [
+    re.compile(r'<meta[^>]+(?:property|name|itemprop)=["\']' + PUB_DATE_KEYS + r'["\'][^>]+content=["\']([^"\']+)', re.I),
+    re.compile(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name|itemprop)=["\']' + PUB_DATE_KEYS + r'["\']', re.I),
+    re.compile(r'"datePublished"\s*:\s*"([^"]+)"', re.I),
+    re.compile(r'<time[^>]+datetime=["\']([^"\']+)["\'][^>]*(?:pubdate|itemprop=["\']datePublished)', re.I),
+]
+
+
+def fetch_page_meta(url: str, cfg: dict) -> dict:
+    """One fetch of the story's own page: its og:image and the date the PUBLISHER says it was published.
+
+    Returns {"image": str|None, "published": datetime|None}; never raises. A Google News link is
+    resolved to the publisher first (the redirect page only offers Google's logo and no date).
+    The date is the earliest publication stamp on the page — article:published_time, the JSON-LD
+    datePublished and the like — never a modified/updated time, which is exactly the stamp that
+    lies. Anything outside 2020..tomorrow is treated as a broken template and ignored.
+    """
+    out: dict = {"image": None, "published": None}
+    # NOTE: a paywalled publisher (USA Today answers 402) yields nothing; the editor-side fallback is a hand-set state image.
     try:
         import requests
 
-        real = resolve_google_news(url)      # a Google News redirect page only offers Google's logo
+        real = resolve_google_news(url)
         if real:
             url = real
         r = requests.get(url, timeout=8, headers={"User-Agent": cfg["fetch"]["user_agent"]})
-        m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', r.text, re.I) or re.search(
-            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', r.text, re.I
+        text = r.text
+        m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', text, re.I) or re.search(
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', text, re.I
         )
         img = html.unescape(m.group(1)) if m else None
         # A Google News redirect page's og:image is Google's own logo (lh3.googleusercontent.com) — never print it.
-        if img and ("googleusercontent.com" in img or "news.google.com" in img or "gstatic.com" in img):
-            return None
-        return img
-    except Exception:
-        return None
+        if img and not ("googleusercontent.com" in img or "news.google.com" in img or "gstatic.com" in img):
+            out["image"] = img
+        now = utcnow()
+
+        def sane(raw: str) -> datetime | None:
+            dt = parse_iso(html.unescape(raw).strip())
+            return dt if dt and datetime(2020, 1, 1, tzinfo=timezone.utc) <= dt <= now + timedelta(days=1) else None
+
+        # The <meta> stamps first (both attribute orders), then the JSON-LD, then a <time> tag — and
+        # only the FIRST family that answers. A page's JSON-LD can also list related or older
+        # stories with their own datePublished, so it is a fallback, and only its first entry counts.
+        meta = [d for rx in PUB_DATE_RES[:2] for raw in rx.findall(text) if (d := sane(raw))]
+        if meta:
+            out["published"] = min(meta)
+        else:
+            for rx in PUB_DATE_RES[2:]:
+                first = next((d for raw in rx.findall(text) if (d := sane(raw))), None)
+                if first:
+                    out["published"] = first
+                    break
+    except Exception:  # noqa: BLE001
+        pass
+    return out
+
+
+def fetch_og_image(url: str, cfg: dict) -> str | None:
+    return fetch_page_meta(url, cfg).get("image")
+
+
+def verify_top_slots(state: dict, cfg: dict, now: datetime) -> dict:
+    """The expensive half of the stale-story guard (Oct 20, 2026): the four slots at the top of the
+    page are checked against the publisher's own date before they print.
+
+    The cheap half (url_date) reads a date out of the URL path and costs nothing, but a Google News
+    link carries no date and an ABC URL never did — which is how the DOJ search of Ilhan Omar's home,
+    an Oct 12 story re-stamped Oct 20 by Google News, became the Oct 20 giant headline. Four page
+    fetches an edition is affordable; a week-old lead is not. A story whose page says it was
+    published more than `max_story_age_hours` + a day ago comes off the top: a stale giant headline
+    is replaced by the first flash line that passes, a stale flash line is dropped, and both are
+    remembered in `seen` so the wire cannot hand them back. No date found means no verdict — the
+    guard fails open, never blank. The fetch doubles as the giant headline's picture lookup.
+    """
+    limit = float(cfg["rolling"]["max_story_age_hours"]) + 24
+    seen = state.setdefault("seen", {})
+
+    def stale(it: dict) -> bool:
+        meta = fetch_page_meta(it["url"], cfg)
+        if meta.get("image") and not it.get("image"):
+            it["image"] = meta["image"]
+        dt = meta.get("published")
+        if dt is None:
+            return False
+        age = (now - dt).total_seconds() / 3600
+        if age <= limit:
+            return False
+        log(f"STALE: {it['source']} — {it['title'][:70]} — the publisher dates it {dt:%b %d}, "
+            f"{age / 24:.0f} days ago (the feed said {it.get('published')}); pulled from the top of the page")
+        seen.setdefault(it["id"], iso(now))
+        return True
+
+    top = state.get("top")
+    if top and stale(top):
+        state["top"] = None
+    flash = [f for f in (state.get("flash") or []) if not stale(f)]
+    if not state.get("top") and flash:
+        promoted = flash.pop(0)
+        promoted["urgent"] = False
+        state["top"] = promoted
+        log(f"top: promoted the first flash line — {promoted['headline']}")
+    state["flash"] = flash
+    return state
 
 
 # ────────────────────────────────────────────────────────────────────────── render
@@ -1479,6 +1585,10 @@ def edition_video(local: datetime, edition: str, state: dict, cfg: dict) -> dict
       * a remake hides the video it replaces (`hidden`), so hidden records are skipped and
         the newest surviving record for the key wins.
       * an EXTRA never gets a video, and its key never matches one.
+      * `offpage: true` on a record keeps that video off the front page without touching
+        YouTube — for an edition whose video narrates a story the page has since pulled
+        (Oct 20, 2026: the morning video led on a week-old Omar raid). `hidden` is left alone
+        so a forced remake still takes the old video down on YouTube.
 
     Never raises: a missing or malformed file just means no video block.
     """
@@ -1492,7 +1602,8 @@ def edition_video(local: datetime, edition: str, state: dict, cfg: dict) -> dict
     except Exception:                      # noqa: BLE001 — no video is a normal state, not an error
         return None
     live = [r for r in records
-            if isinstance(r, dict) and r.get("key") == key and r.get("video_id") and not r.get("hidden")]
+            if isinstance(r, dict) and r.get("key") == key and r.get("video_id")
+            and not r.get("hidden") and not r.get("offpage")]
     if not live:
         return None
     v = live[-1]
@@ -1780,6 +1891,11 @@ def main() -> int:
             return 0
 
     new_state = apply_plan(plan, state, cands, cfg, now, cap_churn=not args.plan_json)
+
+    # Before anything prints at the top of the page, ask the publisher how old it really is
+    # (verify_top_slots). This fetch also picks up the giant headline's picture.
+    if not args.no_network:
+        new_state = verify_top_slots(new_state, cfg, now)
 
     # The giant headline should carry a picture whenever one can be found. Retry every build while
     # it has none — a held-over top used to be stuck without one forever, because this only ran
