@@ -1589,5 +1589,83 @@
 "day": 12,
 "pass": 3,
 "no": "12.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-20",
+"at": "2026-10-20T22:15:24+00:00",
+"href": "movers/2026-10-20-1615.html",
+"syms": [
+"HAS",
+"HLT",
+"IT",
+"TMO",
+"VTRS",
+"HUM",
+"BIIB",
+"MMM",
+"FITB",
+"CRWV",
+"EFX",
+"MSCI",
+"KEY",
+"NOC",
+"HAL",
+"UAL",
+"CPRT",
+"CBRE",
+"J",
+"TMDX"
+],
+"heads": [
+"HAS +11.2% on 4.8x volume, breakout past buy point",
+"HLT +3.8% on 2.4x volume, breakout past buy point",
+"IT +5.7% on 1.8x volume, breakout past buy point, already extended",
+"TMO +1.2% on 1.7x volume, extended",
+"VTRS +2.1% on 1.6x volume, breakout past buy point",
+"HUM +3.0% on 1.6x volume, slips back below buy point",
+"BIIB +4.1% on 1.5x volume, new 52-week high"
+],
+"extra": "7 qualifiers",
+"live": false,
+"day": 12,
+"pass": 4,
+"no": "12.4"
+},
+{
+"kind": "edition",
+"date": "2026-10-20",
+"at": "2026-10-20T22:17:26+00:00",
+"href": "2026-10-20.html",
+"syms": [
+"MA",
+"BRK-B",
+"COP",
+"XOM",
+"CVX",
+"PFE",
+"EOG",
+"SYK",
+"FAST",
+"HPE"
+],
+"heads": [
+"Mastercard Rises Near Record As It Rolls Out Stablecoin Security Tool",
+"Berkshire Hathaway Climbs 1.4% To Brink Of Record High",
+"ConocoPhillips Holds Near High After Quarterly Profit More Than Doubled",
+"ExxonMobil Eases From All-Time High As Earnings More Than Doubled",
+"Chevron Rises As It Moves To Take Over Prized Iraqi Oil Field",
+"Pfizer Gains 2.3% To Edge Of 52-Week High Ahead Of Earnings",
+"EOG Resources Holds Near Peak After Quarter Of 58.6% Sales Growth",
+"Stryker Climbs 2.2% Ahead Of Earnings After Sonopet 3 Launch",
+"Fastenal Rises 1.2% As It Recovers From Post-Earnings Dip",
+"HPE Jumps 5.4% After Hours; Lunar AI Computer Made News Earlier",
+"New America: Zeta Global Rises 3.2% As Marketing Software Sales Jump 43.5%"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 12,
+"pass": 5,
+"no": "12.5"
 }
 ]
