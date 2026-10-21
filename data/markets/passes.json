@@ -1712,5 +1712,35 @@
 "day": 13,
 "pass": 1,
 "no": "13.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-21",
+"at": "2026-10-21T18:27:08+00:00",
+"href": "movers/2026-10-21-1227.html",
+"syms": [
+"SPCX",
+"WAB",
+"CRL",
+"DHR",
+"HAS",
+"UAL",
+"SMCI",
+"MCO",
+"UDR",
+"ECHO"
+],
+"heads": [
+"SPCX +6.9% on 2.6x volume, big move on the day",
+"WAB +2.0% on 2.2x volume, in base",
+"CRL +9.7% on 2.0x volume, new 52-week high",
+"DHR +2.7% on 1.9x volume, bounce off 50-day line",
+"HAS +3.0% on 1.9x volume, breakout past buy point, already extended"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 13,
+"pass": 2,
+"no": "13.2"
 }
 ]
