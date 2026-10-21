@@ -1742,5 +1742,49 @@
 "day": 13,
 "pass": 2,
 "no": "13.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-21",
+"at": "2026-10-21T20:32:54+00:00",
+"href": "movers/2026-10-21-1432.html",
+"syms": [
+"WAB",
+"HAS",
+"CRL",
+"SPCX",
+"DHR",
+"TMO",
+"TXN",
+"EMR",
+"KMI",
+"UAL",
+"MCO",
+"UDR",
+"MMM",
+"COF",
+"SMCI",
+"GPC",
+"MS",
+"ECHO",
+"KEY",
+"IBM"
+],
+"heads": [
+"WAB +2.0% on 3.0x volume, in base",
+"HAS +4.1% on 2.9x volume, breakout past buy point, already extended",
+"CRL +9.3% on 2.9x volume, new 52-week high",
+"SPCX +7.8% on 2.4x volume, big move on the day",
+"DHR +4.3% on 2.2x volume, bounce off 50-day line",
+"TMO +1.0% on 1.9x volume, new 52-week high",
+"TXN +2.5% on 1.7x volume, in base",
+"EMR +1.7% on 1.6x volume, nearing buy point",
+"KMI +1.2% on 1.5x volume, nearing buy point"
+],
+"extra": "9 qualifiers",
+"live": false,
+"day": 13,
+"pass": 3,
+"no": "13.3"
 }
 ]
