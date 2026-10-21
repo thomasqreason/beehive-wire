@@ -823,5 +823,16 @@
   "iso": "2026-10-21T04:02:23-06:00",
   "top": "MP LOSES BOTH LEGS IN ATTACK...",
   "count": 100
+ },
+ {
+  "no": 76,
+  "file": "2026-10-21-evening.html",
+  "date": "2026-10-21",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "5:00 p.m.",
+  "iso": "2026-10-21T17:00:24-06:00",
+  "top": "KYIV HIT AS RUSSIA AGREES TO RESUME TALKS...",
+  "count": 100
  }
 ]
