@@ -1911,5 +1911,38 @@
 "day": 14,
 "pass": 1,
 "no": "14.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-22",
+"at": "2026-10-22T18:22:01+00:00",
+"href": "movers/2026-10-22-1222.html",
+"syms": [
+"SPOT",
+"CSX",
+"PG",
+"ROP",
+"NDAQ",
+"TSCO",
+"LMT",
+"URI",
+"BX",
+"PKG",
+"LUV",
+"ROL",
+"UNP"
+],
+"heads": [
+"SPOT +11.0% on 3.0x volume, breakout past buy point",
+"CSX +6.6% on 2.3x volume, nearing buy point",
+"PG +6.2% on 2.1x volume, nearing buy point",
+"ROP +10.1% on 1.9x volume, breakout past buy point",
+"NDAQ +6.6% on 1.8x volume, breakout past buy point"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 14,
+"pass": 2,
+"no": "14.2"
 }
 ]
