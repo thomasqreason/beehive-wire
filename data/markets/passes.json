@@ -1944,5 +1944,50 @@
 "day": 14,
 "pass": 2,
 "no": "14.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-22",
+"at": "2026-10-22T20:30:16+00:00",
+"href": "movers/2026-10-22-1430.html",
+"syms": [
+"SPOT",
+"CSX",
+"KDP",
+"ROP",
+"PG",
+"NDAQ",
+"BIIB",
+"UNP",
+"HAS",
+"ALLE",
+"DGX",
+"ADP",
+"CTSH",
+"TSCO",
+"BX",
+"LMT",
+"PKG",
+"URI",
+"LUV",
+"PHM"
+],
+"heads": [
+"SPOT +11.1% on 3.1x volume, breakout past buy point",
+"CSX +6.8% on 2.9x volume, nearing buy point",
+"KDP +2.1% on 2.6x volume, nearing buy point",
+"ROP +9.7% on 2.5x volume, breakout past buy point",
+"PG +5.6% on 2.5x volume, nearing buy point",
+"NDAQ +7.5% on 2.4x volume, breakout past buy point",
+"BIIB +5.3% on 2.2x volume, new 52-week high",
+"UNP +3.6% on 2.1x volume, in base",
+"HAS +2.8% on 1.9x volume, breakout past buy point, already extended",
+"ALLE +11.0% on 1.8x volume, nearing buy point"
+],
+"extra": "13 qualifiers",
+"live": false,
+"day": 14,
+"pass": 3,
+"no": "14.3"
 }
 ]
