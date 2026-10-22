@@ -1866,5 +1866,50 @@
 "day": 13,
 "pass": 5,
 "no": "13.5"
+},
+{
+"kind": "movers",
+"date": "2026-10-22",
+"at": "2026-10-22T14:52:54+00:00",
+"href": "movers/2026-10-22-0852.html",
+"syms": [
+"PG",
+"CSX",
+"CRL",
+"NET",
+"NDAQ",
+"ULTA",
+"FOXA",
+"NOW",
+"PANW",
+"RMD",
+"LLY",
+"ZS",
+"SPOT",
+"TSCO",
+"LMT",
+"URI",
+"PKG",
+"ROL",
+"BX",
+"ALLE"
+],
+"heads": [
+"PG +5.7% on 4.7x volume, nearing buy point",
+"CSX +6.9% on 4.5x volume, nearing buy point",
+"CRL +1.2% on 3.1x volume, new 52-week high",
+"NET +1.0% on 2.7x volume, in base",
+"NDAQ +6.2% on 2.0x volume, breakout past buy point",
+"ULTA +2.4% on 2.0x volume, extended",
+"FOXA +2.7% on 1.9x volume, nearing buy point",
+"NOW +1.6% on 1.7x volume, breakout past buy point",
+"PANW +2.5% on 1.7x volume, slips back below buy point",
+"RMD +1.0% on 1.6x volume, breakout past buy point"
+],
+"extra": "12 qualifiers",
+"live": true,
+"day": 14,
+"pass": 1,
+"no": "14.1"
 }
 ]
