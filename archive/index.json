@@ -834,5 +834,16 @@
   "iso": "2026-10-21T17:00:24-06:00",
   "top": "KYIV HIT AS RUSSIA AGREES TO RESUME TALKS...",
   "count": 100
+ },
+ {
+  "no": 77,
+  "file": "2026-10-22-morning.html",
+  "date": "2026-10-22",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:12 a.m.",
+  "iso": "2026-10-22T04:12:57-06:00",
+  "top": "BARCLAYS AXES 5,000 JOBS FOR AI...",
+  "count": 100
  }
 ]
