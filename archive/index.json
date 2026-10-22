@@ -845,5 +845,16 @@
   "iso": "2026-10-22T04:12:57-06:00",
   "top": "BARCLAYS AXES 5,000 JOBS FOR AI...",
   "count": 100
+ },
+ {
+  "no": 78,
+  "file": "2026-10-22-evening.html",
+  "date": "2026-10-22",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:02 p.m.",
+  "iso": "2026-10-22T16:02:47-06:00",
+  "top": "ADMIN WON'T RULE OUT BLOCKING VOTES...",
+  "count": 100
  }
 ]
