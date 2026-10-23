@@ -1,79 +1,53 @@
 {
- "updated": "2026-10-22T22:02:47+00:00",
+ "updated": "2026-10-23T10:12:36+00:00",
  "top": {
-  "id": "9d8412ae6a",
-  "url": "https://www.dailymail.com/news/us-politics/article-16231273/Trump-DOJ-Todd-Blanche-midterm-election-certification.html?ns_mchannel=rss&ns_campaign=1490",
-  "title": "Trump's attorney general won't rule out move to block states certifying midterm votes with election just 12 days away",
-  "source": "Daily Mail",
-  "published": "2026-10-22T21:44:41+00:00",
-  "image": "https://i.dailymail.com/1s/2026/10/22/21/112033493-0-image-a-2_1792699379895.jpg",
-  "first_seen": "2026-10-22T22:02:47+00:00",
-  "topic": "weird",
-  "headline": "ADMIN WON'T RULE OUT BLOCKING VOTES...",
+  "id": "b0a142ccdb",
+  "url": "https://www.investors.com/market-trend/the-big-picture/dow-jones-sp500-nasdaq-iran-meta-earnings/",
+  "title": "Nasdaq Suffers Worst Session Since June As AI, War Jitters Ramp Up; Meta Plummets",
+  "source": "Investor's Business Daily",
+  "published": "2026-10-22T22:17:02+00:00",
+  "image": "https://www.investors.com/wp-content/uploads/2022/01/Stock-beardestroying-01-adobe.jpg",
+  "first_seen": "2026-10-23T10:12:36+00:00",
+  "topic": "investing",
+  "headline": "NASDAQ'S WORST DAY SINCE JUNE...",
   "urgent": false
  },
  "flash": [
   {
-   "id": "20f6f5e165",
-   "url": "https://www.dailymail.com/news/article-16228651/Kansas-Trump-midterm-crisis-Republican.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "It's the last state anyone would expect to go blue. Now, after 100 years of Republican rule, Trump faces a midterm crisis in Kansas",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T21:32:49+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/18/112030715-0-image-a-38_1792689828411.jpg",
-   "first_seen": "2026-10-22T22:02:47+00:00",
-   "topic": "american_life",
-   "headline": "100 YEARS OF GOP RULE, KANSAS IN REVOLT..."
+   "id": "c7b3cdca27",
+   "url": "https://www.dailymail.com/sciencetech/article-16229809/Summer-2026-Europe-deadliest-record-50000-people.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Summer 2026 was Europe's deadliest on record: Over 50,000 people died in urban areas - with climate change responsible for two thirds of deaths, study estimates",
+   "source": "Daily Mail",
+   "published": "2026-10-23T09:26:21+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/14/112022921-0-image-a-300_1792674269042.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weird",
+   "headline": "STUDY: EUROPE'S DEADLIEST SUMMER EVER, 50,000 DEAD..."
   },
   {
-   "id": "8f5dc714bf",
-   "url": "https://reclaimthenet.org/meta-new-mexico-privacy-hate-speech-fine",
-   "title": "Meta Fined $25 Billion Over \"Hate Speech\" and Privacy Claims",
-   "source": "Reclaim The Net",
-   "published": "2026-10-22T18:54:17+00:00",
-   "image": "https://media.reclaimthenet.org/images/2026/10/DPZuhGsDOuQz.jpg",
-   "first_seen": "2026-10-22T22:02:47+00:00",
-   "topic": "surveillance",
-   "headline": "META FINED $25B OVER 'HATE SPEECH', PRIVACY..."
-  },
-  {
-   "id": "419b73af49",
-   "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOOV9hSkNKUHN5RkplRXJoMFQxWjFWTW15OUZ0cG4tSkEwYXVTWEJYRWFzbEVmRWxEa01HcTlVWVFJTDNySlpsZ2tnTFJBREhZSEZHOEdzaHN4LTR0Y3FRcmVjckJwQXRJV0tHSlI4dl9sZnhuMkxONjRSd1E3NHY1UVZCYnBYSU10a2tydTZIUVNmSWluY291TTF4ZHhLSURXVmVSenZHZWtReU9VVWIzQzQ0dG9mTWdkY3h3QQ?oc=5",
-   "title": "OpenAI nears $30 billion funding round at $1.25 trillion valuation",
-   "source": "Investing.com",
-   "published": "2026-10-22T20:34:31+00:00",
+   "id": "8f50381937",
+   "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQeUk5OHgzTUlDbjlIVS1kaUxUODFvb1pENWlOQnR3czFxQXNIaFR1UlFSVU1zZGRhVEthM3JqTEpQV3BiUFd3MlQ4QTdzMHdlM0prSG0yUDBCMFZjWm1QV2tOdUhSZjlJVjFicExVX2IzRGFobHllN2xjcmxfaUh1RTVhRG9lUUlCdUpUVTI2MXRNUQ?oc=5",
+   "title": "Musk’s political donations top $445 million ahead of U.S. midterm elections",
+   "source": "The Japan Times",
+   "published": "2026-10-23T09:22:00+00:00",
    "image": null,
-   "first_seen": "2026-10-22T22:02:47+00:00",
-   "topic": "business_ai",
-   "headline": "OPENAI NEARS $30B ROUND AT $1.25T VALUE..."
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "elections",
+   "headline": "MUSK'S MIDTERM DONATIONS TOP $445 MILLION..."
+  },
+  {
+   "id": "be64705b30",
+   "url": "https://www.zerohedge.com/markets/us-blacklists-sam-altmans-old-y-combinator-china-pick-over-startup-built-stolen-google-ai",
+   "title": "US Blacklists Sam Altman's Old Y Combinator China Pick Over Startup Built On Stolen Google AI Secrets",
+   "source": "ZeroHedge",
+   "published": "2026-10-23T09:45:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "economy",
+   "headline": "U.S. BLACKLISTS CHINA AI STARTUP OVER STOLEN GOOGLE SECRETS..."
   }
  ],
  "items": [
-  {
-   "id": "e74ce2d513",
-   "url": "https://www.bbc.co.uk/news/articles/cqwy71ww156ro?at_medium=RSS&at_campaign=rss",
-   "title": "Two killed in attack on airport in eastern Saudi Arabia, authorities say",
-   "source": "BBC World",
-   "published": "2026-10-22T09:14:48+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5e3c/live/e7d9d390-cdf5-11f1-a64c-550be9e3c66b.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "iran_mideast",
-   "headline": "TWO KILLED AS HOUTHIS STRIKE SAUDI AIRPORT AGAIN...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "62b2b6572f",
-   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/us-could-end-war-iran-now-wants-outcome-last-long-time-trump-says",
-   "title": "US could end war on Iran now, but wants outcome to 'last for a long time', Trump says",
-   "source": "Middle East Eye",
-   "published": "2026-10-22T06:51:15+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "iran_mideast",
-   "headline": "TRUMP: COULD END IRAN WAR 'NOW'...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
   {
    "id": "43c2dfa6ea",
    "url": "https://www.theamericanconservative.com/iran-war-day-237-u-s-israel-planning-to-resume-strikes-in-november-per-report/",
@@ -83,7 +57,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "iran_mideast",
-   "headline": "IRAN WAR DAY 237: U.S., ISRAEL EYE NEW STRIKES..."
+   "headline": "IRAN WAR DAY 237: U.S., ISRAEL EYE NEW STRIKES...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "6d949e9e72",
@@ -94,20 +70,55 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "iran_mideast",
-   "headline": "ISRAELI FORCES KILL DISABLED MAN IN SYRIA..."
+   "headline": "ISRAELI FORCES KILL DISABLED MAN IN SYRIA...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "f0f1d5d91e",
-   "url": "https://www.dailymail.com/news/article-16227957/bravest-man-Ukrainian-fighter-amputate-leg-drone.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "The story no Hollywood scriptwriter could make up: He spent 491 days stranded in the kill zone under Russian fire - and had to amputate one of his legs. Then he became the first soldier ever…",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T07:36:12+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/06/112008605-0-image-a-5_1792646392674.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "ukraine_russia",
-   "headline": "UKRAINE SOLDIER WHO LOST BOTH LEGS GETS THE CALL HE NEVER EXPECTED...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "id": "7718246191",
+   "url": "https://www.bbc.co.uk/news/articles/cq4g1p974wxko?at_medium=RSS&at_campaign=rss",
+   "title": "Five Israelis wounded and two suspected Palestinian attackers killed in West Bank shooting",
+   "source": "BBC",
+   "published": "2026-10-23T09:25:36+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6fb8/live/d119aec0-cec0-11f1-ae9c-0303957c36f8.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "iran_mideast",
+   "headline": "FIVE ISRAELIS WOUNDED, 2 ATTACKERS KILLED IN WEST BANK..."
+  },
+  {
+   "id": "ffd2e22385",
+   "url": "https://nypost.com/2026/10/23/world-news/netanyahu-orders-closure-of-west-bank-after-5-wounded-in-shooting-2-terrorists-killed/",
+   "title": "Netanyahu orders closure of West Bank after 5 wounded in shooting, 2 terrorists killed",
+   "source": "New York Post",
+   "published": "2026-10-23T08:50:28+00:00",
+   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F10%2Fisraeli-prime-minister-likud-party-146131081.jpg?w%3D1024",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "iran_mideast",
+   "headline": "NETANYAHU ORDERS WEST BANK LOCKDOWN...",
+   "under": "7718246191"
+  },
+  {
+   "id": "0b01b800f0",
+   "url": "https://www.aljazeera.com/news/2026/10/23/ultra-orthodox-conscription-debate-ignites-israels-election-battleground?traffic_source=rss",
+   "title": "Ultra-Orthodox conscription debate ignites Israel’s election battleground",
+   "source": "Al Jazeera",
+   "published": "2026-10-23T09:03:39+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "iran_mideast",
+   "headline": "CONSCRIPTION ROW ROILS ISRAELI ELECTION...",
+   "under": "7718246191"
+  },
+  {
+   "id": "c36d9ed078",
+   "url": "https://www.middleeasteye.net/news/gaza-bakeries-shut-israel-blocks-flour-shipments",
+   "title": "Gaza bakeries forced to shut as Israel blocks flour shipments",
+   "source": "Middle East Eye",
+   "published": "2026-10-23T08:21:55+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "iran_mideast",
+   "headline": "GAZA BAKERIES SHUT AS ISRAEL BLOCKS FLOUR SHIPMENTS..."
   },
   {
    "id": "ca69a5b65e",
@@ -118,46 +129,20 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/af60/live/691b9580-ce35-11f1-a86f-f78305ec9987.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "ukraine_russia",
-   "headline": "RUSSIA STRIKES UKRAINE AFTER AGREEING TO PEACE TALKS..."
+   "headline": "RUSSIA STRIKES UKRAINE AFTER AGREEING TO PEACE TALKS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "e38cc83e04",
-   "url": "https://www.zerohedge.com/geopolitical/nato-increase-black-sea-presence-following-drone-attacks-shipping",
-   "title": "NATO To Increase Black Sea Presence Following Drone Attacks On Shipping",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T06:00:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
+   "id": "777700b465",
+   "url": "https://nypost.com/2026/10/23/world-news/deadly-fire-at-canada-military-base-was-caused-by-live-grenade-exercise-army-says/",
+   "title": "Deadly fire at Canada military base was caused by live grenade exercise, army says",
+   "source": "New York Post",
+   "published": "2026-10-23T08:31:10+00:00",
+   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F10%2Fparamedics-load-injured-person-ambulance-145541830_7b9719.jpg?w%3D1024",
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "military",
-   "headline": "NATO BOOSTS BLACK SEA PRESENCE AFTER DRONE ATTACKS...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "88c71252f5",
-   "url": "https://www.dailymail.com/news/article-16228827/Ian-Patterson-Air-Force-sergeant-excited-rappeling-stunt.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Airman killed in 150ft rappelling tragedy was selected to perform stunt after missing out last year, heartbroken father says",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T08:17:37+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/07/112016795-0-image-a-5_1792648823911.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "military",
-   "headline": "AIRMAN KILLED IN 150-FOOT RAPPELLING STUNT AT GAME...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "936bc167b8",
-   "url": "https://www.zerohedge.com/political/mobilization-will-be-massive-french-govt-plans-send-soldiers-streets-after-admitting",
-   "title": "\"Mobilization Will Be Massive\": French Govt Plans To Send Soldiers To The Streets After Admitting Failures",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T06:45:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "world",
-   "headline": "FRANCE TO SEND SOLDIERS INTO STREETS AFTER 'FAILURES'...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "headline": "GRENADE EXERCISE SPARKED DEADLY CANADA BASE FIRE..."
   },
   {
    "id": "d7ed585b0b",
@@ -169,7 +154,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "world",
    "headline": "PARIS EXTENDS CURFEW AS CITIES BAN PROTESTS...",
-   "under": "936bc167b8"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "c8d7a8931a",
@@ -181,33 +167,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "world",
    "headline": "UK GREENS CALL FOR 'PARIS-STYLE' YOUTH RIOT DAY...",
-   "under": "936bc167b8"
-  },
-  {
-   "id": "425537fe9c",
-   "url": "https://www.zerohedge.com/geopolitical/french-counterterror-police-arrest-ultra-left-activist-over-limoges-city-hall-fire",
-   "title": "French Counterterror Police Arrest 'Ultra-Left' Activist Over Limoges City Hall Fire",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T08:15:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "world",
-   "headline": "FRENCH POLICE ARREST SUSPECT IN LIMOGES TOWN HALL FIRE...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "4febfa9c0b",
-   "url": "https://www.bbc.co.uk/news/articles/cq62y0v7434yo?at_medium=RSS&at_campaign=rss",
-   "title": "Two European women held captive for more than a year in Niger freed in Libya",
-   "source": "BBC World",
-   "published": "2026-10-22T08:21:13+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9aa6/live/1aa67a70-1416-11f1-9120-a910fc22c6ac.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "world",
-   "headline": "EUROPEAN HOSTAGES FREED IN LIBYA AFTER YEAR IN NIGER...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "9c464aa253",
@@ -218,68 +179,121 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4438/live/13dc7b20-ce53-11f1-a7e5-1bf3b637cfc1.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "world",
-   "headline": "TRUMP: MUSK HAS RESTORED UKRAINE'S INTERNET ACCESS..."
+   "headline": "TRUMP: MUSK HAS RESTORED UKRAINE'S INTERNET ACCESS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "3ecbabe782",
-   "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQM0s5aDViYVhEUW5Dd3dhMzFUSjJDREFsTGhleVJhcDVrVkpHblp1LXZnTjBwejBfcDQzNFlvZ043LUNVcUdwMG5Pd2RGeC1Icm0tZncwSnlPR0lBMVJHV1R1X2o1WWVvT19DZnJ5QTZnRXFOVUgwYzVMQ0VBTy1YY0lMbDE5T3c4WlBmaFBSUkIycE83X3htM3FZZnlNQmFFd3BLTEM3YzFYZw?oc=5",
-   "title": "An Illegal Immigrant Killed My Daughter. Steve Descano Could Have Stopped It.",
-   "source": "The Daily Wire",
-   "published": "2026-10-22T10:45:10+00:00",
+   "id": "db2a67dade",
+   "url": "https://www.bbc.co.uk/news/articles/cw98zn304zg7o?at_medium=RSS&at_campaign=rss",
+   "title": "Hundreds of flights cancelled as Typhoon Champi shuts Taiwan",
+   "source": "BBC World",
+   "published": "2026-10-23T08:45:58+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8cb6/live/26f20040-cec1-11f1-ae9c-0303957c36f8.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weather_disasters",
+   "headline": "TYPHOON CHAMPI SHUTS TAIWAN, GROUNDS FLIGHTS..."
+  },
+  {
+   "id": "bc35bf371d",
+   "url": "https://www.bbc.co.uk/news/articles/ck5ynd1z6e83o?at_medium=RSS&at_campaign=rss",
+   "title": "Powerful earthquake hits Tibet killing 16 people, reports say",
+   "source": "BBC World",
+   "published": "2026-10-22T23:22:45+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d9bb/live/35523df0-ce6f-11f1-a64c-550be9e3c66b.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weather_disasters",
+   "headline": "EARTHQUAKE KILLS 16 IN TIBET..."
+  },
+  {
+   "id": "325ad236f1",
+   "url": "https://www.bbc.co.uk/news/articles/cmq8n3v94ql3o?at_medium=RSS&at_campaign=rss",
+   "title": "Why a student protest movement is challenging 12 years of Vučić rule in Serbia",
+   "source": "BBC World",
+   "published": "2026-10-22T14:33:06+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a379/live/0b1863f0-ce1c-11f1-906e-e3128518d85d.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "world",
+   "headline": "SERBIA VOTES SUNDAY AS PROTESTS CHALLENGE 12-YEAR RULER..."
+  },
+  {
+   "id": "50021d91cf",
+   "url": "https://www.bbc.co.uk/news/articles/c6vgjk1lp7njo?at_medium=RSS&at_campaign=rss",
+   "title": "Attack on actor Tiger Shroff is dark reminder of Bollywood's gangster past",
+   "source": "BBC World",
+   "published": "2026-10-22T23:55:39+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d4b6/live/7d752ed0-ce60-11f1-b687-5dbe43ddcc33.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "world",
+   "headline": "ATTACK ON BOLLYWOOD STAR STIRS GANGSTER-ERA FEARS..."
+  },
+  {
+   "id": "2b89475cfd",
+   "url": "https://www.bbc.co.uk/news/articles/cmwy4wlzqz3zo?at_medium=RSS&at_campaign=rss",
+   "title": "Nigeria and Kenya Ebola patients may have crossed paths at Uganda airport, officials say",
+   "source": "BBC World",
+   "published": "2026-10-23T04:54:25+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bc0c/live/cdfdf700-ce98-11f1-a6ca-3fa3d92134e2.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "world",
+   "headline": "EBOLA PATIENTS MAY HAVE CROSSED PATHS AT UGANDA AIRPORT..."
+  },
+  {
+   "id": "a1697378cb",
+   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQT1Z0SWlkUTgzdlgtT0UyWlVPcXhWTVUxcGdKc193djJYNEgzNXE4bVNDdHhUS1NqOW9xQUVqOVVRSGh2WW1YVGpsd1FwbE1lVHAwTzhhX3lZaVF4RkJyUFl2TVVva2hpUGltVXhGR29ReXRVZFQ5OFJqaG1IQVRBbkZKU0FVcmFGdGNPTXZrZUNuWkc3VnFIQ1huLXZFaVpsWVMyWFY5V3V5UGtQc0Fxal9FWQ?oc=5",
+   "title": "Illegal Alien Reportedly Arrested for Beheading Iwo Jima Monument in Virginia",
+   "source": "KSLM Radio",
+   "published": "2026-10-23T02:04:52+00:00",
    "image": null,
-   "first_seen": "2026-10-22T22:02:47+00:00",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "crime",
+   "headline": "REPORT: ILLEGAL ALIEN ARRESTED IN IWO JIMA STATUE BEHEADING..."
+  },
+  {
+   "id": "5b790f664f",
+   "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxOSkZNQU04cWc3Y0xaWVZOTXp3Z0lHSVNranRKeXdqQnVPVkVobnpEV1QtTmRxZU84Tlp6bTVMbUh0Z05ERlpBYndDYk0yZVByMzJJcE9NMzRYd1I5ajVQdW9mN0tpUlFNc2VaMW0wQ0hDMC1RTGdWVVV6TURaeHRSeEVKYU0zVmIwRDR4R1ZwbmxaTk1iLXZRWXY2cEREZDNva2k1YWxZRURCSjdFZi1MU0JNV2RyRThzOWFIbFNWeWgzY2xCcmkzWVFVQkhIYUFIX29rSDhaYXJlS2NURVJUbUlHV3EtendZeDBj0gHrAUFVX3lxTE5KRk1BTThxZzdjTFpZVk5NendnSUdJU2tqdEp5d2pCdU9WRWhuekRXVC1OZHFlTzhOWnptNUxtSHRnTkRGWkFid0NiTTJlUHIzMklwT00zNFh3UjlqNVB1b2Y3S2lSUU1zZVoxbTBDSEMwLVFMZ1ZVVXpNRFp4dFJ4RUphTTNWYjBENHhHVnBubFpOTWItdlFZdjZwRERkM29raTVhbFlFREJKN0VmLUxTQk1XZHJFOHM5YUhsU1Z5aDNjbEJyaTNZUVVCSEhhQUhfb2tIOFphcmVLY1RFUlRtSUdXcS16d1l4MGM?oc=5",
+   "title": "Biden-Released Illegal Alien Freed from Jail in Sanctuary Oregon After Allegedly Killing Young Newlyweds",
+   "source": "Breitbart News",
+   "published": "2026-10-22T14:26:04+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "immigration",
-   "headline": "MOM: PROSECUTOR DESCANO 'COULD HAVE STOPPED' DAUGHTER'S KILLER..."
+   "headline": "SANCTUARY OREGON FREED ALIEN ACCUSED OF KILLING NEWLYWEDS..."
   },
   {
-   "id": "b10d0e70f7",
-   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTjh1SVBDRDVoNXpzN0xiYnlKb1poenR3OVlfWHJIYkpYME1mYjJDRTFwMEEyeWVVSTBLR0FocWV2RGhEMUoxeGxLRU5HaTNqTXlKc2F6eUJTZjRQckZlZm1iY2QyUllOUUF6T2c5d2QyTHlfVXBUTnN3UTZ6UnRSSnl3a3ZQME5HVXNWWHlvNW9lTEVr?oc=5",
-   "title": "Ohio Haitians arrested for food stamp fraud by ICE as part of crackdown",
-   "source": "Dayton Daily News",
-   "published": "2026-10-22T16:46:55+00:00",
+   "id": "ce98b1ec21",
+   "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNemJuRkFTNHViN3ZpUVJNazNYaV9sR2NzcEh2UW5qX3JpUEo2UWVwVHFFeExSR0RrSG9nWTcycVdOLWpnZEhKclhnV2VxanYwWHlELURBU2hBTHQ3SVE0QzNJLW93S3dGZ2k0UW5zUFNuXzdrd21uODBDNUoweWdxTHliNWZtZFpNN0xVNDY0a1RSMVlHal9qd2hYNHk0ODNMLVRrYktmckVKNC0zSkozR1drMjI4OXlJTWFMVElYdFBzUHZvSWJfM1FWSEhnX0tLWEd2R1RxQkJiVkszb3lORWtPZFlmWHMwOHpXVDAzUk5mTGPSAfgBQVVfeXFMUEhTMWsxLXhpMWdPbEphQ29FS3VzSlp6WExkS3ZSRzRhSDJ0R1UzdnhGc2liaWp5YmFvcUwtd0dVNlJHR0VLRXQ3YmVpYV9ZcTdfZk5pakcwaHlUcE0tR0o0bG02cHU5Ym9ZMUgxdWlvMjFQSW1uR2tYc1RJVjN3eXJEUDBzWEVQaTE0SUtKNUVQNHF0a2x3TEdaZWhoWjJITnpnNkdoSmJfQUxtaUJZVjVscTZVenhRZGxTZnl2Z19icE9yYmFQdE9Pc0FOSHd5S3hqZ3ZRVEoyZC1aTFBNXzhQS1BMWVZKVlk1dlBRVkdVZ2p6ZjBGZl8?oc=5",
+   "title": "Trump administration warns H-1B, J-1 visa fraud threatens American jobs and security | Hindustan Times",
+   "source": "Hindustan Times",
+   "published": "2026-10-23T01:28:03+00:00",
    "image": null,
-   "first_seen": "2026-10-22T22:02:47+00:00",
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "immigration",
-   "headline": "ICE: OHIO HAITIANS ARRESTED IN FOOD-STAMP FRAUD CRACKDOWN..."
+   "headline": "TRUMP ADMIN WARNS H-1B, J-1 FRAUD THREATENS AMERICAN JOBS..."
   },
   {
-   "id": "0e34b8f350",
-   "url": "https://nypost.com/2026/10/22/us-news/connecticut-grandfather-nelson-batista-murdered-by-convict-jorge-ortiz-in-road-rage-shooting/",
-   "title": "Grandfather gunned down in road rage attack days after burying Air Force son; convicted murderer charged",
-   "source": "New York Post",
-   "published": "2026-10-22T09:31:13+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F10%2Fconvicted-murderer-charged-nelson-manuel-146060639.jpg?w%3D643",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "crime",
-   "headline": "MAN CHARGED IN ROAD-RAGE KILLING OF GRANDFATHER...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "9a60c4868e",
-   "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPQ2RERjJrclgwbHJ4a2hNd3F6amVlRVZhdVRfQTdTckJCNVg3SlBBajVWVTJyVFhZWG9iTnhkbmVLVHpfbTdQME5sQms0czhadzh5SUU5UWJqbENIbWZTel9tMmwwYXFqTjBNNEtZM0xodlRHWmU2bWJROWxjekZvaC1B?oc=5",
-   "title": "Clavicular Built a Following on Extreme “Looksmaxxing.” Now, He’s Facing Rape Charges.",
-   "source": "Biography: Historical and Celebrity Profiles",
-   "published": "2026-10-21T22:10:00+00:00",
+   "id": "1bfa0ad364",
+   "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPMjRBM3RMclZBR1FMaWpPMzFkdkk5OWMycEN1UEIwc2lNb1kzZlc2REw1QVBnS0t2Zk9oX3BRMW9zYW1BbzNwZFhmZ2c5VjgxWURMc1BQdzlVRTNaSXFseUNWeUJkeURsS0NCWjd0ZUkyNzFSdVBLSU5WamMwcHRKbTZXU1dQeVZ6aC1yZzVJNDhyeHl0NWtPdlVrdTFMbWxva3dEblpIc0RFcG85ZFFKcDl6d1VOSVlCNkZnVXc3Uml1NGFrNnFfbER3MjhyQS1CMG9CazRRbXpocExNdTRTSkg5NHdtd1N3SS1nOEU3YVg0VzNOanfSAfsBQVVfeXFMUE5MVjBoSXFRWHVLS3hiQ1dYZTVSdC0yQTJFLWdvbXFURHgwVkp3MmR3SXZ6UFF6bjZwdEZwRzEyTUtqUmRuZVZRUm1qVWo5NEt0QUNqbS1JLVBMbjd0czB5d20tYkMzaTlzX1o1eU9iQzhBZzVCaXk2QWMwSWhGRWJ3QV9mRUtOdlBYS0ppU3RrS1UwLVpjeWY4S05VUUU3RFdGNDNGSmdvckpvZ0pmUmplQmY4NElyZ1NBR0IyYzJQYWZSWFlIaTRJTGI4b2owWTNDdHlVNnE5X0poZldoY3VtSlZRUGQ2LWdPY3BmM0JPYldNWGNwRFJiM0E?oc=5",
+   "title": "'American workers first': Marco Rubio responds to Trump's H-1B visa curbs, says restrictions not aimed at Ind",
+   "source": "India.com",
+   "published": "2026-10-23T01:59:10+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "crime",
-   "headline": "'LOOKSMAXXING' INFLUENCER CHARGED WITH RAPE...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "immigration",
+   "headline": "RUBIO: CURBS PUT 'AMERICAN WORKERS FIRST'...",
+   "under": "ce98b1ec21"
   },
   {
-   "id": "39f9129d16",
-   "url": "https://www.dailymail.com/news/article-16229197/Hotel-asylum-seeker-sexually-assaulted-girl.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Hotel asylum seeker who sexually assaulted 15-year-old girl even after she told him her age is jailed for 15 weeks",
-   "source": "Daily Mail",
-   "published": "2026-10-22T09:46:49+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/09/112018927-0-image-a-27_1792658199614.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "crime",
-   "headline": "ASYLUM SEEKER WHO ASSAULTED GIRL, 15, JAILED 15 WEEKS...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "id": "c276be766d",
+   "url": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPTU1MdmQ2endyMHFNNEljTWNSN3NvYjNidVJrOWFCWG5fT1hwb0JCLVhDVWU5WU5SQ2VfZ2kyR3l1LWQ5R2E3TlZqMW4zVUw5dGVlcTdLMnRfRUdLN3BMYV9CejkxNHNoenFuQkVKcFl2RHJaNHdkWjB2TkZHblFRR2tkb0ZPQmt2ZDJJZkhlUHQtaWFaN0dHbVQ0WVNEZWNxNEpXaXZqSjZKVmtkMFVmZ05NTk96b0V2S25nNlhpQVZYc1dIT2lkOHdhX0dxSjdCMndseEJjOHF4UjBiZFg5emotRUh3ejc3UmVtSTRMWlE4cnc2SHNTenJvRVJaaknSAYQCQVVfeXFMTjd0VVowSlFrZEJlRVh6LVpyRVZEZF8xcF95TmFBWXZkRGIwamtMTkxmV0JWSGI4WUFjVF84dkZDRmlJS2ZEREdITmpEd1hTQU9MUGF4Q1B4VE9PVGFpSTh4U3JqYnZzUmFsV1gyX21sYmtlUWtKUGdjX0xzT1hYVHFId05WbGFPTktkSGE2VEpfUUdYVFczS3d1S1FFNDZzSTlqSFpQR1JaU0QyMGhRREVMSXRyUkUxRXk1Ul9PMTROZGVYczcyR1pIVFhoUE5SY3NObFJpc0YxenprZ0tCdlNYVk9LT0JrZTZwSVNucW1Ranl5TUtjcFpqVWZZSVdJU09HWXc?oc=5",
+   "title": "US midterm elections 2026: What could change for H-1B visas and green cards as immigration policy faces big test | Explained",
+   "source": "ET Now",
+   "published": "2026-10-23T07:23:20+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "immigration",
+   "headline": "COULD MIDTERMS RESHAPE H-1B RULES, GREEN CARDS?...",
+   "under": "ce98b1ec21"
   },
   {
    "id": "736a013bdb",
@@ -290,7 +304,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "crime",
-   "headline": "OMAR INVESTIGATION DRAWS WIDER IMMIGRATION-FRAUD SCRUTINY..."
+   "headline": "OMAR INVESTIGATION DRAWS WIDER IMMIGRATION-FRAUD SCRUTINY...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "2a9e4e6727",
@@ -302,46 +318,9 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "crime",
    "headline": "REPORT: 'REAL NAME' QUESTIONED IN PROBE...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning",
    "under": "736a013bdb"
-  },
-  {
-   "id": "377f5b92fd",
-   "url": "https://news.google.com/rss/articles/CBMirANBVV95cUxOZnRFRDMwaTh2R1liM1BkdTROZ2NGQ29XNzdhU0VUUm5ZYnBHY2JkdTNvc0NJUl8wS1dtTWNVNDRGalREenJLa0QwdDVCUDRPc0RUaDBRbHJmc0U3UUNjZmg2aWdIVElOX01ndS14Q2hVSTdwYzdaenJtMkc4ODJrV05lRDl2Y2VSU0ZvMFpGQjMtalZNZ0dmTUoydmduVmVVRm0tZndvdkNCUHR2V2Z5Z2thcW96VDJHVkFUNDlZbUdHZU1ONWt3M1EzZTl1RzNXY1ZEODJNTS1GREZDTTJ2U3FrSDl6enhWTDlZLWhLdnFjMHBNZHlVMHVDV1hqclg0N3ozRGJIbUw4LUVLN1lreU81RWZGZTBkeTBoUGZYa1ZlR1FVMkpRbDJwNm4yMnNyczNDSXptOGZZREEtX2xEXzJCTzN4TWJmaHFoWXlxNmctelJxZjFjWU5yeHNzVU43OFI5bEZJU0w3bkd2Zl92R00zQXZjRnYwcll2NGVpeVFfTWRZYVdUVVlxRkMwZUk3a3EwUVhXRGVVeTRuclBNM19uMHFIQnZSVFFyTw?oc=5",
-   "title": "President Trump says Tim Walz KNEW about ALL the Somali fraudThere's still time to LOCK UP TIM WALZ!\"The governor is 100% GUILTY. He's 100% guilty. He's a FRAUD, he's a THIEF, he's a CROOK, and he's…",
-   "source": "NewsBreak: Local News & Alerts",
-   "published": "2026-10-22T03:39:29+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "trump_watch",
-   "headline": "TRUMP: WALZ '100% GUILTY' ON SOMALI FRAUD...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "0f424dbfeb",
-   "url": "https://www.dailymail.com/news/article-16228465/Trump-rally-derailed-series-protesters-opening-minutes-unleashes-Darline-Grahams-opponent.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Chaos erupts at Trump's South Carolina rally as protesters posing as MAGA fans try to derail event before loyalists step in to the delight of president",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T07:43:30+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/02/112013901-0-image-a-7_1792632540203.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "trump_watch",
-   "headline": "FAKE MAGA PROTESTERS TRY TO CRASH TRUMP RALLY...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "882675eb1a",
-   "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNblI3cmJyM0hHZUV0aTZiQjlrR2xsSXNYcjVQUmlDTDdDdmpDTmpnd09pM3NyeHI3bEI4RGRJcGFQazNvOFI3UXdYeWtLbHQ2M3hBcXB6X3VjYkJEc1REaW9NbW4xdlZidkdKemkyRDZ6VFE2VWhQeTdtMFVseGJzX19LTkQ3QkhqNDQ5ZnpydHJLTGgxQTZsdmt5cEs1ZEJsN2NFZGJ4V3hlUXF1Tlg4?oc=5",
-   "title": "MAHA Midterms Spending Totals Far Less Than $100 Million Pledge",
-   "source": "Bloomberg Government News",
-   "published": "2026-10-22T09:00:09+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "trump_watch",
-   "headline": "MAHA MIDTERM SPENDING FALLS FAR SHORT OF $100M VOW...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
   },
   {
    "id": "134a5cd4c0",
@@ -352,7 +331,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "trump_watch",
-   "headline": "AIPAC ENDS DIRECT CANDIDATE FUNDING AND ENDORSEMENTS..."
+   "headline": "AIPAC ENDS DIRECT CANDIDATE FUNDING AND ENDORSEMENTS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "331b07cb6d",
@@ -363,7 +344,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "trump_watch",
-   "headline": "FIRST ARAB-AMERICAN MAYOR TO BACK TRUMP NOW A WHITE HOUSE ADVISER..."
+   "headline": "FIRST ARAB-AMERICAN MAYOR TO BACK TRUMP NOW A WHITE HOUSE ADVISER...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "cf6a7ab677",
@@ -374,20 +357,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "trump_watch",
-   "headline": "TRUMP ADMIN DANGLES BIG PAYOUTS FOR FRAUD WHISTLEBLOWERS..."
-  },
-  {
-   "id": "51153addaa",
-   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPZEFGbEozTUpxc0w3bDdCZmh0R3d2R1NWa2VtU0NrSzdrS2IzdEctTkhVQ0tvazBvVG41RWFrWGNtN1dvMU1NeDRMUHFxbnYwZ1dJNzBjZFhUREpmdEt3dFJrUElxWUt2bmtjNzRDUDUwVjYwd0FGRXktXzR3b1hMcWZSaHp5eFZDUHRYSnpJaUdBSWUzeEdwR3U0RDhjdEtMcEx2RXNZaDZHVENLbVFubUh1dFBwYTJ2NFFMS2FaUQ?oc=5",
-   "title": "Elections chief says Virginia is ready for midterms, potential federal interference",
-   "source": "Virginia Mercury",
-   "published": "2026-10-22T09:28:53+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "elections",
-   "headline": "VIRGINIA: WE'RE READY FOR MIDTERMS AND 'FEDERAL INTERFERENCE'...",
+   "headline": "TRUMP ADMIN DANGLES BIG PAYOUTS FOR FRAUD WHISTLEBLOWERS...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "e5f2961ef0",
@@ -398,7 +370,9 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/cdfb/live/d77c3ae0-ce29-11f1-9f18-490cec60aa0f.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "elections",
-   "headline": "'DESPICABLE': ACTON SLAMS OHIO AD FEATURING HER ESTRANGED MOTHER..."
+   "headline": "'DESPICABLE': ACTON SLAMS OHIO AD FEATURING HER ESTRANGED MOTHER...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "9a25f18e24",
@@ -409,34 +383,23 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "elections",
-   "headline": "GOP COULD LOSE SENATE SEAT HELD 107 YEARS..."
-  },
-  {
-   "id": "1fcea66a1e",
-   "url": "https://www.bbc.co.uk/news/articles/cr74p0zkd4jjo?at_medium=RSS&at_campaign=rss",
-   "title": "New punishments for criminals who skip sentence will 'rebalance power', aunt of murder victim says",
-   "source": "BBC",
-   "published": "2026-10-22T01:17:25+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f916/live/73a94680-3456-11ef-9511-d706d739bd96.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "politics_culture_world",
-   "headline": "UK TO PUNISH CRIMINALS WHO SKIP THEIR OWN SENTENCING...",
+   "headline": "GOP COULD LOSE SENATE SEAT HELD 107 YEARS...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "e3189419e5",
-   "url": "https://www.bbc.co.uk/news/articles/cm4g1p347qgxo?at_medium=RSS&at_campaign=rss",
-   "title": "Barclays cutting 5,000 jobs as it increases reliance on AI",
-   "source": "BBC",
-   "published": "2026-10-22T08:00:55+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4d20/live/5fb48ff0-622b-11f0-8e4a-613b923287ab.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "politics_culture_world",
-   "headline": "BARCLAYS AXES 5,000 JOBS FOR AI...",
+   "id": "9d8412ae6a",
+   "url": "https://www.dailymail.com/news/us-politics/article-16231273/Trump-DOJ-Todd-Blanche-midterm-election-certification.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Trump's attorney general won't rule out move to block states certifying midterm votes with election just 12 days away",
+   "source": "Daily Mail",
+   "published": "2026-10-22T21:44:41+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/21/112033493-0-image-a-2_1792699379895.jpg",
+   "first_seen": "2026-10-22T22:02:47+00:00",
+   "topic": "weird",
+   "headline": "ADMIN WON'T RULE OUT BLOCKING VOTES...",
    "urgent": false,
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "02468dd81f",
@@ -447,20 +410,20 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8ce2/live/10986490-ce0f-11f1-9f55-cdc56e9c248c.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "politics_culture_world",
-   "headline": "BACKLASH HITS 'DEMEANING' HUGGING-GRANDPARENTS CONSENT AD..."
+   "headline": "BACKLASH HITS 'DEMEANING' HUGGING-GRANDPARENTS CONSENT AD...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "dd36a88cda",
-   "url": "https://www.dailymail.com/news/article-16227509/Elon-Musk-Hillary-Clinton-podcast-Kara-Swisher-prison.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Elon Musk threatens Hillary Clinton's podcast partner Kara Swisher with prison after she claimed to know 'what's coming for him' if Democrats take power",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T08:39:19+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/06/112016281-0-image-a-5_1792645394605.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "media",
-   "headline": "MUSK THREATENS SWISHER WITH PRISON OVER 'WHAT'S COMING'...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "id": "4b4fb443ce",
+   "url": "https://www.zerohedge.com/geopolitical/italy-makes-parents-pay-milan-rioters-meloni-decree-fines-families-adds-riot-crime",
+   "title": "Italy Makes Parents Pay For Milan Rioters: Meloni Decree Fines Families, Adds Riot Crime Carrying Up To 5 Years",
+   "source": "ZeroHedge",
+   "published": "2026-10-23T06:45:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "politics_culture_world",
+   "headline": "MELONI: PARENTS TO PAY FOR MILAN RIOTERS..."
   },
   {
    "id": "8c4972bd79",
@@ -471,7 +434,9 @@
    "image": "https://deadline.com/wp-content/uploads/2025/04/Comcast-HQ.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "media",
-   "headline": "COMCAST TAKES $1B CHARGE, PLANS LAYOFFS..."
+   "headline": "COMCAST TAKES $1B CHARGE, PLANS LAYOFFS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "56b270a66c",
@@ -482,7 +447,9 @@
    "image": "https://i.dailymail.com/1s/2026/10/22/12/112021665-0-image-a-12_1792666909188.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "media",
-   "headline": "ROBINSON: I HIRED PIS TO TRACK DOWN REPORTERS..."
+   "headline": "ROBINSON: I HIRED PIS TO TRACK DOWN REPORTERS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "68fcc52003",
@@ -493,46 +460,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "faith_family_schools",
-   "headline": "BENGAL CHRISTIAN FAMILIES ALLEGE ASSAULT OVER FAITH..."
-  },
-  {
-   "id": "31cb9fa244",
-   "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPOHZGSWdQNmhaM1AwX2tMNFl0TGo3by1jaG9ESnI3cm1za2ZIbnF3TUJtUVZlOXJLZW9KYlJXWkdmLXRqejFOM2VPNlduTEV1bEx1U0VvQ0c1WDZ6S0YwdnFWNElWTVgway1yTFc5WE84ZFZ1VEo0M3NBbkVQLURuRUgtN3E2cXBsN0lPcFo3aTc?oc=5",
-   "title": "New Claude Duet taps 6,000-plus integrations to draft payrolls, manage online stores",
-   "source": "Interesting Engineering",
-   "published": "2026-10-22T03:19:01+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "business_ai",
-   "headline": "TAPS 6,000-PLUS APPS TO DRAFT PAYROLL, RUN STORES...",
+   "headline": "BENGAL CHRISTIAN FAMILIES ALLEGE ASSAULT OVER FAITH...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "ce0aa11cb3",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE52NWh4Tm5TRUlhSlVFYXhIZWlhbW1DdmwwcGNPSVJUZHpsVHl5NkZUazNZY3hnWVUteFBfT3RCSkM5VE1iUEJLUkxEUUkxRnBsN3hNNnIwQjhwLUEwbjlWeVd0WGVIQUVUTWZOMEI3SW92WTcxMGN1MUxKcGVuUVU?oc=5",
-   "title": "Anthropic proposes giving 5% of its shares to a public benefit fund",
-   "source": "The Rundown AI",
-   "published": "2026-10-22T08:20:54+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "business_ai",
-   "headline": "ANTHROPIC TO GIVE 5% OF ITS SHARES TO PUBLIC FUND...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "e6eb486f9e",
-   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOb1padWdjQ24xeTJ3UGVxc1dCaVVTSGNOeEM1NnI2VEdOUzZIS3ZYbzNvN2FZazJIbF8wTzNidE5FTEFETFljU29xY04zZHQtVlVWcXpjMjNBV1pqdVNvOUN0aV9jTkpZUmt0SDN1NHRsT0l5Y3dUOVJuMkNkQ2c0cU13TE40c3hhUkt0VlcxdDNMb1BjYWpzQU5wMGhhNTF5Z1FQX3dXUkNwdzg?oc=5",
-   "title": "Anthropic prepares to file IPO prospectus as early as Friday - report (ANTHRO:Private)",
-   "source": "Seeking Alpha",
-   "published": "2026-10-22T08:23:14+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "business_ai",
-   "headline": "ANTHROPIC PREPS IPO FILING AS EARLY AS FRIDAY...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f998e36395",
@@ -544,7 +474,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "business_ai",
    "headline": "BACKERS SET FOR 'MASSIVE GAINS' IN IPO...",
-   "under": "e6eb486f9e"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "5292216b63",
@@ -556,34 +487,66 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "business_ai",
    "headline": "'PARALYZED' IPO MARKET ASKS: LIFE AFTER THE BIGGEST DEAL YET?...",
-   "under": "e6eb486f9e"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "d580961bf7",
-   "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNR2EtZGczd1JieHJydUxoUFA4VF9IX25vZTEydmNsTEpldnFZN2psYktxc2Z3R3lDMWhIc3ZQWkQwaGhZYTNEbFNvMXh3Rk9BZFh4cFpRZlNTNmlPclRKYjJIMElVUGdTOWZEd096V3c5ajNhS185a2g0bk9xRHhfVkZVRVF3NzlRaHBiQmZ3cUpaZUFQQXh3M0lQS0NmNC11SmFlT1BxWEpocXppODRYbGlKcTJ3dFRoMlVrejctNjZmcFRJdEJTaXFpSllLQWxXS2Z4Z05HVXdxWWlOaU9CcS0wNmJlZ0o5Nmd1OGRGckFiY3I3OHYycGhhUQ?oc=5",
-   "title": "Anthropic IPO Faces New Hurdle As NYC Comptroller Urges Delay: Claude Parent's Market Debut Odds Slide",
-   "source": "Benzinga",
-   "published": "2026-10-22T07:07:58+00:00",
+   "id": "419b73af49",
+   "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOOV9hSkNKUHN5RkplRXJoMFQxWjFWTW15OUZ0cG4tSkEwYXVTWEJYRWFzbEVmRWxEa01HcTlVWVFJTDNySlpsZ2tnTFJBREhZSEZHOEdzaHN4LTR0Y3FRcmVjckJwQXRJV0tHSlI4dl9sZnhuMkxONjRSd1E3NHY1UVZCYnBYSU10a2tydTZIUVNmSWluY291TTF4ZHhLSURXVmVSenZHZWtReU9VVWIzQzQ0dG9mTWdkY3h3QQ?oc=5",
+   "title": "OpenAI nears $30 billion funding round at $1.25 trillion valuation",
+   "source": "Investing.com",
+   "published": "2026-10-22T20:34:31+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
+   "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "business_ai",
-   "headline": "NYC COMPTROLLER URGES DELAY...",
+   "headline": "OPENAI NEARS $30B ROUND AT $1.25T VALUE...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening",
-   "under": "e6eb486f9e"
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "f332e21635",
-   "url": "https://www.bbc.co.uk/news/articles/cq8jzrxlkmwmo?at_medium=RSS&at_campaign=rss",
-   "title": "Legendary video game studio BioWare closed after 31 years",
-   "source": "BBC",
-   "published": "2026-10-22T09:29:28+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2fa8/live/83514c10-cdf9-11f1-9a39-31b474234113.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "tech",
-   "headline": "LEGENDARY GAME STUDIO BIOWARE SHUTS DOWN AT 31...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "id": "d412edc07b",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPeW84bkNGMXB5bnI0ODRraDVXTjkwM2l2X215a283czRjWHZwMGpWNm01UkNxVnJwUWRYMnEzSmRia2xuQjExWXE2cl8zVklCVHRWSzFIcWg2S0JZYzhYTTJoRDJ1YjNRYlVHSzFkdFVhUlF3NlI4TVRUQU16S1g0cEpTVTFnMkZuOTJPNmtzSU5NNGhPbHlPcVJKM3FRTFV6NUFkVlBTYw?oc=5",
+   "title": "Expanding Claude availability and deployment choice on Google Cloud",
+   "source": "Google Cloud",
+   "published": "2026-10-22T21:19:39+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "business_ai",
+   "headline": "CLAUDE EXPANDS ACCESS ON GOOGLE CLOUD..."
+  },
+  {
+   "id": "18813d1297",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZlFzSjQwY3g4YUhuUVFMNEQxVDZKdGNDaVBodWhndWU3RUhfbEtOX3JUdk9jQ3A3UWpqdGEtSU9iVWZrUmJuWU9TR1hkNEI4M3FMaVdyUGxjM3Z3bDI5ZEhIbEJZNGZBbHRUbGpINm1IdWdTVk5Vd0RvSm94ODZYTUJuemYtSUIyYWVfTVdtV2xncFBzYjZiTW5B?oc=5",
+   "title": "OpenAI Brings Top AI Models to Google Cloud in New Enterprise Push",
+   "source": "Channel Insider",
+   "published": "2026-10-23T08:39:07+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "business_ai",
+   "headline": "OPENAI MODELS JOIN GOOGLE CLOUD TOO...",
+   "under": "d412edc07b"
+  },
+  {
+   "id": "812d291dce",
+   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPWXdJb3dlY2N0UGRLeFBDRUlCNlcydHZBWTluOG9ZOUlSQmNDbnJZRllvVU5iTHh2cWc1dVlBSnFldmxVSGQ4My1URU1kZzF6TEV2REpLQVhFc0MxeHRsM2s4a1h1em50eWxGMER0Y1d3Q0l5dkM1VW5vWlFfbV9iY3kxdldpQzUwVFZDYUxkZjhkN0Q4OUZINkZvMUc?oc=5",
+   "title": "Anthropic, Hg said to launch European AI consultancy",
+   "source": "Breakingthenews.net",
+   "published": "2026-10-23T09:27:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "business_ai",
+   "headline": "REPORT: ANTHROPIC, HG TO LAUNCH EUROPEAN AI CONSULTANCY..."
+  },
+  {
+   "id": "574dbe9d4a",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPVDE5V3NNUV9BRGdBQkNJYVRybEtyQXZMbEE1VXVrZEV3V0xNaVZqdXBadDlwbzZyMGF5TW1JejdseXEyMjBTdF8yQlBOZS1vY2RxQXliWExoMG9yR0dqcFgyUVR4bkRuWWdwVTU2eWV5UjJyN2QtdlZFTGZCdGlwSUgzZw?oc=5",
+   "title": "Reservoir Sues Suno & Anthropic in Latest Lawsuits Over AI Music: ‘Meant to Replace the Artists’",
+   "source": "Billboard",
+   "published": "2026-10-22T12:11:54+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "business_ai",
+   "headline": "RESERVOIR SUES ANTHROPIC, SUNO OVER AI MUSIC..."
   },
   {
    "id": "9502a35616",
@@ -594,7 +557,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "tech",
-   "headline": "CLAUDE FLAGS 500 SECURITY FLAWS, ONE MISSED FOR 21 YEARS..."
+   "headline": "CLAUDE FLAGS 500 SECURITY FLAWS, ONE MISSED FOR 21 YEARS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f92c45c733",
@@ -605,7 +570,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "tech",
-   "headline": "OPENAI SAYS ITS AI FOUND A SECURITY FLAW..."
+   "headline": "OPENAI SAYS ITS AI FOUND A SECURITY FLAW...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "c4002e66c8",
@@ -616,7 +583,9 @@
    "image": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/2026/10/getty-images-6GVNLxl6J4o-unsplash-1.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "tech",
-   "headline": "'BLACK OCTOBER': AI UPENDS HACKING, EXPERTS SAY..."
+   "headline": "'BLACK OCTOBER': AI UPENDS HACKING, EXPERTS SAY...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "7c4ad1b09d",
@@ -627,20 +596,31 @@
    "image": "https://deadline.com/wp-content/uploads/2026/10/MCDWILD_EC246.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "tech",
-   "headline": "LAIKA CEO: GENAI IS 'ANTITHETICAL' TO OUR WORK..."
+   "headline": "LAIKA CEO: GENAI IS 'ANTITHETICAL' TO OUR WORK...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "14424c09e9",
-   "url": "https://www.zerohedge.com/political/european-regimes-renew-their-attacks-free-speech",
-   "title": "European Regimes Renew Their Attacks On Free Speech",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T09:00:00+00:00",
+   "id": "0a35d2e6db",
+   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9KVmpwSVRYNXhDMTRzU2dmdlBLNkdsdlVpeWpDZXBMVVFrUXdNQXlUQ3d1RV9oTkFRVmJvbkM0M3k4b1JFOGhVcTZBaWdWMzc4Znc1OVNZZWRkVTZ2cThfbmJNdVNraEY5Vk000gH8AUFVX3lxTE51alFzY3ZGcGlPUUhaLUdZV2JiOEJMeEE5R2RDYmU2cFZHeUQ1c1BwVWhaY1oyUHRTMzJjTnp3U2VsOHVFQ1ZNcUMzazkycjFlNmQtSTZmaFFQZ19EaDJIbTB4akEzajQyOV9EVF83OHJBemhfQTBxOE4tUmtvbUtMaEJWUmtfaHJ0SjZ2WnNtQ0E3VWx3MUZXYlg5NnZSTE51OHNfNHgzc19vakhvNW9aZEd6YnRMczh6YUN6eE1tV0NvOTNZYjE5Tl9LQjhZZnVCak1oNVl4aFRNYzJ2cEVoOU94ZnRWSXdVdWtUb2xxLTFJS3FFdmhWUmVNTQ?oc=5",
+   "title": "Hackers Used Claude and Grok to Automate Cyberattacks on Over 400 Banks and Financial Firms",
+   "source": "CyberSecurityNews",
+   "published": "2026-10-23T05:21:17+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "surveillance",
-   "headline": "EUROPE RENEWS CRACKDOWN ON ONLINE FREE SPEECH...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "tech",
+   "headline": "HACKERS USED CLAUDE, GROK TO HIT 400+ BANKS..."
+  },
+  {
+   "id": "799c190c2c",
+   "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNMUFNaVFDWlJxSXNONWo3ZjVhbk5yR3hfZ2NWaVQ1SDd4dk9HVU5yWmY4TmZ6enpEM1E2aXQtVDZuT2RVWWRzdGU4RUhmZTZhYjdEOUNYamdrTWhldzd6RThKaWxJUnR0WlVWQkc3Z1pZX3hPN1hucFVrVVZfMVAyTUotSGt3RnRlX2gyX295Q0sxbzZRV1ViM2FZRThJVzBn?oc=5",
+   "title": "What smart people are saying about the cybersecurity 'vulnerability tsunami' that's roiling the internet",
+   "source": "Business Insider",
+   "published": "2026-10-23T06:53:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "tech",
+   "headline": "'VULNERABILITY TSUNAMI' ROILS CYBERSECURITY, EXPERTS SAY..."
   },
   {
    "id": "a418f0f71f",
@@ -651,7 +631,9 @@
    "image": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/2026/10/TX_Hyperscale_Data_Center_Under_Construction_in_Sa_25026568079855.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "surveillance",
-   "headline": "TEXAS COUNTY ENDS 'RUBBER STAMP' ON DATA CENTERS AFTER REPORT..."
+   "headline": "TEXAS COUNTY ENDS 'RUBBER STAMP' ON DATA CENTERS AFTER REPORT...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f7c455d0ee",
@@ -662,20 +644,33 @@
    "image": "https://media.reclaimthenet.org/images/2026/10/gTMQEC0JXweP.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "surveillance",
-   "headline": "EVERY ID LAW IS A LAW THAT SCHEDULES ANOTHER BREACH..."
+   "headline": "EVERY ID LAW IS A LAW THAT SCHEDULES ANOTHER BREACH...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "a77e5af88e",
-   "url": "https://www.dailymail.com/health/article-16226859/propranolol-panic-pill-anxiety-safety.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Inside the rise of the viral 50-cent 'panic pill': It promises to 'take the edge off' midlife anxieties - from job interviews to awkward family events. But as propranolol becomes an underground…",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T08:35:41+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/20/11/111974637-0-image-a-8_1792493899655.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "american_life",
-   "headline": "VIRAL 50-CENT 'PANIC PILL' CATCHES ON FOR ANXIETY...",
+   "id": "8f5dc714bf",
+   "url": "https://reclaimthenet.org/meta-new-mexico-privacy-hate-speech-fine",
+   "title": "Meta Fined $25 Billion Over \"Hate Speech\" and Privacy Claims",
+   "source": "Reclaim The Net",
+   "published": "2026-10-22T18:54:17+00:00",
+   "image": "https://media.reclaimthenet.org/images/2026/10/DPZuhGsDOuQz.jpg",
+   "first_seen": "2026-10-22T22:02:47+00:00",
+   "topic": "surveillance",
+   "headline": "META FINED $25B OVER 'HATE SPEECH', PRIVACY...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
+  },
+  {
+   "id": "223a6406bc",
+   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQa2M0eGs0b1gwLVJZNDRhazB1TGdZRjR1cVByZHlvNks1Mll6Y3hySXl3ZWU0eGNPZ2tsQWdFM3g3MFh4WlNoZEIxR1NzeEMxS2N4ZUZNRjh2dG5RMXZFQVVJZkk5c2FvakZORHItalNEVTdKbHNnR1poR0NVX3hhNjhhZVUzQzBjYzJRRk84YmJ4aHkwdENDU0luUUlKbTZpeGMzaWI5UVMwRTFYNjh5RDlsUlo1SW9CMkRhaEZfZw?oc=5",
+   "title": "You thought your ChatGPT conversations were private. The courts disagree.",
+   "source": "TechRadar",
+   "published": "2026-10-23T08:37:39+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "surveillance",
+   "headline": "COURTS SAY CHATGPT CHATS AREN'T PRIVATE..."
   },
   {
    "id": "8a7646512e",
@@ -686,7 +681,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "american_life",
-   "headline": "FEWER BABIES, MORE LUXURY DIAPERS: P&G..."
+   "headline": "FEWER BABIES, MORE LUXURY DIAPERS: P&G...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "efe6345c69",
@@ -697,7 +694,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "american_life",
-   "headline": "STUDY: FOND FAMILY MEMORIES KEEP MEAT EATERS OFF VEGAN DIETS..."
+   "headline": "STUDY: FOND FAMILY MEMORIES KEEP MEAT EATERS OFF VEGAN DIETS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "be203e88a2",
@@ -708,20 +707,33 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "american_life",
-   "headline": "QUINCE WEDDING BANDS: THIRD THE PRICE, BUT WORTH IT?..."
+   "headline": "QUINCE WEDDING BANDS: THIRD THE PRICE, BUT WORTH IT?...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "af74e3573e",
-   "url": "https://www.zerohedge.com/markets/everyone-has-blown-london-macro-traders-carried-out-french-carry-trade-implodes-again",
-   "title": "\"Everyone Has Blown Up\": London Macro Traders Carried-Out As French Carry Trade Implodes (Again)",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T09:45:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "economy",
-   "headline": "'EVERYONE HAS BLOWN UP': LONDON TRADERS CARRIED OUT...",
+   "id": "20f6f5e165",
+   "url": "https://www.dailymail.com/news/article-16228651/Kansas-Trump-midterm-crisis-Republican.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "It's the last state anyone would expect to go blue. Now, after 100 years of Republican rule, Trump faces a midterm crisis in Kansas",
+   "source": "Daily Mail US",
+   "published": "2026-10-22T21:32:49+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/18/112030715-0-image-a-38_1792689828411.jpg",
+   "first_seen": "2026-10-22T22:02:47+00:00",
+   "topic": "american_life",
+   "headline": "100 YEARS OF GOP RULE, KANSAS IN REVOLT...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
+  },
+  {
+   "id": "beea5e3636",
+   "url": "https://www.marketwatch.com/story/my-spouse-was-awarded-90-000-from-my-401-k-in-our-divorce-how-is-that-fair-dc839aa3?mod=mw_rss_topstories",
+   "title": "My spouse was awarded $90,000 from my 401(k) in our divorce. How is that fair?",
+   "source": "MarketWatch",
+   "published": "2026-10-23T09:15:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "american_life",
+   "headline": "READER: EX AWARDED $90K OF MY 401(K) IN DIVORCE..."
   },
   {
    "id": "456a80052b",
@@ -732,7 +744,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "economy",
-   "headline": "GTA VI FEVER FUELS PS5 SALES SURGE..."
+   "headline": "GTA VI FEVER FUELS PS5 SALES SURGE...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "518fa729fa",
@@ -743,7 +757,64 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "economy",
-   "headline": "TREASURY YIELDS SEE 'EXTREME PLUNGE'..."
+   "headline": "TREASURY YIELDS SEE 'EXTREME PLUNGE'...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
+  },
+  {
+   "id": "a6a1c5387d",
+   "url": "https://www.zerohedge.com/economics/barclays-axe-5000-jobs-britains-youth-employment-crisis-deepens",
+   "title": "Barclays To Axe 5,000 Jobs As Britain's Youth Employment Crisis Deepens",
+   "source": "ZeroHedge",
+   "published": "2026-10-23T08:15:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "economy",
+   "headline": "BARCLAYS AXES 5,000 JOBS AS UK YOUTH JOBLESS CRISIS DEEPENS..."
+  },
+  {
+   "id": "e1bf558d65",
+   "url": "https://www.marketwatch.com/story/france-is-getting-its-credit-rating-reviewed-by-moodys-what-to-expect-as-french-debt-turmoil-spills-overseas-e39de111?mod=mw_rss_topstories",
+   "title": "France is getting its credit rating reviewed by Moody’s. What to expect as French debt turmoil spills overseas.",
+   "source": "MarketWatch",
+   "published": "2026-10-23T09:28:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "economy",
+   "headline": "MOODY'S TO REVIEW FRANCE'S CREDIT RATING FRIDAY..."
+  },
+  {
+   "id": "f19de06f78",
+   "url": "https://www.bbc.co.uk/news/articles/cwz0vxl21m3jo?at_medium=RSS&at_campaign=rss",
+   "title": "'I live in the dark': How rising bills are shaping daily life",
+   "source": "BBC Business",
+   "published": "2026-10-23T05:35:35+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3e7d/live/f4c36480-cd5b-11f1-b962-b7ff822cde72.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "energy",
+   "headline": "'I LIVE IN THE DARK': BRITS RATION POWER AS BILLS SOAR..."
+  },
+  {
+   "id": "264f906817",
+   "url": "https://www.marketwatch.com/story/nba-star-precious-achiuwa-signs-on-for-1-8-million-condo-in-luxury-miami-tower-95d899c2?mod=mw_rss_topstories",
+   "title": "NBA star Precious Achiuwa signs on for $1.8 million condo in luxury Miami tower",
+   "source": "MarketWatch",
+   "published": "2026-10-23T08:59:00+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "housing",
+   "headline": "NBA STAR BUYS $1.8M MIAMI CONDO..."
+  },
+  {
+   "id": "2a09c89394",
+   "url": "https://www.bbc.co.uk/news/videos/cm5ydzw56vkeo?at_medium=RSS&at_campaign=rss",
+   "title": "Renting in London - 'I pay £2,000 for one bedroom'",
+   "source": "BBC Business",
+   "published": "2026-10-23T05:45:54+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7a2e/live/4cb6a370-b676-11f1-a430-4d16ee157c41.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "housing",
+   "headline": "LONDONER: 'I PAY £2,000 FOR ONE BEDROOM'..."
   },
   {
    "id": "bef9fc6cde",
@@ -754,7 +825,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "investing",
-   "headline": "DOW JONES FUTURES: MODERNA CRASHES, META FUELS AI MELTDOWN, BUT WARREN BUFFETT MARKET THRIVING..."
+   "headline": "DOW JONES FUTURES: MODERNA CRASHES, META FUELS AI MELTDOWN, BUT WARREN BUFFETT MARKET THRIVING...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f34f1480d7",
@@ -766,7 +839,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "investing",
    "headline": "DATA LEAK RATTLES INVESTORS DESPITE VACCINE WIN...",
-   "under": "bef9fc6cde"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "4bedf5f5ac",
@@ -778,7 +852,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "investing",
    "headline": "AI STOCKS TUMBLE AS SPENDING FEARS REIGNITE...",
-   "under": "bef9fc6cde"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "6096203d9c",
@@ -790,7 +865,8 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "investing",
    "headline": "3 REASONS CHIP STOCKS FELL HARD THURSDAY...",
-   "under": "bef9fc6cde"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "d528a875d8",
@@ -801,59 +877,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "investing",
-   "headline": "AI STOCK WESTERN DIGITAL GAINS ON EARNINGS BEAT..."
-  },
-  {
-   "id": "7d99f360b8",
-   "url": "https://www.bbc.co.uk/news/articles/cmgel220j7nvo?at_medium=RSS&at_campaign=rss",
-   "title": "Woman 'scared to turn heating on' due to oil cost",
-   "source": "BBC Business",
-   "published": "2026-10-22T05:29:22+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d236/live/42c8fb90-cc94-11f1-bc2e-018d645d8d21.png",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "energy",
-   "headline": "UK WOMAN 'SCARED TO TURN HEATING ON' AS OIL COSTS BITE...",
+   "headline": "AI STOCK WESTERN DIGITAL GAINS ON EARNINGS BEAT...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "cc36c0bab1",
-   "url": "https://www.zerohedge.com/political/uk-landlords-offered-more-double-council-rents-house-channel-migrants",
-   "title": "UK Landlords Offered More Than Double Council Rents To House Channel Migrants",
-   "source": "ZeroHedge",
-   "published": "2026-10-22T07:30:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "housing",
-   "headline": "UK LANDLORDS OFFERED 2X RENT TO HOUSE MIGRANTS...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "1015b17ea4",
-   "url": "https://www.marketwatch.com/story/football-legend-peyton-manning-has-invested-millions-in-real-estate-including-2-denver-homes-2c4e355f?mod=mw_rss_topstories",
-   "title": "Football legend Peyton Manning has invested millions in real estate, including 2 Denver homes",
-   "source": "MarketWatch",
-   "published": "2026-10-22T09:03:00+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "housing",
-   "headline": "PEYTON MANNING'S REAL-ESTATE PORTFOLIO INCLUDES 2 DENVER HOMES...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "f9cc6338f8",
-   "url": "https://studyfinds.com/prenatal-supplement-linked-to-8-point-iq-jump-in-kids-by-age-4-study-finds/",
-   "title": "Prenatal Supplement Linked to 8-Point IQ Jump in Kids by Age 4, Study Finds",
-   "source": "StudyFinds",
-   "published": "2026-10-22T09:47:25+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "health",
-   "headline": "STUDY: PRENATAL SUPPLEMENT LINKED TO 8-POINT IQ JUMP...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "530f9a94d2",
@@ -864,7 +890,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "health",
-   "headline": "STUDY: WHY WOMEN OUTLIVE MEN MAY BE HIDING IN IMMUNE CELLS..."
+   "headline": "STUDY: WHY WOMEN OUTLIVE MEN MAY BE HIDING IN IMMUNE CELLS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "8094dc5e5b",
@@ -875,7 +903,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "health",
-   "headline": "STUDY: BUSY SOCIAL CALENDAR A 'SECRET WEAPON' FOR AGING MINDS..."
+   "headline": "STUDY: BUSY SOCIAL CALENDAR A 'SECRET WEAPON' FOR AGING MINDS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "8bbab9864f",
@@ -886,20 +916,42 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "health",
-   "headline": "STUDY: 'HIGHLY SENSITIVE' PEOPLE DON'T FEEL EVERYTHING MORE INTENSELY..."
+   "headline": "STUDY: 'HIGHLY SENSITIVE' PEOPLE DON'T FEEL EVERYTHING MORE INTENSELY...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "46864c7046",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPamJuNHdMMFFVTU5DelhRNExhM19fRE9HQjhMUHhLTVpkbVNDeHotdWxFdUY3dzVOek96eC1NVWEtemVkN0diMG8wWUJlNWFBSzBmZTg5TFdKd1FyMkRYczJOT2s1YnhHRUpNUFhTTEZTTU5paHF5Mnd1OE13QV9kNFR4akdkdUNudXFZ?oc=5",
-   "title": "Utah football player suspended indefinitely after arrest for allegedly sharing ‘sexually explicit’ videos without consent",
-   "source": "The Salt Lake Tribune",
-   "published": "2026-10-22T02:17:13+00:00",
+   "id": "47bf9c3aeb",
+   "url": "https://studyfinds.com/exercises-benefits-beyond-muscle/",
+   "title": "Study: Exercise’s Benefits Reach Far Beyond Muscle?",
+   "source": "StudyFinds",
+   "published": "2026-10-22T11:10:31+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "utah_mormon",
-   "headline": "UTAH FOOTBALL PLAYER SUSPENDED AFTER VIDEO-SHARING ARREST...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "health",
+   "headline": "STUDY: EXERCISE'S BENEFITS REACH FAR BEYOND MUSCLE?..."
+  },
+  {
+   "id": "54f93f728b",
+   "url": "https://studyfinds.com/americans-coffee-creamer-adding-more-calories/",
+   "title": "Study: Americans Aren’t Drinking More Coffee, Creamer Is Adding More Calories",
+   "source": "StudyFinds",
+   "published": "2026-10-22T10:22:50+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "health",
+   "headline": "STUDY: COFFEE INTAKE FLAT, BUT CREAMER ADDS 40% MORE CALORIES..."
+  },
+  {
+   "id": "784f7f9317",
+   "url": "https://www.bbc.co.uk/news/articles/cq0ld9g9e913o?at_medium=RSS&at_campaign=rss",
+   "title": "Personalised skin cancer vaccine cuts risk of disease returning in major trial",
+   "source": "BBC",
+   "published": "2026-10-23T07:49:02+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f379/live/0f348400-cead-11f1-bc2e-018d645d8d21.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "health",
+   "headline": "PERSONALIZED SKIN CANCER VACCINE CUTS RECURRENCE IN TRIAL..."
   },
   {
    "id": "8aa6fce82e",
@@ -910,7 +962,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "utah_mormon",
-   "headline": "'NEVER HAVE I BEEN MET WITH SUCH EXCESSIVE FORCE,' SAYS WOMAN ARRESTED PROTESTING DATA CENTER..."
+   "headline": "'NEVER HAVE I BEEN MET WITH SUCH EXCESSIVE FORCE,' SAYS WOMAN ARRESTED PROTESTING DATA CENTER...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "81569ef14c",
@@ -922,18 +976,21 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "utah_mormon",
    "headline": "WOMAN DENIES KICKING DEPUTY, FEARED FOR HER TEETH IN TUSSLE...",
-   "under": "8aa6fce82e"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "b5237ae5dd",
    "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE53WGlIX0E5VzJ5RXpWSl94T2FDZVYybUxyLU9XUTdTU1RrQjNFMkJ6VF9XQjhIcmN1cHZhcEgtX1pvbUdDMnAwdTFGcW9KSVpRTnRyYTBXSllRZjMyRG1hbkdrNWFYMHZ5aTVPeGdNT1hzRG52dlFXMkZNSHQ2dw?oc=5",
    "title": "Utah’s top election official says the DOJ is sending election monitors to Utah. Here’s what we know.",
    "source": "The Salt Lake Tribune",
-   "published": "2026-10-22T15:35:21+00:00",
+   "published": "2026-10-22T15:34:33+00:00",
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "utah_mormon",
-   "headline": "DOJ SENDING ELECTION MONITORS TO UTAH, OFFICIAL SAYS..."
+   "headline": "DOJ SENDING ELECTION MONITORS TO UTAH, OFFICIAL SAYS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "eada136450",
@@ -944,7 +1001,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "utah_mormon",
-   "headline": "SLC'S 'INVISIBLE' ART MUSEUM GETS NEW BUILDING..."
+   "headline": "SLC'S 'INVISIBLE' ART MUSEUM GETS NEW BUILDING...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f46750bcde",
@@ -955,34 +1014,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "utah_mormon",
-   "headline": "OUSTED PRINCIPAL WHO ALLEGED 'RETALIATION' RUNS FOR SCHOOL BOARD..."
-  },
-  {
-   "id": "92d138729e",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPQVhmWnlFdHJYTVUzMHM0anpqOVBBZnVNTXIzUmtpVzJsakpXdE1WZFpfdEZDbDZGcTRVajdwQzNRNFZpc3pWcUFzelZkbjRhZllENWxranRFbXlKU0VpV0Nta0QzN1hGMHA4aUdzNFVIZ0hLeXhleVRPNTNUNGxkUA?oc=5",
-   "title": "‘Clears Caitlin Clark,’ ‘Finals MVP Loading’ — WNBA World Raves As Angel Reese, Dream Crush Valkyries To Take 2-1 Finals Lead",
-   "source": "AOL.com",
-   "published": "2026-10-22T07:05:47+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "sports",
-   "headline": "DREAM CRUSH VALKYRIES, TAKE 2-1 FINALS LEAD...",
+   "headline": "OUSTED PRINCIPAL WHO ALLEGED 'RETALIATION' RUNS FOR SCHOOL BOARD...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "c7986b13d4",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5QOXVFT21TU2hOR19NdnFtb0ctVE4xNGNuRjJrNkJMQnotMUVDNkhzVURwX3VudXQxUm5BejNLZFdtNTkzRVlfdV9rQlpuUkVuR1RiQXpHZFQ3Wi1mSV9ocmhETVUxVnBQeVRUaXNKSkl2d0lfUHg2S09kcTk4R3c?oc=5",
-   "title": "‘The Angel Reese Effect,’ ‘They Said Nobody Watches Unless Caitlin (Clark) Is Playing’ — WNBA World Buzzes As Finals Opener Sets Viewership Record",
-   "source": "AOL.com",
-   "published": "2026-10-22T05:35:18+00:00",
-   "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "sports",
-   "headline": "FINALS OPENER SETS VIEWERSHIP RECORD...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening",
-   "under": "92d138729e"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "8d813fe3ee",
@@ -994,84 +1028,43 @@
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "sports",
    "headline": "ANGEL REESE ENJOYS ATLANTA SELLOUT AS FANS CREDIT CLARK...",
-   "under": "92d138729e"
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
-   "id": "b56b39b7e4",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPa3BVTDNnR0pxdlY2T1JsQ3Y2UTNvWFBkeDZBc1RPZnF4SVBqOXZoYjNnejU5OG5BaF94RHF0UjYtOEx2YTlyT3UtaXVsM1FIQnNoVUxOdjgyM095ZkV1c3RORlBnVFZlOEMxb2NDYlE2Q0thUE56ZElHaG11SngydjJvUjZfZFJmUXNZ?oc=5",
-   "title": "Fanatics prioritizing Caitlin Clark jerseys over Valkyries during WNBA Finals",
-   "source": "SFGATE",
-   "published": "2026-10-22T00:41:43+00:00",
+   "id": "d7519f906d",
+   "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOaE1SQThheEtXUkNRZlAzWnpIUFBJLWJsUXNWY0N1b3ZqRXF1eG5RWUpjRlJrZ3pXRVVZbDlQRFhCTWtndV9MbXB6elVubzVMT3JpaFMzYmllYWNJQ2YwS1NacGV2YmFwb3ltTm1saHROT0ZHWkUxS0dTQk5wSnAwY3l6NnpDeFBYZXh4VnVBUVBfNXgwQUpvZ0M5MnRqRWZwQ3JzNDBBczJrVWI1MW9hOWtYQVE2SmR0QnM3NmRZQzRMblFJM2JIcVVocnFlMzBBSmlJ?oc=5",
+   "title": "Angel Reese And The Dream Have Turned Atlanta Into A WNBA Wonderland During Finals",
+   "source": "Forbes",
+   "published": "2026-10-22T16:25:41+00:00",
    "image": null,
-   "first_seen": "2026-10-22T22:02:47+00:00",
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "sports",
-   "headline": "FANATICS PUSHES CLARK JERSEYS OVER HOME TEAM DURING FINALS...",
-   "under": "92d138729e"
+   "headline": "ATLANTA BECOMES 'WNBA WONDERLAND' DURING FINALS...",
+   "under": "8d813fe3ee"
   },
   {
-   "id": "4e47a1da7c",
-   "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOOWVsaERORGVZUWFVeVVLQVVjX1lYaDF5aC0yMmI3czI2UHdDS1FfaGVJNEYxeVZsUUdidG1ETHlLak5wWjNrSTQycWNZanNpclowWnBrY3BVT043VlUtWUJfTFpBWUpad2dKSkhoTU9wcTd6Ti1mblpMWDNOZlRwSTJqTnhkSkVfMjhCSUZfeHV5V1hNVHc?oc=5",
-   "title": "Indiana Fever Still Outpace Record WNBA Finals Game 1 Ratings",
-   "source": "Sports Illustrated",
-   "published": "2026-10-21T23:35:11+00:00",
+   "id": "a504cca8ef",
+   "url": "https://news.google.com/rss/articles/CBMirwJBVV95cUxNSGJCUExvRThLTnNoeWQ1VWoyTVY0RmV2dDhXRzU4YkY1M0p0bFJlOFpzUEgzM0FVUlRyQ0JiMW1zSE5rQlhkd3BpazJvMlNZSkJla0IwbE9YaUpqRkNxaGJUc0R1emR5YWtGQ0Q2emdzZWtPaTFKV0JBRV9wYll3SEJ1clpkdl9wbFhPeU9ubWRrYktVd2lpMlp6WWRwTUhjdW9ZMkxXaXlHVjBiQW92OUdYUkxYSkphRmlsWGt0X0dkZEdJT3VESFlKbF80SkdqN1lLemkzR2M4Q0MzbTlqXzB2cHE2eGhQWlM4TzBDNmxRcDJDNmh3REFjN3RTM0ZkWS1LZ3Fzc3pvZUFIMzlqUUl3NmNRN0JKSUhCN1pvRUdGYThLelc3OFZpR3ZlRG_SAa8CQVVfeXFMTzNBMlRyRTN0Umk3T3lxa0l6cndhVW1yYlVpMldvWVgzbTI2NFdhMUd3d2phVzkxZ1N5aUU4VGdxUU1tcS1mOVdKRk5PcmxjVU1HZ1J4TlNMMEtOWTZrTEdUaDZZa183OUFqSmxyWXlwMmEtLW12bl95Y01JeEVRWWhxY2U4NXVEbkFLQmxGT0pwdDczVFo1ZXNUUHBOVnNNOE9lMGRMenZaV3RvMUdvZjJMMUdLRW9FeGRZd3RFdHJRZjVRZnJhU0MtZGc0cUkxN2tFMzVFb0xZbE5qX3FHZmJYS0pZYXVrR0FXUjlqU1AzdnBIOEM2M0paUGZzQVBBd052d1dhUm5jV0J4TWpyd21FYzhmeTJCMlg0eXlSQnhKc3ZjbEVmcVdIXy1vdlB3?oc=5",
+   "title": "Angel Reese reignites the debate with Caitlin Clark: Dan Patrick compares her to Moses Malone and fans are already talking about Giannis",
+   "source": "MARCA",
+   "published": "2026-10-22T13:41:52+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "sports",
-   "headline": "FEVER STILL OUTPACE RECORD RATINGS...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "headline": "REESE COMPARED TO MOSES MALONE IN GOAT DEBATE...",
+   "under": "8d813fe3ee"
   },
   {
-   "id": "1ca78d53e6",
-   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOOGtMcVNjb2xaRzZocEx6alJhdV9NSGh3Y21LX2hSeUtQQTQzRTZDZ0xXWkVkeVpFaE1HZWpvazlzYmg1U2dHbUZjOUJrWU16MkVvVEZiWjlvazZSeEFkeHJEaklOaG1fUUlKUTYtV2sxbXV0VnpRc0xfdEJBdVNBUw?oc=5",
-   "title": "The Utah Jazz open new era with ugly loss to Grizzlies. 3 takeaways from a forgettable opening night",
-   "source": "The Salt Lake Tribune",
-   "published": "2026-10-22T03:02:24+00:00",
+   "id": "551a4dbdd3",
+   "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNa3VaZzJuNHlYb0c2bU1VcHdtaHBpLXZreUFUQjhJeW5MbzhmMVFmSTdiTGtOMkFBTHpCN2dpemtfbHJ2N0s5VUZXV1h6N1B1bnllN3VmMXN5OGN0cF9zY2FuTWFrUno5ZGZZWDkyNF94ZktFZmlvbGtPQXFKZzlvazRRN19nakx4Y1BBQzZ3WHppOXdkckhtNFZaY2M1VnJ5MXc5Q0x0Tnh0MHZtVGtzN0J4cUF3RXNna0ZsR1FJS3UtRGloa1NaMlN2TFdCcDl5TTR0ZUVR?oc=5",
+   "title": "\"Doing What I Love\": Kelsey Mitchell Calls Caitlin Clark 'Da One’ After Indiana Fever’s 2026 Season Ends",
+   "source": "NDTV Sports",
+   "published": "2026-10-23T05:44:46+00:00",
    "image": null,
-   "first_seen": "2026-10-22T10:12:57+00:00",
+   "first_seen": "2026-10-23T10:12:36+00:00",
    "topic": "sports",
-   "headline": "JAZZ OPEN SEASON WITH UGLY LOSS TO GRIZZLIES...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "60dbeda95e",
-   "url": "https://www.dailymail.com/tvshowbiz/article-16228743/john-anderson-dead-country-singer.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Country singer John Anderson is dead at 71... as family says the hitmaker's 'voice and songs touched countless lives'",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T08:58:52+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/05/112015757-0-image-a-62_1792642958090.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "pop_culture",
-   "headline": "COUNTRY LEGEND JOHN ANDERSON DEAD AT 71...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "738c89d804",
-   "url": "https://deadline.com/2026/10/harry-potter-accounts-clue-about-budget-hbo-series-1237170454/",
-   "title": "‘Harry Potter’ Production Accounts Reveal Clue About Budget For HBO Series",
-   "source": "Deadline",
-   "published": "2026-10-22T08:28:36+00:00",
-   "image": "https://deadline.com/wp-content/uploads/2026/05/Harry-Potter.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "pop_culture",
-   "headline": "'HARRY POTTER' HBO BUDGET TO RIVAL 'GOT' FINALE...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "fdec1bbe66",
-   "url": "https://pagesix.com/2026/10/22/celebrity-news/power-rangers-star-amy-jo-johnson-happy-to-be-alive-after-donnie-wahlbergs-private-jet-skidded-off-vegas-runway/",
-   "title": "‘Power Rangers’ star Amy Jo Johnson ‘happy to be alive’ after Donnie Wahlberg’s private jet skidded off Vegas runway",
-   "source": "Page Six",
-   "published": "2026-10-22T05:23:47+00:00",
-   "image": "https://pagesix.com/wp-content%2Fuploads%2Fsites%2F3%2F2026%2F10%2FDonnie-Wahlberg-2.jpg?w%3D1024",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "pop_culture",
-   "headline": "'POWER RANGERS' STAR SURVIVES WAHLBERG JET SCARE...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "headline": "'DA ONE': MITCHELL ON CLARK AFTER FEVER'S SEASON ENDS..."
   },
   {
    "id": "af407fefd9",
@@ -1082,7 +1075,43 @@
    "image": "https://i.dailymail.com/1s/2026/10/22/20/112032807-0-image-a-13_1792697400376.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "pop_culture",
-   "headline": "'ALIEN', 'TOP GUN' ACTOR TOM SKERRITT DEAD AT 93..."
+   "headline": "'ALIEN', 'TOP GUN' ACTOR TOM SKERRITT DEAD AT 93...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
+  },
+  {
+   "id": "bcdc8d4a26",
+   "url": "https://www.dailymail.com/tvshowbiz/article-16231793/julia-roberts-celebrity-tributes-tom-skerritt-star-death.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Julia Roberts leads celebrity tributes to 'gentle man' Tom Skerritt after Top Gun star's death at 93",
+   "source": "Daily Mail US",
+   "published": "2026-10-23T07:48:33+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/23/03/112038535-0-image-a-62_1792720840129.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "pop_culture",
+   "headline": "ROBERTS: SKERRITT WAS A 'GENTLE MAN'...",
+   "under": "af407fefd9"
+  },
+  {
+   "id": "70bcdb69a4",
+   "url": "https://www.dailymail.com/tvshowbiz/article-16231753/shazam-michael-gray-dead-actor.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Shazam! star Michael Gray dead at 75: Actor starred on popular superhero series in mid 1970s",
+   "source": "Daily Mail US",
+   "published": "2026-10-23T07:14:43+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/23/00/112037169-0-image-a-18_1792712444494.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "pop_culture",
+   "headline": "'SHAZAM!' STAR MICHAEL GRAY DEAD AT 75..."
+  },
+  {
+   "id": "bee8986466",
+   "url": "https://deadline.com/2026/10/ryu-murakami-obit-almost-transparent-blue-74-1237171560/",
+   "title": "Ryu Murakami Dies: Japanese Author & Filmmaker, Best Known For ‘Almost Transparent Blue’, Was 74",
+   "source": "Deadline",
+   "published": "2026-10-23T09:07:00+00:00",
+   "image": "https://deadline.com/wp-content/uploads/2026/10/GettyImages-110146421.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "pop_culture",
+   "headline": "JAPANESE AUTHOR RYU MURAKAMI DEAD AT 74..."
   },
   {
    "id": "0147618fea",
@@ -1093,59 +1122,9 @@
    "image": "https://variety.com/wp-content/uploads/2026/05/CREDIT_-Caroline-Brodt_Live-Nation-2-e1778883349626.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "pop_culture",
-   "headline": "RAYE WINS MERCURY PRIZE FOR ALBUM OF THE YEAR..."
-  },
-  {
-   "id": "0d862add2f",
-   "url": "https://www.dailymail.com/news/article-16229377/UK-weather-Storm-Austen-Met-Office-warnings-London.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Met Office issues wind warning for London as Storm Austen to batter Britain with 80mph gales in October half-term",
-   "source": "Daily Mail",
-   "published": "2026-10-22T09:45:54+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/10/112019493-0-image-a-53_1792660607277.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "weather_disasters",
-   "headline": "STORM AUSTEN TO BATTER BRITAIN WITH 80MPH GALES...",
+   "headline": "RAYE WINS MERCURY PRIZE FOR ALBUM OF THE YEAR...",
    "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "af08d0091c",
-   "url": "https://www.bbc.co.uk/news/articles/c9gkvz72vmjlo?at_medium=RSS&at_campaign=rss",
-   "title": "Devon and Cornwall battening down the hatches ahead of Storm Austen",
-   "source": "BBC",
-   "published": "2026-10-22T06:12:52+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ec88/live/04563de0-cd4e-11f1-8177-0f8bd59b54c4.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "weather_disasters",
-   "headline": "DEVON, CORNWALL BATTEN DOWN THE HATCHES...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "63ebaa292a",
-   "url": "https://www.bbc.co.uk/news/articles/cr3wv99614deo?at_medium=RSS&at_campaign=rss",
-   "title": "Celebrity shark guided out of South Korea canal refuses to swim out to sea",
-   "source": "BBC World",
-   "published": "2026-10-22T04:12:26+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b8eb/live/0ca70d20-cdc2-11f1-ae0b-3f5d64e6a869.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "weird",
-   "headline": "REFUSES TO SWIM BACK OUT TO SEA...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
-  },
-  {
-   "id": "135876e808",
-   "url": "https://www.dailymail.com/news/article-16229241/man-Reading-online-girlfriendabducted-Russia-tortured-confessing-spy-Ukraine.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Young man leaves his parents' Reading home to live with online girlfriend in Eastern Europe... and has now been abducted by Russia and tortured into 'confessing' he is a 'spy for Ukraine'",
-   "source": "Daily Mail",
-   "published": "2026-10-22T09:49:05+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/10/112020095-0-image-a-5_1792662455690.jpg",
-   "first_seen": "2026-10-22T10:12:57+00:00",
-   "topic": "weird",
-   "headline": "UK MAN WHO MOVED FOR ONLINE GIRLFRIEND 'TORTURED' INTO FAKE SPY CONFESSION...",
-   "editions": 1,
-   "last_edition": "2026-10-22-evening"
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "f027e9c41b",
@@ -1156,7 +1135,9 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "weird",
-   "headline": "YOUTUBER CHARGED IN MURDER-FOR-HIRE PLOT AFTER CUSTODY FIGHT..."
+   "headline": "YOUTUBER CHARGED IN MURDER-FOR-HIRE PLOT AFTER CUSTODY FIGHT...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "8cbb568ae4",
@@ -1167,18 +1148,9 @@
    "image": "https://i.dailymail.com/1s/2026/10/22/20/112033351-0-image-a-12_1792698945382.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "weird",
-   "headline": "'I'M DELIGHTED MY STEPDAD WAS EXECUTED, DUMPED IN A BARREL'..."
-  },
-  {
-   "id": "b517eff74e",
-   "url": "https://www.dailymail.com/news/article-16230647/Virginia-man-sledgehammer-Iwo-Jima-statue.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Virginia man, 27, uses sledgehammer to behead Iwo Jima statue that will cost hundreds of thousands of dollars to repair",
-   "source": "Daily Mail US",
-   "published": "2026-10-22T21:34:27+00:00",
-   "image": "https://i.dailymail.com/1s/2026/10/22/21/112033917-0-image-a-19_1792700541549.jpg",
-   "first_seen": "2026-10-22T22:02:47+00:00",
-   "topic": "weird",
-   "headline": "MAN TAKES SLEDGEHAMMER TO IWO JIMA STATUE..."
+   "headline": "'I'M DELIGHTED MY STEPDAD WAS EXECUTED, DUMPED IN A BARREL'...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   },
   {
    "id": "abaf06dca8",
@@ -1189,7 +1161,53 @@
    "image": null,
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "weird",
-   "headline": "'DEAD' VOLCANO FOUND WARM, COVERED IN 2 MILLION SKATE EGGS..."
+   "headline": "'DEAD' VOLCANO FOUND WARM, COVERED IN 2 MILLION SKATE EGGS...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
+  },
+  {
+   "id": "fa4a31c8b0",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQY0tpMlpwVnZJczZtVDYxSEF0bU9DeGwwQm5LdVhrT1ZXNFFrb2dDcVBtVUIxeWVXaklPdlljNnB6MDlONFMxMC1hbnV2TmJ2YUhZVV9FeC15SnlVSXU0d0dybTg1bjk5RC11cXRyVW1qUEZJeGVsd0RwR1R6UWVxdWVtZEV0OHQzWkRCOHlWLUMwODU1dm5NaksxbDZmOWEzTlhwd3hnN0VXMWZGdjlRNDRSZi1iaEExVEJCck0yZXNYZw?oc=5",
+   "title": "Claude Monet's 'Iris' becomes most expensive artwork sold at auction in France, Sotheby's says",
+   "source": "Reuters",
+   "published": "2026-10-23T08:17:09+00:00",
+   "image": null,
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weird",
+   "headline": "MONET'S 'IRIS' BECOMES FRANCE'S MOST EXPENSIVE AUCTION SALE..."
+  },
+  {
+   "id": "e88bb013a3",
+   "url": "https://www.dailymail.com/news/article-16231617/Worlds-greatest-art-forger-Old-Masters-sell-25-000.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "'I've painted more Lowrys than Lowry' says the world's greatest art forger whose 'Old Masters' sell for £25,000",
+   "source": "Daily Mail",
+   "published": "2026-10-23T09:40:23+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/23/112036379-0-image-a-38_1792709383555.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weird",
+   "headline": "WORLD'S BEST ART FORGER: 'I'VE PAINTED MORE LOWRYS THAN LOWRY'..."
+  },
+  {
+   "id": "3bbab52dda",
+   "url": "https://www.dailymail.com/news/article-16231535/Meghan-Markles-father-Thomas-probed-child-abuse-photos-daughter-Samantha-lies.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Meghan Markle's father Thomas 'is being probed over huge stash of child abuse photos found at Philippines home': Thomas Sr is reported to police by his own son - but daughter Samantha says it's 'all…",
+   "source": "Daily Mail",
+   "published": "2026-10-23T09:32:37+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/23/112036141-0-image-a-27_1792708241480.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weird",
+   "headline": "REPORT: MEGHAN'S FATHER PROBED OVER CHILD-ABUSE IMAGES..."
+  },
+  {
+   "id": "58f26b33d2",
+   "url": "https://www.dailymail.com/news/article-16231213/Woman-27-charged-police-officer-shot-street.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Woman, 27, is charged after police officer shot in the street",
+   "source": "Daily Mail",
+   "published": "2026-10-23T09:21:38+00:00",
+   "image": "https://i.dailymail.com/1s/2026/10/22/20/111937353-0-image-a-11_1792698068770.jpg",
+   "first_seen": "2026-10-23T10:12:36+00:00",
+   "topic": "weird",
+   "headline": "WOMAN, 27, CHARGED AFTER UK OFFICER SHOT..."
   },
   {
    "id": "87620b4790",
@@ -1200,7 +1218,9 @@
    "image": "https://i2.ytimg.com/vi/yuDuKkK1zXA/hqdefault.jpg",
    "first_seen": "2026-10-22T22:02:47+00:00",
    "topic": "video",
-   "headline": "WATCH: TUCKER ON WHETHER CIA PSYCHICS ARE REAL..."
+   "headline": "WATCH: TUCKER ON WHETHER CIA PSYCHICS ARE REAL...",
+   "editions": 1,
+   "last_edition": "2026-10-23-morning"
   }
  ],
  "seen": {
@@ -3323,7 +3343,184 @@
   "cfe48c726f": "2026-10-22T22:02:47+00:00",
   "ab6f80f168": "2026-10-22T22:02:47+00:00",
   "a4fa54251f": "2026-10-22T22:02:47+00:00",
-  "e2e2f50a14": "2026-10-22T22:02:47+00:00"
+  "e2e2f50a14": "2026-10-22T22:02:47+00:00",
+  "8d2d41f104": "2026-10-23T10:12:36+00:00",
+  "cfc4ddfc25": "2026-10-23T10:12:36+00:00",
+  "c6b5526453": "2026-10-23T10:12:36+00:00",
+  "8dcb930188": "2026-10-23T10:12:36+00:00",
+  "d4a63af3d0": "2026-10-23T10:12:36+00:00",
+  "a05b45b267": "2026-10-23T10:12:36+00:00",
+  "bb4686821e": "2026-10-23T10:12:36+00:00",
+  "99e9be954a": "2026-10-23T10:12:36+00:00",
+  "a0d38cfc05": "2026-10-23T10:12:36+00:00",
+  "216321c606": "2026-10-23T10:12:36+00:00",
+  "61a91f30be": "2026-10-23T10:12:36+00:00",
+  "446448ed94": "2026-10-23T10:12:36+00:00",
+  "2e4f14f7e3": "2026-10-23T10:12:36+00:00",
+  "983fd800f6": "2026-10-23T10:12:36+00:00",
+  "e88bb013a3": "2026-10-23T10:12:36+00:00",
+  "3bbab52dda": "2026-10-23T10:12:36+00:00",
+  "c7b3cdca27": "2026-10-23T10:12:36+00:00",
+  "812d291dce": "2026-10-23T10:12:36+00:00",
+  "58f26b33d2": "2026-10-23T10:12:36+00:00",
+  "9e3c1e9f06": "2026-10-23T10:12:36+00:00",
+  "fa9ad104a0": "2026-10-23T10:12:36+00:00",
+  "e4fcef0061": "2026-10-23T10:12:36+00:00",
+  "18813d1297": "2026-10-23T10:12:36+00:00",
+  "223a6406bc": "2026-10-23T10:12:36+00:00",
+  "fa4a31c8b0": "2026-10-23T10:12:36+00:00",
+  "cc47f24763": "2026-10-23T10:12:36+00:00",
+  "b606f1e650": "2026-10-23T10:12:36+00:00",
+  "799c190c2c": "2026-10-23T10:12:36+00:00",
+  "339529111b": "2026-10-23T10:12:36+00:00",
+  "88894b4796": "2026-10-23T10:12:36+00:00",
+  "2e01a0159a": "2026-10-23T10:12:36+00:00",
+  "0a35d2e6db": "2026-10-23T10:12:36+00:00",
+  "2ea0f7fac0": "2026-10-23T10:12:36+00:00",
+  "d412edc07b": "2026-10-23T10:12:36+00:00",
+  "db50b3d62c": "2026-10-23T10:12:36+00:00",
+  "0104e07987": "2026-10-23T10:12:36+00:00",
+  "574dbe9d4a": "2026-10-23T10:12:36+00:00",
+  "be64705b30": "2026-10-23T10:12:36+00:00",
+  "8597508e5d": "2026-10-23T10:12:36+00:00",
+  "862a196fe8": "2026-10-23T10:12:36+00:00",
+  "7718246191": "2026-10-23T10:12:36+00:00",
+  "c9543d950b": "2026-10-23T10:12:36+00:00",
+  "5446dc3a3f": "2026-10-23T10:12:36+00:00",
+  "c6e9e99855": "2026-10-23T10:12:36+00:00",
+  "85412a258d": "2026-10-23T10:12:36+00:00",
+  "a6a1c5387d": "2026-10-23T10:12:36+00:00",
+  "6b991bd8fc": "2026-10-23T10:12:36+00:00",
+  "784f7f9317": "2026-10-23T10:12:36+00:00",
+  "bcdc8d4a26": "2026-10-23T10:12:36+00:00",
+  "7136f4df51": "2026-10-23T10:12:36+00:00",
+  "70bcdb69a4": "2026-10-23T10:12:36+00:00",
+  "4c8ab011b6": "2026-10-23T10:12:36+00:00",
+  "4b4fb443ce": "2026-10-23T10:12:36+00:00",
+  "09a795a0f9": "2026-10-23T10:12:36+00:00",
+  "fd54004823": "2026-10-23T10:12:36+00:00",
+  "56896c74e7": "2026-10-23T10:12:36+00:00",
+  "4fc361d42f": "2026-10-23T10:12:36+00:00",
+  "36af2ef32e": "2026-10-23T10:12:36+00:00",
+  "5d114f257f": "2026-10-23T10:12:36+00:00",
+  "db2a67dade": "2026-10-23T10:12:36+00:00",
+  "aad852d094": "2026-10-23T10:12:36+00:00",
+  "c36d9ed078": "2026-10-23T10:12:36+00:00",
+  "0a3387bfee": "2026-10-23T10:12:36+00:00",
+  "551a4dbdd3": "2026-10-23T10:12:36+00:00",
+  "2b89475cfd": "2026-10-23T10:12:36+00:00",
+  "4934333600": "2026-10-23T10:12:36+00:00",
+  "9b16a699da": "2026-10-23T10:12:36+00:00",
+  "771f865167": "2026-10-23T10:12:36+00:00",
+  "664c596dae": "2026-10-23T10:12:36+00:00",
+  "a1f81ddc65": "2026-10-23T10:12:36+00:00",
+  "b6c0fdf936": "2026-10-23T10:12:36+00:00",
+  "a65748eecb": "2026-10-23T10:12:36+00:00",
+  "665686e010": "2026-10-23T10:12:36+00:00",
+  "50021d91cf": "2026-10-23T10:12:36+00:00",
+  "f13c635187": "2026-10-23T10:12:36+00:00",
+  "bc35bf371d": "2026-10-23T10:12:36+00:00",
+  "2257673b4f": "2026-10-23T10:12:36+00:00",
+  "aa51aff5f8": "2026-10-23T10:12:36+00:00",
+  "84738a388b": "2026-10-23T10:12:36+00:00",
+  "b0a142ccdb": "2026-10-23T10:12:36+00:00",
+  "dcb08167a6": "2026-10-23T10:12:36+00:00",
+  "7469810dfb": "2026-10-23T10:12:36+00:00",
+  "4e2c9e9144": "2026-10-23T10:12:36+00:00",
+  "dd5534cf0c": "2026-10-23T10:12:36+00:00",
+  "2cd9f0a930": "2026-10-23T10:12:36+00:00",
+  "215dc7fd15": "2026-10-23T10:12:36+00:00",
+  "9169c52a3c": "2026-10-23T10:12:36+00:00",
+  "a49e8ee997": "2026-10-23T10:12:36+00:00",
+  "db4debec33": "2026-10-23T10:12:36+00:00",
+  "d7519f906d": "2026-10-23T10:12:36+00:00",
+  "20614f3566": "2026-10-23T10:12:36+00:00",
+  "adb7239e4d": "2026-10-23T10:12:36+00:00",
+  "3640daa9f3": "2026-10-23T10:12:36+00:00",
+  "325ad236f1": "2026-10-23T10:12:36+00:00",
+  "5b790f664f": "2026-10-23T10:12:36+00:00",
+  "a504cca8ef": "2026-10-23T10:12:36+00:00",
+  "47bf9c3aeb": "2026-10-23T10:12:36+00:00",
+  "54f93f728b": "2026-10-23T10:12:36+00:00",
+  "401e808151": "2026-10-23T10:12:36+00:00",
+  "96ffb4eb76": "2026-10-23T10:12:36+00:00",
+  "268164ebef": "2026-10-23T10:12:36+00:00",
+  "729d6dd18e": "2026-10-23T10:12:36+00:00",
+  "542dd6f753": "2026-10-23T10:12:36+00:00",
+  "f109ff2229": "2026-10-23T10:12:36+00:00",
+  "e1bf558d65": "2026-10-23T10:12:36+00:00",
+  "8f50381937": "2026-10-23T10:12:36+00:00",
+  "e88b48cb20": "2026-10-23T10:12:36+00:00",
+  "36fd95e258": "2026-10-23T10:12:36+00:00",
+  "17adfec617": "2026-10-23T10:12:36+00:00",
+  "e635f47855": "2026-10-23T10:12:36+00:00",
+  "78d6dec121": "2026-10-23T10:12:36+00:00",
+  "beea5e3636": "2026-10-23T10:12:36+00:00",
+  "eabebbc447": "2026-10-23T10:12:36+00:00",
+  "bee8986466": "2026-10-23T10:12:36+00:00",
+  "0b01b800f0": "2026-10-23T10:12:36+00:00",
+  "a4396467b7": "2026-10-23T10:12:36+00:00",
+  "3f8e66733e": "2026-10-23T10:12:36+00:00",
+  "5b9880160c": "2026-10-23T10:12:36+00:00",
+  "c9b3f5d4de": "2026-10-23T10:12:36+00:00",
+  "cc59ed89fe": "2026-10-23T10:12:36+00:00",
+  "68aefa5534": "2026-10-23T10:12:36+00:00",
+  "6e7d5774e4": "2026-10-23T10:12:36+00:00",
+  "9f74e7fb77": "2026-10-23T10:12:36+00:00",
+  "020d0b77db": "2026-10-23T10:12:36+00:00",
+  "264f906817": "2026-10-23T10:12:36+00:00",
+  "7748f39ad8": "2026-10-23T10:12:36+00:00",
+  "ffd2e22385": "2026-10-23T10:12:36+00:00",
+  "2df09231ad": "2026-10-23T10:12:36+00:00",
+  "fffac6dc83": "2026-10-23T10:12:36+00:00",
+  "1aba9312b7": "2026-10-23T10:12:36+00:00",
+  "9c9b369cb6": "2026-10-23T10:12:36+00:00",
+  "777700b465": "2026-10-23T10:12:36+00:00",
+  "ae8930c61a": "2026-10-23T10:12:36+00:00",
+  "b77fa599a7": "2026-10-23T10:12:36+00:00",
+  "a9a0851ac6": "2026-10-23T10:12:36+00:00",
+  "a1f8de8fc6": "2026-10-23T10:12:36+00:00",
+  "4e934d6b0e": "2026-10-23T10:12:36+00:00",
+  "523115d2f0": "2026-10-23T10:12:36+00:00",
+  "b4713f7270": "2026-10-23T10:12:36+00:00",
+  "1b91fba901": "2026-10-23T10:12:36+00:00",
+  "9a6913a243": "2026-10-23T10:12:36+00:00",
+  "ac51ac181b": "2026-10-23T10:12:36+00:00",
+  "6d214a91ee": "2026-10-23T10:12:36+00:00",
+  "c276be766d": "2026-10-23T10:12:36+00:00",
+  "047f8a7d69": "2026-10-23T10:12:36+00:00",
+  "e8d5ec0a4f": "2026-10-23T10:12:36+00:00",
+  "0ecd4e114c": "2026-10-23T10:12:36+00:00",
+  "8486cd448a": "2026-10-23T10:12:36+00:00",
+  "ba72456d44": "2026-10-23T10:12:36+00:00",
+  "be2667c510": "2026-10-23T10:12:36+00:00",
+  "2a09c89394": "2026-10-23T10:12:36+00:00",
+  "f19de06f78": "2026-10-23T10:12:36+00:00",
+  "e3b1390c21": "2026-10-23T10:12:36+00:00",
+  "aa995667c3": "2026-10-23T10:12:36+00:00",
+  "fff3438fba": "2026-10-23T10:12:36+00:00",
+  "e2922cdbf8": "2026-10-23T10:12:36+00:00",
+  "58513f32fa": "2026-10-23T10:12:36+00:00",
+  "058f41abbb": "2026-10-23T10:12:36+00:00",
+  "585df628cc": "2026-10-23T10:12:36+00:00",
+  "2dfaa45637": "2026-10-23T10:12:36+00:00",
+  "35512fab4f": "2026-10-23T10:12:36+00:00",
+  "a1697378cb": "2026-10-23T10:12:36+00:00",
+  "1bfa0ad364": "2026-10-23T10:12:36+00:00",
+  "a2e6de4fd7": "2026-10-23T10:12:36+00:00",
+  "ce98b1ec21": "2026-10-23T10:12:36+00:00",
+  "5b8b239b34": "2026-10-23T10:12:36+00:00",
+  "18689c61b6": "2026-10-23T10:12:36+00:00",
+  "acf0d44710": "2026-10-23T10:12:36+00:00",
+  "f8c6a8b1d9": "2026-10-23T10:12:36+00:00",
+  "d79cf2ce49": "2026-10-23T10:12:36+00:00",
+  "73d76da414": "2026-10-23T10:12:36+00:00",
+  "451382a73a": "2026-10-23T10:12:36+00:00",
+  "deb8370c82": "2026-10-23T10:12:36+00:00",
+  "c6a44cc61d": "2026-10-23T10:12:36+00:00",
+  "8185b822da": "2026-10-23T10:12:36+00:00",
+  "128ad6236d": "2026-10-23T10:12:36+00:00",
+  "793f8c778f": "2026-10-23T10:12:36+00:00"
  },
- "notes": "New top (election certification), 56 new links incl. 6 stacks; dropped stale flash (election-integrity benched, one exception used for top); war count held at the 8-link ceiling; immigration capped at 2 (Descano non-cooperation + ICE fraud); video beat short (1 of 3) for lack of candidates."
+ "notes": "New top/flash on the Nasdaq selloff, Europe's deadly summer, Musk's midterm giving and the China AI blacklist; added the West Bank shooting and Gaza flour-blockade as a Mideast stack, Typhoon Champi and the Tibet quake, and a housing pair (new, every edition). Ran the H-1B spotlight (fraud warning +"
 }

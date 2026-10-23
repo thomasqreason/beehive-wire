@@ -856,5 +856,16 @@
   "iso": "2026-10-22T16:02:47-06:00",
   "top": "ADMIN WON'T RULE OUT BLOCKING VOTES...",
   "count": 100
+ },
+ {
+  "no": 79,
+  "file": "2026-10-23-morning.html",
+  "date": "2026-10-23",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:12 a.m.",
+  "iso": "2026-10-23T04:12:36-06:00",
+  "top": "NASDAQ'S WORST DAY SINCE JUNE...",
+  "count": 100
  }
 ]
