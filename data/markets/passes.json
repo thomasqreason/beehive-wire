@@ -2162,5 +2162,71 @@
 "day": 15,
 "pass": 3,
 "no": "15.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-23",
+"at": "2026-10-23T22:16:11+00:00",
+"href": "movers/2026-10-23-1616.html",
+"syms": [
+"CCI",
+"CBOE",
+"LMT",
+"CLF",
+"SLB",
+"AMT",
+"SBAC",
+"PHM",
+"MOS"
+],
+"heads": [
+"CCI +9.1% on 4.6x volume, big move on the day",
+"CBOE +3.9% on 1.6x volume, in base",
+"LMT +2.4% on 1.5x volume, nearing buy point",
+"CLF +6.5% on 1.5x volume, big move on the day",
+"SLB +7.1% on 1.5x volume, big move on the day"
+],
+"extra": "5 qualifiers",
+"live": false,
+"day": 15,
+"pass": 4,
+"no": "15.4"
+},
+{
+"kind": "edition",
+"date": "2026-10-23",
+"at": "2026-10-23T22:18:20+00:00",
+"href": "2026-10-23.html",
+"syms": [
+"DVN",
+"AAPL",
+"PANW",
+"SPOT",
+"MNDY",
+"BRK-B",
+"XOM",
+"FTNT",
+"HUBS",
+"CRWD"
+],
+"heads": [
+"Devon Energy Rallies 4.5% As Crude Tops $103 A Barrel",
+"Apple Retakes World's Most Valuable Company Title From Nvidia",
+"Palo Alto Networks Jumps 7% As Evercore Survey Flags Cyber Demand",
+"Spotify Holds Gains After Q3 Beat Erased Its 2026 Loss",
+"Monday.com Holds Its Rally In Week Of Harmony Launch",
+"Berkshire Hathaway Eases From High After Two Quarters Of Doubled Earnings",
+"ExxonMobil Climbs To 52-Week High As Crude Oil Tops $103",
+"Fortinet Rises 4.1% Ahead Of Oct. 28 Earnings As Cyber Stocks Rally",
+"HubSpot Extends Rally On Earnings Upgrades Ahead Of Nov. 4 Report",
+"CrowdStrike Surges 8.2% As Evercore Survey Points To Stronger Cyber Demand",
+"New America: GitLab Bets On A Governed AI Software Factory As Sales Climb",
+"Investor's Corner: Reading A Cup: Depth, Length, The Handle And The Buy Point"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 15,
+"pass": 5,
+"no": "15.5"
 }
 ]
