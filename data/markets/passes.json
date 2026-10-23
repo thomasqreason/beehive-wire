@@ -2070,5 +2070,49 @@
 "day": 14,
 "pass": 5,
 "no": "14.5"
+},
+{
+"kind": "movers",
+"date": "2026-10-23",
+"at": "2026-10-23T14:28:58+00:00",
+"href": "movers/2026-10-23-0828.html",
+"syms": [
+"CCI",
+"AMT",
+"WDC",
+"SPCX",
+"ISRG",
+"LITE",
+"NBIS",
+"CRWD",
+"DVN",
+"MU",
+"OXY",
+"COP",
+"TSM",
+"NET",
+"APA",
+"SBAC",
+"JBL",
+"SLB",
+"COHR"
+],
+"heads": [
+"CCI +12.6% on 8.9x volume, big move on the day",
+"AMT +6.7% on 7.1x volume, new 52-week high",
+"WDC +1.0% on 4.7x volume, in base",
+"SPCX +2.3% on 2.7x volume, in base",
+"ISRG +1.8% on 2.3x volume, extended",
+"LITE +3.4% on 2.3x volume, slips back below buy point",
+"NBIS +1.5% on 2.0x volume, in base",
+"CRWD +3.9% on 2.0x volume, bounce off 50-day line",
+"DVN +3.4% on 1.9x volume, bounce off 50-day line",
+"MU +3.0% on 1.9x volume, in base"
+],
+"extra": "15 qualifiers",
+"live": true,
+"day": 15,
+"pass": 1,
+"no": "15.1"
 }
 ]
