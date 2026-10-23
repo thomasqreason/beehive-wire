@@ -2114,5 +2114,24 @@
 "day": 15,
 "pass": 1,
 "no": "15.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-23",
+"at": "2026-10-23T18:08:38+00:00",
+"href": "movers/2026-10-23-1208.html",
+"syms": [
+"CCI",
+"AMT",
+"SBAC"
+],
+"heads": [
+"CCI +10.0% on 4.3x volume, big move on the day"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 15,
+"pass": 2,
+"no": "15.2"
 }
 ]
