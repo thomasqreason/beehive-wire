@@ -70,11 +70,14 @@
   .board td.sym a{text-decoration:none}
   .board .st{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
   .board .story{color:var(--pivot);font-weight:700}
-  .tblwrap{overflow-x:auto}
+  .tblwrap{overflow:auto;max-height:82vh}   /* the wrapper scrolls both ways, so the header row and the ticker column can both pin */
+  .board th{position:sticky;top:0;z-index:3;background:var(--bg);box-shadow:0 2px 0 var(--soft)}
+  .board th:first-child,.board.ranked th:nth-child(2){z-index:4}
   /* Frozen ticker column: the symbol (and the rank, on the ranked lists) stays put while the table scrolls sideways. */
   .board td.sym,.board th:first-child,.mini td.sym{position:sticky;left:0;z-index:2;background:var(--bg);box-shadow:2px 0 0 var(--soft)}
   .board.ranked td:first-child,.board.ranked th:first-child{position:sticky;left:0;z-index:3;background:var(--bg);min-width:58px;box-sizing:border-box;box-shadow:none}
   .board.ranked td.sym,.board.ranked th:nth-child(2){position:sticky;left:58px;z-index:2;background:var(--bg);box-shadow:2px 0 0 var(--soft)}
+  .board.ranked th:nth-child(2){z-index:4}
   .bigpic{margin:14px 0 0;font-size:14px;line-height:1.5}
   .bigpic .st{display:inline-block;background:var(--tag);color:var(--tagink);padding:2px 7px;margin-right:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900}
   .lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:18px 28px}
