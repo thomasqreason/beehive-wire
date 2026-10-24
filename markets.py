@@ -896,6 +896,14 @@ def render_site(site_cfg: dict | None = None) -> int:
     if mv:
         asof = datetime.fromisoformat(mv["as_of"]).astimezone(tz)
         mv["as_of_human"] = asof.strftime("%A %I:%M %p %Z").replace(" 0", " ")
+    webster = None
+    try:
+        from desk_extras import load_webster
+        webster = load_webster()
+        if webster:
+            webster["as_of_human"] = datetime.fromisoformat(webster["as_of"]).astimezone(tz).strftime("%A %I:%M %p %Z").replace(" 0", " ")
+    except Exception:  # noqa: BLE001
+        webster = None
     scorecard = None
     try:
         from desk_extras import load_scorecard
@@ -925,6 +933,7 @@ def render_site(site_cfg: dict | None = None) -> int:
                    stale_edition=(page_date != e["date"]),
                    generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if i == len(eds) - 1 else None,
                    lists=ls if i == len(eds) - 1 else None, scorecard=scorecard if i == len(eds) - 1 else None,
+                   webster=webster if i == len(eds) - 1 else None,
                    status_label=STATUS_LABEL, index=index, latest=(i == len(eds) - 1), root="../")
         html = tpl.render(**ctx)
         (SITE / f"{e['date']}.html").write_text(html, encoding="utf-8")
@@ -1202,6 +1211,11 @@ def movers(cfg: dict) -> dict:
                      from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"))
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
+    try:
+        from desk_extras import webster_screen
+        webster_screen(prices, rs_rank_of, identities(list(prices)), cfg, now, live, frac)
+    except Exception as e:  # noqa: BLE001
+        log(f"webster screen skipped ({e})")
     # phone alerts: watch-list names clearing a buy point right now (volume shown, not required), and the holdings' sell rules
     try:
         from desk_extras import send_alerts, breakout_alerts, holdings_alerts
@@ -1267,13 +1281,19 @@ def identities(syms: list[str], max_fetch: int = 40) -> dict:
             try:
                 c = json.loads(fc.read_text(encoding="utf-8"))
                 if c.get("name"):
-                    out[sym] = {"name": c.get("name"), "industry": c.get("industry")}
+                    out[sym] = {"name": c.get("name"), "industry": c.get("industry"), "sector": c.get("sector")}
+                    if c.get("sector") or sym in names and names[sym].get("sector"):
+                        out[sym]["sector"] = c.get("sector") or names[sym].get("sector")
+                        continue
+                    missing.append(sym)
                     continue
             except Exception:  # noqa: BLE001
                 pass
-        if sym in names and names[sym].get("name"):
+        if sym in names and names[sym].get("name") and names[sym].get("sector"):
             out[sym] = names[sym]
             continue
+        if sym in names and names[sym].get("name"):
+            out[sym] = names[sym]          # known name, sector still to fetch
         missing.append(sym)
     if missing:
         import yfinance as yf
@@ -1283,7 +1303,7 @@ def identities(syms: list[str], max_fetch: int = 40) -> dict:
                 info = yf.Ticker(sym).info or {}
                 nm = info.get("longName") or info.get("shortName")
                 if nm:
-                    names[sym] = out[sym] = {"name": nm, "industry": info.get("industry")}
+                    names[sym] = out[sym] = {"name": nm, "industry": info.get("industry"), "sector": info.get("sector")}
                     fetched += 1
             except Exception as e:  # noqa: BLE001
                 log(f"{sym}: name lookup failed ({e})")

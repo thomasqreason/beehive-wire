@@ -124,6 +124,7 @@
     {% if movers %}<li><a href="#movers">Stocks on the Move</a></li>{% endif %}
     {% if ed.chief %}<li><a href="#chief">Desk Chief</a></li>{% endif %}
     {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
+    {% if webster %}<li><a href="#webster">Webster screen</a></li>{% endif %}
     <li><a href="#positions">My positions</a></li>
     {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
     {% if ed.ah_movers %}<li><a href="#after-hours">After hours</a></li>{% endif %}
@@ -281,6 +282,38 @@
     <tr><th>Group</th><th>Leaders</th><th>Avg RS</th><th>Above 50-day</th><th>Names</th></tr>
     {% for g in ed.groups %}<tr><td class="sym">{{ g.group }}</td><td>{% for l in g.leaders %}<a class="tk" href="#chart={{ l }}" data-sym="{{ l }}">{{ l }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{{ g.avg_rs }}</td><td>{{ g.above50 }}%</td><td>{{ g.n }}</td></tr>{% endfor %}
   </table></div>
+  {% endif %}
+
+  {% if webster %}
+  <h3 class="sec" id="webster">The Webster Screen</h3>
+  <div class="legend">Mike Webster's market-health screen (IBD, Oct 16, 2026): price $10+, dollar volume $25M+ a day, trading above <b>both</b> the 50-day and 200-day lines. Grouped by sector and sorted by the week's move, so the top of the table is where money is flowing and the bottom is the carnage. {{ webster.passing }} of {{ webster.universe }} names pass at $25M ({{ webster.passing75 }} at $75M). As of {{ webster.as_of_human }}{% if webster.live %}, live{% endif %}.
+    <button type="button" class="wbtoggle" id="wb75">Show $75M+ only</button></div>
+  <div class="tblwrap"><table class="board">
+    <tr><th>Sector</th><th>Week</th><th>Passing</th><th>of</th><th>%</th><th>at $75M</th><th>Avg RS</th><th>Leaders (by RS)</th><th>Worst this week</th></tr>
+    {% for x in webster.sectors %}<tr>
+      <td class="sym" style="white-space:normal"><a href="#wb-{{ loop.index }}" class="secl">{{ x.sector }}</a></td>
+      <td class="{{ 'pos' if (x.wk or 0) >= 0 else 'neg' }}"><b>{% if x.wk is not none %}{{ '%+.1f'|format(x.wk) }}%{% else %}–{% endif %}</b></td>
+      <td>{{ x.passing }}</td><td>{{ x.members }}</td><td>{{ x.pct }}%</td><td>{{ x.passing75 }}</td><td>{{ x.avg_rs if x.avg_rs is not none else '–' }}</td>
+      <td>{% for l in x.leaders %}<a class="tk" href="#chart={{ l }}" data-sym="{{ l }}">{{ l }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td>
+      <td class="st">{% for w in x.worst %}<a class="tk" href="#chart={{ w.sym }}" data-sym="{{ w.sym }}">{{ w.sym }}</a> {{ '%+.1f'|format(w.wk) }}%{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    </tr>{% endfor %}
+  </table></div>
+  {% for x in webster.sectors %}{% if x.passing %}
+  <details class="wbsec" id="wb-{{ loop.index }}"><summary>{{ x.sector }} &middot; {{ x.passing }} passing &middot; week {% if x.wk is not none %}{{ '%+.1f'|format(x.wk) }}%{% endif %}</summary>
+  <div class="tblwrap"><table class="board">
+    <tr><th>Sym</th><th>Company</th><th>Last</th><th>RS</th><th>Week</th><th>Month</th><th>vs 50-day</th><th>vs 200-day</th><th>$ vol/day</th></tr>
+    {% for r in webster.rows if r.sector == x.sector %}<tr class="{{ 'dv75' if r.dv75 else 'dv25' }}">
+      <td class="sym"><a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a></td>
+      <td class="st" style="white-space:normal;text-align:left">{{ r.name or '' }}{% if r.industry %} &middot; {{ r.industry }}{% endif %}</td>
+      <td>{{ '%.2f'|format(r.close) }}</td><td>{{ r.rs if r.rs is not none else '–' }}</td>
+      <td class="{{ 'pos' if (r.wk or 0) >= 0 else 'neg' }}">{% if r.wk is not none %}{{ '%+.1f'|format(r.wk) }}%{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (r.mo or 0) >= 0 else 'neg' }}">{% if r.mo is not none %}{{ '%+.1f'|format(r.mo) }}%{% else %}–{% endif %}</td>
+      <td class="pos">{{ '%+.1f'|format(r.vs50) }}%</td><td class="pos">{{ '%+.1f'|format(r.vs200) }}%</td>
+      <td>{{ r.dv|money }}</td>
+    </tr>{% endfor %}
+  </table></div></details>
+  {% endif %}{% endfor %}
+  <script>(function(){var b=document.getElementById('wb75');if(!b)return;var on=false;b.addEventListener('click',function(){on=!on;document.querySelectorAll('.wbsec tr.dv25').forEach(function(r){r.style.display=on?'none':'';});b.textContent=on?'Show $25M+ (all)':'Show $75M+ only';});})();</script>
   {% endif %}
 
   <h3 class="sec" id="positions">My Positions</h3>

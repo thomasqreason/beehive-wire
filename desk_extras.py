@@ -369,3 +369,69 @@ def big_picture_alert(state: str, note: str, prev_state: str | None, date: str, 
         return [{"key": f"bp:{date}:{state}", "title": f"Market: {state}", "tag": "newspaper",
                  "body": f"The Big Picture moved from '{prev_state}' to '{state}'. {note}", "url": f"{site_url}markets/"}]
     return []
+
+
+# ────────────────────────────────────────────────────────────────────────── the Webster screen (Oct 16, 2026 video)
+
+WEBSTER_FILE = DATA / "webster.json"
+
+
+def webster_screen(prices: dict, rs_rank_of, idents: dict, cfg: dict, now, live: bool, frac: float) -> dict | None:
+    """Mike Webster's market-health screen: price above $10, dollar volume at least $25M (or $75M for a short list),
+    above BOTH the 50-day and 200-day simple moving averages. Then grouped by sector and sorted by strength, so the
+    sector table shows where money is flowing (most names passing, best week) and where the carnage is (worst week,
+    fewest passing). Runs on every Stocks-on-the-Move pass over the same ~600-name universe."""
+    import numpy as np
+    rows, members = [], {}
+    for sym, d in prices.items():
+        if sym.startswith("^") or len(d) < 205:
+            continue
+        C, V = d["Close"].to_numpy(dtype=float), d["Volume"].to_numpy(dtype=float)
+        if live and frac > 0:  # today's partial volume is not a day's volume; the average uses the prior 50 full sessions
+            avgv = float(np.mean(V[-51:-1]))
+        else:
+            avgv = float(np.mean(V[-50:]))
+        close = float(C[-1])
+        s50, s200 = float(np.mean(C[-50:])), float(np.mean(C[-200:]))
+        wk = (close / float(C[-6]) - 1) * 100 if len(C) > 6 else None
+        mo = (close / float(C[-22]) - 1) * 100 if len(C) > 22 else None
+        sector = (idents.get(sym) or {}).get("sector") or "Unclassified"
+        dv = close * avgv
+        members.setdefault(sector, []).append({"sym": sym, "wk": wk})
+        if close < 10 or dv < 25e6 or not (close > s50 and close > s200):
+            continue
+        rows.append({"sym": sym, "name": (idents.get(sym) or {}).get("name"), "industry": (idents.get(sym) or {}).get("industry"),
+                     "sector": sector, "close": round(close, 2), "dv": int(dv), "dv75": dv >= 75e6, "rs": rs_rank_of(sym),
+                     "wk": round(wk, 1) if wk is not None else None, "mo": round(mo, 1) if mo is not None else None,
+                     "vs50": round((close / s50 - 1) * 100, 1), "vs200": round((close / s200 - 1) * 100, 1)})
+    sectors = []
+    for sec, mem in members.items():
+        passing = [r for r in rows if r["sector"] == sec]
+        p75 = [r for r in passing if r["dv75"]]
+        wks = [m["wk"] for m in mem if m["wk"] is not None]
+        rs_vals = [r["rs"] for r in passing if r["rs"] is not None]
+        passing.sort(key=lambda r: -(r["rs"] or 0))
+        sectors.append({"sector": sec, "members": len(mem), "passing": len(passing), "passing75": len(p75),
+                        "pct": round(100 * len(passing) / len(mem)) if mem else 0,
+                        "wk": round(sum(wks) / len(wks), 1) if wks else None,
+                        "avg_rs": round(sum(rs_vals) / len(rs_vals)) if rs_vals else None,
+                        "leaders": [r["sym"] for r in passing[:5]],
+                        "worst": sorted([m for m in mem if m["wk"] is not None], key=lambda m: m["wk"])[:3]})
+    sectors.sort(key=lambda x: (-(x["wk"] if x["wk"] is not None else -99)))
+    rows.sort(key=lambda r: (r["sector"], -(r["rs"] or 0)))
+    out = {"as_of": now.isoformat(timespec="seconds"), "live": live, "universe": sum(len(m) for m in members.values()),
+           "passing": len(rows), "passing75": sum(1 for r in rows if r["dv75"]), "sectors": sectors, "rows": rows}
+    DATA.mkdir(parents=True, exist_ok=True)
+    WEBSTER_FILE.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    log(f"webster screen: {len(rows)} of {out['universe']} pass at $25M ({out['passing75']} at $75M); "
+        f"strongest sector {sectors[0]['sector'] if sectors else '–'}, weakest {sectors[-1]['sector'] if sectors else '–'}")
+    return out
+
+
+def load_webster() -> dict | None:
+    if WEBSTER_FILE.is_file():
+        try:
+            return json.loads(WEBSTER_FILE.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            return None
+    return None
