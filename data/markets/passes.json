@@ -2195,7 +2195,7 @@
 {
 "kind": "edition",
 "date": "2026-10-23",
-"at": "2026-10-23T22:18:20+00:00",
+"at": "2026-10-24T16:15:51+00:00",
 "href": "2026-10-23.html",
 "syms": [
 "DVN",
@@ -2210,23 +2210,51 @@
 "CRWD"
 ],
 "heads": [
-"Devon Energy Rallies 4.5% As Crude Tops $103 A Barrel",
-"Apple Retakes World's Most Valuable Company Title From Nvidia",
-"Palo Alto Networks Jumps 7% As Evercore Survey Flags Cyber Demand",
-"Spotify Holds Gains After Q3 Beat Erased Its 2026 Loss",
-"Monday.com Holds Its Rally In Week Of Harmony Launch",
-"Berkshire Hathaway Eases From High After Two Quarters Of Doubled Earnings",
-"ExxonMobil Climbs To 52-Week High As Crude Oil Tops $103",
-"Fortinet Rises 4.1% Ahead Of Oct. 28 Earnings As Cyber Stocks Rally",
+"Devon Energy Rallies 4.5% As WTI Crude Tops $103",
+"Apple Passes Nvidia As World's Most Valuable Company On iPhone Duo Day",
+"Palo Alto Networks Jumps 7.2% As Evercore Survey Flags Stronger Cyber Demand",
+"Spotify Holds Gains After Upbeat Q3 Erased Its 2026 Loss",
+"Monday.com Holds Harmony Launch Rally, Up 23.9% In A Month",
+"Berkshire Hathaway Eases 0.9% After Notching A Record High",
+"ExxonMobil Gains 2.8%, Nears 52-Week High As Oil Spikes",
+"Fortinet Climbs 4.1% As Jefferies Calls 2027 Outlook The Key Test",
 "HubSpot Extends Rally On Earnings Upgrades Ahead Of Nov. 4 Report",
-"CrowdStrike Surges 8.2% As Evercore Survey Points To Stronger Cyber Demand",
-"New America: GitLab Bets On A Governed AI Software Factory As Sales Climb",
-"Investor's Corner: Reading A Cup: Depth, Length, The Handle And The Buy Point"
+"CrowdStrike Leaps 8.2% In Cybersecurity Rally; CEO Warns Of Attack Wave",
+"New America: ServiceNow Gains As Market Falls; Exec Calls Defense A Major Driver"
 ],
 "extra": "Market in correction",
 "live": false,
 "day": 15,
 "pass": 5,
 "no": "15.5"
+},
+{
+"kind": "movers",
+"date": "2026-10-24",
+"at": "2026-10-24T16:13:27+00:00",
+"href": "movers/2026-10-24-1013.html",
+"syms": [
+"CCI",
+"CBOE",
+"LMT",
+"CLF",
+"SLB",
+"AMT",
+"SBAC",
+"PHM",
+"MOS"
+],
+"heads": [
+"CCI +9.1% on 4.6x volume, big move on the day",
+"CBOE +3.9% on 1.6x volume, in base",
+"LMT +2.4% on 1.6x volume, nearing buy point",
+"CLF +6.5% on 1.5x volume, big move on the day",
+"SLB +7.1% on 1.5x volume, big move on the day"
+],
+"extra": "5 qualifiers",
+"live": false,
+"day": 16,
+"pass": 1,
+"no": "16.1"
 }
 ]
