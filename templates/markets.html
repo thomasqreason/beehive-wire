@@ -87,8 +87,45 @@
   </div>
   {% endif %}
 
+  {% if ed.chief %}
+  <h3 class="sec" id="chief" style="margin-top:22px">Desk Chief</h3>
+  <div class="legend">The one opinion on the desk: an editor's pass over every setup the numbers found, ranked by judgment. Numbers from the desk; the calls are the chief's.</div>
+  <div class="chief">
+    <p class="verdict">{{ ed.chief.verdict }}</p>
+    {% if ed.chief.market %}<p class="mkt"><b>Exposure</b> {{ ed.chief.market }}</p>{% endif %}
+    {% if ed.chief.picks %}<div class="picks">{% for p in ed.chief.picks %}
+      <div class="pick"><div class="pk"><span class="st">{{ p.call }}</span> <a class="tk" href="#chart={{ p.sym }}" data-sym="{{ p.sym }}">{{ p.sym }}</a></div>
+        <div class="why">{{ p.why }}</div>{% if p.entry %}<div class="entry"><b>Entry</b> {{ p.entry }}</div>{% endif %}</div>{% endfor %}</div>{% endif %}
+    {% if ed.chief.avoid %}<div class="avoid"><b>Pass on</b> {% for a in ed.chief.avoid %}<a class="tk" href="#chart={{ a.sym }}" data-sym="{{ a.sym }}">{{ a.sym }}</a> <span>{{ a.why }}</span>{% if not loop.last %} &middot; {% endif %}{% endfor %}</div>{% endif %}
+    {% if ed.chief.watch %}<div class="watch"><b>Tomorrow</b>{{ ed.chief.watch }}</div>{% endif %}
+  </div>
+  {% endif %}
+
+  {% if ed.earnings_week %}
+  <h3 class="sec" id="earnings" style="margin-top:22px">Earnings This Week</h3>
+  <div class="legend">Watch-list names reporting in the next seven days (and the last two). The method says don't buy into a report without a cushion, and a gap up on the report can be its own buy point.</div>
+  <div class="tblwrap"><table class="board">
+    <tr><th>Sym</th><th>Company</th><th>Reports</th><th>In</th><th>Last</th><th>RS</th><th>Chart</th><th>vs buy pt</th><th>vs 50-day</th></tr>
+    {% for r in ed.earnings_week %}<tr>
+      <td class="sym{% if r.sym in story_syms %} story{% endif %}">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>
+      <td class="st" style="white-space:normal;text-align:left">{{ r.name or '' }}</td>
+      <td>{{ r.date }}</td>
+      <td>{% if r.days < 0 %}{{ -r.days }}d ago{% elif r.days == 0 %}today{% else %}{{ r.days }}d{% endif %}</td>
+      <td>{{ '%.2f'|format(r.close) }}</td>
+      <td>{{ r.rs_rank }}</td>
+      <td class="st">{{ status_label[r.status] }}</td>
+      <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
+      <td>{% if r.vs_sma50 is not none %}{{ '%+.1f'|format(r.vs_sma50) }}%{% else %}–{% endif %}</td>
+    </tr>{% endfor %}
+  </table></div>
+  {% endif %}
+
   <ul class="toc">
     {% if movers %}<li><a href="#movers">Stocks on the Move</a></li>{% endif %}
+    {% if ed.chief %}<li><a href="#chief">Desk Chief</a></li>{% endif %}
+    {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
+    <li><a href="#positions">My positions</a></li>
+    {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
     {% if ed.ah_movers %}<li><a href="#after-hours">After hours</a></li>{% endif %}
     {% if lists %}<li><a href="#beehive50">Beehive 50</a></li><li><a href="#bigcap20">Big Cap 20</a></li>{% endif %}
     {% for s in ed.stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
@@ -122,6 +159,7 @@
       {% if b.breakout_date %}<div><b>Breakout</b>{{ b.breakout_date }} on {{ '%.1f'|format(s.breakout_vol_ratio or 0) }}x volume</div>{% endif %}
       {% endif %}
       {% if s.ipo_sessions %}<div><b>New issue</b>{{ s.ipo_sessions }} sessions of trading</div>{% endif %}
+      {% for a in (s.aggressive or []) if a.live %}<div><b>Aggressive entry: {{ a.kind }}</b>{{ '%.2f'|format(a.price) }} <span class="st">({{ '%+.1f'|format(a.from_price) }}% from here)</span></div>{% endfor %}
       <div><b>RS rank (desk list)</b>{{ s.rs_rank }} of 99{% if s.rs_line and s.rs_line.new_high %} &middot; RS line new high{% endif %}</div>
       <div><b>52-week high</b>{{ '%.2f'|format(s.hi52) }} ({{ '%+.1f'|format(s.from_hi52 or 0) }}%)</div>
       {% if s.vs_sma50 is not none %}<div><b>vs 50-day line</b>{{ '%+.1f'|format(s.vs_sma50) }}%</div>{% endif %}
@@ -220,7 +258,7 @@
         <td>{{ '%.2f'|format(r.close) }}</td>
         <td>{% if r.buy_point %}buy {{ '%.2f'|format(r.buy_point) }}{% endif %}</td>
         <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% endif %}</td>
-        <td class="st">RS {{ r.rs_rank }}{% if r.base_weeks %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}{% if r.ipo_sessions %} &middot; {{ r.ipo_sessions }} sessions{% endif %}</td>
+        <td class="st">RS {{ r.rs_rank }}{% if r.base_weeks %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}{% if r.ipo_sessions %} &middot; {{ r.ipo_sessions }} sessions{% endif %}{% if r.aggressive %} &middot; <span class="agg">{{ r.aggressive[0].kind }} {{ '%.2f'|format(r.aggressive[0].price) }}</span>{% endif %}</td>
       </tr>{% endfor %}
     </table>{% else %}<div class="none">None today.</div>{% endif %}
     {% if live_id %}</div>{% endif %}
@@ -230,6 +268,7 @@
     {{ mini("Breakouts this week", ed.lists.breakouts_week, "Cleared a buy point in the last five sessions.", "breakouts_week") }}
     {{ mini("In the buy range", ed.lists.in_buy_range, "Between the buy point and 5% above it.", "in_buy_range") }}
     {{ mini("Near a buy point", ed.lists.near_buy_point, "Within 5% below a buy point, base complete.", "near_buy_point") }}
+    {{ mini("Aggressive entries", ed.lists.aggressive, "Early entries before the standard buy point: a handle high, a downtrend-line break, a 50-day or 21-day bounce inside the base, or a tight shelf in the right side. Higher failure rate than the real buy point; the stop is tighter.") }}
     {{ mini("IPO watch", ed.lists.ipo_watch, "New issues with under six months of trading.") }}
     {{ mini("Sell signals", ed.lists.sell_signals, "Leaders breaking the 50-day line, or 7%+ under a buy point after a breakout.") }}
   </div>
@@ -241,6 +280,49 @@
   <div class="tblwrap"><table class="board">
     <tr><th>Group</th><th>Leaders</th><th>Avg RS</th><th>Above 50-day</th><th>Names</th></tr>
     {% for g in ed.groups %}<tr><td class="sym">{{ g.group }}</td><td>{% for l in g.leaders %}<a class="tk" href="#chart={{ l }}" data-sym="{{ l }}">{{ l }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{{ g.avg_rs }}</td><td>{{ g.above50 }}%</td><td>{{ g.n }}</td></tr>{% endfor %}
+  </table></div>
+  {% endif %}
+
+  <h3 class="sec" id="positions">My Positions</h3>
+  <div class="legend">Your holdings against the rulebook, every pass. Stored only in this browser (nothing is sent anywhere). One per line: <code>SYM buy-price</code>, with an optional share count, e.g. <code>MRVL 248.10 40</code>.</div>
+  <div class="posbox">
+    <textarea id="pos-in" rows="3" placeholder="MRVL 248.10 40&#10;ANET 205.50"></textarea>
+    <button type="button" id="pos-save">Save</button>
+    <div id="pos-out"></div>
+  </div>
+
+  {% if scorecard %}
+  <h3 class="sec" id="scorecard">Scorecard</h3>
+  <div class="legend">Every "breakout" or "in buy range" call the desk has printed since {{ scorecard.first_human }} (stories and watch lists; one call per base), measured from the close the day it printed. Stop = 8% under that price; 20%+ = reached the method's profit target within 40 sessions. S&P 500 shown over the same stretch.</div>
+  {% set S = scorecard.summary %}
+  <div class="facts scoresum">
+    <div><b>Calls</b>{{ S.n }}</div>
+    {% if S.now %}<div><b>Now (avg)</b><span class="{{ 'pos' if S.now.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.now.avg) }}%</span> <span class="st">win {{ S.now.win }}%</span></div>{% endif %}
+    {% if S.w1 %}<div><b>1 week</b><span class="{{ 'pos' if S.w1.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.w1.avg) }}%</span> <span class="st">win {{ S.w1.win }}% · n={{ S.w1.n }}{% if S.spx_w1 %} · S&amp;P {{ '%+.1f'|format(S.spx_w1.avg) }}%{% endif %}</span></div>{% endif %}
+    {% if S.w4 %}<div><b>4 weeks</b><span class="{{ 'pos' if S.w4.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.w4.avg) }}%</span> <span class="st">win {{ S.w4.win }}% · n={{ S.w4.n }}{% if S.spx_w4 %} · S&amp;P {{ '%+.1f'|format(S.spx_w4.avg) }}%{% endif %}</span></div>{% endif %}
+    {% if S.w8 %}<div><b>8 weeks</b><span class="{{ 'pos' if S.w8.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.w8.avg) }}%</span> <span class="st">win {{ S.w8.win }}% · n={{ S.w8.n }}{% if S.spx_w8 %} · S&amp;P {{ '%+.1f'|format(S.spx_w8.avg) }}%{% endif %}</span></div>{% endif %}
+    <div><b>Hit the 8% stop</b>{{ S.stopped_pct }}%</div>
+    <div><b>Reached 20%+</b>{{ S.hit20_pct }}%</div>
+    {% if S.now and S.now.avg_win is not none %}<div><b>Avg winner / loser</b><span class="pos">{{ '%+.1f'|format(S.now.avg_win) }}%</span> / <span class="neg">{{ '%+.1f'|format(S.now.avg_loss) }}%</span></div>{% endif %}
+    {% if S.by_kind.breakout %}<div><b>Breakout calls</b>{{ '%+.1f'|format(S.by_kind.breakout.avg) }}% <span class="st">n={{ S.by_kind.breakout.n }}</span></div>{% endif %}
+    {% if S.by_kind.buy_zone %}<div><b>In-range calls</b>{{ '%+.1f'|format(S.by_kind.buy_zone.avg) }}% <span class="st">n={{ S.by_kind.buy_zone.n }}</span></div>{% endif %}
+  </div>
+  <div class="tblwrap"><table class="board">
+    <tr><th>Date</th><th>Sym</th><th>Call</th><th>At</th><th>Buy pt</th><th>Now</th><th>1w</th><th>4w</th><th>8w</th><th>Best</th><th>Worst</th><th>Result</th></tr>
+    {% for c in scorecard.calls %}<tr>
+      <td>{{ c.date }}</td>
+      <td class="sym"><a class="tk" href="#chart={{ c.sym }}" data-sym="{{ c.sym }}">{{ c.sym }}</a></td>
+      <td class="st">{{ status_label[c.kind] }}</td>
+      <td>{{ '%.2f'|format(c.call_price) }}</td>
+      <td>{{ '%.2f'|format(c.buy_point) }}</td>
+      <td class="{{ 'pos' if (c.now_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(c.now_pct) }}%</td>
+      <td class="{{ 'pos' if (c.w1 or 0) >= 0 else 'neg' }}">{% if c.w1 is not none %}{{ '%+.1f'|format(c.w1) }}%{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (c.w4 or 0) >= 0 else 'neg' }}">{% if c.w4 is not none %}{{ '%+.1f'|format(c.w4) }}%{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (c.w8 or 0) >= 0 else 'neg' }}">{% if c.w8 is not none %}{{ '%+.1f'|format(c.w8) }}%{% else %}–{% endif %}</td>
+      <td class="pos">{% if c.max_gain is not none %}{{ '%+.1f'|format(c.max_gain) }}%{% else %}–{% endif %}</td>
+      <td class="neg">{% if c.max_loss is not none %}{{ '%+.1f'|format(c.max_loss) }}%{% else %}–{% endif %}</td>
+      <td class="st">{% if c.hit20 %}<span class="pos">20%+</span>{% elif c.stopped %}<span class="neg">stopped</span>{% else %}open · {{ c.sessions }}d{% endif %}</td>
+    </tr>{% endfor %}
   </table></div>
   {% endif %}
 
@@ -276,6 +358,7 @@
 </div>
 {% include "markets_quotebox.html" %}
 {% include "markets_popup.html" %}
+{% include "markets_positions.html" %}
 {% if latest and desk.quote_relay %}
 <script>window.BW_RELAY={{ desk.quote_relay|tojson }};window.BW_MBASE={{ ((root or '../') ~ 'markets/')|tojson }};window.BW_STORY={{ story_syms|tojson }};</script>
 <script>{% include "markets_live.js" %}</script>

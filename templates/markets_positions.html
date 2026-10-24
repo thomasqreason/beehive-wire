@@ -1,0 +1,45 @@
+<script>
+/* My Positions: holdings typed by the reader, kept in this browser only (localStorage 'bw-positions').
+   Each line: SYM BUYPRICE [SHARES]. Rows come from series/SYM.json (the desk's last pass for that name). */
+(function(){
+  var ta=document.getElementById('pos-in'),out=document.getElementById('pos-out'),btn=document.getElementById('pos-save');
+  if(!ta||!out)return;
+  var MBASE=(document.body.getAttribute('data-mbase')||'')||'';
+  function f2(x){return x==null?'–':Number(x).toFixed(2);}
+  function pc(x){return x==null?'–':(x>=0?'+':'')+Number(x).toFixed(1)+'%';}
+  function cls(x){return (x||0)>=0?'pos':'neg';}
+  function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function parse(txt){var rows=[];txt.split(/\n+/).forEach(function(l){var p=l.trim().split(/[\s,]+/);if(p.length>=2&&/^[A-Za-z.\-]{1,6}$/.test(p[0])&&!isNaN(+p[1])){rows.push({sym:p[0].toUpperCase().replace('.','-'),buy:+p[1],sh:p[2]&&!isNaN(+p[2])?+p[2]:null});}});return rows;}
+  function load(){try{return localStorage.getItem('bw-positions')||'';}catch(e){return '';}}
+  function save(v){try{localStorage.setItem('bw-positions',v);}catch(e){}}
+  function render(){
+    var rows=parse(ta.value);
+    if(!rows.length){out.innerHTML='<div class="sum">No positions saved. Type one per line above and press Save.</div>';return;}
+    out.innerHTML='<div class="sum">Loading…</div>';
+    Promise.all(rows.map(function(r){return fetch('series/'+encodeURIComponent(r.sym)+'.json',{cache:'no-cache'}).then(function(x){return x.ok?x.json():null;}).catch(function(){return null;});})).then(function(docs){
+      var h='<div class="tblwrap"><table class="board"><tr><th>Sym</th><th>Buy</th><th>Last</th><th>Gain</th><th>Stop (-8%)</th><th>To stop</th><th>vs 50-day</th><th>Chart</th><th>Buy pt</th><th>Earnings</th><th>Rule</th></tr>';
+      var tot=0,totc=0,alerts=0;
+      rows.forEach(function(r,i){var d=docs[i];
+        if(!d){h+='<tr><td class="sym">'+esc(r.sym)+'</td><td>'+f2(r.buy)+'</td><td colspan="9" class="st">no chart saved for this name yet (it is not on a desk list)</td></tr>';return;}
+        var g=(d.close/r.buy-1)*100,stop=r.buy*0.92,toStop=(d.close/stop-1)*100,rule='';
+        if(g<=-7){rule='<span class="neg">SELL RULE: 7-8% loss</span>';alerts++;}
+        else if(d.vs_sma50!=null&&d.vs_sma50<-2){rule='<span class="neg">below the 50-day line</span>';alerts++;}
+        else if(g>=20&&g<25){rule='<span class="pos">in the 20-25% profit zone</span>';}
+        else if(g>=25){rule='<span class="pos">past 25%: hold through a base or take it</span>';}
+        else if(d.status==='retest'&&(d.from_pivot||0)<=-7){rule='<span class="neg">7%+ under the buy point</span>';alerts++;}
+        else rule='<span class="st">holding</span>';
+        if(r.sh){tot+=(d.close-r.buy)*r.sh;totc+=r.buy*r.sh;}
+        h+='<tr><td class="sym"><a class="tk" href="#chart='+esc(d.sym)+'" data-sym="'+esc(d.sym)+'">'+esc(d.sym)+'</a></td><td>'+f2(r.buy)+'</td><td>'+f2(d.close)+'</td><td class="'+cls(g)+'"><b>'+pc(g)+'</b></td><td>'+f2(stop)+'</td><td class="'+cls(toStop)+'">'+pc(toStop)+'</td><td class="'+cls(d.vs_sma50)+'">'+pc(d.vs_sma50)+'</td><td class="st">'+esc(d.angle||d.status||'')+'</td><td>'+(d.base&&d.base.buy_point?f2(d.base.buy_point):'–')+'</td><td class="st">'+esc(d.next_earnings||'–')+'</td><td class="st">'+rule+'</td></tr>';
+      });
+      h+='</table></div>';
+      var sum='';if(totc>0)sum='Open P&amp;L on the lines with share counts: <b class="'+cls(tot)+'">'+(tot>=0?'+':'-')+'$'+Math.abs(tot).toLocaleString(undefined,{maximumFractionDigits:0})+'</b> ('+pc(tot/totc*100)+'). ';
+      sum+=alerts?'<b class="neg">'+alerts+' position'+(alerts>1?'s':'')+' on a sell rule.</b>':'No sell rules tripped.';
+      sum+=' Prices from the desk\'s last pass for each name.';
+      out.innerHTML='<div class="sum">'+sum+'</div>'+h;
+    });
+  }
+  ta.value=load();
+  btn.addEventListener('click',function(){save(ta.value);render();});
+  render();
+})();
+</script>

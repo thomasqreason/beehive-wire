@@ -141,6 +141,9 @@ jobs:
 
       # ── Stocks on the Move: every pass. Free.
       - name: Stocks on the Move
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          MY_SYMBOLS: ${{ secrets.MY_SYMBOLS }}
         id: movers
         continue-on-error: true
         run: python markets.py movers
@@ -152,6 +155,8 @@ jobs:
         continue-on-error: true
         env:
           MARKETS_CORNER: ${{ steps.mode.outputs.mode == 'corner' && '1' || '' }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          MY_SYMBOLS: ${{ secrets.MY_SYMBOLS }}
         run: python markets.py scan --out data/build/markets_payload.json
 
       - name: Write the articles
@@ -170,9 +175,20 @@ jobs:
             --max-turns 16 \
             < /dev/null 2>&1 | tail -c 2000
 
+      # The desk chief: a second Opus call that ranks the day's setups by judgment (picks, avoids, the one thing to watch).
+      - name: Desk chief
+        if: steps.scan.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 15
+        shell: bash
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude -p "You are the DESK CHIEF of the Beehive Wire Market Desk. Read the section 'The desk chief' in markets_desk.md, then read data/build/markets_writer.json. Write your verdict to data/build/markets_chief.json in exactly that schema. Every number from the payload. Write only that file. No prose, no markdown fences, no commit."             --model claude-opus-5-5             --allowedTools "Read,Write"             --permission-mode acceptEdits             --max-turns 10             < /dev/null 2>&1 | tail -c 1500
+
       - name: Print the edition
         if: steps.scan.outcome == 'success'
-        run: python markets.py publish --payload data/build/markets_payload.json --articles data/build/markets_articles.json
+        run: python markets.py publish --payload data/build/markets_payload.json --articles data/build/markets_articles.json --chief data/build/markets_chief.json
 
       # ── The Beehive 50 and Big Cap 20: Fridays with the edition, or by hand.
       - name: Beehive 50 and Big Cap 20

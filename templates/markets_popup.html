@@ -8,8 +8,14 @@
   function pc(x){return (x==null)?'–':(x>=0?'+':'')+Number(x).toFixed(1)+'%';}
   function cls(x){return (x||0)>=0?'pos':'neg';}
   function niceStep(raw){if(raw<=0)return 1;var mag=Math.pow(10,Math.floor(Math.log10(raw)));var ms=[1,2,2.5,5,10];for(var i=0;i<ms.length;i++){if(raw<=ms[i]*mag)return ms[i]*mag;}return 10*mag;}
-  function chart(d){
-    var s=d.series,n=s.c.length,W=760,H=420,PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,b=d.base;
+  function smaArr(c,n){var o=[],s=0;for(var i=0;i<c.length;i++){s+=c[i];if(i>=n)s-=c[i-n];o.push(i>=n-1?+(s/n).toFixed(2):null);}return o;}
+  function frameOf(d,mode){
+    if(mode==='w'&&d.series&&d.series.w){var w=d.series.w;return {d:w.d,o:w.o,h:w.h,l:w.l,c:w.c,v:w.v,e21:smaArr(w.c,10),s50:smaArr(w.c,40),s200:[],avgv50:null,legend:['10-wk','40-wk',''],months:false};}
+    if(mode==='m'&&d.series&&d.series.m){var m=d.series.m;return {d:m.d,o:m.o,h:m.h,l:m.l,c:m.c,v:m.v,e21:smaArr(m.c,10),s50:[],s200:[],avgv50:null,legend:['10-mo','',''],months:false,years:true};}
+    var s=d.series;return {d:s.d,o:s.o,h:s.h,l:s.l,c:s.c,v:s.v,e21:s.e21,s50:s.s50,s200:s.s200,avgv50:s.avgv50,rim_i:s.rim_i,low_i:s.low_i,bo_i:s.bo_i,legend:['21-day','50-day','200-day'],months:true};
+  }
+  function chart(d,mode){
+    var s=frameOf(d,mode||'d'),n=s.c.length,W=760,H=420,PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,b=d.base;
     var xs=function(i){return PL+(i+0.5)*(W-PL-PR)/n;};
     var lo=Math.min.apply(null,s.l),hi=Math.max.apply(null,s.h);
     if(b&&b.buy_max)hi=Math.max(hi,b.buy_max);
@@ -28,15 +34,31 @@
     var step=niceStep((hi-lo)/5),g=Math.ceil(lo/step)*step;
     while(g<hi){var y=ys(g);o.push('<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="var(--grid)" stroke-width="0.6"/><text x="'+(W-PR+4)+'" y="'+(y+4).toFixed(1)+'" class="lbl">'+(+g.toPrecision(6))+'</text>');g+=step;}
     var last=null,MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    for(var i=0;i<n;i++){var m=s.d[i].slice(0,7);if(m!==last){last=m;if(i>0)o.push('<text x="'+xs(i).toFixed(1)+'" y="'+(H-4)+'" class="lbl" text-anchor="middle">'+MON[parseInt(s.d[i].slice(5,7),10)-1]+'</text>');}}
-    [['s200','var(--ma200)'],['s50','var(--ma50)'],['e21','var(--ma21)']].forEach(function(k){var pts=[];for(var i=0;i<n;i++){var v=s[k[0]][i];if(v!=null)pts.push(xs(i).toFixed(1)+','+ys(v).toFixed(1));}if(pts.length>1)o.push('<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+k[1]+'" stroke-width="1.3"/>');});
+    for(var i=0;i<n;i++){var key=s.years?s.d[i].slice(0,4):(s.months?s.d[i].slice(0,7):s.d[i].slice(0,7));
+      if(key!==last){last=key;if(i>0){var lab=s.years?key:(s.months?MON[parseInt(s.d[i].slice(5,7),10)-1]:(s.d[i].slice(5,7)==='01'?s.d[i].slice(0,4):MON[parseInt(s.d[i].slice(5,7),10)-1]));
+        if(s.months||s.years||(parseInt(s.d[i].slice(5,7),10)%3===1))o.push('<text x="'+xs(i).toFixed(1)+'" y="'+(H-4)+'" class="lbl" text-anchor="middle">'+lab+'</text>');}}}
+    [['s200','var(--ma200)'],['s50','var(--ma50)'],['e21','var(--ma21)']].forEach(function(k){var arr=s[k[0]]||[],pts=[];for(var i=0;i<n;i++){var v=arr[i];if(v!=null)pts.push(xs(i).toFixed(1)+','+ys(v).toFixed(1));}if(pts.length>1)o.push('<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+k[1]+'" stroke-width="1.3"/>');});
     for(var i=0;i<n;i++){var up=s.c[i]>=(i?s.c[i-1]:s.o[i]),col=up?'var(--up)':'var(--dn)',x=xs(i);
       o.push('<line x1="'+x.toFixed(1)+'" x2="'+x.toFixed(1)+'" y1="'+ys(s.h[i]).toFixed(1)+'" y2="'+ys(s.l[i]).toFixed(1)+'" stroke="'+col+'" stroke-width="1.2"/>');
       o.push('<line x1="'+x.toFixed(1)+'" x2="'+(x+bw/2+1).toFixed(1)+'" y1="'+ys(s.c[i]).toFixed(1)+'" y2="'+ys(s.c[i]).toFixed(1)+'" stroke="'+col+'" stroke-width="1.6"/>');
       o.push('<rect x="'+(x-bw/2).toFixed(1)+'" y="'+yv(s.v[i]).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+(VT+VH-yv(s.v[i])).toFixed(1)+'" fill="'+col+'" opacity=".75"/>');}
     if(s.avgv50)o.push('<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+yv(s.avgv50).toFixed(1)+'" y2="'+yv(s.avgv50).toFixed(1)+'" stroke="var(--avgv)" stroke-width="1.1"/>');
-    o.push('<text x="'+(W-PR+4)+'" y="'+(VT+12)+'" class="lbl">vol</text><text x="'+(PL+4)+'" y="'+(PT+12)+'" class="lbl"><tspan fill="var(--ma21)">21-day</tspan>  <tspan fill="var(--ma50)">50-day</tspan>  <tspan fill="var(--ma200)">200-day</tspan></text></svg>');
+    var lg=s.legend||['21-day','50-day','200-day'];
+    o.push('<text x="'+(W-PR+4)+'" y="'+(VT+12)+'" class="lbl">vol</text><text x="'+(PL+4)+'" y="'+(PT+12)+'" class="lbl"><tspan fill="var(--ma21)">'+lg[0]+'</tspan>  <tspan fill="var(--ma50)">'+lg[1]+'</tspan>  <tspan fill="var(--ma200)">'+lg[2]+'</tspan></text></svg>');
     return o.join('');
+  }
+  function tabs(d){
+    var has=d.series&&d.series.w;
+    return '<div class="tabs"><button type="button" data-fr="d" class="on">Daily</button>'+(has?'<button type="button" data-fr="w">Weekly</button>':'')+(d.series&&d.series.m?'<button type="button" data-fr="m">Monthly</button>':'')+'</div>';
+  }
+  function wireTabs(container,d){
+    var box=container.querySelector('.tabs');if(!box)return;
+    box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+      box.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});
+      var old=container.querySelector('svg.chart'),mode=b.getAttribute('data-fr'),tmp=document.createElement('div');tmp.innerHTML=chart(d,mode);var sv=tmp.firstChild;
+      old.parentNode.replaceChild(sv,old);
+      if(window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,mode));}
+    });
   }
   function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(sym){
@@ -62,12 +84,15 @@
   function render(d){
       var b=d.base||{},h='<div class="kick"><span class="st">'+esc(STATUS[d.status]||d.status||'')+'</span>'+esc(d.industry||'')+'</div>';
       h+='<h2>'+esc(d.sym)+(d.name?' <span class="nm">&middot; '+esc(d.name)+'</span>':'')+' <span class="px">'+f2(d.close)+'</span> <span class="pchg '+cls(d.chg)+'" style="font-size:16px">'+(d.chg>=0?'+':'')+f2(d.chg)+' ('+pc(d.chg_pct)+')</span></h2>';
-      h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+chart(d);
+      h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+tabs(d)+chart(d,'d');
       h+='<div class="facts">';
+      (d.aggressive||[]).forEach(function(a){if(a&&a.live)h+='<div><b>Aggressive entry: '+esc(a.kind)+'</b>'+f2(a.price)+' <span class="st">('+pc(a.from_price)+' from here)</span></div>';});
+      if(d.next_earnings)h+='<div><b>Next earnings</b>'+esc(d.next_earnings)+'</div>';
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
       h+='<div><b>RS rank</b>'+esc(d.rs_rank==null?'–':d.rs_rank)+'</div><div><b>Volume vs 50-day</b>'+(d.vol_ratio==null?'–':Number(d.vol_ratio).toFixed(1)+'x')+'</div><div><b>52-week high</b>'+f2(d.hi52)+' ('+pc(d.from_hi52)+')</div><div><b>vs 50-day line</b>'+pc(d.vs_sma50)+'</div><div><b>vs 21-day line</b>'+pc(d.vs_ema21)+(d.ext_atr==null?'':' <span class="st">('+(d.ext_atr>0?'+':'')+Number(d.ext_atr).toFixed(1)+' ATR)</span>')+'</div>'+(d.ipo_sessions?'<div><b>New issue</b>'+d.ipo_sessions+' sessions</div>':'')+'</div>';
       body.className='';body.innerHTML=h;body.setAttribute('data-sym',d.sym);
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,d.series);}
+      wireTabs(body,d);
       live(d.sym);
   }
   // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.

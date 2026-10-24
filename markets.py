@@ -270,6 +270,13 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         series["rim_i"] = base["rim"] - s0
         series["low_i"] = base["low_i"] - s0
         series["bo_i"] = (base["breakout"] - s0) if base["breakout"] is not None else None
+    try:
+        from desk_extras import frames, aggressive_entries
+        series.update(frames(df))
+        aggressive = aggressive_entries(H, L, C, V, t, base, s21, s50, status, dates)
+    except Exception as e:  # noqa: BLE001
+        aggressive = []
+        log(f"{sym}: extras failed ({e})")
 
     ytd = None
     y0 = [i for i, d in enumerate(dates) if d[:4] == dates[t][:4]]
@@ -298,6 +305,7 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         "base": base_out,
         "status": status, "from_pivot": from_pivot, "days_since_breakout": days_since, "breakout_vol_ratio": bo_vol,
         "new_high": new_high, "bounce50": bounce50, "breakdown50": breakdown50, "ipo_sessions": ipo_sessions,
+        "aggressive": aggressive,
         "series": series,
     }
 
@@ -485,10 +493,13 @@ def scan(cfg: dict) -> dict:
         "ipo_watch": sorted([f for f in facts if f.get("ipo_sessions")], key=lambda f: -(f.get("rs_rank") or 0)),
         "sell_signals": sorted([f for f in facts if f["breakdown50"] or (f["status"] == "retest" and (f["from_pivot"] or 0) <= -7)],
                                key=lambda f: (f.get("from_pivot") or 0)),
+        "aggressive": sorted([f for f in facts if any(a.get("live") for a in (f.get("aggressive") or []))],
+                             key=lambda f: -(f.get("rs_rank") or 0)),
     }
     lists = {k: [{kk: f.get(kk) for kk in BOARD_KEYS + ("days_since_breakout", "ipo_sessions", "breakout_vol_ratio")}
                  | {"buy_point": (f.get("base") or {}).get("buy_point"), "buy_max": (f.get("base") or {}).get("buy_max"),
-                    "base_kind": (f.get("base") or {}).get("kind"), "base_weeks": (f.get("base") or {}).get("weeks")}
+                    "base_kind": (f.get("base") or {}).get("kind"), "base_weeks": (f.get("base") or {}).get("weeks"),
+                    "aggressive": [a for a in (f.get("aggressive") or []) if a.get("live")][:1]}
                  for f in v[:15]] for k, v in lists.items()}
     by_sym = {f["sym"]: f for f in facts}
     groups = []
@@ -558,12 +569,35 @@ def scan(cfg: dict) -> dict:
             fc = fundamentals_cached(f["sym"])
             f["name"] = fc.get("name") or f["sym"]
             f["industry"] = fc.get("industry")
+    # ── extras: earnings this week, the scorecard (every call since the first edition), phone alerts
+    earnings = []
+    try:
+        from desk_extras import next_earnings_cached, earnings_week, build_scorecard, send_alerts, breakout_alerts, holdings_alerts, big_picture_alert
+        for f in facts:
+            f["next_earnings"] = next_earnings_cached(f["sym"])
+            time.sleep(0.05)
+        earnings = earnings_week(facts)
+        log(f"earnings this week: {', '.join(r['sym'] for r in earnings) or 'none'}")
+        build_scorecard(prices, bench, download)
+        prev_state = None
+        eds_prev = sorted(DATA.glob("????-??-??.json"))
+        if eds_prev:
+            try:
+                prev_state = (json.loads(eds_prev[-1].read_text(encoding="utf-8")).get("big_picture") or {}).get("state")
+            except Exception:  # noqa: BLE001
+                prev_state = None
+        site_url = "https://beehivewire.com/"
+        send_alerts(breakout_alerts(facts, site_url) + holdings_alerts(facts, site_url)
+                    + big_picture_alert(big["state"], big["note"], prev_state, date, site_url), site_url)
+    except Exception as e:  # noqa: BLE001
+        log(f"extras skipped ({e})")
     save_series(facts)
     board_n = int(cfg["desk"].get("board_rows", 40))
     board = sorted(facts, key=lambda f: -(f.get("rs_rank") or 0))[:board_n]
     return {
         "date": date, "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "universe_size": len(facts), "pulse": pulse, "big_picture": big, "lists": lists, "groups": groups,
+        "earnings_week": earnings,
         "stories": chosen,  # full facts incl. series, fundamentals, news
         "profile": profile,
         "corner_topic": corner_topic,
@@ -760,7 +794,7 @@ def edition_path(date: str) -> Path:
     return DATA / f"{date}.json"
 
 
-def publish(payload: dict, articles: dict | None, cfg: dict) -> Path:
+def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None = None) -> Path:
     by_sym = {}
     if articles:
         for a in articles.get("stories") or []:
@@ -796,6 +830,15 @@ def publish(payload: dict, articles: dict | None, cfg: dict) -> Path:
                         "deck": str(c.get("deck") or "").strip(), "example_sym": str(c.get("example_sym") or "").upper() or None,
                         "body": [p.strip() for p in c["body"] if isinstance(p, str) and p.strip()],
                         "takeaways": [t.strip() for t in (c.get("takeaways") or []) if isinstance(t, str) and t.strip()]}
+    # The desk chief: Opus's judgment pass over every setup, when it delivered one.
+    if chief and isinstance(chief, dict) and (chief.get("verdict") or chief.get("picks")):
+        ed["chief"] = {"verdict": str(chief.get("verdict") or "").strip(), "market": str(chief.get("market") or "").strip(),
+                       "picks": [{"sym": str(x.get("sym") or "").upper(), "call": str(x.get("call") or "").strip(),
+                                  "why": str(x.get("why") or "").strip(), "entry": str(x.get("entry") or "").strip()}
+                                 for x in (chief.get("picks") or []) if isinstance(x, dict) and x.get("sym")][:6],
+                       "avoid": [{"sym": str(x.get("sym") or "").upper(), "why": str(x.get("why") or "").strip()}
+                                 for x in (chief.get("avoid") or []) if isinstance(x, dict) and x.get("sym")][:6],
+                       "watch": str(chief.get("watch") or "").strip()}
     DATA.mkdir(parents=True, exist_ok=True)
     p = edition_path(payload["date"])
     p.write_text(json.dumps(ed, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -853,6 +896,14 @@ def render_site(site_cfg: dict | None = None) -> int:
     if mv:
         asof = datetime.fromisoformat(mv["as_of"]).astimezone(tz)
         mv["as_of_human"] = asof.strftime("%A %I:%M %p %Z").replace(" 0", " ")
+    scorecard = None
+    try:
+        from desk_extras import load_scorecard
+        scorecard = load_scorecard()
+        if scorecard and scorecard.get("first_date"):
+            scorecard["first_human"] = human_date(scorecard["first_date"])
+    except Exception:  # noqa: BLE001
+        scorecard = None
     ls = load_lists()
     if ls and ls.get("date"):
         ls["human"] = human_date(ls["date"])
@@ -873,7 +924,7 @@ def render_site(site_cfg: dict | None = None) -> int:
                    edition_human=human_date(e["date"]), edition_day=datetime.fromisoformat(e["date"]).strftime("%A"),
                    stale_edition=(page_date != e["date"]),
                    generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if i == len(eds) - 1 else None,
-                   lists=ls if i == len(eds) - 1 else None,
+                   lists=ls if i == len(eds) - 1 else None, scorecard=scorecard if i == len(eds) - 1 else None,
                    status_label=STATUS_LABEL, index=index, latest=(i == len(eds) - 1), root="../")
         html = tpl.render(**ctx)
         (SITE / f"{e['date']}.html").write_text(html, encoding="utf-8")
@@ -1151,6 +1202,28 @@ def movers(cfg: dict) -> dict:
                      from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"))
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
+    # phone alerts: watch-list names clearing a buy point on volume right now, and the holdings' sell rules
+    try:
+        from desk_extras import send_alerts, breakout_alerts, holdings_alerts
+        desk_facts = []
+        for sym in universe(cfg):
+            if sym in prices and (live or True):
+                try:
+                    f = analyze(sym, prices[sym], bench, cfg)
+                    if f:
+                        f["rs_rank"] = rs_rank_of(sym)
+                        desk_facts.append(f)
+                except Exception:  # noqa: BLE001
+                    pass
+        site_url = "https://beehivewire.com/"
+        note = f"as of {round(frac * 100)}% of the session, volume projected" if live else ""
+        if live:
+            for f in desk_facts:  # intraday: project today's partial volume to the full day before the 1.2x test
+                if f.get("vol_ratio") is not None and frac > 0:
+                    f["vol_ratio"] = round(f["vol_ratio"] / frac, 2)
+        send_alerts(breakout_alerts(desk_facts, site_url, note) + holdings_alerts(desk_facts, site_url), site_url)
+    except Exception as e:  # noqa: BLE001
+        log(f"alerts skipped ({e})")
     try:
         save_screen(prices, bench, cfg, rs_all, rs_rank_of, today, now, live, m)
     except Exception as e:  # noqa: BLE001
@@ -1241,7 +1314,8 @@ def save_series(facts: list[dict]) -> int:
                "date": f["date"], "close": f["close"], "chg": f.get("chg"), "chg_pct": f.get("chg_pct"),
                "status": f.get("status"), "angle": f.get("angle") or angle(f), "rs_rank": f.get("rs_rank"), "vol_ratio": f.get("vol_ratio"),
                "from_pivot": f.get("from_pivot"), "hi52": f.get("hi52"), "from_hi52": f.get("from_hi52"), "vs_sma50": f.get("vs_sma50"),
-               "ipo_sessions": f.get("ipo_sessions"),
+               "ipo_sessions": f.get("ipo_sessions"), "next_earnings": f.get("next_earnings"),
+               "aggressive": f.get("aggressive") or [],
                "base": {k: b.get(k) for k in ("buy_point", "buy_max", "kind", "weeks", "depth", "rim_date", "low_date", "breakout_date")} if b else None,
                "series": s}
         (SERIES_DIR / f"{f['sym']}.json").write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -1630,7 +1704,9 @@ def main() -> int:
     p = sub.add_parser("publish")
     p.add_argument("--payload", required=True)
     p.add_argument("--articles")
+    p.add_argument("--chief")
     sub.add_parser("render")
+    sub.add_parser("scorecard")
     sub.add_parser("run")
     sub.add_parser("movers")
     sub.add_parser("lists")
@@ -1685,7 +1761,21 @@ def main() -> int:
                 arts = json.loads(raw)
             except Exception as e:  # noqa: BLE001
                 log(f"articles unreadable ({e}) — using desk prose")
-        publish(payload, arts, cfg)
+        chief = None
+        if a.chief and Path(a.chief).is_file() and Path(a.chief).stat().st_size > 0:
+            try:
+                raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", Path(a.chief).read_text(encoding="utf-8").strip())
+                chief = json.loads(raw)
+            except Exception as e:  # noqa: BLE001
+                log(f"desk chief unreadable ({e})")
+        publish(payload, arts, cfg, chief=chief)
+        render_site()
+        return 0
+    if a.cmd == "scorecard":
+        from desk_extras import build_scorecard, collect_calls
+        syms = sorted({c["sym"] for c in collect_calls()})
+        prices = download(syms + [cfg["benchmarks"].get("spx", "^GSPC")], "2y")
+        build_scorecard(prices, prices.get(cfg["benchmarks"].get("spx", "^GSPC")), download)
         render_site()
         return 0
     if a.cmd == "render":

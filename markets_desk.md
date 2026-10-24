@@ -125,6 +125,28 @@ should be able to open that chart and see the lesson. Teach the rule, show it on
 have gone wrong without it. End with 3-5 one-line takeaways. O'Neil's rules as IBD teaches them; no
 invented statistics ("studies show 70%...") unless the number is in the payload, which it will not be.
 
+## The desk chief (a separate pass, separate file)
+
+When you are asked for the DESK CHIEF pass you are not writing articles; you are the editor who has run money.
+Read `data/build/markets_writer.json` (the stories, the lists, the Big Picture, the aggressive early entries
+under each name's `aggressive`, the `earnings_week` list) and rank the day's setups by JUDGMENT, not by the
+desk's score: which bases are technically valid but ugly (deep, loose, wide-and-loose handles, low volume on
+the breakout, extended from the 50-day, earnings inside the next five sessions), and which one or two are the
+entries you would actually take, and why, in the language of the chart you can see in the numbers. Say which
+aggressive entry, if any, is worth starting a position on before the buy point, and which should wait. Name
+the risk on each pick. Keep every number from the payload. Write `data/build/markets_chief.json`:
+
+{
+  "verdict": "<2-4 sentences: the day's read of the leaders — what the setups say about the market, which way the risk leans>",
+  "market": "<one sentence on exposure given the Big Picture state and the distribution count>",
+  "picks": [ {"sym": "...", "call": "<Buy on breakout | Start on the aggressive entry | Watch | Pass>", "why": "<2-3 sentences>", "entry": "<the exact level and what confirms it>"} ],
+  "avoid": [ {"sym": "...", "why": "<one sentence: what is wrong with the setup>"} ],
+  "watch": "<one sentence: the one thing to watch tomorrow>"
+}
+
+Picks: 2-4. Avoid: 1-4. Plain words, no hedging filler. This is the one place on the desk where an opinion
+is allowed; make it a clear one and give the reason.
+
 ## Output schema
 
 Write `data/build/markets_articles.json`:
