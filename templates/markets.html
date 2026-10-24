@@ -184,7 +184,7 @@
   {% macro ltable(rows, anchor, title, blurb) %}
   <h3 class="sec" id="{{ anchor }}">{{ title }}</h3>
   <div class="legend">{{ blurb }}</div>
-  <div class="tblwrap"><table class="board">
+  <div class="tblwrap"><table class="board ranked">
     <tr><th>#</th><th>Sym</th><th>Company</th><th>Last</th><th>RS</th><th>EPS q/q-1y</th><th>Rev</th><th>Mkt cap</th><th>Score</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
     {% for r in rows %}<tr>
       <td>{{ r.rank }}{% if r.prev_rank %} <span class="st">({{ r.prev_rank }})</span>{% endif %}</td>
