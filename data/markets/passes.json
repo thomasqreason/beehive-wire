@@ -2285,5 +2285,34 @@
 "day": 16,
 "pass": 2,
 "no": "16.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-24",
+"at": "2026-10-24T16:59:58+00:00",
+"href": "movers/2026-10-24-1059.html",
+"syms": [
+"CCI",
+"CBOE",
+"LMT",
+"CLF",
+"SLB",
+"AMT",
+"SBAC",
+"PHM",
+"MOS"
+],
+"heads": [
+"CCI +9.1% on 4.6x volume, big move on the day",
+"CBOE +3.9% on 1.6x volume, in base",
+"LMT +2.4% on 1.6x volume, nearing buy point",
+"CLF +6.5% on 1.5x volume, big move on the day",
+"SLB +7.1% on 1.5x volume, big move on the day"
+],
+"extra": "5 qualifiers",
+"live": false,
+"day": 16,
+"pass": 3,
+"no": "16.3"
 }
 ]
