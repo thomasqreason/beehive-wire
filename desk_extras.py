@@ -70,7 +70,7 @@ def aggressive_entries(H, L, C, V, t: int, base: dict | None, s21, s50, status: 
                 best = i
                 break
     if best is not None:
-        add("handle high", H[best] + 0.10, f"the handle's high from {dates[best]}; clearing it on volume is the early entry, "
+        add("handle high", H[best] + 0.10, f"the handle's high from {dates[best]}; clearing it is the early entry, "
                                              f"the standard buy point is {pivot + 0.10:.2f}", best)
 
     # 2. Downtrend-line break: the line from the base high through the highest lower high after it.
@@ -333,13 +333,13 @@ def send_alerts(items: list[dict], site_url: str) -> int:
 
 
 def breakout_alerts(facts: list[dict], site_url: str, live_note: str = "") -> list[dict]:
-    """Watch-list names that cleared a buy point today on 1.2x+ volume."""
+    """Watch-list names that cleared a buy point today. Volume is quoted in the message, never required."""
     out = []
     for f in facts:
         b = f.get("base") or {}
-        if f.get("days_since_breakout") == 0 and (f.get("vol_ratio") or 0) >= 1.2 and b.get("buy_point"):
+        if f.get("days_since_breakout") == 0 and b.get("buy_point"):
             out.append({"key": f"bo:{f['sym']}:{f['date']}", "title": f"{f['sym']} clears {b['buy_point']:.2f} buy point",
-                        "body": f"{f['sym']} {f['close']:.2f} ({f.get('from_pivot', 0):+.1f}% past the buy point) on {f['vol_ratio']:.1f}x volume"
+                        "body": f"{f['sym']} {f['close']:.2f} ({f.get('from_pivot', 0):+.1f}% past the buy point), volume {(f.get('vol_ratio') or 0):.1f}x average"
                                 f"{', ' + live_note if live_note else ''}. Buy range to {b.get('buy_max', 0):.2f}.",
                         "url": f"{site_url}markets/#chart={f['sym']}"})
     return out

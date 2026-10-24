@@ -70,6 +70,15 @@ second. If the `news` headlines say the company reported earnings, say so; the n
 are not in the payload unless they are in a headline, so do not state them. The payload's `ah_movers` list is
 the names on the desk list moving 3%+ after hours; mention the ones that matter in `market_note`.
 
+## Volume is information, not a condition (publisher's rule, Oct 24, 2026)
+
+Report the volume on every move (the day's volume versus the 50-day average, as the payload gives it), but
+never treat it as a test a breakout has to pass. Do not call a breakout "unconfirmed," "weak," "light-volume"
+or "lacking conviction," and do not tell the reader to wait for volume. The publisher's reasoning: the old
+rule assumed institutions dominated the tape and tipped their hand by volume at the start of a buying
+campaign; that is no longer how the market trades, so volume is a nice-to-know, not a verdict. State the
+number and move on.
+
 ## The voice
 
 - Title Case headlines, 7-12 words, and THE HEADLINE IS THE COMPANY'S STORY, not the chart (publisher's
@@ -130,8 +139,7 @@ invented statistics ("studies show 70%...") unless the number is in the payload,
 When you are asked for the DESK CHIEF pass you are not writing articles; you are the editor who has run money.
 Read `data/build/markets_writer.json` (the stories, the lists, the Big Picture, the aggressive early entries
 under each name's `aggressive`, the `earnings_week` list) and rank the day's setups by JUDGMENT, not by the
-desk's score: which bases are technically valid but ugly (deep, loose, wide-and-loose handles, low volume on
-the breakout, extended from the 50-day, earnings inside the next five sessions), and which one or two are the
+desk's score: which bases are technically valid but ugly (deep, loose, wide-and-loose handles, extended from the 50-day, earnings inside the next five sessions), and which one or two are the
 entries you would actually take, and why, in the language of the chart you can see in the numbers. Say which
 aggressive entry, if any, is worth starting a position on before the buy point, and which should wait. Name
 the risk on each pick. Keep every number from the payload. Write `data/build/markets_chief.json`:

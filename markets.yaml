@@ -11,7 +11,7 @@ desk:
   chart_bars: 130                  # daily bars drawn on each article's chart
   board_rows: 40                   # rows on the leaders board (sorted by RS)
   buy_zone_pct: 5                  # IBD: buy point to 5% above it
-  breakout_volume_ratio: 1.2       # volume vs 50-day average that counts as conviction
+  breakout_volume_ratio: 1.2       # informational only since Oct 24, 2026: volume is shown everywhere, required nowhere
   history_period: "2y"
   # Live prices in the chart pop-up: the Cloudflare Worker in relay/quote-worker.js. Leave empty to turn it off.
   quote_relay: "https://beehive-quotes.toddridgway.workers.dev/"
@@ -40,7 +40,7 @@ benchmarks:
 # Investor's Corner topics, in rotation (one each Friday, or any run with MARKETS_CORNER=1).
 # Each is written against a real chart from that day's edition.
 corner_topics:
-  - "How to buy a breakout: the buy point, the 5% buy range, and why volume has to confirm it"
+  - "How to buy a breakout: the buy point, the 5% buy range, and what the volume tells you (and what it no longer proves)"
   - "The 7-8% sell rule: why every position starts with a stop and how to set it from the buy point"
   - "Reading a cup with handle: depth, length, the handle's shakeout, and where the buy point sits"
   - "Relative strength: what the RS line against the S&P 500 tells you before the price does"

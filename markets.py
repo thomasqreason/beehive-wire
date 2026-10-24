@@ -318,8 +318,8 @@ STATUS_LABEL = {
 
 def story_score(f: dict, cfg: dict) -> float:
     s = {"breakout": 100, "buy_zone": 80, "setting_up": 45, "extended": 15, "retest": 35, "in_base": 0, "no_base": 0}[f["status"]]
-    if f["status"] == "breakout" and (f.get("breakout_vol_ratio") or 0) >= cfg["desk"].get("breakout_volume_ratio", 1.2):
-        s += 15
+    # Volume is reported, not scored (publisher's call, Oct 24 2026): institutions no longer dominate the tape, so a
+    # heavy-volume breakout is information, not confirmation. No bonus, no penalty.
     if f["status"] == "extended" and (f.get("days_since_breakout") if f.get("days_since_breakout") is not None else 99) <= 3:
         s += 60                     # a fresh breakout that gapped past the buy range is still the day's story
     if f["status"] == "retest" and (f.get("days_since_breakout") or 99) > 20:
@@ -1202,7 +1202,7 @@ def movers(cfg: dict) -> dict:
                      from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"))
         r["qualifies"] = (r.get("rs_rank") or 0) >= min_rs
     save_series(mv_facts)
-    # phone alerts: watch-list names clearing a buy point on volume right now, and the holdings' sell rules
+    # phone alerts: watch-list names clearing a buy point right now (volume shown, not required), and the holdings' sell rules
     try:
         from desk_extras import send_alerts, breakout_alerts, holdings_alerts
         desk_facts = []
@@ -1218,7 +1218,7 @@ def movers(cfg: dict) -> dict:
         site_url = "https://beehivewire.com/"
         note = f"as of {round(frac * 100)}% of the session, volume projected" if live else ""
         if live:
-            for f in desk_facts:  # intraday: project today's partial volume to the full day before the 1.2x test
+            for f in desk_facts:  # intraday: project today's partial volume to the full day so the alert quotes a day-rate
                 if f.get("vol_ratio") is not None and frac > 0:
                     f["vol_ratio"] = round(f["vol_ratio"] / frac, 2)
         send_alerts(breakout_alerts(desk_facts, site_url, note) + holdings_alerts(desk_facts, site_url), site_url)
