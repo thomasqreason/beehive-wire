@@ -2359,5 +2359,71 @@
 "day": 17,
 "pass": 1,
 "no": "17.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-26",
+"at": "2026-10-26T16:40:13+00:00",
+"href": "movers/2026-10-26-1040.html",
+"syms": [
+"BE",
+"CCI",
+"LITE",
+"DOW",
+"SPCX",
+"LMT",
+"CRWV",
+"IREN",
+"TSLA"
+],
+"heads": [
+"BE +7.4% on 1.9x volume, big move on the day",
+"CCI +2.1% on 1.7x volume, in base",
+"LITE +8.6% on 1.7x volume, slips back below buy point",
+"DOW +3.8% on 1.6x volume, in base",
+"SPCX +1.0% on 1.5x volume, in base",
+"LMT +3.5% on 1.5x volume, in base"
+],
+"extra": "6 qualifiers",
+"live": true,
+"day": 17,
+"pass": 2,
+"no": "17.2"
+},
+{
+"kind": "edition",
+"date": "2026-10-26",
+"at": "2026-10-26T16:43:15+00:00",
+"href": "2026-10-26.html",
+"syms": [
+"LNG",
+"TSLA",
+"XOM",
+"CLH",
+"NOW",
+"BRK-B",
+"MNDY",
+"NU",
+"GTLB",
+"ZETA"
+],
+"heads": [
+"Cheniere Hits New High Days Before Earnings After QatarEnergy Deals",
+"Tesla Jumps 6% As Barclays Upgrade Points To SpaceX Merger",
+"Exxon Holds Near Record Ahead Of Oct. 30 Earnings As Brent Tops $116",
+"Clean Harbors Bounces Ahead Of Earnings After Analyst Upgrade",
+"ServiceNow Slips 2% Ahead Of Earnings As BofA Raises Price Target",
+"Berkshire Hathaway Holds Near 52-Week High Under Greg Abel",
+"Monday.com Slips 3% Days After Launching Harmony Platform",
+"Nu Holdings Plunges 18% After Lula Wins Surprise Fourth Term",
+"GitLab Holds Near High After Governed Software Factory Launch",
+"Zeta Global Holds Gains After Goldman Sees 41% Upside",
+"New America: Snowflake Grows Sales 35% As Its Losses Narrow"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 17,
+"pass": 3,
+"no": "17.3"
 }
 ]
