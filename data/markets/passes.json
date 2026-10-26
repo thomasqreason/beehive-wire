@@ -2314,5 +2314,50 @@
 "day": 16,
 "pass": 3,
 "no": "16.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-26",
+"at": "2026-10-26T14:51:11+00:00",
+"href": "movers/2026-10-26-0851.html",
+"syms": [
+"BE",
+"DOW",
+"LMT",
+"CCI",
+"LITE",
+"RBRK",
+"ROP",
+"PANW",
+"WDC",
+"JCI",
+"CRWV",
+"TSLA",
+"IREN",
+"CMG",
+"GL",
+"PWR",
+"STRL",
+"LVS",
+"HWM",
+"GEV"
+],
+"heads": [
+"BE +6.3% on 2.8x volume, big move on the day",
+"DOW +5.0% on 2.4x volume, big move on the day",
+"LMT +3.1% on 2.3x volume, breakout past buy point",
+"CCI +2.8% on 2.2x volume, in base",
+"LITE +6.4% on 2.1x volume, slips back below buy point",
+"RBRK +5.5% on 2.0x volume, new 52-week high",
+"ROP +2.1% on 1.8x volume, breakout past buy point",
+"PANW +3.1% on 1.6x volume, slips back below buy point",
+"WDC +1.7% on 1.6x volume, in base",
+"JCI +2.2% on 1.6x volume, slips back below buy point"
+],
+"extra": "10 qualifiers",
+"live": true,
+"day": 17,
+"pass": 1,
+"no": "17.1"
 }
 ]
