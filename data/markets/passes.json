@@ -2425,5 +2425,33 @@
 "day": 17,
 "pass": 3,
 "no": "17.3"
+},
+{
+"kind": "movers",
+"date": "2026-10-26",
+"at": "2026-10-26T17:08:55+00:00",
+"href": "movers/2026-10-26-1108.html",
+"syms": [
+"NBIS",
+"BE",
+"CCI",
+"LITE",
+"LMT",
+"CRWV",
+"IREN",
+"TSLA"
+],
+"heads": [
+"NBIS +2.1% on 1.9x volume, in base",
+"BE +8.2% on 1.7x volume, big move on the day",
+"CCI +2.2% on 1.6x volume, in base",
+"LITE +10.3% on 1.6x volume, slips back below buy point",
+"LMT +4.1% on 1.5x volume, big move on the day"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 17,
+"pass": 4,
+"no": "17.4"
 }
 ]
