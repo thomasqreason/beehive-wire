@@ -933,5 +933,16 @@
   "iso": "2026-10-26T04:03:16-06:00",
   "top": "LULA WINS, BOLSONARO SON WON'T CONCEDE...",
   "count": 100
+ },
+ {
+  "no": 86,
+  "file": "2026-10-26-evening.html",
+  "date": "2026-10-26",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "5:14 p.m.",
+  "iso": "2026-10-26T17:14:21-06:00",
+  "top": "ANTHROPIC IPO: $16B SALES, $80B LOSS...",
+  "count": 100
  }
 ]
