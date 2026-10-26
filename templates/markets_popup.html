@@ -10,9 +10,9 @@
   function niceStep(raw){if(raw<=0)return 1;var mag=Math.pow(10,Math.floor(Math.log10(raw)));var ms=[1,2,2.5,5,10];for(var i=0;i<ms.length;i++){if(raw<=ms[i]*mag)return ms[i]*mag;}return 10*mag;}
   function smaArr(c,n){var o=[],s=0;for(var i=0;i<c.length;i++){s+=c[i];if(i>=n)s-=c[i-n];o.push(i>=n-1?+(s/n).toFixed(2):null);}return o;}
   function frameOf(d,mode){
-    if(mode==='w'&&d.series&&d.series.w){var w=d.series.w;return {d:w.d,o:w.o,h:w.h,l:w.l,c:w.c,v:w.v,e21:smaArr(w.c,10),s50:smaArr(w.c,40),s200:[],avgv50:null,rs:w.rs,legend:['10-wk','40-wk',''],months:false};}
+    if(mode==='w'&&d.series&&d.series.w){var w=d.series.w;return {d:w.d,o:w.o,h:w.h,l:w.l,c:w.c,v:w.v,e21:smaArr(w.c,10),s50:smaArr(w.c,40),s200:[],avgv50:null,rs:w.rs,rsdot:w.rsdot,legend:['10-wk','40-wk',''],months:false};}
     if(mode==='m'&&d.series&&d.series.m){var m=d.series.m;return {d:m.d,o:m.o,h:m.h,l:m.l,c:m.c,v:m.v,e21:smaArr(m.c,10),s50:[],s200:[],avgv50:null,legend:['10-mo','',''],months:false,years:true};}
-    var s=d.series;return {d:s.d,o:s.o,h:s.h,l:s.l,c:s.c,v:s.v,e21:s.e21,s50:s.s50,s200:s.s200,avgv50:s.avgv50,rim_i:s.rim_i,low_i:s.low_i,bo_i:s.bo_i,rs:s.rs,legend:['21-day','50-day','200-day'],months:true};
+    var s=d.series;return {d:s.d,o:s.o,h:s.h,l:s.l,c:s.c,v:s.v,e21:s.e21,s50:s.s50,s200:s.s200,avgv50:s.avgv50,rim_i:s.rim_i,low_i:s.low_i,bo_i:s.bo_i,rs:s.rs,rsdot:s.rsdot,legend:['21-day','50-day','200-day'],months:true};
   }
   function chart(d,mode){
     var s=frameOf(d,mode||'d'),n=s.c.length,W=760,H=420,PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,b=d.base;
@@ -43,7 +43,8 @@
       o.push('<polyline points="'+rp.join(' ')+'" fill="none" stroke="var(--rs)" stroke-width="1.3" opacity=".9"/>');
       var ly=PT+PH*(0.95-0.33*(rs[li]-rlo)/rng);
       o.push('<text x="'+(xs(li)+5).toFixed(1)+'" y="'+(ly+4).toFixed(1)+'" class="lbl rsl">RS'+(d.rs_rank!=null?' '+d.rs_rank:'')+'</text>');
-      if(rs[li]>=rhi){o.push('<circle cx="'+xs(li).toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="3.5" fill="var(--rs)"/><text x="'+(PL+4)+'" y="'+(PT+28)+'" class="lbl rsl">RS line at a new high</text>');}}
+      (s.rsdot||[]).forEach(function(di){if(di>=0&&di<n&&rs[di]!=null)o.push('<circle cx="'+xs(di).toFixed(1)+'" cy="'+(PT+PH*(0.95-0.33*(rs[di]-rlo)/rng)).toFixed(1)+'" r="3.2" fill="var(--rs)"/>');});
+      if((s.rsdot||[]).indexOf(li)>=0){o.push('<text x="'+(PL+4)+'" y="'+(PT+28)+'" class="lbl rsl">RS line at a new 52-week high</text>');}}
     [['s200','var(--ma200)'],['s50','var(--ma50)'],['e21','var(--ma21)']].forEach(function(k){var arr=s[k[0]]||[],pts=[];for(var i=0;i<n;i++){var v=arr[i];if(v!=null)pts.push(xs(i).toFixed(1)+','+ys(v).toFixed(1));}if(pts.length>1)o.push('<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+k[1]+'" stroke-width="1.3"/>');});
     for(var i=0;i<n;i++){var up=s.c[i]>=(i?s.c[i-1]:s.o[i]),col=up?'var(--up)':'var(--dn)',x=xs(i);
       o.push('<line x1="'+x.toFixed(1)+'" x2="'+x.toFixed(1)+'" y1="'+ys(s.h[i]).toFixed(1)+'" y2="'+ys(s.l[i]).toFixed(1)+'" stroke="'+col+'" stroke-width="1.2"/>');
@@ -93,9 +94,12 @@
     var rsBy=null;
     if(sp&&sp.c){var sm={};for(var i=0;i<sp.d.length;i++)sm[sp.d[i]]=sp.c[i];rsBy={};for(var i=0;i<j.d.length;i++){if(sm[j.d[i]])rsBy[j.d[i]]=j.c[i]/sm[j.d[i]];}
       d.series.rs=d.series.d.map(function(ds){return rsBy[ds]||null;});
+      var all=j.d.map(function(ds){return rsBy[ds]||null;}),dotD={};for(var i=20;i<all.length;i++){if(all[i]==null)continue;var mx=-Infinity;for(var k=Math.max(0,i-252);k<i;k++){if(all[k]!=null&&all[k]>mx)mx=all[k];}if(all[i]>=mx)dotD[j.d[i]]=1;}
+      d.series.rsdot=[];d.series.d.forEach(function(ds,i){if(dotD[ds])d.series.rsdot.push(i);});d.__dotD=dotD;
       var last=rsBy[j.d[j.d.length-1]],win=j.d.slice(-252).map(function(ds){return rsBy[ds];}).filter(Boolean);
       if(last&&win.length)d.rs_line={new_high:last>=Math.max.apply(null,win),from_high:(last/Math.max.apply(null,win)-1)*100};}
     d.series.w=resample(j,'w',110,rsBy);d.series.m=resample(j,'m',36,null);
+    if(d.__dotD){var wd=d.series.w.d;d.series.w.rsdot=[];wd.forEach(function(wend,wi){var ws=wi?wd[wi-1]:'';for(var dd in d.__dotD){if(dd>ws&&dd<=wend){d.series.w.rsdot.push(wi);break;}}});}
     if(d.rs_rank!=null){var tech=0,parts=[];if((d.vs_sma50||-99)>0){tech+=25;parts.push('above 50-day');}if((d.vs_sma200||-99)>0){tech+=25;parts.push('above 200-day');}
       if((d.from_hi52||-99)>=-15){tech+=25;parts.push('within 15% of high');}if(['breakout','buy_zone','setting_up','extended'].indexOf(d.status)>=0){tech+=25;parts.push('buyable pattern');}
       if(d.rs_line&&d.rs_line.new_high){tech+=10;parts.push('RS line high');}tech=Math.min(tech,100);
@@ -120,6 +124,7 @@
       h+='<div class="facts">';
       (d.aggressive||[]).forEach(function(a){if(a&&a.live)h+='<div><b>Aggressive entry: '+esc(a.kind)+'</b>'+f2(a.price)+' <span class="st">('+pc(a.from_price)+' from here)</span></div>';});
       if(d.next_earnings)h+='<div><b>Next earnings</b>'+esc(d.next_earnings)+'</div>';
+      if(d.blue_dot||(d.series&&d.series.rsdot&&d.series.rsdot.indexOf(d.series.c.length-1)>=0))h+='<div><b>Blue dot</b><span style="color:var(--rs);font-weight:900">RS line at a new 52-week high today</span></div>';
       var ds=d.desk_score;if(ds){h+='<div><b>Desk score</b><span style="font-size:16px;font-weight:900">'+ds.score+'</span> <span class="st">of 100</span><br><span class="st">RS '+ds.rs_pts+' + EPS '+ds.eps_pts+(ds.eps_yoy!=null?' ('+(ds.eps_yoy>=0?'+':'')+Math.round(ds.eps_yoy)+'%)':'')+' + Rev '+ds.rev_pts+(ds.rev_yoy!=null?' ('+(ds.rev_yoy>=0?'+':'')+Math.round(ds.rev_yoy)+'%)':'')+' + Chart '+ds.tech_pts+(ds.tech_parts&&ds.tech_parts.length?' ('+esc(ds.tech_parts.join(', '))+')':'')+(ds.note?' · '+esc(ds.note):'')+'</span></div>';}
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
       h+='<div><b>RS rank</b>'+esc(d.rs_rank==null?'–':d.rs_rank)+'</div><div><b>Volume vs 50-day</b>'+(d.vol_ratio==null?'–':Number(d.vol_ratio).toFixed(1)+'x')+'</div><div><b>52-week high</b>'+f2(d.hi52)+' ('+pc(d.from_hi52)+')</div><div><b>vs 50-day line</b>'+pc(d.vs_sma50)+'</div><div><b>vs 21-day line</b>'+pc(d.vs_ema21)+(d.ext_atr==null?'':' <span class="st">('+(d.ext_atr>0?'+':'')+Number(d.ext_atr).toFixed(1)+' ATR)</span>')+'</div>'+(d.ipo_sessions?'<div><b>New issue</b>'+d.ipo_sessions+' sessions</div>':'')+'</div>';

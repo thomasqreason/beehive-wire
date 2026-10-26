@@ -276,10 +276,30 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         series.update(frames(df))
         if line is not None:   # the RS line (stock / S&P 500), daily window and at each weekly bar's date
             series["rs"] = [None if v is None else round(v, 5) for v in line[s0:]]
+            # IBD's blue dot: the RS line at a new 52-week high on that bar (a running max over the prior 252 sessions)
+            dots, run = [], None
+            for i in range(len(line)):
+                v = line[i]
+                if v is None:
+                    continue
+                lo_w = max(0, i - 252)
+                prior = [x for x in line[lo_w:i] if x is not None]
+                if i >= 20 and (not prior or v >= max(prior)):
+                    dots.append(i)
+            series["rsdot"] = [i - s0 for i in dots if i >= s0]
             if series.get("w"):
                 by_date = {dates[i]: line[i] for i in range(len(dates)) if line[i] is not None}
                 series["w"]["rs"] = [None if by_date.get(d) is None else round(by_date[d], 5) for d in series["w"]["d"]]
+                dot_dates = {dates[i] for i in dots}
+                wd = series["w"]["d"]
+                # a weekly bar gets the dot if any session of that week had one
+                flags, k = [], 0
+                for wi, wend in enumerate(wd):
+                    wstart = wd[wi - 1] if wi else ""
+                    flags.append(any(wstart < dd <= wend for dd in dot_dates))
+                series["w"]["rsdot"] = [i for i, fl in enumerate(flags) if fl]
         aggressive = aggressive_entries(H, L, C, V, t, base, s21, s50, status, dates)
+        series["blue_dot"] = (len(series["c"]) - 1) in (series.get("rsdot") or [])
     except Exception as e:  # noqa: BLE001
         aggressive = []
         log(f"{sym}: extras failed ({e})")
@@ -501,6 +521,10 @@ def scan(cfg: dict) -> dict:
                                key=lambda f: (f.get("from_pivot") or 0)),
         "aggressive": sorted([f for f in facts if any(a.get("live") for a in (f.get("aggressive") or []))],
                              key=lambda f: -(f.get("rs_rank") or 0)),
+        # IBD's blue dot: the RS line at a new 52-week high today. Names still under their buy point come first —
+        # relative strength leading price is the version of the signal worth the most.
+        "blue_dots": sorted([f for f in facts if (f.get("series") or {}).get("blue_dot")],
+                            key=lambda f: (0 if f["status"] in ("setting_up", "in_base") else 1, -(f.get("rs_rank") or 0))),
     }
     lists = {k: [{kk: f.get(kk) for kk in BOARD_KEYS + ("days_since_breakout", "ipo_sessions", "breakout_vol_ratio")}
                  | {"buy_point": (f.get("base") or {}).get("buy_point"), "buy_max": (f.get("base") or {}).get("buy_max"),
@@ -786,9 +810,11 @@ def chart_svg(f: dict, cfg: dict) -> str:
         li = max(i for i, v in enumerate(rs) if v is not None)
         ly = PT + PH * (0.95 - 0.33 * (rs[li] - rlo) / rng)
         out.append(f'<text x="{xs(li) + 5:.1f}" y="{ly + 4:.1f}" class="lbl rsl">RS{" " + str(f["rs_rank"]) if f.get("rs_rank") else ""}</text>')
-        if rs[li] >= rhi:
-            out.append(f'<circle cx="{xs(li):.1f}" cy="{ly:.1f}" r="3.5" fill="var(--rs)"/>')
-            out.append(f'<text x="{PL + 4}" y="{PT + 28}" class="lbl rsl">RS line at a new high</text>')
+        for di in (s.get("rsdot") or []):
+            if 0 <= di < n and rs[di] is not None:
+                out.append(f'<circle cx="{xs(di):.1f}" cy="{PT + PH * (0.95 - 0.33 * (rs[di] - rlo) / rng):.1f}" r="3.2" fill="var(--rs)"/>')
+        if li in (s.get("rsdot") or []):
+            out.append(f'<text x="{PL + 4}" y="{PT + 28}" class="lbl rsl">RS line at a new 52-week high</text>')
     for key, col in (("s200", "var(--ma200)"), ("s50", "var(--ma50)"), ("e21", "var(--ma21)")):
         pts = [f"{xs(i):.1f},{ys(v):.1f}" for i, v in enumerate(s[key]) if v is not None]
         if len(pts) > 1:
@@ -1366,6 +1392,7 @@ def save_series(facts: list[dict]) -> int:
                "from_pivot": f.get("from_pivot"), "hi52": f.get("hi52"), "from_hi52": f.get("from_hi52"), "vs_sma50": f.get("vs_sma50"),
                "ipo_sessions": f.get("ipo_sessions"), "next_earnings": f.get("next_earnings"),
                "aggressive": f.get("aggressive") or [], "desk_score": f.get("desk_score") or _score_now(f),
+               "blue_dot": bool((f.get("series") or {}).get("blue_dot")),
                "base": {k: b.get(k) for k in ("buy_point", "buy_max", "kind", "weeks", "depth", "rim_date", "low_date", "breakout_date")} if b else None,
                "series": s}
         (SERIES_DIR / f"{f['sym']}.json").write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
