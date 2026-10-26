@@ -2391,42 +2391,6 @@
 "no": "17.2"
 },
 {
-"kind": "edition",
-"date": "2026-10-26",
-"at": "2026-10-26T16:43:15+00:00",
-"href": "2026-10-26.html",
-"syms": [
-"LNG",
-"TSLA",
-"XOM",
-"CLH",
-"NOW",
-"BRK-B",
-"MNDY",
-"NU",
-"GTLB",
-"ZETA"
-],
-"heads": [
-"Cheniere Hits New High Days Before Earnings After QatarEnergy Deals",
-"Tesla Jumps 6% As Barclays Upgrade Points To SpaceX Merger",
-"Exxon Holds Near Record Ahead Of Oct. 30 Earnings As Brent Tops $116",
-"Clean Harbors Bounces Ahead Of Earnings After Analyst Upgrade",
-"ServiceNow Slips 2% Ahead Of Earnings As BofA Raises Price Target",
-"Berkshire Hathaway Holds Near 52-Week High Under Greg Abel",
-"Monday.com Slips 3% Days After Launching Harmony Platform",
-"Nu Holdings Plunges 18% After Lula Wins Surprise Fourth Term",
-"GitLab Holds Near High After Governed Software Factory Launch",
-"Zeta Global Holds Gains After Goldman Sees 41% Upside",
-"New America: Snowflake Grows Sales 35% As Its Losses Narrow"
-],
-"extra": "Market in correction",
-"live": false,
-"day": 17,
-"pass": 3,
-"no": "17.3"
-},
-{
 "kind": "movers",
 "date": "2026-10-26",
 "at": "2026-10-26T17:08:55+00:00",
@@ -2451,8 +2415,8 @@
 "extra": "5 qualifiers",
 "live": true,
 "day": 17,
-"pass": 4,
-"no": "17.4"
+"pass": 3,
+"no": "17.3"
 },
 {
 "kind": "movers",
@@ -2480,7 +2444,73 @@
 "extra": "4 qualifiers",
 "live": false,
 "day": 17,
+"pass": 4,
+"no": "17.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-26",
+"at": "2026-10-26T21:35:05+00:00",
+"href": "movers/2026-10-26-1535.html",
+"syms": [
+"LMT",
+"CCI",
+"DOW",
+"GLW",
+"IVZ",
+"GL",
+"CDNS",
+"CRWV",
+"HWM",
+"HUBB",
+"GE"
+],
+"heads": [
+"LMT +5.1% on 2.2x volume, big move on the day",
+"CCI +1.7% on 1.8x volume, in base",
+"DOW +4.2% on 1.6x volume, big move on the day",
+"GLW +3.3% on 1.6x volume, in base"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 17,
 "pass": 5,
 "no": "17.5"
+},
+{
+"kind": "edition",
+"date": "2026-10-26",
+"at": "2026-10-26T21:38:20+00:00",
+"href": "2026-10-26.html",
+"syms": [
+"TSLA",
+"XOM",
+"BRK-B",
+"MNDY",
+"GTLB",
+"ZETA",
+"NU",
+"GILD",
+"PFE",
+"V"
+],
+"heads": [
+"Tesla Jumps 5.2% As Upgrade Ties Shares To SpaceX Prospects",
+"Exxon Mobil Hits 52-Week High Ahead Of Friday Earnings Report",
+"Berkshire Hathaway Rises 1.2% To Close Near 52-Week High",
+"Monday.com Gives Back 2.6% Days After Harmony Product Launch",
+"GitLab Edges Up Near 52-Week High On 21% Revenue Growth",
+"Zeta Global Sets Nov. 9 Report Date After 43% Sales Jump",
+"Nu Holdings Up 2% After Hours Following 17% Plunge On Lula Win",
+"Gilead Rises 1.7% Ahead Of Thursday's Third-Quarter Earnings Report",
+"Pfizer Wins FDA Nod For Talzenna-Xtandi Combo, Stock Dips 0.8%",
+"Visa Dips Before Tuesday Earnings; RBC Says Results May Top Views",
+"New America: Cheniere Energy Nears Record As LNG Exports Draw QatarEnergy Deals"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 17,
+"pass": 6,
+"no": "17.6"
 }
 ]
