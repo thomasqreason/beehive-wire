@@ -435,3 +435,55 @@ def load_webster() -> dict | None:
         except Exception:  # noqa: BLE001
             return None
     return None
+
+
+# ────────────────────────────────────────────────────────────────────────── the desk score, per name
+
+def cached_growth(sym: str) -> dict:
+    """Latest-quarter growth from the fundamentals cache, without a network call. {} when not cached."""
+    p = DATA / "fund_cache" / f"{sym}.json"
+    if not p.is_file():
+        return {}
+    try:
+        c = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return {}
+    g = c.get("growth") or []
+    out = {"have": True, "eps_yoy": g[0].get("eps_yoy") if g else None, "rev_yoy": g[0].get("rev_yoy") if g else None,
+           "market_cap": c.get("market_cap"), "fetched": c.get("fetched")}
+    if len(g) > 1 and g[0].get("eps_yoy") is not None and g[1].get("eps_yoy") is not None:
+        out["eps_accel"] = g[0]["eps_yoy"] > g[1]["eps_yoy"]
+    return out
+
+
+def desk_score(f: dict, growth: dict | None) -> dict | None:
+    """The Beehive 50 composite, computed for one name so the chart pop-up can show it with its parts:
+    40% RS rank + 25% EPS growth (capped 200%) + 10% revenue growth (capped 100%) + 25% chart
+    (25 each: above the 50-day, above the 200-day, within 15% of the 52-week high, in a buyable pattern;
+    +10 for an RS-line high, +10 for accelerating EPS; chart capped at 100). Same arithmetic as leader_lists()."""
+    if f.get("rs_rank") is None:
+        return None
+    g = growth or {}
+    eps_yoy, rev_yoy = g.get("eps_yoy"), g.get("rev_yoy")
+    eps = min(max(eps_yoy or 0, 0), 200) / 2
+    rev = min(max(rev_yoy or 0, 0), 100)
+    parts = []
+    tech = 0
+    if (f.get("vs_sma50") or -99) > 0:
+        tech += 25; parts.append("above 50-day")
+    if (f.get("vs_sma200") or -99) > 0:
+        tech += 25; parts.append("above 200-day")
+    if (f.get("from_hi52") or -99) >= -15:
+        tech += 25; parts.append("within 15% of high")
+    if f.get("status") in ("breakout", "buy_zone", "setting_up", "extended"):
+        tech += 25; parts.append("buyable pattern")
+    if (f.get("rs_line") or {}).get("new_high"):
+        tech += 10; parts.append("RS line high")
+    if g.get("eps_accel"):
+        tech += 10; parts.append("EPS accelerating")
+    tech = min(tech, 100)
+    score = round(0.40 * f["rs_rank"] + 0.25 * eps + 0.10 * rev + 0.25 * tech, 1)
+    return {"score": score, "rs": f["rs_rank"], "eps_yoy": eps_yoy, "rev_yoy": rev_yoy, "eps_pts": round(0.25 * eps, 1),
+            "rev_pts": round(0.10 * rev, 1), "rs_pts": round(0.40 * f["rs_rank"], 1), "tech_pts": round(0.25 * tech, 1),
+            "tech": tech, "tech_parts": parts, "have_fund": bool(g.get("have")),
+            "note": None if g.get("have") else "fundamentals not fetched for this name yet; EPS and revenue count as zero"}

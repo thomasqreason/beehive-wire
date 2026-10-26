@@ -145,7 +145,7 @@
     {% if a.deck %}<p class="deck">{{ a.deck }}</p>{% endif %}
 
     {{ s.chart|safe }}
-    <div class="legend">Blue bars close up, pink close down. Dashed green line is the buy point; the green band is the 5% buy range. Circles mark the base high and low. Red line in the volume panel is the 50-day average.</div>
+    <div class="legend">Blue bars close up, pink close down. The thin blue line in the lower part of the price panel is the RS line (the stock divided by the S&amp;P 500; rising = outperforming). Dashed green line is the buy point; the green band is the 5% buy range. Circles mark the base high and low. Red line in the volume panel is the 50-day average.</div>
 
     <div class="facts">
       <div><b>Close</b>{{ '%.2f'|format(s.close) }} <span class="{{ 'pos' if (s.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.chg or 0) }} ({{ '%+.1f'|format(s.chg_pct or 0) }}%)</span></div>
@@ -161,6 +161,7 @@
       {% endif %}
       {% if s.ipo_sessions %}<div><b>New issue</b>{{ s.ipo_sessions }} sessions of trading</div>{% endif %}
       {% for a in (s.aggressive or []) if a.live %}<div><b>Aggressive entry: {{ a.kind }}</b>{{ '%.2f'|format(a.price) }} <span class="st">({{ '%+.1f'|format(a.from_price) }}% from here)</span></div>{% endfor %}
+      {% if s.desk_score %}<div><b>Desk score</b>{{ s.desk_score.score }} <span class="st">RS {{ s.desk_score.rs_pts }} · EPS {{ s.desk_score.eps_pts }} · Rev {{ s.desk_score.rev_pts }} · Chart {{ s.desk_score.tech_pts }}</span></div>{% endif %}
       <div><b>RS rank (desk list)</b>{{ s.rs_rank }} of 99{% if s.rs_line and s.rs_line.new_high %} &middot; RS line new high{% endif %}</div>
       <div><b>52-week high</b>{{ '%.2f'|format(s.hi52) }} ({{ '%+.1f'|format(s.from_hi52 or 0) }}%)</div>
       {% if s.vs_sma50 is not none %}<div><b>vs 50-day line</b>{{ '%+.1f'|format(s.vs_sma50) }}%</div>{% endif %}

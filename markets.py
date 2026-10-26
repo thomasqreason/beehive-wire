@@ -249,6 +249,7 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
     new_high = bool(H[t] >= hi252)
     rs = rs_score(C)
     rs_line = None
+    line = None
     if bench is not None:
         bd = {d.date().isoformat(): float(v) for d, v in bench["Close"].items()}
         line = [C[i] / bd[dates[i]] if dates[i] in bd and bd[dates[i]] else None for i in range(len(C))]
@@ -273,6 +274,11 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
     try:
         from desk_extras import frames, aggressive_entries
         series.update(frames(df))
+        if line is not None:   # the RS line (stock / S&P 500), daily window and at each weekly bar's date
+            series["rs"] = [None if v is None else round(v, 5) for v in line[s0:]]
+            if series.get("w"):
+                by_date = {dates[i]: line[i] for i in range(len(dates)) if line[i] is not None}
+                series["w"]["rs"] = [None if by_date.get(d) is None else round(by_date[d], 5) for d in series["w"]["d"]]
         aggressive = aggressive_entries(H, L, C, V, t, base, s21, s50, status, dates)
     except Exception as e:  # noqa: BLE001
         aggressive = []
@@ -573,8 +579,10 @@ def scan(cfg: dict) -> dict:
     earnings = []
     try:
         from desk_extras import next_earnings_cached, earnings_week, build_scorecard, send_alerts, breakout_alerts, holdings_alerts, big_picture_alert
+        from desk_extras import desk_score, cached_growth
         for f in facts:
             f["next_earnings"] = next_earnings_cached(f["sym"])
+            f["desk_score"] = desk_score(f, cached_growth(f["sym"]))
             time.sleep(0.05)
         earnings = earnings_week(facts)
         log(f"earnings this week: {', '.join(r['sym'] for r in earnings) or 'none'}")
@@ -768,6 +776,19 @@ def chart_svg(f: dict, cfg: dict) -> str:
             last = m
             if i > 0:
                 out.append(f'<text x="{xs(i):.1f}" y="{H - 4}" class="lbl" text-anchor="middle">{datetime.fromisoformat(d).strftime("%b")}</text>')
+    rs = s.get("rs") or []
+    rv = [v for v in rs if v is not None]
+    if len(rv) > 5:                                  # the RS line: stock / S&P 500, drawn as a shape in the lower third
+        rlo, rhi = min(rv), max(rv)
+        rng = (rhi - rlo) or 1e-9
+        pts = [f"{xs(i):.1f},{PT + PH * (0.95 - 0.33 * (v - rlo) / rng):.1f}" for i, v in enumerate(rs) if v is not None]
+        out.append(f'<polyline points="{" ".join(pts)}" fill="none" stroke="var(--rs)" stroke-width="1.3" opacity=".9"/>')
+        li = max(i for i, v in enumerate(rs) if v is not None)
+        ly = PT + PH * (0.95 - 0.33 * (rs[li] - rlo) / rng)
+        out.append(f'<text x="{xs(li) + 5:.1f}" y="{ly + 4:.1f}" class="lbl rsl">RS{" " + str(f["rs_rank"]) if f.get("rs_rank") else ""}</text>')
+        if rs[li] >= rhi:
+            out.append(f'<circle cx="{xs(li):.1f}" cy="{ly:.1f}" r="3.5" fill="var(--rs)"/>')
+            out.append(f'<text x="{PL + 4}" y="{PT + 28}" class="lbl rsl">RS line at a new high</text>')
     for key, col in (("s200", "var(--ma200)"), ("s50", "var(--ma50)"), ("e21", "var(--ma21)")):
         pts = [f"{xs(i):.1f},{ys(v):.1f}" for i, v in enumerate(s[key]) if v is not None]
         if len(pts) > 1:
@@ -1318,6 +1339,15 @@ def identities(syms: list[str], max_fetch: int = 40) -> dict:
 SERIES_DIR = DATA / "series"
 
 
+def _score_now(f: dict):
+    """The desk score for a name whose scan did not compute it (movers / lists passes): cached fundamentals only."""
+    try:
+        from desk_extras import desk_score, cached_growth
+        return desk_score(f, cached_growth(f["sym"]))
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def save_series(facts: list[dict]) -> int:
     """One compact JSON per symbol (data/markets/series/SYM.json) so any ticker on the page can pop its chart.
     Overwritten on every scan that touches the symbol; copied into site/markets/series/ at render."""
@@ -1335,7 +1365,7 @@ def save_series(facts: list[dict]) -> int:
                "status": f.get("status"), "angle": f.get("angle") or angle(f), "rs_rank": f.get("rs_rank"), "vol_ratio": f.get("vol_ratio"),
                "from_pivot": f.get("from_pivot"), "hi52": f.get("hi52"), "from_hi52": f.get("from_hi52"), "vs_sma50": f.get("vs_sma50"),
                "ipo_sessions": f.get("ipo_sessions"), "next_earnings": f.get("next_earnings"),
-               "aggressive": f.get("aggressive") or [],
+               "aggressive": f.get("aggressive") or [], "desk_score": f.get("desk_score") or _score_now(f),
                "base": {k: b.get(k) for k in ("buy_point", "buy_max", "kind", "weeks", "depth", "rim_date", "low_date", "breakout_date")} if b else None,
                "series": s}
         (SERIES_DIR / f"{f['sym']}.json").write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
