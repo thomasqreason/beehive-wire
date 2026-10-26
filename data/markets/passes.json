@@ -2453,5 +2453,34 @@
 "day": 17,
 "pass": 4,
 "no": "17.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-26",
+"at": "2026-10-26T20:40:39+00:00",
+"href": "movers/2026-10-26-1440.html",
+"syms": [
+"LMT",
+"CCI",
+"DOW",
+"GLW",
+"IVZ",
+"GL",
+"CDNS",
+"CRWV",
+"HWM",
+"HUBB"
+],
+"heads": [
+"LMT +5.1% on 2.2x volume, big move on the day",
+"CCI +1.7% on 1.8x volume, in base",
+"DOW +4.2% on 1.6x volume, big move on the day",
+"GLW +3.3% on 1.5x volume, in base"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 17,
+"pass": 5,
+"no": "17.5"
 }
 ]
