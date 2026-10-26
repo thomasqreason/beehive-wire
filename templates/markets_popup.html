@@ -80,12 +80,37 @@
   var MBASE={{ ((root or '../') ~ 'markets/')|tojson }};   // pages one folder down (movers/) still read /markets/series/
   var DIST=null;
   function dist(){return DIST?Promise.resolve(DIST):fetch(MBASE+'rs_dist.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(j){DIST=j&&j.scores||[];return DIST;}).catch(function(){return [];});}
+  // Weekly / monthly frames, the RS line and the desk score for a ticker analysed in the browser (the quote box),
+  // so it matches what a desk-list name gets from the server.
+  var SPX=null;
+  function spx(){if(SPX)return Promise.resolve(SPX);return fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'hist='+encodeURIComponent('^GSPC')).then(function(r){return r.ok?r.json():null;}).then(function(j){SPX=j&&j.c?j:null;return SPX;}).catch(function(){return null;});}
+  function bucketKey(ds,mode){var dt=new Date(ds+'T12:00:00');if(mode==='m')return ds.slice(0,7);var day=dt.getDay();var fri=new Date(dt);fri.setDate(dt.getDate()+((5-day+7)%7));return fri.toISOString().slice(0,10);}
+  function resample(j,mode,keep,rsByDate){var out={d:[],o:[],h:[],l:[],c:[],v:[],rs:[]},key=null,k=-1;
+    for(var i=0;i<j.c.length;i++){var kk=bucketKey(j.d[i],mode);if(kk!==key){key=kk;k++;out.d.push(j.d[i]);out.o.push(j.o[i]);out.h.push(j.h[i]);out.l.push(j.l[i]);out.c.push(j.c[i]);out.v.push(j.v[i]);out.rs.push(rsByDate?rsByDate[j.d[i]]||null:null);}
+      else{out.d[k]=j.d[i];out.h[k]=Math.max(out.h[k],j.h[i]);out.l[k]=Math.min(out.l[k],j.l[i]);out.c[k]=j.c[i];out.v[k]+=j.v[i];out.rs[k]=rsByDate?rsByDate[j.d[i]]||out.rs[k]:null;}}
+    var n=out.d.length,s=Math.max(0,n-keep);['d','o','h','l','c','v','rs'].forEach(function(f){out[f]=out[f].slice(s);});return out;}
+  function enrichFresh(d,j,sp){
+    var rsBy=null;
+    if(sp&&sp.c){var sm={};for(var i=0;i<sp.d.length;i++)sm[sp.d[i]]=sp.c[i];rsBy={};for(var i=0;i<j.d.length;i++){if(sm[j.d[i]])rsBy[j.d[i]]=j.c[i]/sm[j.d[i]];}
+      d.series.rs=d.series.d.map(function(ds){return rsBy[ds]||null;});
+      var last=rsBy[j.d[j.d.length-1]],win=j.d.slice(-252).map(function(ds){return rsBy[ds];}).filter(Boolean);
+      if(last&&win.length)d.rs_line={new_high:last>=Math.max.apply(null,win),from_high:(last/Math.max.apply(null,win)-1)*100};}
+    d.series.w=resample(j,'w',110,rsBy);d.series.m=resample(j,'m',36,null);
+    if(d.rs_rank!=null){var tech=0,parts=[];if((d.vs_sma50||-99)>0){tech+=25;parts.push('above 50-day');}if((d.vs_sma200||-99)>0){tech+=25;parts.push('above 200-day');}
+      if((d.from_hi52||-99)>=-15){tech+=25;parts.push('within 15% of high');}if(['breakout','buy_zone','setting_up','extended'].indexOf(d.status)>=0){tech+=25;parts.push('buyable pattern');}
+      if(d.rs_line&&d.rs_line.new_high){tech+=10;parts.push('RS line high');}tech=Math.min(tech,100);
+      d.desk_score={score:+(0.4*d.rs_rank+0.25*tech).toFixed(1),rs_pts:+(0.4*d.rs_rank).toFixed(1),eps_pts:0,rev_pts:0,tech_pts:+(0.25*tech).toFixed(1),tech_parts:parts,have_fund:false,
+        note:'fundamentals are not fetched for a typed ticker; EPS and revenue count as zero here'};}
+    return d;
+  }
   function fresh(sym){
     scrim.classList.add('on');body.className='wait';body.textContent='Charting '+sym+'…';
-    Promise.all([fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'hist='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}),dist()]).then(function(x){
+    Promise.all([fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'hist='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}),dist(),spx()]).then(function(x){
       var j=x[0];if(!j||!j.c||!j.c.length)throw new Error('none');
       var d=window.BWA&&BWA.analyze(sym,j,{buyZonePct:{{ desk.buy_zone_pct or 5 }},chartBars:{{ desk.chart_bars or 130 }}});if(!d)throw new Error('short');
-      d.name=j.name;d.industry=j.industry||j.sector;d.rs_rank=BWA.rsRank(d.rs_score,x[1]);render(d);
+      d.name=j.name;d.industry=j.industry||j.sector;d.rs_rank=BWA.rsRank(d.rs_score,x[1]);
+      try{enrichFresh(d,j,x[2]);}catch(e){}
+      render(d);
     }).catch(function(){body.className='wait';body.textContent='Couldn\'t find '+sym+'. Check the ticker (class shares use a dash, like BRK-B).';});
   }
   function render(d){
