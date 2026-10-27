@@ -944,5 +944,16 @@
   "iso": "2026-10-26T17:14:21-06:00",
   "top": "ANTHROPIC IPO: $16B SALES, $80B LOSS...",
   "count": 100
+ },
+ {
+  "no": 87,
+  "file": "2026-10-27-morning.html",
+  "date": "2026-10-27",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:02 a.m.",
+  "iso": "2026-10-27T04:02:53-06:00",
+  "top": "ISRAEL VOTES: NETANYAHU ON THE EDGE...",
+  "count": 100
  }
 ]
