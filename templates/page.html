@@ -111,6 +111,7 @@
     .shelf li a{font-size:11px}
   }
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
+  .col > hr.sep:first-child{display:none}   /* side by side, a column never opens with a rule */
   .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
   .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
   .foot .srcs .lbl{text-transform:uppercase;letter-spacing:.06em;color:#000}
@@ -162,6 +163,7 @@
     .flash a{font-size:15px}
     .top a.head{font-size:30px}
     .cols{display:block;gap:0}
+    .col > hr.sep:first-child{display:block}   /* stacked, the seam between columns is a topic break */
     .col a{font-size:14px;margin-bottom:14px}
     hr.sep{width:80%}
   }
