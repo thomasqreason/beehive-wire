@@ -51,6 +51,14 @@ fetch:
 
 # Stories dropped before the editor ever sees them. Matched against the candidate's source name,
 # case-insensitively, as a substring (so "krem.com" matches "www.krem.com" but not "KREM").
+# Names or phrases that never reach the editor again, in any outlet (Oct 27, 2026). Deaths are
+# also locked automatically for a year once they've run (data/obits.json); this list is for
+# anything that needs a hand-kept, permanent spike.
+spiked:
+  - Jim Bakker
+  - Bakker's
+  - PTL Club
+
 blocklist:
   sources: []                      # never run a story from these outlets, on any beat
   by_topic:

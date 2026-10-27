@@ -318,6 +318,94 @@ def _coerce_date(s) -> str | None:
     return iso(parse_iso(s)) if parse_iso(s) else None
 
 
+# ───────────────────────────────────────────────────────────── a death runs once (Oct 27, 2026)
+#
+# `seen` remembers LINKS, so a death came back every time a new outlet ran its own copy: Jim Bakker
+# led seven straight editions (Oct 20-26) from Christian Post, Fulton County News, BBC, IMDb,
+# news-daily... each a "new" link about a death that was weeks old. The fix remembers PEOPLE: once
+# an obituary has been on the page, no later story about that person reaches the editor for a year
+# (columns, retrospectives, "who was he really", relatives' statements) — whatever the outlet or
+# URL. config.yaml `spiked:` is the hand-kept list of names/phrases that never run again at all.
+
+OBITS_FILE = DATA / "obits.json"
+OBIT_DAYS = 365
+_NAME = r"([A-Z][a-zA-Z'’.\-]+(?: [A-Z][a-zA-Z'’.\-]+){1,2})"
+_DEATH = r"(?:dies|died|dead|has died|passes away|passed away|obituary|death of|RIP)"
+_OBIT_PATTERNS = [
+    re.compile(_NAME + r"(?:(?:,[^,]{0,160}){1,3},)?\s+(?i:dies|died|dead at|has died|passes away|passed away)\b"),
+    re.compile(r"^(?:RIP|Obituary|OBITUARY)[:\s]+" + _NAME),
+    re.compile(r"\bdeath of\s+" + _NAME),
+]
+_NOT_SURNAME = {"Times", "News", "Post", "Daily", "Star", "Dead", "Dies", "Press", "Club", "Show",
+                "Family", "House", "Award", "Music", "Band", "Group", "World", "Sports", "Media",
+                # surnames that are also places or so common they'd block unrelated stories
+                # (Sass Jordan's death must not spike the country of Jordan; Clark is Caitlin Clark)
+                "Jordan", "Georgia", "Washington", "Jackson", "Lincoln", "Houston", "Austin", "Kennedy",
+                "Johnson", "Williams", "Brown", "Smith", "Jones", "Davis", "Miller", "Wilson", "Moore",
+                "Taylor", "Thomas", "White", "Harris", "Martin", "Thompson", "Garcia", "Clark", "Lewis",
+                "Young", "Allen", "Wright", "Scott", "Green", "Baker", "Adams", "Nelson", "Campbell",
+                "Mitchell", "Roberts", "Carter", "Phillips", "Evans", "Turner", "Parker", "Collins",
+                "Edwards", "Stewart", "Morris", "Murphy", "Rogers", "Morgan", "Cooper", "Peterson",
+                "Bailey", "Howard", "Richardson", "Watson", "Brooks", "Bennett", "Hughes", "Price",
+                "Sanders", "Foster", "Powell", "Russell", "Sullivan", "Trump", "Biden", "Paris", "Israel",
+                "Christian", "Grace", "Church"}
+
+
+def obit_names(title: str) -> list[str]:
+    """Names an obituary headline is about ("Jim Bakker, televangelist ..., dies at 86")."""
+    t = title or ""
+    if not re.search(_DEATH, t, re.I):
+        return []
+    out = []
+    for rx in _OBIT_PATTERNS:
+        for m in rx.finditer(t):
+            name = m.group(1).strip(" .,'’")
+            words = name.split()
+            # drop leading descriptors the regex swallowed ("Disgraced Televangelist Jim Bakker" -> keep last two)
+            if len(words) == 3 and words[0].lower() in {"star", "icon", "legend", "rocker", "singer", "actor", "actress", "televangelist", "disgraced", "former", "veteran", "author", "artist", "pastor", "evangelist", "composer", "music"}:
+                words = words[1:]
+            if len(words) >= 2:
+                out.append(" ".join(words))
+    return list(dict.fromkeys(out))
+
+
+def load_obits() -> dict:
+    try:
+        return json.loads(OBITS_FILE.read_text()) if OBITS_FILE.exists() else {}
+    except Exception:
+        return {}
+
+
+def save_obits(obits: dict, now: datetime) -> None:
+    keep = {k: v for k, v in obits.items() if (hours_since(v, now) or 0) <= OBIT_DAYS * 24}
+    OBITS_FILE.write_text(json.dumps(keep, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+
+
+def record_obits(items: list[dict], obits: dict, now: datetime) -> None:
+    for it in items:
+        for name in obit_names(it.get("title") or ""):
+            obits.setdefault(name, iso(now))
+
+
+def _person_patterns(name: str) -> list[re.Pattern]:
+    pats = [re.compile(r"\b" + re.escape(name) + r"\b", re.I)]
+    last = name.split()[-1]
+    if len(last) >= 5 and last not in _NOT_SURNAME:
+        pats.append(re.compile(r"\b" + re.escape(last) + r"(?:'s|’s)?\b"))   # surname, capitalised as written
+    return pats
+
+
+def spiked_reason(c: dict, obits: dict, cfg: dict) -> str | None:
+    text = f"{c.get('title') or ''} {c.get('summary') or ''}"
+    for term in cfg.get("spiked") or []:
+        if term and re.search(r"\b" + re.escape(str(term)) + r"\b", text, re.I):
+            return f"spiked term '{term}'"
+    for name in obits:
+        if any(p.search(c.get("title") or "") for p in _person_patterns(name)):
+            return f"death of {name} already ran"
+    return None
+
+
 def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, offer_all: bool,
                       verify: bool = True) -> list[dict]:
     rolling = cfg["rolling"]
@@ -325,9 +413,15 @@ def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, 
     seen = state.get("seen", {})
     window = rolling["candidate_window_hours"]
 
+    obits = load_obits()
+    record_obits(page_links(state), obits, now)        # anything on the page now counts as run
     fresh, seen_titles = [], set()
     for c in cands:
         if c["id"] in on_page:
+            continue
+        why = spiked_reason(c, obits, cfg)
+        if why:
+            log(f"spiked: {c['source']} — {c['title'][:60]} ({why})")
             continue
         if not offer_all and c["id"] in seen:
             continue
@@ -362,6 +456,8 @@ def select_candidates(cands: list[dict], state: dict, cfg: dict, now: datetime, 
         picked.append(c)
         if len(picked) >= rolling["max_candidates"]:
             break
+    if verify:
+        save_obits(obits, now)
     if verify and picked:
         # The expensive half of the stale-story guard: every candidate's own page is asked when it
         # was published (see verify_dates). The feed's date decided nothing above but the window.
