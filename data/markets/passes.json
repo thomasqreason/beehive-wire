@@ -2512,5 +2512,50 @@
 "day": 17,
 "pass": 6,
 "no": "17.6"
+},
+{
+"kind": "movers",
+"date": "2026-10-27",
+"at": "2026-10-27T14:42:41+00:00",
+"href": "movers/2026-10-27-0842.html",
+"syms": [
+"RCL",
+"CNC",
+"BE",
+"NBIS",
+"JCI",
+"KEYS",
+"TSLA",
+"STX",
+"WDC",
+"LITE",
+"NUE",
+"INTC",
+"AMD",
+"SPCX",
+"GEV",
+"SOFI",
+"PYPL",
+"PNR",
+"UPS",
+"SE"
+],
+"heads": [
+"RCL +6.7% on 4.2x volume, big move on the day",
+"CNC +4.5% on 3.3x volume, still in buy range after breakout",
+"BE +8.4% on 2.7x volume, big move on the day",
+"NBIS +8.9% on 2.7x volume, big move on the day",
+"JCI +3.6% on 2.5x volume, slips back below buy point",
+"KEYS +1.8% on 2.4x volume, slips back below buy point",
+"TSLA +2.5% on 2.4x volume, breakout past buy point",
+"STX +5.8% on 2.3x volume, big move on the day",
+"WDC +7.1% on 2.0x volume, big move on the day",
+"LITE +3.5% on 2.0x volume, slips back below buy point"
+],
+"extra": "15 qualifiers",
+"live": true,
+"day": 18,
+"pass": 1,
+"no": "18.1"
 }
 ]
