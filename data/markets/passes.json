@@ -2557,5 +2557,31 @@
 "day": 18,
 "pass": 1,
 "no": "18.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-27",
+"at": "2026-10-27T19:16:03+00:00",
+"href": "movers/2026-10-27-1316.html",
+"syms": [
+"CNC",
+"RCL",
+"SOFI",
+"PNR",
+"UPS",
+"FLEX",
+"PFG",
+"CINF",
+"CNP"
+],
+"heads": [
+"CNC +1.6% on 2.0x volume, slips back below buy point",
+"RCL +5.8% on 1.9x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 18,
+"pass": 2,
+"no": "18.2"
 }
 ]
