@@ -2750,5 +2750,38 @@
 "day": 19,
 "pass": 1,
 "no": "19.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-28",
+"at": "2026-10-28T18:06:59+00:00",
+"href": "movers/2026-10-28-1206.html",
+"syms": [
+"VRT",
+"STX",
+"GEHC",
+"FTV",
+"IEX",
+"LH",
+"FLEX",
+"PPG",
+"GNRC",
+"ECHO",
+"STRL",
+"PNR"
+],
+"heads": [
+"VRT +14.5% on 3.4x volume, big move on the day",
+"STX +2.4% on 2.6x volume, in base",
+"GEHC +8.1% on 2.3x volume, breakout past buy point",
+"FTV +3.6% on 2.2x volume, nearing buy point",
+"IEX +2.3% on 1.9x volume, nearing buy point",
+"LH +10.0% on 1.9x volume, breakout past buy point, already extended"
+],
+"extra": "6 qualifiers",
+"live": true,
+"day": 19,
+"pass": 2,
+"no": "19.2"
 }
 ]
