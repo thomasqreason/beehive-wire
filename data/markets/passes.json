@@ -2783,5 +2783,83 @@
 "day": 19,
 "pass": 2,
 "no": "19.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-28",
+"at": "2026-10-28T21:37:51+00:00",
+"href": "movers/2026-10-28-1537.html",
+"syms": [
+"VRT",
+"FTV",
+"IEX",
+"LH",
+"STX",
+"BAX",
+"MAS",
+"FLEX",
+"PPG",
+"GEHC",
+"ORCL",
+"STRL",
+"PNR",
+"IP",
+"ECHO",
+"GOOGL",
+"BXP",
+"PWR",
+"FIX",
+"GNRC"
+],
+"heads": [
+"VRT +16.5% on 3.6x volume, big move on the day",
+"FTV +4.0% on 2.8x volume, nearing buy point",
+"IEX +2.3% on 2.6x volume, nearing buy point",
+"LH +8.8% on 2.5x volume, breakout past buy point, already extended",
+"STX +4.5% on 2.4x volume, big move on the day",
+"BAX +2.2% on 2.1x volume, in base",
+"MAS +1.2% on 1.8x volume, in base"
+],
+"extra": "7 qualifiers",
+"live": false,
+"day": 19,
+"pass": 3,
+"no": "19.3"
+},
+{
+"kind": "edition",
+"date": "2026-10-28",
+"at": "2026-10-28T21:41:10+00:00",
+"href": "2026-10-28.html",
+"syms": [
+"AMGN",
+"FTNT",
+"GTLB",
+"NOW",
+"GILD",
+"TSLA",
+"ZETA",
+"XOM",
+"EOG",
+"V"
+],
+"heads": [
+"Amgen Rises 2.7% After Hours Ahead Of Third-Quarter Report, Near High",
+"Fortinet Falls 24.6% After Hours As Billings Growth Underwhelms Despite Beat",
+"GitLab Slips 6.2% After Hours In Software Selloff After Closing At High",
+"ServiceNow Sinks 18.1% After Hours On Earnings Miss, Weak Revenue Outlook",
+"Gilead Rises 2.9% After Hours Ahead Of Thursday's Earnings Report",
+"Tesla Slips 0.8% As ARK Restates Robotaxi Target, Musk Teases Cybercabs",
+"Zeta Global Slips 2.8% After Hours In Software Selloff Before November Report",
+"ExxonMobil Gains 1.2% Near High As Iran War Rescues Big Oil Profits",
+"EOG Resources Holds Near High As Earnings Estimates Rise Before Report",
+"Visa Says U.S. Consumer Isn't Cracking; Shares Ease 0.3% After Earnings",
+"New America: Snowflake Dips 2.4% After Hours; Sales Climb 35.1% On AI Data Cloud"
+],
+"extra": "Uptrend under pressure",
+"live": false,
+"day": 19,
+"pass": 4,
+"no": "19.4"
 }
 ]
