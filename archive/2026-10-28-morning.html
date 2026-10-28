@@ -25,7 +25,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Beehive Wire">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(localStorage.getItem('bw-cols')==='1'){document.documentElement.setAttribute('data-cols','1');}}catch(e){}</script>
 <style>
   :root{color-scheme:light}
   html,body{margin:0;padding:0;background:#fff;color:#000}
@@ -111,6 +111,15 @@
     .shelf li a{font-size:11px}
   }
   hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
+  .col > hr.sep:first-child{display:none}   /* side by side, a column never opens with a rule */
+  /* The reader's own one-column switch (footer). The page is rendered in two columns; this stacks them in
+     reading order and widens the type to the old single-file look. Remembered in the browser as bw-cols. */
+  html[data-cols="1"] .cols{display:block}
+  html[data-cols="1"] .col{max-width:720px;margin:0 auto}
+  html[data-cols="1"] .col a{font-size:15px;margin-bottom:13px}
+  html[data-cols="1"] .col a.sub{font-size:13.5px}
+  html[data-cols="1"] .col .shot img{max-width:360px}
+  html[data-cols="1"] .col > hr.sep:first-child{display:block}
   .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
   .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
   .foot .srcs .lbl{text-transform:uppercase;letter-spacing:.06em;color:#000}
@@ -162,7 +171,10 @@
     .flash a{font-size:15px}
     .top a.head{font-size:30px}
     .cols{display:block;gap:0}
+    .col > hr.sep:first-child{display:block}   /* stacked, the seam between columns is a topic break */
     .col a{font-size:14px;margin-bottom:14px}
+    html[data-cols="1"] .col a{font-size:14px;margin-bottom:14px}
+    .foot .colsw{display:none}   /* a phone is always one column; the switch would do nothing */
     hr.sep{width:80%}
   }
 
@@ -180,6 +192,8 @@
   .theme .sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;
     background:#777;transition:transform .18s,background .18s}
   @media (prefers-reduced-motion:reduce){ .theme .sw,.theme .sw::after{transition:none} }
+  #cols-btn[aria-checked="true"] .sw{background:#fdb512;border-color:#fdb512}
+  #cols-btn[aria-checked="true"] .sw::after{transform:translateX(18px);background:#12161b}
 
   html[data-theme="dark"]{color-scheme:dark}
   html[data-theme="dark"] body,html[data-theme="dark"]{background:#12161b;color:#f2efe9}
@@ -206,7 +220,9 @@
   html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
   html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
   html[data-theme="dark"] .foot{border-top-color:#f2efe9}
-  .foot .desk{display:inline-block;margin-top:14px;color:#999;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .foot .row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:10px}
+  .foot .row .theme{margin-top:0}
+  .foot .desk{display:inline-block;color:#999;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
   .foot .desk:hover{background:none;color:#888}
   html[data-theme="dark"] .foot .desk{color:#7f8a97}
   html[data-theme="dark"] .foot .srcs,html[data-theme="dark"] .foot .srcs a{color:#7f8a97}
@@ -267,7 +283,7 @@
   </div>
   
 
-  <div class="cols one">
+  <div class="cols">
     
     <div class="col">
       <a class="held" href="https://www.theamericanconservative.com/iran-war-day-242-israeli-election-turnout-high-as-conflict-looms/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The American Conservative: Iran War Day 242: Israeli Election Turnout High as Conflict Looms">IRAN WAR DAY 242: TEHRAN RALLIES MUSLIM NATIONS...</a>
@@ -318,6 +334,10 @@
       <hr class="sep"><a class="held" href="https://reclaimthenet.org/poland-internet-blocking-powers-dsa-censorship-law" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Reclaim The Net: Poland Approves New Internet Blocking Powers">POLAND APPROVES SWEEPING NEW INTERNET-BLOCKING POWERS...</a>
       <a class="held" href="https://reclaimthenet.org/ontario-digital-id-rollout-photo-card" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Reclaim The Net: Ontario Begins Phased Rollout of Digital Provincial ID">ONTARIO BEGINS ROLLOUT OF DIGITAL PROVINCIAL ID...</a>
       <a class="held" href="https://reclaimthenet.org/texas-sues-openai-over-chatgpt-age-verification" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Reclaim The Net: Texas Sues OpenAI Over Lack of Digital ID Age Checks">TEXAS SUES OPENAI OVER LACK OF AGE-VERIFICATION ID...</a>
+      
+    </div>
+    
+    <div class="col">
       <hr class="sep"><a class="held" href="https://studyfinds.com/gen-zers-adulthood-lonely/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="StudyFinds: 7 In 10 Gen Zers Say Adulthood Has Been Lonelier Than They Expected">STUDY: 7 IN 10 GEN ZERS SAY ADULTHOOD IS LONELIER THAN EXPECTED...</a>
       <a class="held" href="https://www.dailymail.com/sciencetech/article-16242829/ex-fbi-dan-bongino-emergency-warning-usa.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Ex-FBI boss tells Americans to take warnings to stock up seriously: &#39;Get your stuff today&#39;">EX-FBI NO. 2: &#39;GET YOUR STUFF TODAY&#39; AFTER PENTAGON LEAK...</a>
       <a class="held" href="https://www.dailymail.com/tvshowbiz/article-16243465/william-daniels-bonnie-bartlett-hollywood-marriage.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Hollywood golden couple William Daniels, 99, and Bonnie Bartlett, 97, seen months after speaking on &#39;open marriage&#39;">HOLLYWOOD&#39;S LONGEST OPEN MARRIAGE, STILL GOING AT 99 AND 97...</a>
@@ -510,7 +530,14 @@
         <span class="sw" aria-hidden="true"></span><span>Dark mode</span>
       </button>
     </div>
-    <a class="desk" href="../markets/">Market Desk &rarr;</a>
+    <div class="row">
+      <div class="theme colsw">
+        <button id="cols-btn" type="button" role="switch" aria-checked="false" aria-label="Show the headlines in one column">
+          <span class="sw" aria-hidden="true"></span><span id="cols-lbl">One column</span>
+        </button>
+      </div>
+      <a class="desk" href="../markets/">Market Desk &rarr;</a>
+    </div>
   </div>
 
 </div>
@@ -537,6 +564,25 @@
     var dark = root.getAttribute('data-theme') !== 'dark';
     paint(dark);
     try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+(function () {
+  // One column or two: the reader's choice, remembered in this browser (bw-cols). The page is printed
+  // in two columns; the switch stacks them. Its label names the layout it would switch TO: on two
+  // columns it reads "One column", on one it reads "Two columns". (Todd, Oct 28, 2026.)
+  var KEY = 'bw-cols', root = document.documentElement, btn = document.getElementById('cols-btn'), lbl = document.getElementById('cols-lbl');
+  if (!btn) return;
+  function paint(single) {
+    if (single) { root.setAttribute('data-cols', '1'); } else { root.removeAttribute('data-cols'); }
+    btn.setAttribute('aria-checked', single ? 'true' : 'false');
+    lbl.textContent = single ? 'Two columns' : 'One column';
+    btn.setAttribute('aria-label', single ? 'Show the headlines in two columns' : 'Show the headlines in one column');
+  }
+  paint(root.getAttribute('data-cols') === '1');
+  btn.addEventListener('click', function () {
+    var single = root.getAttribute('data-cols') !== '1';
+    paint(single);
+    try { localStorage.setItem(KEY, single ? '1' : '2'); } catch (e) {}
   });
 })();
 </script>
