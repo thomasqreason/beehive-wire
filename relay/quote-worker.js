@@ -6,6 +6,8 @@
 //   GET https://<your-worker>.workers.dev/?q=AAPL,MSFT,…   → bulk live price/volume/day range for the live screen (≤120)
 //   GET https://<your-worker>.workers.dev/?hist=DELL   → two years of daily bars + company name and industry,
 //   which the page's quote box runs through the same chart analysis the desk uses (cached 60 s).
+//   GET https://<your-worker>.workers.dev/?intra=DELL  → five trading days of 5-minute bars, regular session
+//   only, for the pop-up's Intraday tab (cached 60 s).
 //
 // Returns, per symbol: the regular-session price and change, plus the latest extended-hours price
 // (pre-market, after hours, or overnight) when there is one, each with its time. Quotes are cached
@@ -44,6 +46,18 @@ export default {
                           exchange: bars.exchange || null, ...bars.cols }, 200, { "Cache-Control": "public, max-age=60" });
       ctx.waitUntil(caches.default.put(hkey, hres.clone()));
       return withHeaders(hres, cors);
+    }
+    const intra = (url.searchParams.get("intra") || "").toUpperCase().trim();
+    if (intra) {
+      if (!SYM.test(intra)) return json({ error: "bad symbol" }, 400, cors);
+      const ikey = new Request("https://quote-cache.local/intra/" + intra);
+      const ihit = await caches.default.match(ikey);
+      if (ihit) return withHeaders(ihit, cors);
+      const bars = await intradayBars(intra).catch(() => null);
+      if (!bars) return json({ error: "no intraday data for " + intra }, 404, cors);
+      const ires = json({ sym: intra, interval: "5m", ...bars }, 200, { "Cache-Control": "public, max-age=60" });
+      ctx.waitUntil(caches.default.put(ikey, ires.clone()));
+      return withHeaders(ires, cors);
     }
     // ── Bulk mode for the page's live screen: ?q=AAPL,MSFT,... (up to 120). Quote feed only — one Yahoo call per
     //    request, so a page refresh of the whole 583-name universe is six calls, shared by every reader for 60 s.
@@ -121,6 +135,27 @@ async function dailyBars(sym) {
   });
   if (cols.d.length < 15) return null;
   return { cols, name: m.longName || m.shortName, exchange: m.fullExchangeName };
+}
+
+// ── Five days of 5-minute bars for the pop-up's Intraday tab. Regular session only, so the day's shape is
+//    the one the tape shows; timestamps are the exchange's own clock ("YYYY-MM-DD HH:MM") so the page needs no
+//    time-zone work.
+async function intradayBars(sym) {
+  const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=5m&range=5d&includePrePost=false`,
+    { headers: { "User-Agent": UA }, cf: { cacheTtl: 60 } });
+  if (!r.ok) return null;
+  const res = (await r.json())?.chart?.result?.[0];
+  if (!res?.timestamp) return null;
+  const m = res.meta || {}, q = res.indicators?.quote?.[0] || {}, off = m.gmtoffset || 0;
+  const cols = { d: [], o: [], h: [], l: [], c: [], v: [] };
+  res.timestamp.forEach((t, i) => {
+    const o = q.open?.[i], h = q.high?.[i], l = q.low?.[i], c = q.close?.[i], v = q.volume?.[i];
+    if ([o, h, l, c].some(x => x == null)) return;
+    const d = new Date((t + off) * 1000).toISOString().slice(0, 16).replace("T", " ");
+    cols.d.push(d); cols.o.push(o); cols.h.push(h); cols.l.push(l); cols.c.push(c); cols.v.push(v == null ? 0 : v);
+  });
+  if (cols.d.length < 10) return null;
+  return { tz: m.exchangeTimezoneName || null, ...cols };
 }
 
 async function profile(sym, retried) {

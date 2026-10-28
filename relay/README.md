@@ -24,6 +24,12 @@ browser (base, buy point, buy range, status, distance from the buy point) → RS
 universe the last pass ranked. markets_analyze.js is a port of analyze() in markets.py; after changing either,
 run `python relay/parity_test.py` (400 synthetic charts, must be identical).
 
+## The Intraday tab
+The last tab on every chart in the pop-up, after Monthly, for desk-list names and typed tickers alike. It asks the
+relay's `?intra=SYM` mode for five trading days of 5-minute bars (regular session only) the first time it is pressed,
+and draws them with 20- and 50-bar lines. If the relay deployed on Cloudflare predates this mode the tab says so and
+the chart stays where it was; paste the current worker in (above) to turn it on.
+
 ## What readers see
 The pop-up opens on the pass's saved chart, then within a second the headline switches to the freshest
 price, with "Live" (or "At close") and, outside regular hours, "Pre-market" / "After hours" / "Overnight"
