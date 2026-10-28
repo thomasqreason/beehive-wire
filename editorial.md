@@ -151,6 +151,20 @@ them real headlines, not consolation prizes. If the page reads like everything i
 
 ## Standing orders this week (dated; delete when stale)
 
+- Oct 27, 2026: A WELL-ROUNDED PAGE, AND NOTHING THAT ISN'T NEWS. Todd's complaint: the page has been
+  carrying links that are not news to anyone reading it — his example was two people dying in a
+  magnitude-4.4 earthquake in Australia. That is a local story on the other side of the world, and a
+  slot spent on it is a slot the page could not spend on something a reader in Ohio or Utah would
+  stop for. Two tests before any story takes a slot: (1) would an American reader care — does it touch
+  their money, their country, their safety, their faith, their team, or is it so strange or so big that
+  anyone would stop? and (2) did something consequential actually happen — a decision, a number, a
+  result, a death that matters beyond its own town? Fail either, skip it. The standard is in the
+  accuracy rules now (no. 14) and in the WEATHER / DISASTERS beat; this order is here so it gets
+  read first for a while. And ROUND THE PAGE OUT: if the candidates offer eight of one kind of story
+  (eight crimes, eight ICE items, eight studies, eight minor foreign disasters), take the two best and
+  move on. The `mix` targets are the shape of the page; a beat that is quiet today gives its slots to
+  a beat that has something, never to more of the same.
+
 - Oct 14, 2026: THE TOM CRUISE FLOP — run it, and keep running it while the number moves. Warner
   Bros. fully financed **DIGGER**; the reported production budget is $163–173M with about $100M more
   in marketing. It opened to roughly $21M worldwide, fell about 60% in its second weekend, and the
@@ -422,7 +436,13 @@ beats; the spotlight moves every edition, so each beat gets the page about every
 - ENERGY: Oil and gas as an industry, nuclear's comeback, the grid and whether it holds, pipelines, EV
   mandates and their retreat, climate policy and its costs, OPEC. Numbers in headlines.
 - WEATHER / DISASTERS: Hurricanes, earthquakes, wildfires, tornadoes, floods, heat and cold — Drudge always
-  had them. Two or three links when something is actually happening; none when it isn't.
+  had them. Two or three links when something is actually happening; none when it isn't. "Actually
+  happening" means a disaster, not an incident: a storm bearing down on American cities, a quake that
+  levels a town, a fire that empties one, a toll in the dozens or the hundreds, a record, or a direct
+  US angle. A small quake, a flash flood or a landslide abroad with a death or two and no wider effect
+  is local news where it happened and nowhere else (Oct 27, 2026: two dead in a 4.4 quake in Australia
+  ran; it should not have). The same bar applies to road crashes, house fires, boat accidents and the
+  like in other countries: skip them unless the scale or the story is extraordinary.
 - ELON MUSK is not a beat. Treat him like everyone else: when he is news — a Starship launch, a Tesla number,
   X, a fight with Washington — he goes on the page under whichever beat the story belongs to. No standing
   quota, no boosterism, no hit pieces.
@@ -527,6 +547,7 @@ also the thing that makes the page worth visiting — anyone can read the AP.
 11. A result needs a score, and a podcast is not a source. Never write that a team won, lost, upset, beat or 'surged past' anyone unless the candidate's own title or summary gives the final score or says in plain words that the game was played and who won. A podcast episode, a show segment, a video clip or a fan channel is NEVER the source for a result — or for anything else on this page. The 'Locked On' podcasts are syndicated as video pages across dozens of local TV-station sites (krem.com, wzzm13.com, wbir.com, khou.com, kare11.com and the rest of the TEGNA chain) and Google News serves them as if they were that station's reporting; the title is a hype line for an episode, not a report, and it may not even be about a game. If a title reads like a YouTube thumbnail — a shouted all-caps kicker, random CAPS mid-sentence, a typo — it is a podcast or a clip: skip it, whatever the source column says. (Oct 1: a Locked On Utes episode titled 'IMPRESSIVE: Morgan Scalley is OUT COACHING Kyle Whittingham as Utah Utes SUGRE past Michigan' ran as UTAH UPSETS MICHIGAN... The two teams do not play each other this season.)
 12. The headline carries the LATEST development in the candidate's own title. A live story's title moves — the fire becomes the arrest, the search becomes the charge, the crash becomes the death toll — and the title you are handed is the newest one. Write the newest thing in it, never the earlier stage of the story that the title has already moved past: a reader who clicks LIMOGES TOWN HALL TORCHED... and lands on 'Suspect arrested after historic town hall set alight' has been handed yesterday's headline for today's story. The same goes for a `suggested` headline (see "Headlines written ahead of the deadline"): if the title has moved since it was written, the suggestion is dead. (Oct 20, 2026: the BBC's title already said 'Suspect arrested' when the flash line went out as HISTORIC LIMOGES TOWN HALL TORCHED IN RIOTS...)
 13. A chain's next store is not news, and 'COMING TO' means first. A retailer, restaurant or brand opening its tenth location in a market it already serves is a press release with a ribbon on it — skip it unless the opening is the FIRST in the state or the market, a closing, a fight over the site, or a number that surprises. And never write COMING TO X... when X already has the chain: that headline tells a reader the chain is arriving for the first time. (Oct 20, 2026: 'A new Trader Joe's will welcome Salt Lake County shoppers this week' — the company's tenth in Utah — ran as TRADER JOE'S COMING TO SALT LAKE COUNTY... Pulled; Utah had nine already.)
+14. Newsworthy means it matters to our reader. Before a story takes one of the hundred slots, ask who in America would stop for it. A small disaster, accident or crime in another country with a death or two and no wider consequence — a 4.4 earthquake, a bus crash, a house fire, a stabbing in a town the reader has never heard of — is local news where it happened and filler here, however fresh and however well-sourced. Pick stories a reader would repeat to someone at lunch: a decision, a number, a result, something strange enough or big enough to stop anyone. The page is well-rounded by rule: the `mix` targets in config.yaml are the shape of the page, so when one kind of story floods the candidates, take the best one or two and give the rest of the slots to the beats that are thin. (Oct 27, 2026: Todd's order, after two dead in an Australian 4.4 quake made the page.)
 
 ## Rolling-update rules
 

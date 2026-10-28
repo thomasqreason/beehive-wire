@@ -1634,6 +1634,34 @@ def _ordered_items(items: list[dict]) -> list[dict]:
     return out
 
 
+def _split_columns(items: list[dict], ncols: int) -> list[list[dict]]:
+    """Deal the reading order into `ncols` columns of about equal length, left to right, without
+    ever cutting a stack: a lead and the follow-ups seated under it (`sub`) move as one block, so
+    the break between columns always falls between unrelated stories. With one column this is
+    just the list. (Oct 27, 2026: the page went from one column to two.)"""
+    if ncols <= 1 or not items:
+        return [list(items)] if ncols <= 1 else [list(items)] + [[] for _ in range(ncols - 1)]
+    blocks: list[list[dict]] = []
+    for it in items:
+        if it.get("sub") and blocks:
+            blocks[-1].append(it)
+        else:
+            blocks.append([it])
+    cols: list[list[dict]] = [[] for _ in range(ncols)]
+    remaining = len(items)
+    ci = 0
+    share = -(-remaining // ncols)
+    for b in blocks:
+        # A column's share is its fair cut of what was left when it opened; a block that would push
+        # it past that share opens the next column, unless this one is still empty.
+        if cols[ci] and ci < ncols - 1 and len(cols[ci]) + len(b) > share:
+            ci += 1
+            share = -(-remaining // (ncols - ci))
+        cols[ci].extend(b)
+        remaining -= len(b)
+    return cols
+
+
 def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: bool = False,
                edition_no: int = 0, shelf_rows: dict | None = None):
     """Render one edition. `root` is how many levels up the assets sit; archived pages
@@ -1643,10 +1671,9 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]))
     tpl = env.get_template("page.html")
 
-    ncols = cfg["page"]["columns"]
+    ncols = max(1, int(cfg["page"].get("columns") or 1))
     _pick_pictures(state.get("items") or [], cfg, now)
     items = _ordered_items(state.get("items") or [])
-    per = -(-len(items) // ncols) if items else 0
 
     # Held over or new this edition? A story's first_seen is stamped the edition it arrived, so
     # anything first seen before this edition's own stamp was on the previous page. The template
@@ -1658,14 +1685,18 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         return bool(fs) and fs < ref - timedelta(minutes=5)
 
     columns = []
-    for i in range(ncols):
-        col = [dict(x) for x in items[i * per : (i + 1) * per]]
-        for j, it in enumerate(col):
-            prev = col[j - 1] if j else None
+    prev = None
+    for chunk in _split_columns(items, ncols):
+        col = [dict(x) for x in chunk]
+        for it in col:
             # A rule separates topic clusters, but never cuts into a stack: a follow-up is part of
-            # the block above it, so it never carries one.
+            # the block above it, so it never carries one. The rule is reckoned across the column
+            # seam too, so a phone (where the columns stack) still gets one between the last story
+            # of one column and the first of the next; the stylesheet hides it when the columns
+            # sit side by side.
             it["sep"] = bool(prev) and not it.get("sub") and it.get("topic") != prev.get("topic")
             it["held"] = held(it)
+            prev = it
         columns.append(col)
     flash = [dict(x) for x in state.get("flash") or []]
     for f in flash:

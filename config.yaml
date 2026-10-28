@@ -20,7 +20,8 @@ page:
                                    # column stories that run with their picture, on top of the giant
                                    # headline (which always gets one if an image can be found).
                                    # 3 per edition x 2 editions = about 6 pictures a day.
-  columns: 1                       # one column, single file — not the three-column Drudge grid
+  columns: 2                       # two columns under the giant headline (1 -> 2 on Oct 27, 2026, Todd's order);
+                                   # the split never cuts a story stack, and phones collapse to one column
 
 # Tuned for TWO builds a day (morning and late afternoon). If you move to a faster
 # cadence, drop max_swaps_per_run to ~4 and max_story_age_hours to ~36.
