@@ -3,20 +3,21 @@
    Mouse: hover. Touch: press and hold ~300ms, then drag; the page scrolls normally otherwise.
    Pop-up charts get their data directly; article charts fetch series/SYM.json on first touch. */
 window.BWXH=(function(){
-  var W=760,PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,cache={};
+  var PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,cache={};
+  function wOf(svg){try{var vb=svg.viewBox.baseVal;if(vb&&vb.width)return vb.width;}catch(e){}return 760;}
   function f2(x){return x==null?'–':Number(x).toFixed(2);}
   function vol(v){return v>=1e9?(v/1e9).toFixed(2)+'B':v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'K':String(v);}
   function atr(s,i,n){var tr=[];for(var k=Math.max(1,i-n+1);k<=i;k++){var h=s.h[k],l=s.l[k],pc=s.c[k-1];tr.push(Math.max(h-l,Math.abs(h-pc),Math.abs(l-pc)));}return tr.length?tr.reduce(function(a,b){return a+b;},0)/tr.length:null;}
   function build(svg){
     var ns='http://www.w3.org/2000/svg',g=document.createElementNS(ns,'g');g.setAttribute('class','xh');g.style.pointerEvents='none';g.style.display='none';
-    var vl=document.createElementNS(ns,'line'),hl=document.createElementNS(ns,'line'),dot=document.createElementNS(ns,'circle'),box=document.createElementNS(ns,'rect'),t1=document.createElementNS(ns,'text'),t2=document.createElementNS(ns,'text');
+    var vl=document.createElementNS(ns,'line'),hl=document.createElementNS(ns,'line'),dot=document.createElementNS(ns,'circle'),box=document.createElementNS(ns,'rect'),t1=document.createElementNS(ns,'text'),t2=document.createElementNS(ns,'text'),t3=document.createElementNS(ns,'text');
     dot.setAttribute('r','3');box.setAttribute('class','box');box.setAttribute('rx','3');
-    g.appendChild(vl);g.appendChild(hl);g.appendChild(dot);g.appendChild(box);g.appendChild(t1);g.appendChild(t2);svg.appendChild(g);
-    return {g:g,vl:vl,hl:hl,dot:dot,box:box,t1:t1,t2:t2};
+    g.appendChild(vl);g.appendChild(hl);g.appendChild(dot);g.appendChild(box);g.appendChild(t1);g.appendChild(t2);g.appendChild(t3);svg.appendChild(g);
+    return {g:g,vl:vl,hl:hl,dot:dot,box:box,t1:t1,t2:t2,t3:t3};
   }
   function span(t,cls){var e=document.createElementNS('http://www.w3.org/2000/svg','tspan');if(cls)e.setAttribute('class',cls);e.textContent=t;return e;}
   function render(svg,s,el,px,py){
-    var n=s.c.length,i=Math.max(0,Math.min(n-1,Math.floor((px-PL)/((W-PL-PR)/n))));
+    var W=wOf(svg),n=s.c.length,i=Math.max(0,Math.min(n-1,Math.floor((px-PL)/((W-PL-PR)/n))));
     var lo=Math.min.apply(null,s.l),hi=Math.max.apply(null,s.h);
     var bm=svg.getAttribute('data-buymax');if(bm)hi=Math.max(hi,+bm);
     var pad=(hi-lo)*0.06||1;lo-=pad;hi+=pad;
@@ -27,14 +28,18 @@ window.BWXH=(function(){
     var chg=i?(s.c[i]/s.c[i-1]-1)*100:0,up=chg>=0,avg=s.avgv50||0,vr=avg?s.v[i]/avg:null,a=atr(s,i,14);
     var raw=s.d[i],d=new Date(raw.slice(0,10)+'T12:00:00'),ds=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
     if(raw.length>10){var hh=parseInt(raw.slice(11,13),10),mm=raw.slice(14,16);ds=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' '+((hh+11)%12+1)+':'+mm+(hh<12?' AM':' PM');}
-    while(el.t1.firstChild)el.t1.removeChild(el.t1.firstChild);while(el.t2.firstChild)el.t2.removeChild(el.t2.firstChild);
-    el.t1.appendChild(span(ds+'   '));el.t1.appendChild(span('O ','k'));el.t1.appendChild(span(f2(s.o[i])+'  '));el.t1.appendChild(span('H ','k'));el.t1.appendChild(span(f2(s.h[i])+'  '));el.t1.appendChild(span('L ','k'));el.t1.appendChild(span(f2(s.l[i])+'  '));el.t1.appendChild(span('C ','k'));el.t1.appendChild(span(f2(s.c[i])+'  '));el.t1.appendChild(span((up?'+':'')+chg.toFixed(1)+'%',up?'pos':'neg'));
-    el.t2.appendChild(span('VOL ','k'));el.t2.appendChild(span(vol(s.v[i])+(vr!=null?'  ('+vr.toFixed(1)+'x avg)':'')+'   '));
-    if(a!=null){el.t2.appendChild(span('ATR14 ','k'));el.t2.appendChild(span(f2(a)+'  ('+(a/s.c[i]*100).toFixed(1)+'%)   '));}
-    el.t2.appendChild(span('PRICE AT CURSOR ','k'));el.t2.appendChild(span(f2(hi-(yh-PT)/PH*(hi-lo))));
-    var left=px>W/2,bx=left?PL+6:W-PR-6-440,by=PT+18;
-    el.box.setAttribute('x',bx);el.box.setAttribute('y',by);el.box.setAttribute('width',440);el.box.setAttribute('height',40);
-    el.t1.setAttribute('x',bx+8);el.t1.setAttribute('y',by+15);el.t2.setAttribute('x',bx+8);el.t2.setAttribute('y',by+32);
+    [el.t1,el.t2,el.t3].forEach(function(t){while(t.firstChild)t.removeChild(t.firstChild);});
+    var narrow=W<560,ohlc=narrow?el.t2:el.t1,tail=narrow?el.t3:el.t2;
+    el.t1.appendChild(span(ds+'   '));
+    if(narrow)el.t1.appendChild(span((up?'+':'')+chg.toFixed(1)+'%',up?'pos':'neg'));
+    ohlc.appendChild(span('O ','k'));ohlc.appendChild(span(f2(s.o[i])+'  '));ohlc.appendChild(span('H ','k'));ohlc.appendChild(span(f2(s.h[i])+'  '));ohlc.appendChild(span('L ','k'));ohlc.appendChild(span(f2(s.l[i])+'  '));ohlc.appendChild(span('C ','k'));ohlc.appendChild(span(f2(s.c[i])+'  '));
+    if(!narrow)ohlc.appendChild(span((up?'+':'')+chg.toFixed(1)+'%',up?'pos':'neg'));
+    tail.appendChild(span('VOL ','k'));tail.appendChild(span(vol(s.v[i])+(vr!=null?'  ('+vr.toFixed(1)+'x avg)':'')+'   '));
+    if(a!=null&&!narrow){tail.appendChild(span('ATR14 ','k'));tail.appendChild(span(f2(a)+'  ('+(a/s.c[i]*100).toFixed(1)+'%)   '));}
+    tail.appendChild(span(narrow?'AT CURSOR ':'PRICE AT CURSOR ','k'));tail.appendChild(span(f2(hi-(yh-PT)/PH*(hi-lo))));
+    var bwid=narrow?Math.min(250,W-PL-PR-12):440,bh=narrow?56:40,left=px>W/2,bx=left?PL+6:W-PR-6-bwid,by=PT+18;
+    el.box.setAttribute('x',bx);el.box.setAttribute('y',by);el.box.setAttribute('width',bwid);el.box.setAttribute('height',bh);
+    el.t1.setAttribute('x',bx+8);el.t1.setAttribute('y',by+15);el.t2.setAttribute('x',bx+8);el.t2.setAttribute('y',by+32);el.t3.setAttribute('x',bx+8);el.t3.setAttribute('y',by+49);el.t3.style.display=narrow?'':'none';
     el.g.style.display='';
   }
   function pt(svg,e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;var m=svg.getScreenCTM();if(!m)return null;var q=p.matrixTransform(m.inverse());return {x:q.x,y:q.y};}
