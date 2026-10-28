@@ -2705,5 +2705,50 @@
 "day": 18,
 "pass": 5,
 "no": "18.5"
+},
+{
+"kind": "movers",
+"date": "2026-10-28",
+"at": "2026-10-28T14:50:58+00:00",
+"href": "movers/2026-10-28-0850.html",
+"syms": [
+"VRT",
+"PPG",
+"GEHC",
+"FTV",
+"LH",
+"HAS",
+"MAS",
+"BAX",
+"MU",
+"SNDK",
+"LITE",
+"BE",
+"FLEX",
+"UHS",
+"SOFI",
+"STRL",
+"APH",
+"PWR",
+"HCA",
+"FIX"
+],
+"heads": [
+"VRT +12.4% on 7.3x volume, big move on the day",
+"PPG +6.0% on 4.9x volume, big move on the day",
+"GEHC +7.5% on 4.3x volume, breakout past buy point",
+"FTV +6.5% on 3.1x volume, breakout past buy point",
+"LH +10.5% on 2.5x volume, breakout past buy point, already extended",
+"HAS +1.9% on 2.4x volume, new 52-week high",
+"MAS +2.6% on 2.4x volume, in base",
+"BAX +2.8% on 2.2x volume, in base",
+"MU +4.2% on 2.0x volume, big move on the day",
+"SNDK +4.2% on 1.7x volume, big move on the day"
+],
+"extra": "12 qualifiers",
+"live": true,
+"day": 19,
+"pass": 1,
+"no": "19.1"
 }
 ]
