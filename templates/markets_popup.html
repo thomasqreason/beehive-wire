@@ -9,23 +9,41 @@
   function cls(x){return (x||0)>=0?'pos':'neg';}
   function niceStep(raw){if(raw<=0)return 1;var mag=Math.pow(10,Math.floor(Math.log10(raw)));var ms=[1,2,2.5,5,10];for(var i=0;i<ms.length;i++){if(raw<=ms[i]*mag)return ms[i]*mag;}return 10*mag;}
   function smaArr(c,n){var o=[],s=0;for(var i=0;i<c.length;i++){s+=c[i];if(i>=n)s-=c[i-n];o.push(i>=n-1?+(s/n).toFixed(2):null);}return o;}
-  function frameOf(d,mode){
-    if(mode==='w'&&d.series&&d.series.w){var w=d.series.w;return {d:w.d,o:w.o,h:w.h,l:w.l,c:w.c,v:w.v,e21:smaArr(w.c,10),s50:smaArr(w.c,40),s200:[],avgv50:null,rs:w.rs,rsdot:w.rsdot,legend:['10-wk','40-wk',''],months:false};}
-    if(mode==='i'&&d.series&&d.series.i){var q=d.series.i;return {d:q.d,o:q.o,h:q.h,l:q.l,c:q.c,v:q.v,e21:smaArr(q.c,20),s50:smaArr(q.c,50),s200:[],avgv50:null,legend:['20-bar','50-bar',''],months:false,intra:true};}
-    if(mode==='m'&&d.series&&d.series.m){var m=d.series.m;return {d:m.d,o:m.o,h:m.h,l:m.l,c:m.c,v:m.v,e21:smaArr(m.c,10),s50:[],s200:[],avgv50:null,legend:['10-mo','',''],months:false,years:true};}
-    var s=d.series;return {d:s.d,o:s.o,h:s.h,l:s.l,c:s.c,v:s.v,e21:s.e21,s50:s.s50,s200:s.s200,avgv50:s.avgv50,rim_i:s.rim_i,low_i:s.low_i,bo_i:s.bo_i,rs:s.rs,rsdot:s.rsdot,legend:['21-day','50-day','200-day'],months:true};
+  // Geometry. The chart is drawn at the pop-up's own pixel width, and every bar gets the same width whatever
+  // the screen: a phone held upright shows fewer bars, turned sideways it shows more, a desktop more still —
+  // nothing is squeezed to fit or stretched to fill (Todd, Oct 28, 2026). Intraday is pitched so a portrait
+  // phone shows one full trading day of 5-minute bars (78); the others keep the desk's usual density.
+  var PL=8,PR=62,H=420,PT=10,PH=290,VT=318,VH=90;
+  var PITCH={d:5.3,w:6.3,m:12,i:4.5},DAY_BARS=78;
+  function width(){return Math.max(300,body.clientWidth||760);}
+  function fit(mode,W){var avail=W-PL-PR,p=PITCH[mode]||PITCH.d;if(mode==='i')p=Math.min(p,avail/DAY_BARS);return Math.max(10,Math.floor(avail/p));}
+  function clip(s,k){var n=s.c.length;if(n<=k)return s;var off=n-k,o={};
+    for(var key in s){var v=s[key];if(Array.isArray(v)&&v.length===n)o[key]=v.slice(off);else o[key]=v;}
+    ['rim_i','low_i','bo_i'].forEach(function(key){if(s[key]!=null)o[key]=s[key]-off;});
+    if(s.rsdot)o.rsdot=s.rsdot.map(function(i){return i-off;}).filter(function(i){return i>=0;});
+    return o;}
+  function frameOf(d,mode,W){
+    var f;
+    if(mode==='i'&&d.series&&d.series.i){var q=d.series.i;f={d:q.d,o:q.o,h:q.h,l:q.l,c:q.c,v:q.v,e21:smaArr(q.c,20),s50:smaArr(q.c,50),s200:[],avgv50:null,legend:['20-bar','50-bar',''],months:false,intra:true,mode:'i'};}
+    else if(mode==='w'&&d.series&&d.series.w){var w=d.series.w;f={d:w.d,o:w.o,h:w.h,l:w.l,c:w.c,v:w.v,e21:smaArr(w.c,10),s50:smaArr(w.c,40),s200:[],avgv50:null,rs:w.rs,rsdot:w.rsdot,legend:['10-wk','40-wk',''],months:false,mode:'w'};}
+    else if(mode==='m'&&d.series&&d.series.m){var m=d.series.m;f={d:m.d,o:m.o,h:m.h,l:m.l,c:m.c,v:m.v,e21:smaArr(m.c,10),s50:[],s200:[],avgv50:null,legend:['10-mo','',''],months:false,years:true,mode:'m'};}
+    else{var s=d.series;f={d:s.d,o:s.o,h:s.h,l:s.l,c:s.c,v:s.v,e21:s.e21,s50:s.s50,s200:s.s200,avgv50:s.avgv50,rim_i:s.rim_i,low_i:s.low_i,bo_i:s.bo_i,rs:s.rs,rsdot:s.rsdot,legend:['21-day','50-day','200-day'],months:true,mode:'d'};}
+    return W?clip(f,fit(f.mode,W)):f;
   }
   function chart(d,mode){
-    var s=frameOf(d,mode||'d'),n=s.c.length,W=760,H=420,PL=8,PR=62,PT=10,PH=290,VT=318,VH=90,b=d.base;
-    var xs=function(i){return PL+(i+0.5)*(W-PL-PR)/n;};
+    var W=width(),s=frameOf(d,mode||'d',W),n=s.c.length,b=d.base;
+    // Fewer bars than the width holds (a short history, or monthly): spread them a little, never past 1.6x.
+    var slots=Math.max(n,Math.ceil((W-PL-PR)/(PITCH[s.mode]*1.6)));
+    var xs=function(i){return PL+(i+slots-n+0.5)*(W-PL-PR)/slots;};
     var lo=Math.min.apply(null,s.l),hi=Math.max.apply(null,s.h);
     if(b&&b.buy_max&&!s.intra)hi=Math.max(hi,b.buy_max);
     var pad=(hi-lo)*0.06||1;lo-=pad;hi+=pad;
     var ys=function(p){return PT+(hi-p)/(hi-lo)*PH;};
     var vmax=Math.max.apply(null,s.v)||1,yv=function(v){return VT+VH-v/vmax*VH;};
-    var bw=Math.max(1,(W-PL-PR)/n*0.6),o=[];
+    var bw=Math.max(1,(W-PL-PR)/slots*0.6),o=[];
     o.push('<svg class="chart" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="'+W+'" height="'+H+'" fill="var(--chart-bg)"/>');
-    if(s.intra){var dk=null;for(var i=0;i<n;i++){var k=s.d[i].slice(0,10);if(k!==dk){if(dk!==null)o.push('<line x1="'+(xs(i)-(W-PL-PR)/n/2).toFixed(1)+'" x2="'+(xs(i)-(W-PL-PR)/n/2).toFixed(1)+'" y1="'+PT+'" y2="'+(VT+VH)+'" stroke="var(--grid)" stroke-width="0.8" stroke-dasharray="3 3"/>');dk=k;}}}
+    // Intraday: a dotted line down the whole chart between one day's close and the next day's open.
+    if(s.intra){var dk=null;for(var i=0;i<n;i++){var k=s.d[i].slice(0,10);if(k!==dk){if(dk!==null){var bx=(xs(i)-(W-PL-PR)/slots/2).toFixed(1);o.push('<line x1="'+bx+'" x2="'+bx+'" y1="'+PT+'" y2="'+(VT+VH)+'" stroke="var(--mut)" stroke-width="1" stroke-dasharray="1.5 3.5" opacity=".8"/>');}dk=k;}}}
     // Intraday, the buy point is drawn only when it falls inside the five days' own range; the zone never stretches the scale.
     if(b&&b.buy_point&&(!s.intra||(b.buy_point>lo&&b.buy_point<hi))){var y1=Math.max(PT,ys(Math.min(b.buy_max||b.buy_point,hi))),y2=ys(b.buy_point);
       o.push('<rect x="'+PL+'" y="'+y1.toFixed(1)+'" width="'+(W-PL-PR)+'" height="'+Math.max(1,y2-y1).toFixed(1)+'" fill="var(--zone)"/>');
@@ -73,9 +91,11 @@
   }
   function wireTabs(container,d){
     var box=container.querySelector('.tabs');if(!box)return;
-    function draw(mode){var old=container.querySelector('svg.chart'),tmp=document.createElement('div');tmp.innerHTML=chart(d,mode);var sv=tmp.firstChild;
+    var cur='d';
+    function draw(mode){cur=mode;var old=container.querySelector('svg.chart');if(!old)return;var tmp=document.createElement('div');tmp.innerHTML=chart(d,mode);var sv=tmp.firstChild;
       old.parentNode.replaceChild(sv,old);
-      if(window.BWXH){if(d.base&&d.base.buy_max&&mode!=='i')sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,mode));}}
+      if(window.BWXH){if(d.base&&d.base.buy_max&&mode!=='i')sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,mode,width()));}}
+    REDRAW=function(){if(body.getAttribute('data-sym')===d.sym)draw(cur);};
     function pick(b){box.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});}
     box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;
       var mode=b.getAttribute('data-fr'),note=container.querySelector('.tabnote');if(note)note.parentNode.removeChild(note);
@@ -86,6 +106,11 @@
           var n=document.createElement('div');n.className='sub tabnote';n.textContent='No intraday bars for '+d.sym+' right now. If this keeps happening the relay on Cloudflare needs the current quote-worker.js (relay/README.md).';box.parentNode.insertBefore(n,box.nextSibling);});
     });
   }
+  // Turn the phone, resize the window: the open chart is drawn again for the new width, same bars per inch.
+  var REDRAW=null,rt=null,lastW=0;
+  function onResize(){if(!scrim.classList.contains('on')||!REDRAW)return;var w=width();if(w===lastW)return;lastW=w;REDRAW();}
+  window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(onResize,120);});
+  window.addEventListener('orientationchange',function(){clearTimeout(rt);rt=setTimeout(onResize,250);});
   function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function show(sym){
     if(window.BW_LIVE_ON&&RELAY)return fresh(sym);   // tables are live, so the chart is too: same price, same status
@@ -147,7 +172,8 @@
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
       h+='<div><b>RS rank</b>'+esc(d.rs_rank==null?'–':d.rs_rank)+'</div><div><b>Volume vs 50-day</b>'+(d.vol_ratio==null?'–':Number(d.vol_ratio).toFixed(1)+'x')+'</div><div><b>52-week high</b>'+f2(d.hi52)+' ('+pc(d.from_hi52)+')</div><div><b>vs 50-day line</b>'+pc(d.vs_sma50)+'</div><div><b>vs 21-day line</b>'+pc(d.vs_ema21)+(d.ext_atr==null?'':' <span class="st">('+(d.ext_atr>0?'+':'')+Number(d.ext_atr).toFixed(1)+' ATR)</span>')+'</div>'+(d.ipo_sessions?'<div><b>New issue</b>'+d.ipo_sessions+' sessions</div>':'')+'</div>';
       body.className='';body.innerHTML=h;body.setAttribute('data-sym',d.sym);
-      var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,d.series);}
+      lastW=width();
+      var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,'d',lastW));}
       wireTabs(body,d);
       live(d.sym);
   }
