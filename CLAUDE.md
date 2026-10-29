@@ -17,3 +17,8 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
   (see `relay/README.md`). Say so whenever that file changes.
 - Local test renders (`python build.py --render-only`) rewrite files under `archive/`; revert those
   before committing rather than committing a hand-run render.
+
+## Market Desk preferences (Todd)
+
+- Volume is not a read-out Todd cares much about. Don't add volume columns to the lists; the distance from
+  the pivot (buy point) is what he wants to see at a glance (Oct 29, 2026).
