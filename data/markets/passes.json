@@ -2861,5 +2861,50 @@
 "day": 19,
 "pass": 4,
 "no": "19.4"
+},
+{
+"kind": "movers",
+"date": "2026-10-29",
+"at": "2026-10-29T14:25:37+00:00",
+"href": "movers/2026-10-29-0825.html",
+"syms": [
+"LITE",
+"LLY",
+"WST",
+"VTRS",
+"PWR",
+"DVA",
+"VRT",
+"EBAY",
+"MA",
+"LNG",
+"GEV",
+"MSI",
+"AJG",
+"CCL",
+"GEN",
+"MO",
+"V",
+"ECHO",
+"MRK",
+"JNJ"
+],
+"heads": [
+"LITE +2.7% on 5.4x volume, bounce off 50-day line",
+"LLY +7.4% on 5.1x volume, new 52-week high",
+"WST +3.9% on 4.3x volume, new 52-week high",
+"VTRS +1.4% on 3.6x volume, still in buy range after breakout",
+"PWR +6.1% on 3.5x volume, big move on the day",
+"DVA +2.5% on 3.4x volume, in base",
+"VRT +2.6% on 3.2x volume, in base",
+"EBAY +3.5% on 2.9x volume, still in buy range after breakout",
+"MA +4.6% on 2.8x volume, new 52-week high",
+"LNG +3.7% on 2.8x volume, breakout past buy point"
+],
+"extra": "20 qualifiers",
+"live": true,
+"day": 20,
+"pass": 1,
+"no": "20.1"
 }
 ]
