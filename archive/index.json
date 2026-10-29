@@ -999,5 +999,16 @@
   "iso": "2026-10-29T05:03:22-06:00",
   "top": "TAPES: DISPATCHER CLEARED DOOMED SPAIN TRAIN...",
   "count": 100
+ },
+ {
+  "no": 92,
+  "file": "2026-10-29-evening.html",
+  "date": "2026-10-29",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:16 p.m.",
+  "iso": "2026-10-29T16:16:46-06:00",
+  "top": "GOOGLE LOSES $500B AS AI FEARS GRIP WALL STREET...",
+  "count": 100
  }
 ]
