@@ -2906,5 +2906,46 @@
 "day": 20,
 "pass": 1,
 "no": "20.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-29",
+"at": "2026-10-29T19:26:57+00:00",
+"href": "movers/2026-10-29-1326.html",
+"syms": [
+"WST",
+"DVA",
+"LNG",
+"LITE",
+"LLY",
+"VRT",
+"INSM",
+"NCLH",
+"HII",
+"CVNA",
+"MGM",
+"WEC",
+"DASH",
+"CMG",
+"TXT",
+"VMC",
+"BA",
+"CRH",
+"TYL",
+"LHX"
+],
+"heads": [
+"WST +4.0% on 2.5x volume, new 52-week high",
+"DVA +5.0% on 2.4x volume, big move on the day",
+"LNG +7.3% on 1.9x volume, breakout past buy point, already extended",
+"LITE +1.2% on 1.5x volume, bounce off 50-day line",
+"LLY +6.0% on 1.5x volume, new 52-week high",
+"VRT +1.7% on 1.5x volume, in base"
+],
+"extra": "6 qualifiers",
+"live": true,
+"day": 20,
+"pass": 2,
+"no": "20.2"
 }
 ]
