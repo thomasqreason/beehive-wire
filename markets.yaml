@@ -74,5 +74,6 @@ leaders:
   min_eps_growth: 15              # a name needs EPS growth >= this OR revenue growth >= min_rev_growth to make the list
   min_rev_growth: 20
   big_cap_min: 40000000000        # $40B market cap for the Big Cap 40 (no growth floor: the composite sorts them).
-                                  # Todd, Oct 29, 2026: keep the floor; if fewer than 40 qualify the list is just shorter.
+                                  # Todd, Oct 29, 2026: the list is ALWAYS 40 names; if the strongest 220 hold fewer, leader_lists()
+                                  # keeps walking down the universe by RS until it has 40 over the floor.
   fundamentals_pool: 220          # fundamentals fetched for this many of the strongest names by RS (cached 7 days)
