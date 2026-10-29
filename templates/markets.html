@@ -225,16 +225,15 @@
   <h3 class="sec" id="{{ anchor }}">{{ title }}</h3>
   <div class="legend">{{ blurb }}</div>
   <div class="tblwrap"><table class="board ranked">
-    {# Same read-outs as the Leaders board and the movers tables (Todd, Oct 29, 2026): day change, volume vs the
-       50-day average, distance from the buy point, the 52-week high and the 50-day line. #}
-    <tr><th>#</th><th>Sym</th><th>Company</th><th>Last</th><th>Chg</th><th>Vol</th><th>RS</th><th>EPS q/q-1y</th><th>Rev</th><th>Mkt cap</th><th>Score</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>vs 52wk hi</th><th>vs 50-day</th></tr>
+    {# Same read-outs as the Leaders board (Todd, Oct 29, 2026): day change, distance from the buy point, the
+       52-week high and the 50-day line. No volume column: Todd does not weigh volume much; the pivot is the thing. #}
+    <tr><th>#</th><th>Sym</th><th>Company</th><th>Last</th><th>Chg</th><th>RS</th><th>EPS q/q-1y</th><th>Rev</th><th>Mkt cap</th><th>Score</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>vs 52wk hi</th><th>vs 50-day</th></tr>
     {% for r in rows %}<tr>
       <td>{{ r.rank }}{% if r.prev_rank %} <span class="st">({{ r.prev_rank }})</span>{% endif %}</td>
       <td class="sym{% if r.sym in story_syms %} story{% endif %}">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>
       <td class="st" style="white-space:normal;text-align:left">{{ r.name }}{% if r.industry %} &middot; {{ r.industry }}{% endif %}</td>
       <td>{{ '%.2f'|format(r.close) }}</td>
       <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{% if r.chg_pct is defined and r.chg_pct is not none %}{{ '%+.1f'|format(r.chg_pct) }}%{% else %}–{% endif %}</td>
-      <td>{% if r.vol_ratio is defined and r.vol_ratio is not none %}{{ '%.1f'|format(r.vol_ratio) }}x{% else %}–{% endif %}</td>
       <td>{{ r.rs_rank }}</td>
       <td class="{{ 'pos' if (r.eps_yoy or 0) >= 0 else 'neg' }}">{% if r.eps_yoy is not none %}{{ '%+.0f'|format(r.eps_yoy) }}%{% else %}–{% endif %}{% if r.eps_accel %} &uarr;{% endif %}</td>
       <td class="{{ 'pos' if (r.rev_yoy or 0) >= 0 else 'neg' }}">{% if r.rev_yoy is not none %}{{ '%+.0f'|format(r.rev_yoy) }}%{% else %}–{% endif %}</td>
