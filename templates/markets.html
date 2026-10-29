@@ -128,7 +128,7 @@
     <li><a href="#positions">My positions</a></li>
     {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
     {% if ed.ah_movers %}<li><a href="#after-hours">After hours</a></li>{% endif %}
-    {% if lists %}<li><a href="#beehive50">Beehive 50</a></li><li><a href="#bigcap20">Big Cap 20</a></li>{% endif %}
+    {% if lists %}<li><a href="#beehive50">Beehive {{ lists.method.list_size or lists.beehive50|length }}</a></li><li><a href="#bigcap20">Big Cap 20</a></li>{% endif %}
     {% for s in ed.stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
     {% if ed.profile %}<li><a href="#new-america">New America: {{ ed.profile.sym }}</a></li>{% endif %}
     {% if ed.corner %}<li><a href="#corner">Investor's Corner</a></li>{% endif %}

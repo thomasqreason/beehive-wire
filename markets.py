@@ -1472,7 +1472,7 @@ def load_movers() -> dict | None:
     return None
 
 
-# ────────────────────────────────────────────────────────────────────────── the Beehive 50 and the Big Cap 20 (weekly)
+# ────────────────────────────────────────────────────────────────────────── the Beehive 100 and the Big Cap 20 (weekly)
 
 FUND_CACHE = DATA / "fund_cache"
 
@@ -1670,7 +1670,7 @@ def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today:
 
 
 def refresh_lists(prices: dict, bench, cfg: dict, rs_rank_of, now: datetime, live: bool) -> None:
-    """Every pass re-quotes the Beehive 50 and Big Cap 20 from the prices the movers pass already downloaded:
+    """Every pass re-quotes the Beehive 100 and Big Cap 20 from the prices the movers pass already downloaded:
     last price, day change, RS rank, chart status, buy point and distance from it. Ranks, scores and the
     fundamentals stay as the Friday rebuild set them. Costs nothing extra — no new downloads, no Claude."""
     ls = load_lists()

@@ -457,7 +457,7 @@ def cached_growth(sym: str) -> dict:
 
 
 def desk_score(f: dict, growth: dict | None) -> dict | None:
-    """The Beehive 50 composite, computed for one name so the chart pop-up can show it with its parts:
+    """The Beehive 100 composite, computed for one name so the chart pop-up can show it with its parts:
     40% RS rank + 25% EPS growth (capped 200%) + 10% revenue growth (capped 100%) + 25% chart
     (25 each: above the 50-day, above the 200-day, within 15% of the 52-week high, in a buyable pattern;
     +10 for an RS-line high, +10 for accelerating EPS; chart capped at 100). Same arithmetic as leader_lists()."""
