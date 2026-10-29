@@ -73,5 +73,6 @@ leaders:
   min_dollar_volume: 20000000     # close x 50-day average volume
   min_eps_growth: 15              # a name needs EPS growth >= this OR revenue growth >= min_rev_growth to make the list
   min_rev_growth: 20
-  big_cap_min: 40000000000        # $40B market cap for the Big Cap 40 (no growth floor: the composite sorts them)
+  big_cap_min: 40000000000        # $40B market cap for the Big Cap 40 (no growth floor: the composite sorts them).
+                                  # Todd, Oct 29, 2026: keep the floor; if fewer than 40 qualify the list is just shorter.
   fundamentals_pool: 220          # fundamentals fetched for this many of the strongest names by RS (cached 7 days)
