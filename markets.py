@@ -1542,7 +1542,7 @@ def leader_lists(cfg: dict) -> dict:
     # fundamentals for the technically strongest names only (cached a week; a full refresh is a few hundred calls)
     pool = sorted(facts, key=lambda f: -f["rs_rank"])[: int(m.get("fundamentals_pool", 220))]
     log(f"leaders: {len(facts)} liquid names; fetching fundamentals for the top {len(pool)} by RS")
-    for f in pool:
+    def enrich(f):
         fu = fundamentals_cached(f["sym"])
         g = (fu.get("growth") or [{}])[0]
         f["name"], f["market_cap"], f["industry"] = fu.get("name") or f["sym"], fu.get("market_cap"), fu.get("industry")
@@ -1550,6 +1550,9 @@ def leader_lists(cfg: dict) -> dict:
         g2 = (fu.get("growth") or [{}, {}])[1] if len(fu.get("growth") or []) > 1 else {}
         f["eps_accel"] = (f["eps_yoy"] is not None and g2.get("eps_yoy") is not None and f["eps_yoy"] > g2["eps_yoy"])
         time.sleep(0.15)
+
+    for f in pool:
+        enrich(f)
 
     def composite(f):
         eps = min(max(f.get("eps_yoy") or 0, 0), 200) / 2          # 0-100
@@ -1565,12 +1568,29 @@ def leader_lists(cfg: dict) -> dict:
 
     for f in pool:
         f["composite"] = composite(f)
-    save_series(pool)
     elig = [f for f in pool if (f.get("eps_yoy") or 0) >= float(m.get("min_eps_growth", 15)) or (f.get("rev_yoy") or 0) >= float(m.get("min_rev_growth", 20))]
     elig.sort(key=lambda f: -f["composite"])
     big_min = float(m.get("big_cap_min", 40e9))
+    big_size = int(m.get("big_cap_size", 20))
     big = [f for f in pool if (f.get("market_cap") or 0) >= big_min]
+    # The Big Cap list is always full (Todd, Oct 29, 2026): when the strongest names hold fewer than big_size
+    # companies over the floor, keep walking down the universe by RS, fetching fundamentals as needed, until it is.
+    extra = []
+    if len(big) < big_size:
+        in_pool = {f["sym"] for f in pool}
+        for f in sorted(facts, key=lambda f: -f["rs_rank"]):
+            if len(big) >= big_size:
+                break
+            if f["sym"] in in_pool:
+                continue
+            enrich(f)
+            if (f.get("market_cap") or 0) >= big_min:
+                f["composite"] = composite(f)
+                big.append(f)
+                extra.append(f)
+        log(f"big cap: {len(big) - len(extra)} in the top-{len(pool)} pool; {len(extra)} more pulled from further down the universe")
     big.sort(key=lambda f: -f["composite"])
+    save_series(pool + extra)
     keys = ("sym", "name", "industry", "close", "chg_pct", "rs_rank", "eps_yoy", "rev_yoy", "eps_accel", "market_cap", "composite",
             "status", "from_pivot", "from_hi52", "vs_sma50", "vol_ratio", "ipo_sessions")
     row = lambda f, i: {k: f.get(k) for k in keys} | {"rank": i + 1, "buy_point": (f.get("base") or {}).get("buy_point"),  # noqa: E731
@@ -1579,7 +1599,7 @@ def leader_lists(cfg: dict) -> dict:
     prev50 = {r["sym"]: r["rank"] for r in prev.get("beehive50", [])}
     prev20 = {r["sym"]: r["rank"] for r in prev.get("bigcap20", [])}
     # List sizes are config (markets.yaml leaders.list_size / big_cap_size); the data keys keep their names.
-    size, big_size = int(m.get("list_size", 50)), int(m.get("big_cap_size", 20))
+    size = int(m.get("list_size", 50))
     b50 = [row(f, i) | {"prev_rank": prev50.get(f["sym"])} for i, f in enumerate(elig[:size])]
     b20 = [row(f, i) | {"prev_rank": prev20.get(f["sym"])} for i, f in enumerate(big[:big_size])]
     out = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"), "date": max(f["date"] for f in facts) if facts else None,
