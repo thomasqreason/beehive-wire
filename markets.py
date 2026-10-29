@@ -1572,19 +1572,21 @@ def leader_lists(cfg: dict) -> dict:
     big = [f for f in pool if (f.get("market_cap") or 0) >= big_min]
     big.sort(key=lambda f: -f["composite"])
     keys = ("sym", "name", "industry", "close", "chg_pct", "rs_rank", "eps_yoy", "rev_yoy", "eps_accel", "market_cap", "composite",
-            "status", "from_pivot", "from_hi52", "vs_sma50", "ipo_sessions")
+            "status", "from_pivot", "from_hi52", "vs_sma50", "vol_ratio", "ipo_sessions")
     row = lambda f, i: {k: f.get(k) for k in keys} | {"rank": i + 1, "buy_point": (f.get("base") or {}).get("buy_point"),  # noqa: E731
                                                       "buy_max": (f.get("base") or {}).get("buy_max"), "base_kind": (f.get("base") or {}).get("kind")}
     prev = load_lists() or {}
     prev50 = {r["sym"]: r["rank"] for r in prev.get("beehive50", [])}
     prev20 = {r["sym"]: r["rank"] for r in prev.get("bigcap20", [])}
-    b50 = [row(f, i) | {"prev_rank": prev50.get(f["sym"])} for i, f in enumerate(elig[:50])]
-    b20 = [row(f, i) | {"prev_rank": prev20.get(f["sym"])} for i, f in enumerate(big[:20])]
+    # List sizes are config (markets.yaml leaders.list_size / big_cap_size); the data keys keep their names.
+    size, big_size = int(m.get("list_size", 50)), int(m.get("big_cap_size", 20))
+    b50 = [row(f, i) | {"prev_rank": prev50.get(f["sym"])} for i, f in enumerate(elig[:size])]
+    b20 = [row(f, i) | {"prev_rank": prev20.get(f["sym"])} for i, f in enumerate(big[:big_size])]
     out = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"), "date": max(f["date"] for f in facts) if facts else None,
            "universe_size": len(facts), "pool": len(pool), "beehive50": b50, "bigcap20": b20,
-           "method": {"rs": 40, "eps": 25, "rev": 10, "tech": 25, "min_eps_growth": m.get("min_eps_growth", 15), "min_rev_growth": m.get("min_rev_growth", 20),
+           "method": {"rs": 40, "eps": 25, "rev": 10, "tech": 25, "list_size": size, "big_cap_size": big_size, "min_eps_growth": m.get("min_eps_growth", 15), "min_rev_growth": m.get("min_rev_growth", 20),
                       "big_cap_min": big_min, "min_price": m.get("min_price", 15), "min_dollar_volume": m.get("min_dollar_volume", 20_000_000)}}
-    log(f"beehive 50: {', '.join(r['sym'] for r in b50[:10])} …  big cap 20: {', '.join(r['sym'] for r in b20[:8])} …")
+    log(f"beehive {size}: {', '.join(r['sym'] for r in b50[:10])} …  big cap {big_size}: {', '.join(r['sym'] for r in b20[:8])} …")
     return out
 
 
@@ -1691,7 +1693,7 @@ def refresh_lists(prices: dict, bench, cfg: dict, rs_rank_of, now: datetime, liv
             f["rs_rank"] = rs_rank_of(r["sym"]) or r.get("rs_rank")
             f["name"], f["industry"] = r.get("name") or f.get("name"), r.get("industry")
             r.update(close=f["close"], chg_pct=f.get("chg_pct"), rs_rank=f["rs_rank"], status=f["status"], from_pivot=f.get("from_pivot"),
-                     from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), ipo_sessions=f.get("ipo_sessions"),
+                     from_hi52=f.get("from_hi52"), vs_sma50=f.get("vs_sma50"), vol_ratio=f.get("vol_ratio"), ipo_sessions=f.get("ipo_sessions"),
                      buy_point=b.get("buy_point"), buy_max=b.get("buy_max"), base_kind=b.get("kind"))
             facts.append(f)
             n += 1

@@ -67,6 +67,8 @@ movers:
 # Composite = 40% RS rank + 25% latest-quarter EPS growth (capped at 200%) + 10% revenue growth (capped 100%)
 #           + 25% chart (above 50-day, above 200-day, within 15% of the 52-week high, in a buyable pattern; bonuses for an RS-line high and EPS acceleration)
 leaders:
+  list_size: 50                   # names on the Beehive list (the table's title follows this number)
+  big_cap_size: 20                # names on the Big Cap list
   min_price: 15
   min_dollar_volume: 20000000     # close x 50-day average volume
   min_eps_growth: 15              # a name needs EPS growth >= this OR revenue growth >= min_rev_growth to make the 50
