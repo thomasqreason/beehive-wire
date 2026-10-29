@@ -6,7 +6,7 @@ name: market-desk
 #                              close. The 2:05 pass is five minutes after the bell, so the page carries the closing
 #                              numbers instead of waiting for the edition. No Claude call.
 #   3:20 p.m.                — the full edition: stories, New America, Investor's Corner (Fridays), the final movers list,
-#                              and on Fridays the Beehive 50 and Big Cap 20.
+#                              and on Fridays the Beehive 100 and Big Cap 20.
 # Prices come from Yahoo (free); Claude writes the prose from the numbers; the site is re-rendered and deployed.
 
 on:
@@ -25,7 +25,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "edition (full), movers (intraday list only), lists (Beehive 50 + Big Cap 20), corner (edition + Investor's Corner)"
+        description: "edition (full), movers (intraday list only), lists (Beehive 100 + Big Cap 20), corner (edition + Investor's Corner)"
         type: choice
         options: [edition, movers, lists, corner]
         default: edition
@@ -190,8 +190,8 @@ jobs:
         if: steps.scan.outcome == 'success'
         run: python markets.py publish --payload data/build/markets_payload.json --articles data/build/markets_articles.json --chief data/build/markets_chief.json
 
-      # ── The Beehive 50 and Big Cap 20: Fridays with the edition, or by hand.
-      - name: Beehive 50 and Big Cap 20
+      # ── The Beehive 100 and Big Cap 20: Fridays with the edition, or by hand.
+      - name: Beehive 100 and Big Cap 20
         if: steps.mode.outputs.mode == 'lists' || (steps.mode.outputs.mode == 'edition' && steps.mode.outputs.friday == 'yes')
         continue-on-error: true
         timeout-minutes: 25
