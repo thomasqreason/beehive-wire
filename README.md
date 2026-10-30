@@ -131,6 +131,24 @@ $0.06 per edition, roughly **$3.70/month**. Hourly would be about $30/month, eve
 Changing the edition times means changing two places: `site.editions` in `config.yaml` (what the page
 says) and the `cron` in `.github/workflows/build.yml` (when it actually builds, in UTC).
 
+## The Market Desk gate (readers with a code)
+
+Since Oct 30, 2026 the Market Desk (`/markets/` and everything under it) is for readers with an access code.
+The site is static, so the gate is real encryption, not a hidden div: `desk_gate.py` seals every desk page
+at render time (AES-256-GCM; the content key is wrapped once per code with PBKDF2) and the page unlocks in
+the browser. A visitor without a code can leave an email, which opens a request to `desk.gate.request_email`
+in `markets.yaml`. Nothing issues a code automatically.
+
+**Issuing codes.** Codes live in one repository secret, `MARKETS_ACCESS_CODES`: repo **Settings → Secrets and
+variables → Actions**. Put one code per line (or comma-separated); case and spaces don't matter. Give each
+reader their own code (`TODD-4821`, `JIM-0193`) so one can be removed without touching the others. After
+changing the secret, run the **build** workflow once (Actions → build → Run workflow) or wait for the next
+edition: the desk is re-sealed with the current codes and a removed code stops working everywhere. A right
+code is remembered in that reader's browser. If the secret is empty the desk is published locked for everyone.
+
+Not gated: the chart data files (`series/*.json`, `screen.json`, `rs_dist.json`), which are bare numbers.
+Turn the gate off with `desk.gate.enabled: false`.
+
 ## Notes
 
 - Scheduled workflows pause after 60 days without a commit; the bot's state commits keep the repo active.

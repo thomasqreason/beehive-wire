@@ -84,6 +84,8 @@ jobs:
     needs: check
     if: needs.check.outputs.go == 'yes'
     runs-on: ubuntu-latest
+    env:
+      MARKETS_ACCESS_CODES: ${{ secrets.MARKETS_ACCESS_CODES }}   # the Market Desk gate's codes (desk_gate.py)
     timeout-minutes: 75              # room for a slow edit (60) plus the rest; never hold the build lock for hours
     environment:
       name: github-pages

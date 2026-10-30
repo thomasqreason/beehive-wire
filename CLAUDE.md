@@ -25,3 +25,11 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
 - The Beehive 100 and the Big Cap 40 are always full. The Big Cap 40 keeps its $40B floor; if fewer than 40
   companies over the floor sit among the strongest names, search further down the universe for more until
   there are 40 (Oct 29, 2026). Both sizes live in markets.yaml (leaders.list_size, leaders.big_cap_size).
+
+## The Market Desk gate (Oct 30, 2026)
+
+- `/markets/` is for readers with a code. `desk_gate.py` seals every desk page at render time; the codes are
+  the `MARKETS_ACCESS_CODES` repository secret and Todd alone issues them (README, "The Market Desk gate").
+  Never add a way to get a code without Todd, and never publish the desk pages unsealed while the gate is on.
+- A local `python build.py --render-only` with the variable unset seals the desk with no codes (locked for
+  everyone); set `MARKETS_ACCESS_CODES=test` to look at it locally.

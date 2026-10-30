@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title|safe }}</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ root }}apple-touch-icon.png">
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.45}
+  .wrap{max-width:520px;margin:0 auto;padding:40px 18px 60px}
+  .mast{text-align:center;border-bottom:4px double #000;padding:14px 0 10px;margin-bottom:28px}
+  .mast h1{margin:0;font:900 34px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{color:#000;text-decoration:none}
+  .mast .desk{font:bold 12px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:8px}
+  h2{font:900 20px/1.2 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0 0 8px}
+  p{margin:0 0 14px}
+  form{margin:0 0 30px}
+  label{display:block;font:bold 11px/1.4 "Courier New",Courier,monospace;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:6px}
+  .row{display:flex;gap:8px}
+  input{flex:1 1 auto;min-width:0;font:16px Arial,Helvetica,sans-serif;padding:10px 12px;border:1px solid #000;border-radius:0;background:#fff;color:#000}
+  button{font:900 12px/1 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:12px 16px;border:1px solid #000;background:#000;color:#fff;cursor:pointer}
+  button[disabled]{opacity:.5;cursor:wait}
+  .msg{font:13px/1.4 Georgia,"Times New Roman",serif;font-style:italic;color:#444;min-height:1.4em;margin-top:8px}
+  .msg.bad{color:#c00000}
+  hr{border:0;border-top:1px solid #000;margin:26px 0}
+  .fine{font-size:12px;color:#555}
+  @media (prefers-color-scheme:dark){
+    html,body{background:#12161b;color:#f2efe9} .mast{border-bottom-color:#f2efe9} .mast h1 a{color:#f2efe9}
+    input{background:#1b212a;color:#f2efe9;border-color:#39434f} button{background:#fdb512;color:#12161b;border-color:#fdb512}
+    label,.fine{color:#8b949e} .msg{color:#c6c1b8} .msg.bad{color:#ff5b5b} hr{border-top-color:#39434f}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="bw-gate">
+  <div class="mast">
+    <h1><a href="{{ root }}">{{ site_name }}</a></h1>
+    <div class="desk">{{ desk.name or "Market Desk" }}</div>
+  </div>
+
+  <h2>Readers only</h2>
+  <p>The Market Desk is open to readers with an access code. Enter yours once and this browser stays signed in.</p>
+  <form id="code-form" autocomplete="off">
+    <label for="code">Access code</label>
+    <div class="row"><input id="code" name="code" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="Your code"><button type="submit" id="go">Open</button></div>
+    <div class="msg" id="code-msg"></div>
+  </form>
+
+  <hr>
+  <h2>Don&rsquo;t have one?</h2>
+  <p>Leave your email and we&rsquo;ll send a code if there&rsquo;s a seat.{% if not request_email %} Codes are issued by hand, one reader at a time.{% endif %}</p>
+  <form id="req-form">
+    <label for="email">Your email</label>
+    <div class="row"><input id="email" name="email" type="email" required placeholder="you@example.com"><button type="submit">Request a code</button></div>
+    <div class="msg" id="req-msg"></div>
+  </form>
+  <p class="fine">Codes are issued personally, one reader at a time. Nothing here is automatic.</p>
+</div>
+<script id="bw-blob" type="application/json">{{ blob|safe }}</script>
+<script>
+(function () {
+  var G = JSON.parse(document.getElementById('bw-blob').textContent), KEY = 'bw-desk-code';
+  var form = document.getElementById('code-form'), inp = document.getElementById('code'), go = document.getElementById('go'), msg = document.getElementById('code-msg');
+  function b64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+  function norm(c) { return (c || '').replace(/\s+/g, '').toUpperCase(); }
+  async function unlock(code) {
+    var enc = new TextEncoder();
+    var km = await crypto.subtle.importKey('raw', enc.encode(code), 'PBKDF2', false, ['deriveKey']);
+    var wk = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(G.salt), iterations: G.iter, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    var raw = null;
+    for (var i = 0; i < G.wraps.length && !raw; i++) {
+      try { raw = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(G.wraps[i].iv) }, wk, b64(G.wraps[i].ct)); } catch (e) {}
+    }
+    if (!raw) return false;
+    var k = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+    var plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(G.iv) }, k, b64(G.ct));
+    var html = await new Response(new Blob([plain]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+    document.open(); document.write(html); document.close();
+    return true;
+  }
+  async function tryCode(code, quiet) {
+    code = norm(code); if (!code) return;
+    go.disabled = true; msg.className = 'msg'; msg.textContent = quiet ? '' : 'Opening…';
+    try {
+      if (await unlock(code)) { try { localStorage.setItem(KEY, code); } catch (e) {} return; }
+      msg.className = 'msg bad'; msg.textContent = quiet ? 'Your saved code no longer opens the desk. Enter a current one.' : 'That code doesn’t open the desk.';
+      try { if (quiet) localStorage.removeItem(KEY); } catch (e) {}
+    } catch (e) {
+      msg.className = 'msg bad'; msg.textContent = (!window.crypto || !window.crypto.subtle || !window.DecompressionStream) ? 'This browser is too old to open the desk. Try a current Chrome, Safari or Firefox.' : 'Something went wrong opening the page. Reload and try again.';
+    }
+    go.disabled = false;
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); tryCode(inp.value, false); });
+  var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { inp.value = saved; tryCode(saved, true); } else { inp.focus(); }
+
+  // Requests go to the publisher by email; nothing is issued automatically.
+  var rf = document.getElementById('req-form'), rm = document.getElementById('req-msg'), TO = {{ request_email|tojson }};
+  rf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var em = document.getElementById('email').value.trim(); if (!em) return;
+    if (!TO) { rm.textContent = 'Requests aren’t open yet.'; return; }
+    var body = 'Please send me a Market Desk access code.\n\nMy email: ' + em + '\nPage: ' + location.href;
+    location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('Market Desk access request') + '&body=' + encodeURIComponent(body);
+    rm.textContent = 'Your email app should open with the request ready to send. If it doesn’t, write to ' + TO + '.';
+  });
+})();
+</script>
+{% include "analytics.html" %}
+</body>
+</html>

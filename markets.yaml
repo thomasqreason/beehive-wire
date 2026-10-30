@@ -15,6 +15,12 @@ desk:
   history_period: "2y"
   # Live prices in the chart pop-up: the Cloudflare Worker in relay/quote-worker.js. Leave empty to turn it off.
   quote_relay: "https://beehive-quotes.toddridgway.workers.dev/"
+  # The gate (Oct 30, 2026): the desk is for readers with a code. Every desk page is published encrypted
+  # (desk_gate.py); the codes are the MARKETS_ACCESS_CODES repository secret, issued by Todd and nobody
+  # else. The gate page lets a visitor leave an email, which opens a request to request_email.
+  gate:
+    enabled: true
+    request_email: "toddridgway@gmail.com"   # where "Request a code" sends the visitor's email. Change freely.
 
 # The watch list: big companies and the names most likely to lead the next leg.
 # Grouped for your eyes only — the scanner flattens it.

@@ -1018,6 +1018,9 @@ def render_site(site_cfg: dict | None = None) -> int:
             env.get_template("markets_archive.html").render(site_name=site_name, desk=cfg["desk"], days=days, passes=passes,
                                                             first_day=human_date(passes[0]["date"]), root="../../"), encoding="utf-8")
     log(f"market desk: rendered {len(eds)} editions, {len(passes)} passes -> {SITE}")
+    if (cfg["desk"].get("gate") or {}).get("enabled"):
+        from desk_gate import gate_site                  # readers need a code: every page is published sealed
+        gate_site(cfg, SITE, site_name, log=log)
     return len(eds)
 
 
