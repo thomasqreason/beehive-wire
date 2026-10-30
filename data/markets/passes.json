@@ -3111,5 +3111,50 @@
 "day": 21,
 "pass": 2,
 "no": "21.2"
+},
+{
+"kind": "movers",
+"date": "2026-10-30",
+"at": "2026-10-30T20:36:32+00:00",
+"href": "movers/2026-10-30-1436.html",
+"syms": [
+"GPN",
+"REGN",
+"KDP",
+"MO",
+"VRTX",
+"VLTO",
+"EXEL",
+"ROP",
+"LNG",
+"AJG",
+"LLY",
+"CBOE",
+"BALL",
+"SPOT",
+"GILD",
+"CHD",
+"FDX",
+"CL",
+"ADP",
+"RSG"
+],
+"heads": [
+"GPN +13.0% on 7.3x volume, breakout past buy point",
+"REGN +13.3% on 4.1x volume, breakout past buy point, already extended",
+"KDP +1.5% on 2.9x volume, nearing buy point",
+"MO +1.7% on 2.6x volume, breakout past buy point",
+"VRTX +3.5% on 2.6x volume, nearing buy point",
+"VLTO +6.8% on 2.3x volume, breakout past buy point",
+"EXEL +4.8% on 2.3x volume, new 52-week high",
+"ROP +3.8% on 2.3x volume, new 52-week high",
+"LNG +3.6% on 2.1x volume, breakout past buy point, already extended",
+"AJG +2.9% on 2.1x volume, breakout past buy point"
+],
+"extra": "20 qualifiers",
+"live": false,
+"day": 21,
+"pass": 3,
+"no": "21.3"
 }
 ]
