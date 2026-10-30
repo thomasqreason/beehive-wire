@@ -97,7 +97,7 @@ def gate_site(cfg: dict, site_dir: Path, site_name: str, log=print) -> int:
         depth = len(path.relative_to(site_dir).parts) - 1
         shell = tpl.render(site_name=site_name, title=title, blob=json.dumps(blob, separators=(",", ":")),
                            request_email=g.get("request_email") or "", payment_link=g.get("payment_link") or "",
-                           price_label=g.get("price_label") or "", gate_url=relay if posted or not codes else relay,
+                           price_label=g.get("price_label") or "", video_id=g.get("video_id") or "", gate_url=relay,
                            root="../" * (depth + 1), desk=desk)
         path.write_text(shell, encoding="utf-8")
         n += 1

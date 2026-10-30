@@ -1,0 +1,68 @@
+name: promo
+
+# The Market Desk promo video (promo.py): hand-run only. Renders with the Kokoro voice and, unless dry_run,
+# uploads it to the channel with the editions' YouTube credentials, then records it in data/video/published.json.
+# Put the resulting video id in markets.yaml desk.gate.video_id to show it on the gate page.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Render only: keep the video as a run artifact, no upload"
+        type: boolean
+        default: true
+      force:
+        description: "Upload again even if the promo is already up (the earlier one is hidden)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  promo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Install ffmpeg and a backup voice
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng fonts-liberation
+      - name: Keep the voice model between runs
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/kokoro
+          key: kokoro-v1.0
+      - name: Render the promo
+        run: python promo.py render
+      - name: Keep the render
+        uses: actions/upload-artifact@v4
+        with:
+          name: promo-market-desk
+          path: data/video/out/
+          retention-days: 14
+      - name: Upload to YouTube
+        if: ${{ !inputs.dry_run }}
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python promo.py upload ${{ inputs.force && '--force' || '' }}
+      - name: Record the upload
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/video/published.json
+          if ! git diff --cached --quiet; then
+            git commit -m "video: promo (Market Desk)"
+            git pull --rebase --autostash origin main
+            git push
+          fi

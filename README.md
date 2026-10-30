@@ -173,6 +173,14 @@ restore. Nothing links to this page.
 Buying: pay on the Stripe page → land on the welcome page → the code is on screen and that browser is already
 signed in. The same checkout always returns the same code. Stripe emails the receipt; nothing else is sent.
 
+Also in Stripe, turn on the **customer portal** (Settings → Billing → Customer portal) so the receipt email's
+"manage subscription" link lets a reader cancel on their own; the webhook then revokes the code.
+
+**The promo video.** `promo.py` is a hand-scripted 70-second pitch for the desk in the editions' house style
+(the script is the `PROMO` list at the top of the file). Actions → **promo** → Run workflow with *dry_run*
+ticked renders it with the Kokoro voice and attaches it to the run; untick to upload it to the channel. Put
+the video's YouTube id in `markets.yaml` → `desk.gate.video_id` and the gate page shows it.
+
 Not gated: the chart data files (`series/*.json`, `screen.json`, `rs_dist.json`), which are bare numbers.
 Turn the gate off with `desk.gate.enabled: false`.
 
