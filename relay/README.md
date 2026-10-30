@@ -39,3 +39,8 @@ lines and their times. If the relay is down the pop-up keeps the pass price; not
 Yahoo's chart feed (regular, pre-market, after hours; no login) and Yahoo's quote feed for overnight
 (8 p.m.–4 a.m. ET; the relay fetches its own session cookie). Unofficial endpoints — fine at this scale,
 not a licensed feed. Allowed sites are listed in ALLOWED at the top of the file.
+
+## The Market Desk gate
+The same worker keeps the desk's access codes (KV binding `GATE`) and talks to Stripe. Setup, secrets and the
+Stripe steps are in the main README under "The Market Desk gate". Endpoints are listed at the top of
+quote-worker.js.

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ site_name }} &middot; Keys</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
+<style>
+  :root{color-scheme:light} html,body{margin:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.45}
+  .wrap{max-width:900px;margin:0 auto;padding:30px 18px 60px}
+  .mast{text-align:center;border-bottom:4px double #000;padding:14px 0 10px;margin-bottom:24px}
+  .mast h1{margin:0;font:900 30px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{color:#000;text-decoration:none}
+  .mast .desk{font:bold 12px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:8px}
+  h2{font:900 16px/1.2 Arial,Helvetica,sans-serif;text-transform:uppercase;margin:22px 0 8px}
+  label{display:block;font:bold 11px/1.4 "Courier New",Courier,monospace;letter-spacing:.2em;text-transform:uppercase;color:#555;margin-bottom:4px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+  input{font:15px Arial,Helvetica,sans-serif;padding:9px 11px;border:1px solid #000;border-radius:0;background:#fff;color:#000;min-width:0}
+  button{font:900 11px/1 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:11px 14px;border:1px solid #000;background:#000;color:#fff;cursor:pointer}
+  button.quiet{background:none;color:#000}
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #ddd;vertical-align:top}
+  th{font:bold 10px/1.4 "Courier New",Courier,monospace;letter-spacing:.18em;text-transform:uppercase;color:#555}
+  td.code{font:bold 13px "Courier New",Courier,monospace;letter-spacing:.08em;white-space:nowrap}
+  tr.revoked td{color:#999;text-decoration:line-through}
+  tr.revoked td.act{text-decoration:none}
+  .msg{font:13px/1.5 Georgia,"Times New Roman",serif;font-style:italic;color:#444;margin-top:8px;min-height:1.4em}
+  .bad{color:#c00000}
+  @media (prefers-color-scheme:dark){html,body{background:#12161b;color:#f2efe9}.mast{border-bottom-color:#f2efe9}.mast h1 a{color:#f2efe9}input{background:#1b212a;color:#f2efe9;border-color:#39434f}button{background:#fdb512;color:#12161b;border-color:#fdb512}button.quiet{background:none;color:#f2efe9;border-color:#39434f}th,td{border-bottom-color:#39434f}label,th{color:#8b949e}.msg{color:#c6c1b8}.bad{color:#ff5b5b}tr.revoked td{color:#697381}}
+</style>
+</head>
+<body data-bw-nogate>
+<div class="wrap">
+  <div class="mast"><h1><a href="{{ root }}">{{ site_name }}</a></h1><div class="desk">{{ desk.name or "Market Desk" }} &middot; keys</div></div>
+  <div id="login">
+    <label for="tok">Admin token</label>
+    <div class="row"><input id="tok" type="password" style="flex:1 1 260px" placeholder="GATE_ADMIN_TOKEN"><button id="in">Sign in</button></div>
+    <div class="msg" id="lmsg">The same token the build uses. It stays in this browser only.</div>
+  </div>
+  <div id="panel" hidden>
+    <h2>Issue a code</h2>
+    <div class="row"><div><label>Email (optional)</label><input id="m-email" type="email" placeholder="reader@example.com"></div><div><label>Note</label><input id="m-note" placeholder="Jim from church"></div><button id="mint">Mint a code</button></div>
+    <div class="msg" id="mmsg"></div>
+    <h2>Every code <button class="quiet" id="reload" style="margin-left:8px">Refresh</button> <button class="quiet" id="out">Sign out</button></h2>
+    <div class="msg">Revoking takes effect at once; the reader's next page asks for a code again. Stripe cancellations revoke on their own.</div>
+    <table><thead><tr><th>Code</th><th>Who</th><th>Source</th><th>Issued</th><th>Last used</th><th>Uses</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+  </div>
+</div>
+<script>
+(function () {
+  var GATE = {{ gate_url|tojson }}, K = 'bw-gate-admin', tok = null;
+  var login = document.getElementById('login'), panel = document.getElementById('panel'), rows = document.getElementById('rows');
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function api(op, body) { return fetch(GATE + '/gate/admin/' + op, { method: body ? 'POST' : 'GET', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined, cache: 'no-store' }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || r.status); return j; }); }); }
+  function when(s) { return s ? s.slice(0, 10) : '–'; }
+  function list() {
+    api('list').then(function (j) {
+      rows.innerHTML = j.codes.map(function (c) {
+        return '<tr class="' + (c.status === 'revoked' ? 'revoked' : '') + '"><td class="code">' + esc(c.code) + '</td><td>' + esc(c.email || '') + (c.note ? ' <span style="color:#777">' + esc(c.note) + '</span>' : '') + '</td><td>' + esc(c.source) + (c.subscription ? ' (sub)' : '') + '</td><td>' + when(c.created) + '</td><td>' + when(c.last_used) + '</td><td>' + (c.uses || 0) + '</td><td class="act"><button class="quiet" data-op="' + (c.status === 'revoked' ? 'restore' : 'revoke') + '" data-code="' + esc(c.code) + '">' + (c.status === 'revoked' ? 'Restore' : 'Revoke') + '</button></td></tr>';
+      }).join('') || '<tr><td colspan="7">No codes yet.</td></tr>';
+    }).catch(function (e) { rows.innerHTML = '<tr><td colspan="7" class="bad">' + esc(e.message) + '</td></tr>'; });
+  }
+  function show() { login.hidden = true; panel.hidden = false; list(); }
+  document.getElementById('in').addEventListener('click', function () {
+    tok = document.getElementById('tok').value.trim(); if (!tok) return;
+    api('list').then(function () { try { localStorage.setItem(K, tok); } catch (e) {} show(); }).catch(function (e) { document.getElementById('lmsg').className = 'msg bad'; document.getElementById('lmsg').textContent = 'Not accepted (' + e.message + ').'; });
+  });
+  document.getElementById('out').addEventListener('click', function () { tok = null; try { localStorage.removeItem(K); } catch (e) {} panel.hidden = true; login.hidden = false; });
+  document.getElementById('reload').addEventListener('click', list);
+  document.getElementById('mint').addEventListener('click', function () {
+    var m = document.getElementById('mmsg');
+    api('mint', { email: document.getElementById('m-email').value.trim(), note: document.getElementById('m-note').value.trim() }).then(function (j) {
+      m.className = 'msg'; m.innerHTML = 'Issued <b style="font-family:Courier New,monospace">' + esc(j.code) + '</b>' + (j.email ? ' for ' + esc(j.email) : '') + '. Send it to them.'; list();
+    }).catch(function (e) { m.className = 'msg bad'; m.textContent = e.message; });
+  });
+  rows.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-op]'); if (!b) return;
+    if (b.dataset.op === 'revoke' && !confirm('Revoke ' + b.dataset.code + '?')) return;
+    api(b.dataset.op, { code: b.dataset.code }).then(list).catch(function (e) { alert(e.message); });
+  });
+  try { tok = localStorage.getItem(K); } catch (e) {}
+  if (!GATE) { document.getElementById('lmsg').className = 'msg bad'; document.getElementById('lmsg').textContent = 'No relay configured (markets.yaml desk.quote_relay).'; return; }
+  if (tok) show();
+})();
+</script>
+</body>
+</html>

@@ -9,6 +9,14 @@
 //   GET https://<your-worker>.workers.dev/?intra=DELL  → five trading days of 5-minute bars, regular session
 //   only, for the pop-up's Intraday tab (cached 60 s).
 //
+// The Market Desk gate (Oct 30, 2026) lives here too, under /gate/. It needs a KV namespace bound as GATE and
+// three Worker secrets: GATE_ADMIN_TOKEN (shared with the GitHub build), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET.
+//   POST /gate/key            build → worker: the content key for one build (Bearer GATE_ADMIN_TOKEN)
+//   GET  /gate/unlock?code=&build=   gate page → the key for that build, if the code is active
+//   GET  /gate/claim?session=        the welcome page after a Stripe checkout → mints (or returns) the buyer's code
+//   POST /gate/stripe         Stripe webhook: a cancelled or unpaid subscription revokes its code
+//   GET  /gate/admin/list, POST /gate/admin/mint|revoke|restore   Todd's keys page (Bearer GATE_ADMIN_TOKEN)
+//
 // Returns, per symbol: the regular-session price and change, plus the latest extended-hours price
 // (pre-market, after hours, or overnight) when there is one, each with its time. Quotes are cached
 // for 30 seconds, so a busy page costs Yahoo — and the free plan — one call per symbol per 30 s.
@@ -32,8 +40,9 @@ export default {
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Vary": "Origin",
     };
-    if (req.method === "OPTIONS") return new Response(null, { headers: cors });
+    if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors, "Access-Control-Allow-Headers": "Authorization, Content-Type" } });
     const url = new URL(req.url);
+    if (url.pathname.startsWith("/gate/")) return gate(req, url, env, { ...cors, "Access-Control-Allow-Headers": "Authorization, Content-Type", "Cache-Control": "no-store" });
     const hist = (url.searchParams.get("hist") || "").toUpperCase().trim();
     if (hist) {
       if (!SYM.test(hist)) return json({ error: "bad symbol" }, 400, cors);
@@ -235,3 +244,133 @@ function merge(sym, q, ch) {
 const num = x => (typeof x === "object" && x !== null && "raw" in x ? num(x.raw) : (x == null || x === "" || isNaN(+x) ? null : +x));
 const json = (o, status, h) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json", ...h } });
 function withHeaders(res, h) { const r = new Response(res.body, res); for (const [k, v] of Object.entries(h)) r.headers.set(k, v); return r; }
+
+
+// ═══════════════════════════════════════════════════════════════ the Market Desk gate
+// Codes live in KV (binding GATE): code:<CODE> → {email, note, source, status, created, customer, subscription},
+// with the same object as the entry's metadata so a list needs no reads. session:<stripe session> → code and
+// sub:<stripe subscription> → code let a checkout be re-claimed and a cancellation find its code.
+// key:<build> → the content key the build sealed its pages with (90 days), key:latest → the newest.
+
+const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";   // no 0/O, 1/I
+const NO_STORE = { "Cache-Control": "no-store" };
+
+function mintCode() {
+  const b = new Uint8Array(8); crypto.getRandomValues(b);
+  const s = [...b].map(x => CODE_ALPHABET[x % 32]).join("");
+  return `BW-${s.slice(0, 4)}-${s.slice(4)}`;
+}
+const normCode = c => (c || "").replace(/\s+/g, "").toUpperCase();
+
+async function gate(req, url, env, cors) {
+  if (!env.GATE) return json({ error: "gate not configured: bind a KV namespace as GATE" }, 503, cors);
+  const path = url.pathname.slice("/gate/".length);
+  const auth = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+  const admin = !!env.GATE_ADMIN_TOKEN && auth === env.GATE_ADMIN_TOKEN;
+
+  // ── the build hands over a key
+  if (path === "key" && req.method === "POST") {
+    if (!admin) return json({ error: "unauthorized" }, 401, cors);
+    const b = await req.json().catch(() => ({}));
+    if (!b.build || !b.key) return json({ error: "need build and key" }, 400, cors);
+    await env.GATE.put("key:" + b.build, b.key, { expirationTtl: 90 * 86400 });
+    await env.GATE.put("key:latest", b.key);
+    return json({ ok: true, build: b.build }, 200, cors);
+  }
+
+  // ── a reader's code → that build's key
+  if (path === "unlock") {
+    const code = normCode(url.searchParams.get("code")), build = url.searchParams.get("build") || "";
+    if (!code) return json({ error: "no code" }, 400, cors);
+    const rec = await env.GATE.get("code:" + code, "json");
+    if (!rec || rec.status !== "active") return json({ error: "no" }, 403, cors);
+    const key = (build && await env.GATE.get("key:" + build)) || await env.GATE.get("key:latest");
+    if (!key) return json({ error: "no key for this build yet" }, 404, cors);
+    rec.last_used = new Date().toISOString(); rec.uses = (rec.uses || 0) + 1;
+    await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
+    return json({ key }, 200, cors);
+  }
+
+  // ── after a Stripe checkout: the welcome page claims the buyer's code
+  if (path === "claim") {
+    const sid = url.searchParams.get("session") || "";
+    if (!/^cs_[A-Za-z0-9_]+$/.test(sid)) return json({ error: "bad session" }, 400, cors);
+    if (!env.STRIPE_SECRET_KEY) return json({ error: "payments not configured" }, 503, cors);
+    const had = await env.GATE.get("session:" + sid);
+    if (had) { const rec = await env.GATE.get("code:" + had, "json"); return json({ code: had, email: rec?.email || null }, 200, cors); }
+    const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sid}`, { headers: { Authorization: "Bearer " + env.STRIPE_SECRET_KEY } });
+    if (!r.ok) return json({ error: "stripe: " + r.status }, 502, cors);
+    const cs = await r.json();
+    if (cs.payment_status !== "paid" && cs.status !== "complete") return json({ error: "not paid" }, 402, cors);
+    const code = mintCode();
+    const rec = { code, email: cs.customer_details?.email || cs.customer_email || null, note: "Stripe", source: "stripe", status: "active",
+                  created: new Date().toISOString(), customer: cs.customer || null, subscription: cs.subscription || null };
+    await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
+    await env.GATE.put("session:" + sid, code);
+    if (rec.subscription) await env.GATE.put("sub:" + rec.subscription, code);
+    return json({ code, email: rec.email }, 200, cors);
+  }
+
+  // ── Stripe webhook: a subscription that ends takes its code with it
+  if (path === "stripe" && req.method === "POST") {
+    const payload = await req.text();
+    if (!env.STRIPE_WEBHOOK_SECRET || !(await stripeVerify(payload, req.headers.get("Stripe-Signature") || "", env.STRIPE_WEBHOOK_SECRET)))
+      return json({ error: "bad signature" }, 400, NO_STORE);
+    const ev = JSON.parse(payload), obj = ev.data?.object || {};
+    const subId = obj.object === "subscription" ? obj.id : obj.subscription;
+    if (subId) {
+      const code = await env.GATE.get("sub:" + subId);
+      if (code) {
+        const rec = await env.GATE.get("code:" + code, "json");
+        if (rec) {
+          const dead = ev.type === "customer.subscription.deleted" || (ev.type === "customer.subscription.updated" && ["canceled", "unpaid", "incomplete_expired"].includes(obj.status));
+          const alive = ev.type === "customer.subscription.updated" && ["active", "trialing"].includes(obj.status);
+          if (dead) { rec.status = "revoked"; rec.revoked = new Date().toISOString(); rec.why = ev.type + ":" + (obj.status || ""); }
+          if (alive && rec.status === "revoked" && (rec.why || "").startsWith("customer.subscription")) { rec.status = "active"; delete rec.revoked; delete rec.why; }
+          await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
+        }
+      }
+    }
+    return json({ received: true }, 200, NO_STORE);
+  }
+
+  // ── Todd's keys page
+  if (path.startsWith("admin/")) {
+    if (!admin) return json({ error: "unauthorized" }, 401, cors);
+    const op = path.slice("admin/".length);
+    if (op === "list") {
+      const out = []; let cursor;
+      do { const l = await env.GATE.list({ prefix: "code:", cursor }); out.push(...l.keys.map(k => k.metadata || { code: k.name.slice(5) })); cursor = l.list_complete ? null : l.cursor; } while (cursor);
+      out.sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+      return json({ codes: out }, 200, cors);
+    }
+    const b = req.method === "POST" ? await req.json().catch(() => ({})) : {};
+    if (op === "mint") {
+      const code = mintCode();
+      const rec = { code, email: b.email || null, note: b.note || "", source: "hand", status: "active", created: new Date().toISOString() };
+      await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
+      return json(rec, 200, cors);
+    }
+    if (op === "revoke" || op === "restore") {
+      const code = normCode(b.code), rec = await env.GATE.get("code:" + code, "json");
+      if (!rec) return json({ error: "no such code" }, 404, cors);
+      if (op === "revoke") { rec.status = "revoked"; rec.revoked = new Date().toISOString(); rec.why = "hand"; }
+      else { rec.status = "active"; delete rec.revoked; delete rec.why; }
+      await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
+      return json(rec, 200, cors);
+    }
+  }
+  return json({ error: "no such gate call" }, 404, cors);
+}
+
+const summary = r => ({ code: r.code, email: r.email, note: r.note, source: r.source, status: r.status, created: r.created, last_used: r.last_used || null, uses: r.uses || 0, subscription: r.subscription || null });
+
+async function stripeVerify(payload, header, secret) {
+  const parts = header.split(",").map(p => p.trim().split("=")), t = parts.find(p => p[0] === "t")?.[1], sigs = parts.filter(p => p[0] === "v1").map(p => p[1]);
+  if (!t || !sigs.length || Math.abs(Date.now() / 1000 - Number(t)) > 300) return false;
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = [...new Uint8Array(await crypto.subtle.sign("HMAC", key, enc.encode(`${t}.${payload}`)))].map(b => b.toString(16).padStart(2, "0")).join("");
+  return sigs.some(s => s.length === mac.length && timingSafeEqual(s, mac));
+}
+function timingSafeEqual(a, b) { let r = 0; for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i); return r === 0; }

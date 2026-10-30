@@ -28,9 +28,10 @@
   .msg.bad{color:#c00000}
   hr{border:0;border-top:1px solid #000;margin:26px 0}
   .fine{font-size:12px;color:#555}
+  a.btn{display:inline-block;font:900 13px/1 Arial,Helvetica,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:14px 22px;border:1px solid #000;background:#000;color:#fff;text-decoration:none}
   @media (prefers-color-scheme:dark){
     html,body{background:#12161b;color:#f2efe9} .mast{border-bottom-color:#f2efe9} .mast h1 a{color:#f2efe9}
-    input{background:#1b212a;color:#f2efe9;border-color:#39434f} button{background:#fdb512;color:#12161b;border-color:#fdb512}
+    input{background:#1b212a;color:#f2efe9;border-color:#39434f} button,a.btn{background:#fdb512;color:#12161b;border-color:#fdb512}
     label,.fine{color:#8b949e} .msg{color:#c6c1b8} .msg.bad{color:#ff5b5b} hr{border-top-color:#39434f}
   }
 </style>
@@ -51,7 +52,13 @@
   </form>
 
   <hr>
-  <h2>Don&rsquo;t have one?</h2>
+  {% if payment_link %}
+  <h2>Subscribe</h2>
+  <p>The Market Desk: leaders, bases and breakouts, numbers first, with the Beehive 100 and the Big Cap 40 rebuilt every week and re-quoted every pass.{% if price_label %} <b>{{ price_label }}.</b>{% endif %} Your code is on the screen the moment you pay.</p>
+  <p><a class="btn" href="{{ payment_link }}">Subscribe &rarr;</a></p>
+  <hr>
+  {% endif %}
+  <h2>{% if payment_link %}Or ask for a code{% else %}Don&rsquo;t have one?{% endif %}</h2>
   <p>Leave your email and we&rsquo;ll send a code if there&rsquo;s a seat.{% if not request_email %} Codes are issued by hand, one reader at a time.{% endif %}</p>
   <form id="req-form">
     <label for="email">Your email</label>
@@ -63,7 +70,7 @@
 <script id="bw-blob" type="application/json">{{ blob|safe }}</script>
 <script>
 (function () {
-  var G = JSON.parse(document.getElementById('bw-blob').textContent), KEY = 'bw-desk-code';
+  var G = JSON.parse(document.getElementById('bw-blob').textContent), KEY = 'bw-desk-code', GATE = {{ gate_url|tojson }};
   var form = document.getElementById('code-form'), inp = document.getElementById('code'), go = document.getElementById('go'), msg = document.getElementById('code-msg');
   function b64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
   function norm(c) { return (c || '').replace(/\s+/g, '').toUpperCase(); }
@@ -74,6 +81,12 @@
     var raw = null;
     for (var i = 0; i < G.wraps.length && !raw; i++) {
       try { raw = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(G.wraps[i].iv) }, wk, b64(G.wraps[i].ct)); } catch (e) {}
+    }
+    if (!raw && GATE) {                       // not a hand code: ask the relay, which knows the minted and paid ones
+      try {
+        var r = await fetch(GATE + '/gate/unlock?code=' + encodeURIComponent(code) + '&build=' + encodeURIComponent(G.build || ''), { cache: 'no-store' });
+        if (r.ok) raw = b64((await r.json()).key);
+      } catch (e) {}
     }
     if (!raw) return false;
     var k = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);

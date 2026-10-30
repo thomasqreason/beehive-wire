@@ -139,12 +139,39 @@ at render time (AES-256-GCM; the content key is wrapped once per code with PBKDF
 the browser. A visitor without a code can leave an email, which opens a request to `desk.gate.request_email`
 in `markets.yaml`. Nothing issues a code automatically.
 
-**Issuing codes.** Codes live in one repository secret, `MARKETS_ACCESS_CODES`: repo **Settings → Secrets and
-variables → Actions**. Put one code per line (or comma-separated); case and spaces don't matter. Give each
-reader their own code (`TODD-4821`, `JIM-0193`) so one can be removed without touching the others. After
-changing the secret, run the **build** workflow once (Actions → build → Run workflow) or wait for the next
-edition: the desk is re-sealed with the current codes and a removed code stops working everywhere. A right
-code is remembered in that reader's browser. If the secret is empty the desk is published locked for everyone.
+**Codes come from two places.**
+
+1. *Hand codes in a repository secret.* `MARKETS_ACCESS_CODES` (repo **Settings → Secrets and variables →
+   Actions**): one code per line, case and spaces ignored. These are baked into the pages and work even if the
+   relay is down. Change the secret, run the **build** workflow once, and the desk is re-sealed.
+2. *Codes the relay keeps* (relay/quote-worker.js, `/gate/`): the ones you mint on the keys page and the ones
+   Stripe buyers get. The build hands each edition's key to the relay (secret `GATE_ADMIN_TOKEN`), and the
+   gate page asks the relay for it when a reader's code isn't a hand code. Revoking takes effect at once.
+
+**Your keys page:** `https://beehivewire.com/markets/keys/`. Sign in with the admin token (it stays in that
+browser). Mint a code for a friend, see every code with who has it and when it was last used, revoke or
+restore. Nothing links to this page.
+
+**Paid access (Stripe).** The pitch is **$9.99 for the first 21 days, then $49 a month.** One-time setup:
+
+1. Cloudflare → Workers & Pages → `beehive-quotes` → Settings → Bindings: add a **KV namespace** binding named
+   `GATE` (create a namespace called `beehive-gate`). Under Variables and Secrets add three secrets:
+   `GATE_ADMIN_TOKEN` (make up a long one; the same value goes in the GitHub secret of that name),
+   `STRIPE_SECRET_KEY` (Stripe → Developers → API keys, the secret key) and `STRIPE_WEBHOOK_SECRET` (step 4).
+   Then paste the current `quote-worker.js` in and Deploy, as for any relay update.
+2. GitHub: add the `GATE_ADMIN_TOKEN` repository secret with the same value.
+3. Stripe → Product catalog: a product **Market Desk** with a recurring price of **$49 / month** and a one-time
+   price of **$9.99** named "First 21 days". Then **Payment Links → New**: add the $49 monthly price with a
+   **21-day free trial**, add the $9.99 one-time price to the same link, and under *After payment* choose
+   "Don't show confirmation page" with the redirect
+   `https://beehivewire.com/markets/welcome/?session_id={CHECKOUT_SESSION_ID}`. Copy the link into
+   `markets.yaml` → `desk.gate.payment_link`; the Subscribe button appears on the gate at the next build.
+4. Stripe → Developers → Webhooks → Add endpoint `https://beehive-quotes.toddridgway.workers.dev/gate/stripe`
+   with the events `customer.subscription.deleted` and `customer.subscription.updated`. Copy its signing secret
+   into the Worker secret `STRIPE_WEBHOOK_SECRET`. A cancelled or unpaid subscription then revokes its code.
+
+Buying: pay on the Stripe page → land on the welcome page → the code is on screen and that browser is already
+signed in. The same checkout always returns the same code. Stripe emails the receipt; nothing else is sent.
 
 Not gated: the chart data files (`series/*.json`, `screen.json`, `rs_dist.json`), which are bare numbers.
 Turn the gate off with `desk.gate.enabled: false`.

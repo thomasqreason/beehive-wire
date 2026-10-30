@@ -21,6 +21,11 @@ desk:
   gate:
     enabled: true
     request_email: "toddridgway@gmail.com"   # where "Request a code" sends the visitor's email. Change freely.
+    # Paid access (Oct 30, 2026): a Stripe Payment Link. After paying, Stripe sends the buyer to
+    # https://beehivewire.com/markets/welcome/?session_id={CHECKOUT_SESSION_ID}, which shows their code.
+    # Leave payment_link empty to hide the Subscribe button. Codes are kept by the relay (relay/README.md).
+    payment_link: ""
+    price_label: "$9.99 for your first 21 days, then $49 a month"   # shown with the Subscribe button (Todd, Oct 30, 2026)
 
 # The watch list: big companies and the names most likely to lead the next leg.
 # Grouped for your eyes only — the scanner flattens it.
