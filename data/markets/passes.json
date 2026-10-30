@@ -3073,5 +3073,43 @@
 "day": 21,
 "pass": 1,
 "no": "21.1"
+},
+{
+"kind": "movers",
+"date": "2026-10-30",
+"at": "2026-10-30T18:11:38+00:00",
+"href": "movers/2026-10-30-1211.html",
+"syms": [
+"GPN",
+"REGN",
+"KDP",
+"VRTX",
+"LNG",
+"LLY",
+"BALL",
+"SPOT",
+"SFM",
+"FDXF",
+"FIS",
+"DXCM",
+"MGM",
+"TMUS",
+"FISV"
+],
+"heads": [
+"GPN +11.6% on 7.0x volume, nearing buy point",
+"REGN +11.0% on 3.6x volume, breakout past buy point, already extended",
+"KDP +1.6% on 2.6x volume, nearing buy point",
+"VRTX +3.4% on 1.9x volume, nearing buy point",
+"LNG +3.1% on 1.8x volume, breakout past buy point, already extended",
+"LLY +3.7% on 1.7x volume, new 52-week high",
+"BALL +2.6% on 1.7x volume, nearing buy point",
+"SPOT +5.5% on 1.6x volume, still in buy range after breakout"
+],
+"extra": "8 qualifiers",
+"live": true,
+"day": 21,
+"pass": 2,
+"no": "21.2"
 }
 ]
