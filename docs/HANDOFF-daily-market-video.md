@@ -10,7 +10,7 @@ affiliated with IBD) apply here too.
 
 ## 1. What Todd wants
 
-A **free daily video**, every trading day after the close: a stock-market roundup in the Beehive Wire voice,
+A **free daily video**, every trading day at 4:30 p.m. Eastern (and possibly 2:30 p.m.; §3): a stock-market roundup in the Beehive Wire voice,
 built from the Market Desk's own numbers. It is marketing for the paid desk and a product in itself.
 
 - **Free.** It never shows the whole paid page, but it can and should show real numbers from that day: the
@@ -22,8 +22,8 @@ built from the Market Desk's own numbers. It is marketing for the paid desk and 
   "Today's market" or similar; and a link on the Market Desk gate page.
 - **A Beehive Wire YouTube channel.** Todd would rather these go on a channel named Beehive Wire than on the
   Boring Money channel the editions use. See §4; this is the one part that needs him.
-- Ends with the paid-desk pitch and the price: $9.99 for the first 21 days, then $49.99 a month, link in the
-  description. Same attribution/disclaimer lines as the promo (see the promo handoff, §5 and `promo.py`).
+- Ends with the paid-desk pitch: **three weeks for $9.99** (say it that way; the $49.99 regular price stays off the
+  video and on the checkout page and description), link in the description. Same attribution/disclaimer lines as the promo (see the promo handoff, §5 and `promo.py`).
 
 ---
 
@@ -47,27 +47,64 @@ built from the Market Desk's own numbers. It is marketing for the paid desk and 
 
 ---
 
-## 3. Suggested shape (4–6 minutes)
+## 3. The shape: IBD's daily market wrap, done our way (Todd's spec, Oct 31, 2026)
 
-1. **Market note** (30 s): the indexes, the three-state read, the distribution count. One sentence of the
-   Desk Chief's exposure call.
-2. **Breakouts and buy-range names today** (60–90 s): from the watch lists. Name, what the base was, that it
-   cleared the pivot. Three to five names. A chart slide for the best one.
-3. **Volume Surges** (45 s): the top handful, with the ratio to the 50-day average, reported plainly.
-4. **One story from the edition** (45 s): the top stock story, read the way the edition videos read headlines.
-5. **Scorecard line** (15 s): how the desk's calls stand this week or month, win rate, versus the S&P. The
-   honesty beat. Include losses.
-6. **Tomorrow** (15 s): the Desk Chief's "watch" line, earnings this week.
-7. **Pitch** (15 s): the paid desk, the price, the link. Fixed sign-off.
+The model is Investor's Business Daily's end-of-day market video: an anchor walks the index charts, calls the
+market's state, then shows a few stocks setting up or breaking out, then names in the news after the close.
+Copy the structure and the discipline; never the name, the look or the phrases that are theirs (promo handoff §5).
+**Length 5–8 minutes.** Every segment below is a slide or two plus narration.
 
-Script written by Claude each day from a payload (`--emit-payload`), with a `market_video_editorial.md` of
-standing orders modelled on `video_editorial.md`. Hard rules: every number from the payload; no predictions, no
-"will"; losses stated as plainly as wins; "the desk," never "we recommend"; the disclaimer in the description.
+1. **The index charts, with the numbers on them** (60–90 s). Two chart slides, **S&P 500** and **Nasdaq
+   Composite**, daily bars, the **50-day moving average** drawn and labelled, today's close marked, and the
+   **distribution-day count** for each index printed on the slide (the desk already computes it: down days of
+   0.2%+ on volume above the prior session over the last 25 sessions; see `markets.py` ~line 503 and the
+   `big_picture` block). Narration: where each index closed and its percent move, above or below the 50-day and
+   by how much, the distribution count and whether it rose today, the market's three-state read (the desk's
+   "confirmed uptrend / under pressure / in correction" equivalent, from `big_picture.state`) and the Desk Chief's
+   exposure line. Add the 200-day line and the 21-day line where they matter. If the day was a follow-through
+   day or a count hit five or six, say so plainly. Keep the index data in the payload: the desk downloads ^GSPC
+   and ^IXIC (check `markets.yaml` `benchmarks`); add the Nasdaq if it is not already there.
+2. **Stocks setting up** (90–120 s). Two or three names from the watch lists that are **near a buy point with a
+   base complete** or in a tightening pattern (Near a buy point; Aggressive entries). One chart slide each with
+   the base drawn, the buy point and buy range shaded, the RS line; narration gives the base kind and length, the
+   buy point to the cent, how far below it the stock closed, and the next thing to watch. This is the segment that
+   sells the desk: show the chart, say the pivot, then say the full list is on the desk.
+3. **Breakouts today** (45–60 s). What cleared a pivot today (Breakouts this week filtered to today; In the buy
+   range). Name, pivot, close, distance past the pivot, volume versus the 50-day average as a fact. If nothing broke
+   out, say so in one line; do not pad.
+4. **After the close** (45–90 s). Big names reporting earnings after the bell or moving in extended hours: the
+   `after_hours` block and `ah_movers` in the edition payload (Yahoo's post-market tape, 4:05–8 p.m. Eastern), and
+   Earnings This Week for who reports tonight and tomorrow morning. For a Google or Nvidia report: the regular close,
+   the after-hours price and move, and whatever the payload's headline says about the report. Never numbers that
+   are not in the payload.
+5. **Scorecard line** (15 s). The desk's calls over the last 1, 4 and 8 weeks: average, win rate, versus the S&P,
+   with the losers counted. One sentence.
+6. **Tomorrow** (15 s). The Desk Chief's watch line, and any index level that matters (a 50-day retest, a count).
+7. **The offer** (15–20 s, every video, and in the first 30 seconds as a one-line mention). **"Try the Market Desk:
+   three weeks for $9.99."** Do not state the regular price in the video; it is on the checkout page and in the
+   description. Link in the description, with the attribution line ("follows the breakout discipline William
+   O'Neil described in How to Make Money in Stocks") and "Not affiliated with Investor's Business Daily. Not
+   investment advice."
 
-Title pattern: `BEEHIVE WIRE MARKET DESK: <the day's one-line read> (<Mon Oct 27>)`. Thumbnail: the brand card
-with the day's headline number (the S&P's move, or the breakout count).
+**Timing.** Two slots on market days, Todd's choice to be confirmed: **2:30 p.m. Eastern** (a midday read while
+the market is open; the charts show the session so far and the narration says so) **and 4:30 p.m. Eastern**
+(the close). If only one, the 4:30 close is the one that matches IBD's wrap. Market days only: weekdays minus NYSE
+holidays, and on early-close days (the day after Thanksgiving, Christmas Eve, July 3 when observed) the close video
+runs at 1:30 p.m. Eastern. `markets.py` already has `nyse_early_close` and the holiday logic the movers passes use;
+reuse it, and give the workflow a `due` check the way `video.py due` works so a holiday never produces a video and
+a missed slot is skipped, not backfilled. GitHub's cron is late and lossy (see the comments in `markets.yml`), so
+schedule three shots per slot and let `due` stand the extras down, and let the cron-job.org pinger drive it the way
+the editions are driven.
 
----
+**Charts for the slides.** The desk's SVG chart code (`markets.py`, the chart function near line 776; the
+browser version in `templates/markets_popup.html`) draws exactly what is needed: bars, the 21/50/200-day lines,
+the buy range, the RS line. Render it for ^GSPC and ^IXIC with the distribution count and the 50-day distance as
+labels, rasterize with the same approach `video.py` uses for slides (Pillow; or Playwright screenshotting the SVG
+at 1920×1080). Keep the house palette; do not imitate IBD's chart colouring.
+
+**Narration rules.** As `video_editorial.md`: short sentences, spoken aloud, every number from the payload,
+attribute headlines, no predictions ("will"), losses as plainly as wins, "the desk" not "we recommend." Model the
+anchor's register on a calm desk editor, not a hype channel. Fixed sign-off after the outro, as the editions have.
 
 ## 4. The channel: what only Todd can do
 
