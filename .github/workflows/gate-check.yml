@@ -1,0 +1,24 @@
+name: gate-check
+
+# Proves the Market Desk gate end to end from a runner (the editor's cloud session cannot reach the Worker):
+# the relay's public key, a bad code refused, a Stripe claim with a fake session (expects "stripe: 404", which
+# shows the Worker holds a working STRIPE_SECRET_KEY), and the webhook signature check (expects "bad signature").
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe the Worker
+        run: |
+          W=https://beehive-quotes.toddridgway.workers.dev
+          echo "== pubkey";  curl -sS "$W/gate/pubkey" | head -c 120; echo
+          echo "== unlock (bad code)"; curl -sS -X POST "$W/gate/unlock" -H 'Content-Type: application/json' -d '{"code":"NOPE","wrapped":"AAAA"}'; echo
+          echo "== claim (fake session; want stripe: 404 = key works, 'payments not configured' = key missing)"
+          curl -sS "$W/gate/claim?session=cs_live_a00000000000000000000000"; echo
+          echo "== stripe webhook (unsigned; want 'bad signature' = secret set, 400 either way)"
+          curl -sS -o /dev/null -w '%{http_code}\n' -X POST "$W/gate/stripe" -H 'Stripe-Signature: t=1,v1=00' -d '{}'
+          curl -sS -X POST "$W/gate/stripe" -H 'Stripe-Signature: t=1,v1=00' -d '{}'; echo
