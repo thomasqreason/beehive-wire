@@ -34,3 +34,5 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
   Never add any other way to get a code, and never publish the desk pages unsealed while the gate is on.
 - A local `python build.py --render-only` with the variable unset seals the desk with no codes (locked for
   everyone); set `MARKETS_ACCESS_CODES=test` to look at it locally.
+- Todd does not give out free codes. The only hand-minted code is his own; every other reader pays through
+  Stripe. Don't suggest comp codes or a "request a code" path as the way in (Oct 31, 2026).
