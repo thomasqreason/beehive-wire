@@ -45,3 +45,9 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
   everyone); set `MARKETS_ACCESS_CODES=test` to look at it locally.
 - Todd does not give out free codes. The only hand-minted code is his own; every other reader pays through
   Stripe. Don't suggest comp codes or a "request a code" path as the way in (Oct 31, 2026).
+
+## Open items (keep this list current)
+
+- Stripe still shows the business name "Daily Page" on the Market Desk checkout page. Rename to Beehive Wire
+  at https://dashboard.stripe.com/acct_1QWsjRREcbwAJF8r/settings/public (Todd, by hand; no API for it).
+- The promo video (promo.py) is rendered but not yet uploaded; `desk.gate.video_id` in markets.yaml is empty.
