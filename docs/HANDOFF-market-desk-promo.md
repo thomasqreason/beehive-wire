@@ -22,6 +22,17 @@ site might get Todd sued.
    starting list; walk the live site and the templates and add to it.
 3. Rewrite the pitch copy on the gate page (`templates/markets_gate.html`, the "Subscribe" block) and the
    YouTube description in `promo.py` to match whatever the video says, in the house voice.
+4. **Build a preview for people without a code.** Right now a visitor sees only the gate: a code box and a
+   Subscribe button, and "people need to be able to see something." Todd's one hard rule: **nothing close to
+   real-time. Period.** No live quotes, no today's lists, no current buy points. What is allowed: a frozen
+   sample edition from weeks ago, clearly dated, with the real layout (a story, a slice of the Beehive 100,
+   a watch list, a chart pop-up, the scorecard as of that date); a short tutorial page or walkthrough that
+   explains each section; and the video embedded. Ideas: render one old edition from the archive
+   (`data/markets/` holds every past pass and `markets.py render` makes the pages) into a `/markets/sample/`
+   folder that `desk_gate.py` leaves unsealed (mark its pages `data-bw-nogate`), stamp every table "SAMPLE,
+   as of <date>" with the live numbers blurred or replaced, and link it from the gate page under the video.
+   The chart pop-up on the sample must not call the live relay for prices; disable the quote box and the
+   live price line there. Treat anything newer than 30 days as live.
 
 Todd's standing rule: if you can do a thing without him clicking through a website, do it. He does not give out
 free codes; every reader pays. The only hand-minted code is his own.
@@ -45,7 +56,7 @@ The voice is Beehive Wire's: dry, specific, a number in every sentence, no hype.
 
 ## 3. Every feature, in the order a reader meets it
 
-Walk `beehivewire.com/markets` with a code (Todd can mint one at `/markets/keys/`) or render it locally:
+Walk `beehivewire.com/markets` with a code (ask Todd for one; he mints them at `/markets/keys/`) or render it locally:
 `MARKETS_ACCESS_CODES=test python build.py --render-only` then open `site/markets/index.html` and enter `test`.
 
 **The daily edition (after the 2 p.m. Mountain close)**
