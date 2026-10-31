@@ -91,6 +91,8 @@ def gate_site(cfg: dict, site_dir: Path, site_name: str, log=print) -> int:
         d = site_dir / sub
         d.mkdir(exist_ok=True)
         (d / "index.html").write_text(env_tpl(name).render(site_name=site_name, desk=desk, gate_url=relay, root="../../"), encoding="utf-8")
+        # GitHub Pages serves /markets/keys/ from the folder; /markets/keys (no slash) needs a file of its own.
+        (site_dir / f"{sub}.html").write_text(f'<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url={sub}/"><title>{sub}</title><a href="{sub}/" data-bw-nogate>Continue</a>', encoding="utf-8")
     wraps = []
     for c in codes:
         wk = hashlib.pbkdf2_hmac("sha256", c.encode("utf-8"), salt, ITERATIONS, dklen=32)
