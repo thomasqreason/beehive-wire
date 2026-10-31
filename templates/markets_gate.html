@@ -67,14 +67,17 @@
   <p><a class="btn" href="{{ payment_link }}">Subscribe &rarr;</a></p>
   <hr>
   {% endif %}
-  <h2>{% if payment_link %}Or ask for a code{% else %}Don&rsquo;t have one?{% endif %}</h2>
-  <p>Leave your email and we&rsquo;ll send a code if there&rsquo;s a seat.{% if not request_email %} Codes are issued by hand, one reader at a time.{% endif %}</p>
+  {% if not payment_link %}
+  <h2>Subscriptions open shortly</h2>
+  <p>Leave your email and we&rsquo;ll tell you the day the desk opens. No codes are given out by hand.</p>
   <form id="req-form">
     <label for="email">Your email</label>
-    <div class="row"><input id="email" name="email" type="email" required placeholder="you@example.com"><button type="submit">Request a code</button></div>
+    <div class="row"><input id="email" name="email" type="email" required placeholder="you@example.com"><button type="submit">Tell me</button></div>
     <div class="msg" id="req-msg"></div>
   </form>
-  <p class="fine">Codes are issued personally, one reader at a time. Nothing here is automatic.</p>
+  {% else %}
+  <p class="fine">Access is by subscription only. Questions: reply to your Stripe receipt.</p>
+  {% endif %}
 </div>
 <script id="bw-blob" type="application/json">{{ blob|safe }}</script>
 <script>
@@ -122,13 +125,13 @@
 
   // Requests go to the publisher by email; nothing is issued automatically.
   var rf = document.getElementById('req-form'), rm = document.getElementById('req-msg'), TO = {{ request_email|tojson }};
-  rf.addEventListener('submit', function (e) {
+  if (rf) rf.addEventListener('submit', function (e) {
     e.preventDefault();
     var em = document.getElementById('email').value.trim(); if (!em) return;
     if (!TO) { rm.textContent = 'Requests aren’t open yet.'; return; }
-    var body = 'Please send me a Market Desk access code.\n\nMy email: ' + em + '\nPage: ' + location.href;
-    location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('Market Desk access request') + '&body=' + encodeURIComponent(body);
-    rm.textContent = 'Your email app should open with the request ready to send. If it doesn’t, write to ' + TO + '.';
+    var body = 'Tell me when Market Desk subscriptions open.\n\nMy email: ' + em;
+    location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('Market Desk: tell me when it opens') + '&body=' + encodeURIComponent(body);
+    rm.textContent = 'Your email app should open with the note ready to send. If it doesn’t, write to ' + TO + '.';
   });
 })();
 </script>
