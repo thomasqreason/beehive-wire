@@ -63,10 +63,17 @@ Leaders, bases and breakouts. Numbers first.
 $9.99 for your first 21 days, then $49.99 a month. Cancel any time.
 https://beehivewire.com/markets
 
+The desk follows the breakout discipline William O'Neil described in How to Make Money in Stocks, and that
+Livermore, Darvas, Weinstein and Minervini wrote about before and after him: relative strength, sound bases,
+buy points, and small losses. Not affiliated with Investor's Business Daily.
+
 The front page, free, twice a day: https://beehivewire.com
 
 Narrated by a synthetic voice. Nothing here is investment advice."""
-TAGS = ["Beehive Wire", "Market Desk", "stocks", "growth stocks", "breakouts", "buy point", "relative strength", "breakout method", "growth leaders", "stock lists"]
+# Search terms, worded as attribution: naming O'Neil's method and the publication in a tag is fair use; naming a
+# feature after them is not (see docs/HANDOFF-market-desk-promo.md, section 5). YouTube takes 15 tags.
+TAGS = ["Beehive Wire", "Market Desk", "stocks", "growth stocks", "breakouts", "buy point", "relative strength",
+        "William O'Neil", "CAN SLIM", "IBD", "Mark Minervini", "breakout stocks", "stock lists", "swing trading", "how to make money in stocks"]
 
 
 def slide_pitch(head: str, idx: int, total: int, wm: str):

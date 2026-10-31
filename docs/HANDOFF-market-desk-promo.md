@@ -213,7 +213,7 @@ The current one is seven cards of text. The better one should **show the page**.
 
 Rules for the script: every number spoken must be true on the day it's recorded (pull from `data/markets/`);
 say "the desk" not "we"; no promises of returns; a one-line disclaimer in the description ("Not investment
-advice"); never say CAN SLIM, IBD 50, Blue dots, or compare to IBD by name.
+advice"); never name a feature after IBD's (Blue dots, IBD 50, Stocks on the Move). Attribution is fine and wanted: "follows the breakout discipline William O'Neil described in How to Make Money in Stocks," with "Not affiliated with Investor's Business Daily" in the description, and CAN SLIM / IBD / O'Neil in the tags for search. Do not claim the desk "uses CAN SLIM": it covers C, L and M, reports S as a number only, and does not do A, N or I.
 
 Deliverables: the new `promo.py` (or a `promo2.py` beside it), a dry-run render Todd can watch (send him the
 mp4 with `SendUserFile`; he cannot easily download GitHub artifacts), then on his word the upload and the
