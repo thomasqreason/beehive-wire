@@ -36,8 +36,8 @@ PROMO = [
     ("BUY POINT. BUY RANGE.\nHOW FAR FROM THE PIVOT.",
      "Every name on every list carries its buy point, its buy range, and how far it sits from the pivot, "
      "re-quoted on every pass through the trading day."),
-    ("STOCKS ON THE MOVE\nBREAKOUTS. BLUE DOTS.",
-     "Stocks on the move. Breakouts this week. Names near a buy point. Blue dots, when a stock's relative strength "
+    ("VOLUME SURGES\nBREAKOUTS. RS LINE HIGHS.",
+     "Volume surges. Breakouts this week. Names near a buy point. RS line highs, when a stock's relative strength "
      "line makes a new high. And a chart for any ticker you type: daily, weekly, monthly, and intraday."),
     ("FIVE TO TEN STOCK STORIES\nEVERY TRADING DAY",
      "Five to ten stock stories every trading day, written from the numbers. And a scorecard that keeps the desk "
@@ -56,7 +56,7 @@ Leaders, bases and breakouts. Numbers first.
 - The Beehive 100: the hundred strongest growth stocks, rebuilt every week and re-quoted every pass
 - The Big Cap 40: the same score for companies worth $40 billion or more
 - Buy points, buy ranges and distance from the pivot on every name
-- Stocks on the move, breakouts this week, names near a buy point, blue dots
+- Volume surges, breakouts this week, names near a buy point, RS line new highs
 - A chart for any ticker: daily, weekly, monthly, intraday
 - Five to ten stock stories every trading day, and a scorecard on every call
 
@@ -66,7 +66,7 @@ https://beehivewire.com/markets
 The front page, free, twice a day: https://beehivewire.com
 
 Narrated by a synthetic voice. Nothing here is investment advice."""
-TAGS = ["Beehive Wire", "Market Desk", "stocks", "growth stocks", "breakouts", "buy point", "relative strength", "CAN SLIM", "IBD 50", "stock lists"]
+TAGS = ["Beehive Wire", "Market Desk", "stocks", "growth stocks", "breakouts", "buy point", "relative strength", "breakout method", "growth leaders", "stock lists"]
 
 
 def slide_pitch(head: str, idx: int, total: int, wm: str):

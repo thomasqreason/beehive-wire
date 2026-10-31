@@ -41,7 +41,7 @@ def frames(df, weeks: int = 110, months: int = 36) -> dict:
 # ────────────────────────────────────────────────────────────────────────── aggressive (early) entries
 
 def aggressive_entries(H, L, C, V, t: int, base: dict | None, s21, s50, status: str, dates: list) -> list[dict]:
-    """Places a position can be started BEFORE the standard buy point, in the order IBD/Minervini teach them.
+    """Places a position can be started BEFORE the standard buy point, as the breakout literature teaches them.
     Each entry: kind, price (the trigger), note, and 'live' = price is within reach today (-6% .. +3%).
     Only computed while the stock is still under its buy point (no breakout yet)."""
     import numpy as np
@@ -367,7 +367,7 @@ def holdings_alerts(facts: list[dict], site_url: str) -> list[dict]:
 def big_picture_alert(state: str, note: str, prev_state: str | None, date: str, site_url: str) -> list[dict]:
     if prev_state and state != prev_state:
         return [{"key": f"bp:{date}:{state}", "title": f"Market: {state}", "tag": "newspaper",
-                 "body": f"The Big Picture moved from '{prev_state}' to '{state}'. {note}", "url": f"{site_url}markets/"}]
+                 "body": f"The market note moved from '{prev_state}' to '{state}'. {note}", "url": f"{site_url}markets/"}]
     return []
 
 
@@ -377,7 +377,7 @@ WEBSTER_FILE = DATA / "webster.json"
 
 
 def webster_screen(prices: dict, rs_rank_of, idents: dict, cfg: dict, now, live: bool, frac: float) -> dict | None:
-    """Mike Webster's market-health screen: price above $10, dollar volume at least $25M (or $75M for a short list),
+    """A market-health screen: price above $10, dollar volume at least $25M (or $75M for a short list),
     above BOTH the 50-day and 200-day simple moving averages. Then grouped by sector and sorted by strength, so the
     sector table shows where money is flowing (most names passing, best week) and where the carnage is (worst week,
     fewest passing). Runs on every Stocks-on-the-Move pass over the same ~600-name universe."""

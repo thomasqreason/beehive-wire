@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>{{ site_name }} &middot; {{ desk.name }} &middot; Stocks on the Move {{ pass_no }}</title>
+<title>{{ site_name }} &middot; {{ desk.name }} &middot; Volume Surges {{ pass_no }}</title>
 <link rel="icon" href="{{ root }}favicon-32.png" sizes="32x32">
 <meta name="theme-color" content="#12161b">
 <script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}</script>
@@ -16,10 +16,10 @@
   <div class="mast">
     <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }}</span></h1>
     <div class="stamp">Pass {{ pass_no }} &middot; {{ movers.as_of_human }} &middot; <a href="../">today's desk</a> &middot; <a href="../archive/">archive</a></div>
-    <div class="tag">Stocks on the Move, as printed at that hour. Frozen.</div>
+    <div class="tag">Volume Surges, as printed at that hour. Frozen.</div>
   </div>
 
-  <h3 class="sec" id="movers" style="margin-top:22px">Stocks on the Move</h3>
+  <h3 class="sec" id="movers" style="margin-top:22px">Volume Surges</h3>
   <div class="legend">As of {{ movers.as_of_human }}{% if movers.live %}, {{ (movers.session_fraction * 100)|round|int }}% of the session done; volume was projected to the full day{% else %}, full-session volume{% endif %}.
     {{ movers.universe_size }} names screened. To qualify: price ${{ movers.criteria.min_price|int }}+, 50-day average volume {{ (movers.criteria.min_avg_volume / 1000)|int }}K+,
     volume {{ movers.criteria.min_volume_ratio }}x average or more, up {{ movers.criteria.min_up_pct }}%+ on the day, RS rank {{ movers.criteria.min_rs_rank }}+.

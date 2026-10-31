@@ -2,7 +2,7 @@
 """
 Beehive Wire — Market Desk.
 
-IBD-style stock articles, one edition a day after the close: breakouts, buy ranges, bases, leaders.
+breakout-method stock articles, one edition a day after the close: breakouts, buy ranges, bases, leaders.
 Every number in an article comes from price data computed here; Claude only writes the prose.
 
     python markets.py scan    --out data/build/markets_payload.json      # pull prices, find the stories (network)
@@ -204,7 +204,7 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
                             low=float(np.min(L[r:end + 1])), low_i=int(r + np.argmin(L[r:end + 1])))
         return None
 
-    # Regular names: a base is 20+ sessions. New issues: IBD's IPO base can be as short as two weeks.
+    # Regular names: a base is 20+ sessions. New issues: an IPO base can be as short as two weeks.
     base = find_base(0, 8 if ipo_sessions else 20, (15, 25, 40, 60) if not ipo_sessions else (5, 10, 15, 25, 40))
     # If the stock sits far under that high with no breakout, the actionable base is the one that formed
     # AFTER the correction low (an IPO base under the first-day spike, or a base in the right side of a cup).
@@ -276,7 +276,7 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
         series.update(frames(df))
         if line is not None:   # the RS line (stock / S&P 500), daily window and at each weekly bar's date
             series["rs"] = [None if v is None else round(v, 5) for v in line[s0:]]
-            # IBD's blue dot: the RS line at a new 52-week high on that bar (a running max over the prior 252 sessions)
+            # the RS line at a new 52-week high on that bar (a running max over the prior 252 sessions)
             dots, run = [], None
             for i in range(len(line)):
                 v = line[i]
@@ -500,7 +500,7 @@ def scan(cfg: dict) -> dict:
         c = d["Close"].to_numpy(dtype=float)
         v = d["Volume"].to_numpy(dtype=float)
         s50v, s200v = sma(c, 50)[-1], sma(c, 200)[-1]
-        # IBD distribution days: a drop of 0.2%+ on volume above the prior session, counted over the last 25 sessions
+        # Distribution days: a drop of 0.2%+ on volume above the prior session, counted over the last 25 sessions
         dist = [d.index[i].date().isoformat() for i in range(max(1, len(c) - 25), len(c))
                 if c[i] / c[i - 1] - 1 <= -0.002 and v[i] > v[i - 1] > 0]
         pulse[key] = {"symbol": bsym, "close": round(c[-1], 2), "chg_pct": pct(c[-1], c[-2]),
@@ -510,7 +510,7 @@ def scan(cfg: dict) -> dict:
                       "dist_days": len(dist), "dist_dates": dist}
     big = big_picture(pulse)
 
-    # ── standing lists (IBD-style): breakouts this week, near a buy point, IPO watch, sell signals, groups
+    # ── standing lists: breakouts this week, near a buy point, IPO watch, sell signals, groups
     recent_bo = [f for f in facts if f.get("days_since_breakout") is not None and f["days_since_breakout"] <= 5]
     lists = {
         "breakouts_week": sorted(recent_bo, key=lambda f: -(f.get("rs_rank") or 0)),
@@ -521,7 +521,7 @@ def scan(cfg: dict) -> dict:
                                key=lambda f: (f.get("from_pivot") or 0)),
         "aggressive": sorted([f for f in facts if any(a.get("live") for a in (f.get("aggressive") or []))],
                              key=lambda f: -(f.get("rs_rank") or 0)),
-        # IBD's blue dot: the RS line at a new 52-week high today. Names still under their buy point come first —
+        # the RS line at a new 52-week high today. Names still under their buy point come first —
         # relative strength leading price is the version of the signal worth the most.
         "blue_dots": sorted([f for f in facts if (f.get("series") or {}).get("blue_dot")],
                             key=lambda f: (0 if f["status"] in ("setting_up", "in_base") else 1, -(f.get("rs_rank") or 0))),
@@ -552,7 +552,7 @@ def scan(cfg: dict) -> dict:
         enrich(f)
         time.sleep(0.5)
 
-    # ── New America: one leader profiled per edition, never the same name twice in a month.
+    # ── Company of the Day: one leader profiled per edition, never the same name twice in a month.
     profile = None
     recent = set()
     for p in sorted(DATA.glob("????-??-??.json"))[-20:]:
@@ -576,14 +576,14 @@ def scan(cfg: dict) -> dict:
     if profile:
         log(f"profile: {profile['sym']} (RS {profile.get('rs_rank')})")
 
-    # ── Investor's Corner: Fridays (and any day the desk is run with MARKETS_CORNER=1).
+    # ── The Lesson: Fridays (and any day the desk is run with MARKETS_CORNER=1).
     corner_topic = None
     topics = cfg.get("corner_topics") or []
     if topics and (datetime.now(ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))).weekday() == 4
                    or os.environ.get("MARKETS_CORNER") == "1"):
         n_prev = sum(1 for p in DATA.glob("????-??-??.json") if '"corner":{' in p.read_text(encoding="utf-8"))
         corner_topic = topics[n_prev % len(topics)]
-        log(f"investor's corner: {corner_topic}")
+        log(f"the lesson: {corner_topic}")
 
     date = max(f["date"] for f in facts) if facts else datetime.now().date().isoformat()
     ah = {}
@@ -643,7 +643,7 @@ def scan(cfg: dict) -> dict:
 
 
 def big_picture(pulse: dict) -> dict:
-    """A factual read of the indexes in IBD's three states, from the 50-day line and the distribution count."""
+    """A factual read of the indexes in three states, from the 50-day line and the distribution count."""
     spx, ndx = pulse.get("spx") or {}, pulse.get("nasdaq") or {}
     dd = max(spx.get("dist_days") or 0, ndx.get("dist_days") or 0)
     above = [(x.get("vs_sma50") or 0) > 0 for x in (spx, ndx) if x]
@@ -861,7 +861,7 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
     ed = {k: v for k, v in payload.items() if k != "stories"}
     ed["stories"] = stories
     ed["market_note"] = (articles or {}).get("market_note")
-    # New America profile: the writer's piece if it is there, else the desk's numbers.
+    # Company of the Day profile: the writer's piece if it is there, else the desk's numbers.
     pf = payload.get("profile")
     if pf:
         a = (articles or {}).get("profile") or {}
@@ -870,7 +870,7 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
                 "body": [p.strip() for p in a["body"] if isinstance(p, str) and p.strip()],
                 "watch": str(a.get("watch") or "").strip(), "by": "editor"} if ok else template_article(pf))
         ed["profile"] = pf | {"article": art, "chart": chart_svg(pf, cfg)}
-    # Investor's Corner: only when the writer delivered one.
+    # The Lesson: only when the writer delivered one.
     c = (articles or {}).get("corner") or {}
     if c.get("headline") and isinstance(c.get("body"), list) and len(c["body"]) >= 3:
         ed["corner"] = {"topic": payload.get("corner_topic"), "headline": str(c["headline"]).strip(),
@@ -892,9 +892,9 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
     log(f"edition saved {p} — {len(stories)} stories ({sum(1 for s in stories if s['article']['by'] == 'editor')} by editor)")
     heads = [s["article"]["headline"] for s in stories]
     if ed.get("profile"):
-        heads.append("New America: " + ed["profile"]["article"]["headline"])
+        heads.append("Company of the Day: " + ed["profile"]["article"]["headline"])
     if ed.get("corner"):
-        heads.append("Investor's Corner: " + ed["corner"]["headline"])
+        heads.append("The Lesson: " + ed["corner"]["headline"])
     record_pass("edition", payload["date"], ed["generated"], f"{payload['date']}.html", [s["sym"] for s in stories], heads,
                 extra=(ed.get("big_picture") or {}).get("state"))
     return p
@@ -1203,7 +1203,7 @@ def session_fraction(now_utc: datetime) -> tuple[float, bool]:
 
 
 def movers(cfg: dict) -> dict:
-    """IBD-style 'Stocks on the Move': the biggest volume surges vs the 50-day average, projected to the full
+    """'Volume Surges': the biggest volume surges vs the 50-day average, projected to the full
     session when the market is open. Qualifiers are in markets.yaml under `movers`."""
     import numpy as np
     m = cfg.get("movers") or {}
@@ -1415,7 +1415,7 @@ def save_series(facts: list[dict]) -> int:
 # ────────────────────────────────────────────────────────────────────────── the pass index (archive + search)
 
 PASSES_FILE = DATA / "passes.json"
-KIND_LABEL = {"movers": "Stocks on the Move", "edition": "Edition"}
+KIND_LABEL = {"movers": "Volume Surges", "edition": "Edition"}
 
 
 def load_passes() -> list[dict]:
@@ -1637,7 +1637,7 @@ def outer_base(b: dict, dates: list, cfg: dict) -> list:
 
 
 def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today: str, now: datetime, live: bool, m: dict) -> None:
-    """The page's live screen (templates/markets_live.js) re-runs Stocks on the Move and the buy-range watch lists
+    """The page's live screen (templates/markets_live.js) re-runs Volume Surges and the buy-range watch lists
     every minute of the regular session from live quotes. Everything it needs that does NOT change during the day is
     saved here, per name, from the bars BEFORE today's: prior close, 50-day average volume, RS rank, the base and
     its buy point, and the pieces of the 50-day line, 52-week high and breakdown test. The browser adds today's

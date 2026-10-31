@@ -49,7 +49,7 @@ TOPICS = ["iran_mideast", "ukraine_russia", "world", "immigration", "crime", "tr
 
 def desk_candidates(cfg: dict, now: datetime) -> list[dict]:
     """The Market Desk's latest edition (data/markets/<date>.json) offered to the editor as candidates on the
-    investing beat: each story and the New America profile, linking to the desk page's anchor."""
+    investing beat: each story and the Company of the Day profile, linking to the desk page's anchor."""
     try:
         files = sorted((DATA / "markets").glob("????-??-??.json"))
         if not files:
@@ -69,7 +69,7 @@ def desk_candidates(cfg: dict, now: datetime) -> list[dict]:
                             "source": "Beehive Wire Market Desk", "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
         p = ed.get("profile") or {}
         if (p.get("article") or {}).get("headline"):
-            out.append({"title": "New America: " + p["article"]["headline"], "url": f"{base}#profile-{p['sym']}",
+            out.append({"title": "Company of the Day: " + p["article"]["headline"], "url": f"{base}#profile-{p['sym']}",
                         "summary": p["article"].get("deck") or "", "source": "Beehive Wire Market Desk",
                         "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
         return out

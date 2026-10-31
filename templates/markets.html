@@ -33,7 +33,7 @@
   {% endif %}
 
   {% if ed.big_picture %}
-  <div class="bigpic"><span class="st">The Big Picture</span> <b>{{ ed.big_picture.state }}</b> &middot; {{ ed.big_picture.note }}</div>
+  <div class="bigpic"><span class="st">Market Note</span> <b>{{ ed.big_picture.state }}</b> &middot; {{ ed.big_picture.note }}</div>
   {% endif %}
   {% if ed.market_note %}<p class="note">{{ ed.market_note }}</p>{% endif %}
 
@@ -55,7 +55,7 @@
   {% endif %}
 
   {% if movers %}
-  <h3 class="sec" id="movers" style="margin-top:22px">Stocks on the Move</h3>
+  <h3 class="sec" id="movers" style="margin-top:22px">Volume Surges</h3>
   <div id="mv-live">
   <div class="legend">As of {{ movers.as_of_human }}{% if movers.live %}, {{ (movers.session_fraction * 100)|round|int }}% of the session done; volume is projected to the full day{% else %}, full-session volume{% endif %}.
     {{ movers.universe_size }} names screened (S&amp;P 500, Nasdaq-100, the desk list). To qualify: price ${{ movers.criteria.min_price|int }}+,
@@ -121,17 +121,17 @@
   {% endif %}
 
   <ul class="toc">
-    {% if movers %}<li><a href="#movers">Stocks on the Move</a></li>{% endif %}
+    {% if movers %}<li><a href="#movers">Volume Surges</a></li>{% endif %}
     {% if ed.chief %}<li><a href="#chief">Desk Chief</a></li>{% endif %}
     {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
-    {% if webster %}<li><a href="#webster">Webster screen</a></li>{% endif %}
+    {% if webster %}<li><a href="#webster">Health screen</a></li>{% endif %}
     <li><a href="#positions">My positions</a></li>
     {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
     {% if ed.ah_movers %}<li><a href="#after-hours">After hours</a></li>{% endif %}
     {% if lists %}<li><a href="#beehive50">Beehive {{ lists.method.list_size or lists.beehive50|length }}</a></li><li><a href="#bigcap20">Big Cap {{ lists.method.big_cap_size or lists.bigcap20|length }}</a></li>{% endif %}
     {% for s in ed.stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
-    {% if ed.profile %}<li><a href="#new-america">New America: {{ ed.profile.sym }}</a></li>{% endif %}
-    {% if ed.corner %}<li><a href="#corner">Investor's Corner</a></li>{% endif %}
+    {% if ed.profile %}<li><a href="#new-america">Company of the Day: {{ ed.profile.sym }}</a></li>{% endif %}
+    {% if ed.corner %}<li><a href="#corner">The Lesson</a></li>{% endif %}
     <li><a href="#lists">Watch lists</a></li>
     <li><a href="#board">Leaders board</a></li>
     <li><a href="archive/">Archive &amp; search</a></li>
@@ -204,13 +204,13 @@
   {% for s in ed.stories %}{{ art(s, status_label[s.status], s.sym) }}{% endfor %}
 
   {% if ed.profile %}
-  <h3 class="sec" id="new-america">New America</h3>
+  <h3 class="sec" id="new-america">Company of the Day</h3>
   <div class="legend">One leader a day, profiled: what it does, why it is winning, what the chart says. Never the same name twice in a month.</div>
   {{ art(ed.profile, 'Profile · ' ~ status_label[ed.profile.status], 'profile-' ~ ed.profile.sym) }}
   {% endif %}
 
   {% if ed.corner %}
-  <h3 class="sec" id="corner">Investor's Corner</h3>
+  <h3 class="sec" id="corner">The Lesson</h3>
   <article class="corner">
     <div class="kick"><span class="st">Lesson</span>{% if ed.corner.example_sym %}Taught on today's {{ ed.corner.example_sym }} chart{% endif %}</div>
     <h2>{{ ed.corner.headline }}</h2>
@@ -248,7 +248,7 @@
   </table></div>
   {% endmacro %}
   {{ ltable(lists.beehive50, "beehive50", "The Beehive " ~ (lists.method.list_size or lists.beehive50|length),
-     "The desk's own growth-leader list, rebuilt after Friday's close (" ~ lists.human ~ "). Not IBD's list. Universe: S&P 500, Nasdaq-100 and the desk list, price $" ~ lists.method.min_price ~ "+, $" ~ (lists.method.min_dollar_volume / 1e6)|int ~ "M+ daily dollar volume; a name needs EPS growth " ~ lists.method.min_eps_growth ~ "%+ or revenue growth " ~ lists.method.min_rev_growth ~ "%+ in its latest quarter. Score = " ~ lists.method.rs ~ "% RS rank + " ~ lists.method.eps ~ "% EPS growth + " ~ lists.method.rev ~ "% revenue growth + " ~ lists.method.tech ~ "% chart (above the 50- and 200-day lines, within 15% of the high, in a buyable pattern; bonuses for an RS-line high and accelerating EPS). Number in parentheses is last week's rank; ↑ marks EPS growth faster than the prior quarter. Last price, RS, chart status and buy point re-quoted every pass — as of " ~ lists.quotes_human ~ (", live" if lists.quotes_live else "") ~ ".") }}
+     "The desk's own growth-leader list, rebuilt after Friday's close (" ~ lists.human ~ "). Universe: S&P 500, Nasdaq-100 and the desk list, price $" ~ lists.method.min_price ~ "+, $" ~ (lists.method.min_dollar_volume / 1e6)|int ~ "M+ daily dollar volume; a name needs EPS growth " ~ lists.method.min_eps_growth ~ "%+ or revenue growth " ~ lists.method.min_rev_growth ~ "%+ in its latest quarter. Score = " ~ lists.method.rs ~ "% RS rank + " ~ lists.method.eps ~ "% EPS growth + " ~ lists.method.rev ~ "% revenue growth + " ~ lists.method.tech ~ "% chart (above the 50- and 200-day lines, within 15% of the high, in a buyable pattern; bonuses for an RS-line high and accelerating EPS). Number in parentheses is last week's rank; ↑ marks EPS growth faster than the prior quarter. Last price, RS, chart status and buy point re-quoted every pass — as of " ~ lists.quotes_human ~ (", live" if lists.quotes_live else "") ~ ".") }}
   {{ ltable(lists.bigcap20, "bigcap20", "The Big Cap " ~ (lists.method.big_cap_size or lists.bigcap20|length),
      "Same score, restricted to companies worth $" ~ (lists.method.big_cap_min / 1e9)|int ~ "B or more, no growth floor. Rebuilt " ~ lists.human ~ "; quotes as of " ~ lists.quotes_human ~ ".") }}
   {% endif %}
@@ -275,7 +275,7 @@
     {{ mini("Breakouts this week", ed.lists.breakouts_week, "Cleared a buy point in the last five sessions.", "breakouts_week") }}
     {{ mini("In the buy range", ed.lists.in_buy_range, "Between the buy point and 5% above it.", "in_buy_range") }}
     {{ mini("Near a buy point", ed.lists.near_buy_point, "Within 5% below a buy point, base complete.", "near_buy_point") }}
-    {{ mini("Blue dots", ed.lists.blue_dots, "The RS line (stock vs the S&P 500) closed at a new 52-week high today. Names still under their buy point are listed first: relative strength leading price is the setup the dot was invented to flag.") }}
+    {{ mini("RS line new highs", ed.lists.blue_dots, "The RS line (stock vs the S&P 500) closed at a new 52-week high today. Names still under their buy point are listed first: relative strength leading price is the setup worth the most.") }}
     {{ mini("Aggressive entries", ed.lists.aggressive, "Early entries before the standard buy point: a handle high, a downtrend-line break, a 50-day or 21-day bounce inside the base, or a tight shelf in the right side. Higher failure rate than the real buy point; the stop is tighter.") }}
     {{ mini("IPO watch", ed.lists.ipo_watch, "New issues with under six months of trading.") }}
     {{ mini("Sell signals", ed.lists.sell_signals, "Leaders breaking the 50-day line, or 7%+ under a buy point after a breakout.") }}
@@ -292,8 +292,8 @@
   {% endif %}
 
   {% if webster %}
-  <h3 class="sec" id="webster">The Webster Screen</h3>
-  <div class="legend">Mike Webster's market-health screen (IBD, Oct 16, 2026): price $10+, dollar volume $25M+ a day, trading above <b>both</b> the 50-day and 200-day lines. Grouped by sector and sorted by the week's move, so the top of the table is where money is flowing and the bottom is the carnage. {{ webster.passing }} of {{ webster.universe }} names pass at $25M ({{ webster.passing75 }} at $75M). As of {{ webster.as_of_human }}{% if webster.live %}, live{% endif %}.
+  <h3 class="sec" id="webster">The Health Screen</h3>
+  <div class="legend">A market-health screen: price $10+, dollar volume $25M+ a day, trading above <b>both</b> the 50-day and 200-day lines. Grouped by sector and sorted by the week's move, so the top of the table is where money is flowing and the bottom is the carnage. {{ webster.passing }} of {{ webster.universe }} names pass at $25M ({{ webster.passing75 }} at $75M). As of {{ webster.as_of_human }}{% if webster.live %}, live{% endif %}.
     <button type="button" class="wbtoggle" id="wb75">Show $75M+ only</button></div>
   <div class="tblwrap"><table class="board">
     <tr><th>Sector</th><th>Week</th><th>Passing</th><th>of</th><th>%</th><th>at $75M</th><th>Avg RS</th><th>Leaders (by RS)</th><th>Worst this week</th></tr>

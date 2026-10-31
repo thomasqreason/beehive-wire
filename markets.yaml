@@ -1,5 +1,5 @@
 # Beehive Wire — Market Desk configuration.
-# The desk writes 5–10 IBD-style stock articles a day about the names below. Edit this list freely:
+# The desk writes 5–10 breakout-method stock articles a day about the names below. Edit this list freely:
 # one ticker per line, Yahoo Finance symbols. Names with no price data are skipped automatically.
 
 desk:
@@ -10,7 +10,7 @@ desk:
   stories_max: 10
   chart_bars: 130                  # daily bars drawn on each article's chart
   board_rows: 40                   # rows on the leaders board (sorted by RS)
-  buy_zone_pct: 5                  # IBD: buy point to 5% above it
+  buy_zone_pct: 5                  # buy point to 5% above it
   breakout_volume_ratio: 1.2       # informational only since Oct 24, 2026: volume is shown everywhere, required nowhere
   history_period: "2y"
   # Live prices in the chart pop-up: the Cloudflare Worker in relay/quote-worker.js. Leave empty to turn it off.
@@ -49,7 +49,7 @@ benchmarks:
   nasdaq: "^IXIC"
   dow: "^DJI"
 
-# Investor's Corner topics, in rotation (one each Friday, or any run with MARKETS_CORNER=1).
+# The Lesson topics, in rotation (one each Friday, or any run with MARKETS_CORNER=1).
 # Each is written against a real chart from that day's edition.
 corner_topics:
   - "How to buy a breakout: the buy point, the 5% buy range, and what the volume tells you (and what it no longer proves)"
@@ -59,13 +59,13 @@ corner_topics:
   - "Extended stocks: why chasing 10% past a buy point costs you, and what the next entry looks like"
   - "The 21-day and 50-day lines: using them for add-on buys, for holding, and for selling"
   - "IPO bases: why new issues can be bought from short bases and what makes them fail"
-  - "Distribution days and the Big Picture: how to size positions by the market's state"
+  - "Distribution days and the market note: how to size positions by the market's state"
   - "Flat bases and three-weeks-tight: the quiet patterns that mark institutional accumulation"
   - "Earnings season: handling a stock you own into its report, and buying after a gap-up"
   - "The 20-25% profit rule and when to let a winner run past it"
   - "Climax tops: the signs a leader's run is ending"
 
-# Stocks on the Move (8am / 11am Mountain runs, and again after the close). IBD-style qualifiers:
+# Volume Surges (8am / 11am Mountain runs, and again after the close). Qualifiers:
 movers:
   min_price: 10              # dollars
   min_avg_volume: 400000     # 50-day average shares/day

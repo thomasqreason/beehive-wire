@@ -1,5 +1,5 @@
 /* Beehive Wire Market Desk — the live screen. During the regular session only, every minute (and whenever the page
-   is opened or brought back to the screen), re-runs Stocks on the Move and the buy-range watch lists from live
+   is opened or brought back to the screen), re-runs Volume Surges and the buy-range watch lists from live
    quotes. Each pass saves screen.json: per name, everything that doesn't change during the day (prior close, 50-day
    average volume, RS rank, the base and buy point, the 50-day-line pieces). This file adds today's price, high, low
    and volume from the relay and applies movers() and analyze()'s own rules. Outside the session it does nothing and

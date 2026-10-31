@@ -147,7 +147,12 @@ Also: the desk's "RS rank" is a rank within its own ~200-name universe, never IB
 
 ---
 
-## 5. What may be IBD's property. Audit this before selling.
+## 5. IBD terms: renamed on Oct 31, 2026. Re-check, don't redo.
+
+The renames in the table below were applied across the templates, labels, promo script, config and writer
+orders on Oct 31, 2026 (Volume Surges, RS line new highs, Company of the Day, The Lesson, Market Note, The Health
+Screen; CAN SLIM and IBD 50 removed from public copy). Your job is to re-walk the live site and catch anything
+missed, and to keep the new video free of the old names. Original audit table kept for reference:
 
 Todd's worry is legitimate. IBD (a News Corp company since 2021) holds registered trademarks and is known to
 police them. The method itself (buying breakouts, 7–8% stops, relative strength) is not protectable; it is
