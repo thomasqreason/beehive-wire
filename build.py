@@ -2003,6 +2003,8 @@ def render(state: dict, cfg: dict, now: datetime) -> Path:
         markets.render_site(cfg)
     except Exception as e:  # noqa: BLE001 — the desk must never take the front page down
         log(f"market desk: skipped ({e})")
+        if "gate" in str(e).lower() or "cryptography" in str(e).lower():
+            raise                                 # but a desk that could not be sealed must not ship either
 
     log(f"rendered {out} — edition no. {no}, {len(page_links(state))} links; archive holds {n} editions")
     return out

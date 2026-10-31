@@ -1019,8 +1019,16 @@ def render_site(site_cfg: dict | None = None) -> int:
                                                             first_day=human_date(passes[0]["date"]), root="../../"), encoding="utf-8")
     log(f"market desk: rendered {len(eds)} editions, {len(passes)} passes -> {SITE}")
     if (cfg["desk"].get("gate") or {}).get("enabled"):
-        from desk_gate import gate_site                  # readers need a code: every page is published sealed
-        gate_site(cfg, SITE, site_name, log=log)
+        # Readers need a code: every page is published sealed. If sealing cannot run, the desk must not go
+        # out open: wipe the rendered pages so the deploy carries no unsealed desk, then raise.
+        try:
+            from desk_gate import gate_site
+            gate_site(cfg, SITE, site_name, log=log)
+        except Exception as e:  # noqa: BLE001
+            for pth in SITE.rglob("*.html"):
+                pth.unlink()
+            log(f"market desk gate FAILED ({e}); desk pages removed from the site rather than published open")
+            raise
     return len(eds)
 
 
