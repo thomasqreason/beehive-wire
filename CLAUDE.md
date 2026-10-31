@@ -9,6 +9,15 @@ list. Always put the date first, then the repo, then what was done and anything 
 
 Use the `set_session_title` tool when it is available. Rename again if the session's work changes.
 
+## How Todd wants to work (Oct 31, 2026)
+
+- If a task can be done without Todd clicking through a website by hand, do it, or say so before asking him
+  to do anything by hand. Stripe, Cloudflare and GitHub all have APIs: ask for the credential to be put in
+  the environment's secrets (never pasted into chat) and do the work from here. Walking him through screens
+  one screenshot at a time is the last resort, not the first.
+- The Claude in Chrome extension lets a session drive his browser (Chrome, not Edge). Offer it when a job
+  needs his logged-in accounts and no API credential is available.
+
 ## How the site goes live
 
 - A push to `main` that touches anything outside `data/` and `archive/` redeploys the site within a few
