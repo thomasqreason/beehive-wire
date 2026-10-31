@@ -180,3 +180,30 @@ video:
                                 # giant headline, as soon as it is up on YouTube. Set false to stop that
                                 # without touching the upload.
   tags: ["news", "headlines", "Beehive Wire", "beehivewire.com", "daily news"]
+
+# The free daily market wrap (market_video.py, .github/workflows/market-video.yml): one video per NYSE trading
+# day, made from the Market Desk edition as soon as it prints. Anything not set here is taken from `video:` above
+# (voice, speed, privacy, pronunciations). See docs/HANDOFF-daily-market-video.md.
+market_video:
+  # Which channel. Until the Beehive Wire channel exists it posts to BoringMoney with the editions' credentials.
+  # To move it: add the YOUTUBE_REFRESH_TOKEN_BW secret (the workflow prefers it) and set this to "beehive wire".
+  expect_channel: "boringmoney"
+  market_target_words: [850, 1150]  # about 5 1/2 to 7 1/2 minutes at the voice's pace
+  setups: 3                         # names near a buy point, one chart each
+  max_breakouts: 5
+  max_after_hours: 6
+  max_edition_age_hours: 6          # a day whose edition is older than this is skipped, not backfilled
+  show_on_site: true                # the latest wrap on the front page and the Market Desk gate page
+  offer_link: "https://beehivewire.com/markets"
+  # Todd's wording (Oct 31, 2026): "three weeks for $9.99". The regular price stays off the video; it is in
+  # the description (price_detail) and on the checkout page.
+  offer_early: "The full desk is three weeks for nine ninety-nine; the link is in the description."
+  offer: "Try the Market Desk: three weeks for nine ninety-nine. Every list, every chart, every buy point, at beehivewire dot com slash markets. The link is in the description."
+  market_signoff: "Like and subscribe for the close every trading day. Nothing in this video is investment advice."
+  price_detail: "$9.99 for your first 21 days, then $49.99 a month. Cancel any time."
+  market_tags: ["Beehive Wire", "Market Desk", "stock market today", "stock market", "S&P 500", "Nasdaq",
+                "breakout stocks", "buy point", "growth stocks", "William O'Neil", "how to make money in stocks"]
+  say_as:                           # market names Kokoro misreads (merged with video.say_as above); checked
+    Cheniere: "Shuhneer"            # with kokoro_onnx.tokenizer.Tokenizer().phonemize() on Oct 31, 2026
+    AbbVie: "Ab-vee"
+    Cameco: "Kam-ehko"

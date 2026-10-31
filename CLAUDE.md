@@ -52,4 +52,8 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
   at https://dashboard.stripe.com/acct_1QWsjRREcbwAJF8r/settings/public (Todd, by hand; no API for it).
 - The promo video (promo.py) is rendered but not yet uploaded; `desk.gate.video_id` in markets.yaml is empty.
   A better one, a visitor preview and an IBD-name re-check are briefed in docs/HANDOFF-market-desk-promo.md.
-- A free daily market roundup video and a Beehive Wire YouTube channel: briefed in docs/HANDOFF-daily-market-video.md.
+- The free daily market wrap (market_video.py, market-video.yml) is built and dry-run (Oct 31, 2026); it posts to
+  BoringMoney until a Beehive Wire channel exists (README "The daily market wrap" says how to move it). Still open:
+  the Beehive Wire channel itself (Todd, by hand: a Google Brand Account), whether the edition videos move with it,
+  a link to the latest wrap on the Market Desk gate page (left out while another session was editing desk_gate.py),
+  and the handoff's 4:30 p.m. Eastern time: the wrap needs the desk edition, which prints about 5:20 p.m. Eastern.

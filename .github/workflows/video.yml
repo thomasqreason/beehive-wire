@@ -185,6 +185,10 @@ jobs:
     concurrency:
       group: build
       cancel-in-progress: false
+    env:
+      # build.py --render-only re-seals the Market Desk. Without the codes it seals it with none, so Todd's own
+      # hand code stopped working after every edition video until the next desk pass (found Oct 31, 2026).
+      MARKETS_ACCESS_CODES: ${{ secrets.MARKETS_ACCESS_CODES }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

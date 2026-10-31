@@ -1741,8 +1741,40 @@ def _page_html(state: dict, cfg: dict, now: datetime, root: str = "", archived: 
         extra=bool(state.get("extra")),
         shelf=shelf_rows,
         video=edition_video(local, edition, state, cfg),
+        market_video=latest_market_video(local, cfg),
     )
     return html_out, local, edition
+
+
+MARKET_VIDEO_PUBLISHED = DATA / "video" / "market_published.json"   # market_video.py's uploads
+
+
+def latest_market_video(local: datetime, cfg: dict) -> dict | None:
+    """The newest daily market wrap (market_video.py), for its own slot under the edition's video.
+
+    Unlike the edition video it is not tied to the edition being rendered: the wrap is made once per
+    trading day, so it stays up through the evening edition, the next morning and a weekend, and gives way
+    when the next one is uploaded. Older than four days (a long weekend) and it is dropped. Never raises.
+    """
+    if not (cfg.get("market_video") or {}).get("show_on_site", True):
+        return None
+    try:
+        records = json.loads(MARKET_VIDEO_PUBLISHED.read_text(encoding="utf-8"))
+    except Exception:                      # noqa: BLE001 — no video is a normal state
+        return None
+    live = [r for r in records if isinstance(r, dict) and r.get("video_id") and r.get("date")
+            and not r.get("hidden") and not r.get("offpage")]
+    if not live:
+        return None
+    v = max(live, key=lambda r: (r["date"], r.get("uploaded") or ""))
+    try:
+        day = datetime.strptime(v["date"], "%Y-%m-%d")
+    except ValueError:
+        return None
+    if (local.date() - day.date()).days > 4:
+        return None
+    label = "Today's market" if day.date() == local.date() else f"The market close, {day.strftime('%A')}"
+    return {"id": v["video_id"], "label": label, "url": f"https://www.youtube.com/watch?v={v['video_id']}"}
 
 
 def _base_url(cfg: dict) -> str:

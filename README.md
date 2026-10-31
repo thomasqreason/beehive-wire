@@ -93,6 +93,28 @@ Each edition gets exactly one video (`data/video/published.json`), and a missed 
 - Local test, no accounts needed: `python video.py --emit-payload data/video/payload.json && python video.py render --fallback --tts silent`
   writes `data/video/out/video.mp4` (silent). Needs ffmpeg and Pillow.
 
+## The daily market wrap (free, after every trading day's close)
+
+`market_video.py` + `market_video_editorial.md` + `.github/workflows/market-video.yml`. Once per NYSE trading day,
+as soon as the Market Desk edition prints, it makes a 5–8 minute video from that edition's numbers: the S&P 500
+and Nasdaq charts with the 21/50/200-day lines and distribution days, the desk's read and the Desk Chief's
+exposure line, two or three stocks near a buy point (chart with the buy range and RS line), today's breakouts,
+after the close, the scorecard, tomorrow, and the offer ("three weeks for $9.99").
+
+- **When.** The workflow runs after every `market-desk` run plus an evening backup clock; `market_video.py due`
+  stands down until today's edition exists, on weekends and NYSE holidays, once the day has a video, and when the
+  edition is more than 6 hours old (skipped, not backfilled).
+- **Writer.** Claude writes `data/video/market/script.json` from `writer.json` (the payload without chart bars).
+  Any segment it misses is read from a template of the same numbers, so a bad script never stops the video.
+- **Channel.** BoringMoney for now. To move it to a Beehive Wire channel: make the channel (Brand Account), run
+  `youtube_auth.py` choosing that channel, save the token as secret `YOUTUBE_REFRESH_TOKEN_BW` (the workflow
+  prefers it), and set `market_video.expect_channel: "beehive wire"` in `config.yaml`.
+- **On the site.** `build.py latest_market_video()` puts the newest wrap under the edition video on the front page
+  until the next one (dropped after four days). Uploads are recorded in `data/video/market_published.json`.
+- **Dry run.** Actions → market-video → Run workflow (dry run is the default) keeps the mp4 as an artifact.
+  Locally: `python market_video.py --emit-payload data/video/market/payload.json --date YYYY-MM-DD` then
+  `python market_video.py render --fallback --tts silent --keep-work` (slides in `data/video/market/out/work/`).
+
 ## Tune it
 
 | File | What it controls |

@@ -286,6 +286,20 @@
   </div>
   {% endif %}
 
+  {% if market_video %}
+  {# The free daily market wrap (market_video.py): the newest one, kept up until the next trading day's. #}
+  <div class="watch">
+    <div class="lbl">{{ market_video.label }}</div>
+    <div class="player" data-video="{{ market_video.id }}">
+      <img src="https://i.ytimg.com/vi/{{ market_video.id }}/maxresdefault.jpg" alt="" loading="lazy"
+           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/{{ market_video.id }}/hqdefault.jpg'">
+      <button type="button" aria-label="Play the market video"><span></span></button>
+      <noscript><a href="{{ market_video.url }}"{{ target }}>Watch on YouTube</a></noscript>
+    </div>
+    <div class="cap"><a href="{{ market_video.url }}"{{ target }}>The close from the Market Desk: indexes, setups, breakouts &mdash; watch on YouTube</a></div>
+  </div>
+  {% endif %}
+
   <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
     <div class="col">
@@ -478,9 +492,8 @@
 // Click-to-play for the edition's video. Swaps the poster for the player on the first click only,
 // so a reader who never presses play never touches youtube.com. nocookie + autoplay=1 because the
 // click WAS the play. Does nothing at all on a page with no video block.
-(function () {
-  var box = document.querySelector('.watch .player');
-  if (!box) return;
+// Each player on the page (the edition's, the market wrap's) works on its own.
+document.querySelectorAll('.watch .player').forEach(function (box) {
   var id = box.getAttribute('data-video');
   if (!id) return;
   box.addEventListener('click', function play() {
@@ -494,7 +507,7 @@
     box.appendChild(f);
     box.style.cursor = 'default';
   });
-})();
+});
 </script>
 <!-- End Cloudflare Web Analytics -->
 </body>

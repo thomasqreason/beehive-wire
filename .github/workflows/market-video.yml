@@ -1,0 +1,200 @@
+name: market-video
+
+# The free daily market wrap: one video per NYSE trading day, made from the Market Desk edition.
+#
+#   market-desk (workflow_run) -> due? -> payload -> Claude writes the narration -> render -> upload -> record
+#   -> publish (front page re-rendered with the new video)
+#
+# Triggers: the market-desk workflow finishing (the normal path: it runs after every pass, and `due` stands
+# down until the day's edition has printed), a backup clock in the evening, and a hand-run. Because the desk is
+# driven by the cron-job.org pinger and its own crons, this rides on both. `market_video.py due` checks the
+# trading-day calendar (weekends and NYSE holidays never get a video), that today's edition exists, that it has no
+# video yet, and that it is fresh, so extra shots cost nothing and a missed day is skipped, not backfilled.
+#
+# Channel: posts with YOUTUBE_REFRESH_TOKEN_BW when that secret exists (the Beehive Wire channel), otherwise with
+# the editions' YOUTUBE_REFRESH_TOKEN (BoringMoney). config.yaml market_video.expect_channel must match the
+# channel or the upload refuses. See docs/HANDOFF-daily-market-video.md section 4.
+
+on:
+  workflow_run:
+    workflows: [market-desk]
+    types: [completed]
+  schedule:
+    # UTC. The edition prints at 3:20 p.m. Mountain: 21:20 UTC in daylight time, 22:20 in standard time.
+    # These are backups for a dropped workflow_run; they cover both halves of the year.
+    - cron: "15,45 22 * * 1-5"
+    - cron: "15,45 23 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Render only: keep the video as a run artifact, no upload"
+        type: boolean
+        default: true
+      force:
+        description: "Make a video even if this day already has one (a remake hides the earlier one)"
+        type: boolean
+        default: false
+      date:
+        description: "Desk edition date, YYYY-MM-DD (default: today in New York)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: market-video
+  cancel-in-progress: false
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      uploaded: ${{ steps.record.outputs.uploaded }}
+      key: ${{ steps.due.outputs.key }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main                    # with the edition the desk just committed
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - id: due
+        env:
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN_BW || secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: >
+          python market_video.py due
+          ${{ inputs.date && format('--date {0}', inputs.date) || '' }}
+          ${{ inputs.force && '--force' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Install ffmpeg and a backup voice
+        if: steps.due.outputs.go == 'yes'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng fonts-liberation
+
+      - name: Keep the voice model between runs
+        if: steps.due.outputs.go == 'yes'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/kokoro
+          key: kokoro-v1.0
+
+      - name: Pick the numbers
+        if: steps.due.outputs.go == 'yes'
+        run: python market_video.py --emit-payload data/video/market/payload.json --date ${{ steps.due.outputs.date }}
+
+      # Claude reads market_video_editorial.md and writes the narration from data/video/market/writer.json.
+      # Anything it leaves out (or the whole script, if it fails) is read from a plain template of the same numbers.
+      - name: Write the script
+        if: steps.due.outputs.go == 'yes'
+        continue-on-error: true
+        timeout-minutes: 30
+        shell: bash
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          for attempt in 1 2 3; do
+            rm -f data/video/market/script.json
+            claude -p "You write the narration for the Beehive Wire Market Desk video. Read market_video_editorial.md for your standing orders, then read data/video/market/writer.json. Write the script to data/video/market/script.json as a single JSON object in exactly the schema market_video_editorial.md specifies. Every number must come from writer.json. You have exactly two tools, Read and Write: do not reach for any other, do not count words with a tool, and do not re-read or rewrite your file. Two reads, one Write, then stop. No prose, no markdown fences, no commit." \
+              --model claude-sonnet-5 \
+              --effort medium \
+              --allowedTools "Read,Write" \
+              --permission-mode acceptEdits \
+              --max-turns 30 \
+              --output-format stream-json --verbose \
+              < /dev/null > data/video/market/editor.log 2>&1 || true
+            echo "attempt $attempt tools: $(grep -o '"type":"tool_use","id":"[^"]*","name":"[A-Za-z_]*"' data/video/market/editor.log | sed 's/.*"name"://' | sort | uniq -c | tr '\n' ' ')"
+            [ -s data/video/market/script.json ] && break
+          done
+          [ -s data/video/market/script.json ]
+
+      - name: Render the video
+        if: steps.due.outputs.go == 'yes'
+        run: python market_video.py render
+
+      - name: Keep the render (dry run)
+        if: steps.due.outputs.go == 'yes' && inputs.dry_run
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-video-${{ steps.due.outputs.key }}
+          path: |
+            data/video/market/out/
+            data/video/market/script.json
+            data/video/market/payload.json
+          retention-days: 7
+
+      - name: Upload to YouTube
+        if: steps.due.outputs.go == 'yes' && !inputs.dry_run
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN_BW || secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python market_video.py upload ${{ inputs.force && '--force' || '' }}
+
+      - name: Record the upload
+        id: record
+        if: steps.due.outputs.go == 'yes' && !inputs.dry_run
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/video/market_published.json
+          if ! git diff --cached --quiet; then
+            git commit -m "market video: ${{ steps.due.outputs.key }}"
+            git pull --rebase --autostash origin main
+            git push
+            echo "uploaded=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+  # Put the wrap on the front page. Same pattern as video.yml's publish job: only this short job takes the
+  # `build` lock, so the hour of rendering above never holds up an edition or the desk.
+  publish:
+    needs: video
+    if: needs.video.outputs.uploaded == 'yes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: build
+      cancel-in-progress: false
+    env:
+      MARKETS_ACCESS_CODES: ${{ secrets.MARKETS_ACCESS_CODES }}   # the render re-seals the desk; keep the hand codes
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Put the wrap on the front page
+        run: python build.py --render-only
+      - name: Commit the re-rendered archive copy
+        run: |
+          git config user.name "beehive-wire-bot"
+          git config user.email "beehive-wire-bot@users.noreply.github.com"
+          git add data/shelf.json archive
+          if ! git diff --cached --quiet; then
+            git commit -m "market video on page: ${{ needs.video.outputs.key }}"
+            git pull --rebase --autostash origin main
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
