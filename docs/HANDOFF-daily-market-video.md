@@ -10,7 +10,7 @@ affiliated with IBD) apply here too.
 
 ## 1. What Todd wants
 
-A **free daily video**, every trading day at 4:30 p.m. Eastern (and possibly 2:30 p.m.; §3): a stock-market roundup in the Beehive Wire voice,
+A **free daily video**, every trading day at 4:30 p.m. Eastern: a stock-market roundup in the Beehive Wire voice,
 built from the Market Desk's own numbers. It is marketing for the paid desk and a product in itself.
 
 - **Free.** It never shows the whole paid page, but it can and should show real numbers from that day: the
@@ -86,10 +86,9 @@ Copy the structure and the discipline; never the name, the look or the phrases t
    O'Neil described in How to Make Money in Stocks") and "Not affiliated with Investor's Business Daily. Not
    investment advice."
 
-**Timing.** Two slots on market days, Todd's choice to be confirmed: **2:30 p.m. Eastern** (a midday read while
-the market is open; the charts show the session so far and the narration says so) **and 4:30 p.m. Eastern**
-(the close). If only one, the 4:30 close is the one that matches IBD's wrap. Market days only: weekdays minus NYSE
-holidays, and on early-close days (the day after Thanksgiving, Christmas Eve, July 3 when observed) the close video
+**Timing.** One video a day, **4:30 p.m. Eastern, the close** (Todd decided Oct 31, 2026; no midday video).
+Market days only: weekdays minus NYSE
+holidays, and on early-close days (the day after Thanksgiving, Christmas Eve, July 3 when observed) the video
 runs at 1:30 p.m. Eastern. `markets.py` already has `nyse_early_close` and the holiday logic the movers passes use;
 reuse it, and give the workflow a `due` check the way `video.py due` works so a holiday never produces a video and
 a missed slot is skipped, not backfilled. GitHub's cron is late and lossy (see the comments in `markets.yml`), so
