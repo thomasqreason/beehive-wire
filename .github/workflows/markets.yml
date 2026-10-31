@@ -107,7 +107,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MARKETS_ACCESS_CODES: ${{ secrets.MARKETS_ACCESS_CODES }}   # the Market Desk gate's codes (desk_gate.py)
-      GATE_ADMIN_TOKEN: ${{ secrets.GATE_ADMIN_TOKEN }}           # hands each build's key to the relay so minted and paid codes work
     timeout-minutes: 50
     concurrency:
       group: build                # never races the morning/evening editions or the siren

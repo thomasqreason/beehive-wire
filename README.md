@@ -145,8 +145,9 @@ in `markets.yaml`. Nothing issues a code automatically.
    Actions**): one code per line, case and spaces ignored. These are baked into the pages and work even if the
    relay is down. Change the secret, run the **build** workflow once, and the desk is re-sealed.
 2. *Codes the relay keeps* (relay/quote-worker.js, `/gate/`): the ones you mint on the keys page and the ones
-   Stripe buyers get. The build hands each edition's key to the relay (secret `GATE_ADMIN_TOKEN`), and the
-   gate page asks the relay for it when a reader's code isn't a hand code. Revoking takes effect at once.
+   Stripe buyers get. The build fetches the relay's public key and seals each edition's key to it; the gate
+   page sends that sealed key with the reader's code, and the relay opens it only for an active code. No
+   secret is shared between GitHub and Cloudflare. Revoking takes effect at once.
 
 **Your keys page:** `https://beehivewire.com/markets/keys/`. Sign in with the admin token (it stays in that
 browser). Mint a code for a friend, see every code with who has it and when it was last used, revoke or
@@ -156,10 +157,10 @@ restore. Nothing links to this page.
 
 1. Cloudflare → Workers & Pages → `beehive-quotes` → Settings → Bindings: add a **KV namespace** binding named
    `GATE` (create a namespace called `beehive-gate`). Under Variables and Secrets add three secrets:
-   `GATE_ADMIN_TOKEN` (make up a long one; the same value goes in the GitHub secret of that name),
+   `GATE_ADMIN_TOKEN` (make up a long one; it is the password for the keys page),
    `STRIPE_SECRET_KEY` (Stripe → Developers → API keys, the secret key) and `STRIPE_WEBHOOK_SECRET` (step 4).
    Then paste the current `quote-worker.js` in and Deploy, as for any relay update.
-2. GitHub: add the `GATE_ADMIN_TOKEN` repository secret with the same value.
+2. Nothing on GitHub: the build needs no secret for the gate.
 3. Stripe → Product catalog: a product **Market Desk** with a recurring price of **$49 / month** and a one-time
    price of **$9.99** named "First 21 days". Then **Payment Links → New**: add the $49 monthly price with a
    **21-day free trial**, add the $9.99 one-time price to the same link, and under *After payment* choose

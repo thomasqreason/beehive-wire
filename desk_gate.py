@@ -10,9 +10,10 @@ A right code is remembered in that browser (localStorage bw-desk-code) so every 
 Codes come from two places. Hand codes in the MARKETS_ACCESS_CODES environment variable (a GitHub Actions
 secret: comma, space or newline separated, case-insensitive) are wrapped into the page itself and work even
 if the relay is down. Everything else lives in the quote relay's KV store (relay/quote-worker.js, /gate/):
-codes Todd mints on the keys page and codes Stripe buyers claim after checkout. The build posts each
-edition's content key to the relay (GATE_ADMIN_TOKEN) so the relay can hand it to a reader whose code is
-active. With neither codes nor a relay token the desk is published locked for everyone, the safe failure.
+codes Todd mints on the keys page and codes Stripe buyers claim after checkout. The build fetches the
+relay's public key and seals each edition's content key to it (RSA-OAEP); the sealed key rides in the page,
+and the relay opens it only for an active code. No secret is shared between GitHub and the relay. With
+neither hand codes nor a reachable relay the desk is published locked for everyone, the safe failure.
 
 Not gated: the JSON the charts read (series/*.json, screen.json, rs_dist.json): bare numbers, no prose.
 """
@@ -45,6 +46,16 @@ def _b64(b: bytes) -> str:
     return base64.b64encode(b).decode("ascii")
 
 
+def _jwk_to_pem(jwk: dict) -> bytes:
+    """An RSA public JWK (n, e) as PEM, which `cryptography` loads directly."""
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric import rsa
+    def num(s: str) -> int:
+        return int.from_bytes(base64.urlsafe_b64decode(s + "=" * (-len(s) % 4)), "big")
+    return rsa.RSAPublicNumbers(num(jwk["e"]), num(jwk["n"])).public_key().public_bytes(
+        serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo)
+
+
 def gate_site(cfg: dict, site_dir: Path, site_name: str, log=print) -> int:
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -57,20 +68,23 @@ def gate_site(cfg: dict, site_dir: Path, site_name: str, log=print) -> int:
     g = desk.get("gate") or {}
     codes = access_codes()
     relay = (desk.get("quote_relay") or "").rstrip("/")
-    token = os.environ.get("GATE_ADMIN_TOKEN", "").strip()
     key, salt = os.urandom(32), os.urandom(16)
     build = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + os.urandom(2).hex()
-    posted = False
-    if relay and token:
+    wrapped = ""
+    if relay:
         try:
             import requests
-            r = requests.post(relay + "/gate/key", json={"build": build, "key": _b64(key)},
-                              headers={"Authorization": "Bearer " + token}, timeout=15)
-            posted = r.ok
-            log(f"market desk gate: key for build {build} -> relay {'ok' if r.ok else r.status_code}")
+            from cryptography.hazmat.primitives import hashes, serialization
+            from cryptography.hazmat.primitives.asymmetric import padding
+            r = requests.get(relay + "/gate/pubkey", timeout=15)
+            r.raise_for_status()
+            jwk = r.json()["jwk"]
+            pub = serialization.load_pem_public_key(_jwk_to_pem(jwk))
+            wrapped = _b64(pub.encrypt(key, padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)))
+            log(f"market desk gate: build {build} sealed to the relay's key")
         except Exception as e:  # noqa: BLE001
-            log(f"market desk gate: could not hand the key to the relay ({e})")
-    if not codes and not posted:
+            log(f"market desk gate: could not fetch the relay's public key ({e}); only hand codes will open this build")
+    if not codes and not wrapped:
         log("market desk gate: no hand codes and no relay key -- the desk is published LOCKED for everyone")
     # Two unsealed pages: the welcome page a Stripe checkout lands on, and Todd's keys page.
     for name, sub in (("markets_welcome.html", "welcome"), ("markets_keys.html", "keys")):
@@ -93,7 +107,7 @@ def gate_site(cfg: dict, site_dir: Path, site_name: str, log=print) -> int:
         comp = zlib.compressobj(9, zlib.DEFLATED, -15)
         data = comp.compress(html.encode("utf-8")) + comp.flush()
         iv = os.urandom(12)
-        blob = {"build": build, "salt": _b64(salt), "iter": ITERATIONS, "wraps": wraps, "iv": _b64(iv), "ct": _b64(aes.encrypt(iv, data, None))}
+        blob = {"build": build, "salt": _b64(salt), "iter": ITERATIONS, "wraps": wraps, "wrapped": wrapped, "iv": _b64(iv), "ct": _b64(aes.encrypt(iv, data, None))}
         depth = len(path.relative_to(site_dir).parts) - 1
         shell = tpl.render(site_name=site_name, title=title, blob=json.dumps(blob, separators=(",", ":")),
                            request_email=g.get("request_email") or "", payment_link=g.get("payment_link") or "",

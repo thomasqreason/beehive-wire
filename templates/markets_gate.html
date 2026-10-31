@@ -91,9 +91,9 @@
     for (var i = 0; i < G.wraps.length && !raw; i++) {
       try { raw = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(G.wraps[i].iv) }, wk, b64(G.wraps[i].ct)); } catch (e) {}
     }
-    if (!raw && GATE) {                       // not a hand code: ask the relay, which knows the minted and paid ones
+    if (!raw && GATE && G.wrapped) {          // not a hand code: the relay opens the page's sealed key for an active code
       try {
-        var r = await fetch(GATE + '/gate/unlock?code=' + encodeURIComponent(code) + '&build=' + encodeURIComponent(G.build || ''), { cache: 'no-store' });
+        var r = await fetch(GATE + '/gate/unlock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code, wrapped: G.wrapped }), cache: 'no-store' });
         if (r.ok) raw = b64((await r.json()).key);
       } catch (e) {}
     }

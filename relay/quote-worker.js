@@ -10,9 +10,9 @@
 //   only, for the pop-up's Intraday tab (cached 60 s).
 //
 // The Market Desk gate (Oct 30, 2026) lives here too, under /gate/. It needs a KV namespace bound as GATE and
-// three Worker secrets: GATE_ADMIN_TOKEN (shared with the GitHub build), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET.
-//   POST /gate/key            build → worker: the content key for one build (Bearer GATE_ADMIN_TOKEN)
-//   GET  /gate/unlock?code=&build=   gate page → the key for that build, if the code is active
+// three Worker secrets: GATE_ADMIN_TOKEN (for Todd's keys page), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET.
+//   GET  /gate/pubkey         the build fetches this and seals each edition's content key to it (RSA-OAEP)
+//   POST /gate/unlock {code, wrapped}   gate page → the unsealed key, if the code is active
 //   GET  /gate/claim?session=        the welcome page after a Stripe checkout → mints (or returns) the buyer's code
 //   POST /gate/stripe         Stripe webhook: a cancelled or unpaid subscription revokes its code
 //   GET  /gate/admin/list, POST /gate/admin/mint|revoke|restore   Todd's keys page (Bearer GATE_ADMIN_TOKEN)
@@ -250,7 +250,9 @@ function withHeaders(res, h) { const r = new Response(res.body, res); for (const
 // Codes live in KV (binding GATE): code:<CODE> → {email, note, source, status, created, customer, subscription},
 // with the same object as the entry's metadata so a list needs no reads. session:<stripe session> → code and
 // sub:<stripe subscription> → code let a checkout be re-claimed and a cancellation find its code.
-// key:<build> → the content key the build sealed its pages with (90 days), key:latest → the newest.
+// gate:priv / gate:pub → an RSA-OAEP keypair made on first use. The build seals each edition's content key to
+// the public half and puts it in the page; only this worker can open it, and it only does so for an active code.
+// No secret is shared between GitHub and Cloudflare.
 
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";   // no 0/O, 1/I
 const NO_STORE = { "Cache-Control": "no-store" };
@@ -268,27 +270,28 @@ async function gate(req, url, env, cors) {
   const auth = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
   const admin = !!env.GATE_ADMIN_TOKEN && auth === env.GATE_ADMIN_TOKEN;
 
-  // ── the build hands over a key
-  if (path === "key" && req.method === "POST") {
-    if (!admin) return json({ error: "unauthorized" }, 401, cors);
-    const b = await req.json().catch(() => ({}));
-    if (!b.build || !b.key) return json({ error: "need build and key" }, 400, cors);
-    await env.GATE.put("key:" + b.build, b.key, { expirationTtl: 90 * 86400 });
-    await env.GATE.put("key:latest", b.key);
-    return json({ ok: true, build: b.build }, 200, cors);
+  // ── the public key the build seals to
+  if (path === "pubkey") {
+    const kp = await gateKeys(env);
+    return json({ alg: "RSA-OAEP-256", jwk: kp.pub }, 200, { ...cors, "Cache-Control": "public, max-age=300" });
   }
 
-  // ── a reader's code → that build's key
-  if (path === "unlock") {
-    const code = normCode(url.searchParams.get("code")), build = url.searchParams.get("build") || "";
-    if (!code) return json({ error: "no code" }, 400, cors);
+  // ── a reader's code + the page's sealed key → the key
+  if (path === "unlock" && req.method === "POST") {
+    const b = await req.json().catch(() => ({}));
+    const code = normCode(b.code);
+    if (!code || !b.wrapped) return json({ error: "need code and wrapped" }, 400, cors);
     const rec = await env.GATE.get("code:" + code, "json");
     if (!rec || rec.status !== "active") return json({ error: "no" }, 403, cors);
-    const key = (build && await env.GATE.get("key:" + build)) || await env.GATE.get("key:latest");
-    if (!key) return json({ error: "no key for this build yet" }, 404, cors);
+    const kp = await gateKeys(env);
+    let key;
+    try {
+      const priv = await crypto.subtle.importKey("jwk", kp.priv, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["decrypt"]);
+      key = await crypto.subtle.decrypt({ name: "RSA-OAEP" }, priv, Uint8Array.from(atob(b.wrapped), c => c.charCodeAt(0)));
+    } catch (e) { return json({ error: "this page was sealed to another key; the next build fixes it" }, 409, cors); }
     rec.last_used = new Date().toISOString(); rec.uses = (rec.uses || 0) + 1;
     await env.GATE.put("code:" + code, JSON.stringify(rec), { metadata: summary(rec) });
-    return json({ key }, 200, cors);
+    return json({ key: btoa(String.fromCharCode(...new Uint8Array(key))) }, 200, cors);
   }
 
   // ── after a Stripe checkout: the welcome page claims the buyer's code
@@ -361,6 +364,16 @@ async function gate(req, url, env, cors) {
     }
   }
   return json({ error: "no such gate call" }, 404, cors);
+}
+
+async function gateKeys(env) {
+  let priv = await env.GATE.get("gate:priv", "json"), pub = await env.GATE.get("gate:pub", "json");
+  if (!priv || !pub) {
+    const kp = await crypto.subtle.generateKey({ name: "RSA-OAEP", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" }, true, ["encrypt", "decrypt"]);
+    priv = await crypto.subtle.exportKey("jwk", kp.privateKey); pub = await crypto.subtle.exportKey("jwk", kp.publicKey);
+    await env.GATE.put("gate:priv", JSON.stringify(priv)); await env.GATE.put("gate:pub", JSON.stringify(pub));
+  }
+  return { priv, pub };
 }
 
 const summary = r => ({ code: r.code, email: r.email, note: r.note, source: r.source, status: r.status, created: r.created, last_used: r.last_used || null, uses: r.uses || 0, subscription: r.subscription || null });
