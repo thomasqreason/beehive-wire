@@ -283,6 +283,8 @@
   </div>
   
 
+  
+
   <div class="cols">
     
     <div class="col">
@@ -618,9 +620,8 @@
 // Click-to-play for the edition's video. Swaps the poster for the player on the first click only,
 // so a reader who never presses play never touches youtube.com. nocookie + autoplay=1 because the
 // click WAS the play. Does nothing at all on a page with no video block.
-(function () {
-  var box = document.querySelector('.watch .player');
-  if (!box) return;
+// Each player on the page (the edition's, the market wrap's) works on its own.
+document.querySelectorAll('.watch .player').forEach(function (box) {
   var id = box.getAttribute('data-video');
   if (!id) return;
   box.addEventListener('click', function play() {
@@ -634,7 +635,7 @@
     box.appendChild(f);
     box.style.cursor = 'default';
   });
-})();
+});
 </script>
 <!-- End Cloudflare Web Analytics -->
 </body>
