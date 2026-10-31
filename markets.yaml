@@ -24,7 +24,7 @@ desk:
     # Paid access (Oct 30, 2026): a Stripe Payment Link. After paying, Stripe sends the buyer to
     # https://beehivewire.com/markets/welcome/?session_id={CHECKOUT_SESSION_ID}, which shows their code.
     # Leave payment_link empty to hide the Subscribe button. Codes are kept by the relay (relay/README.md).
-    payment_link: ""
+    payment_link: "https://buy.stripe.com/4gM4gB2U6bqQdbM2Dy4Ja02"
     price_label: "$9.99 for your first 21 days, then $49.99 a month"   # shown with the Subscribe button (Todd, Oct 30, 2026)
     video_id: ""                             # the promo's YouTube id (promo.py / Actions -> promo); shows it on the gate page
 
