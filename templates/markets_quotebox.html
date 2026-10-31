@@ -4,5 +4,12 @@
   <input id="qsym" name="s" placeholder="Any ticker, e.g. NVDA" maxlength="12" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go">
   <button type="submit">Chart it</button>
 </form>
-<script>document.body.classList.add("has-qbox");</script>
+<script>document.body.classList.add("has-qbox");
+// Tap the box and the old ticker is selected, so typing replaces it (Todd, Oct 31, 2026). Works for mouse and touch;
+// a second tap inside still lets you place the cursor.
+(function(){var q=document.getElementById("qsym");if(!q)return;var armed=false;
+q.addEventListener("pointerdown",function(){armed=document.activeElement!==q;});
+q.addEventListener("focus",function(){setTimeout(function(){q.select();},0);});
+q.addEventListener("pointerup",function(){if(armed){q.select();armed=false;}});
+q.addEventListener("mouseup",function(e){if(q.selectionStart===0&&q.selectionEnd===q.value.length)e.preventDefault();});})();</script>
 {% endif %}
