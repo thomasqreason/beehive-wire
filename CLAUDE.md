@@ -51,3 +51,5 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
 - Stripe still shows the business name "Daily Page" on the Market Desk checkout page. Rename to Beehive Wire
   at https://dashboard.stripe.com/acct_1QWsjRREcbwAJF8r/settings/public (Todd, by hand; no API for it).
 - The promo video (promo.py) is rendered but not yet uploaded; `desk.gate.video_id` in markets.yaml is empty.
+  A better one, a visitor preview and an IBD-name re-check are briefed in docs/HANDOFF-market-desk-promo.md.
+- A free daily market roundup video and a Beehive Wire YouTube channel: briefed in docs/HANDOFF-daily-market-video.md.
