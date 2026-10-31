@@ -30,7 +30,7 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
 
 - `/markets/` is for readers with a code. `desk_gate.py` seals every desk page at render time. Codes are
   hand codes in the `MARKETS_ACCESS_CODES` secret, codes Todd mints on /markets/keys/, or codes Stripe buyers
-  claim after paying ($9.99 for the first 21 days, then $49 a month; relay/quote-worker.js `/gate/`).
+  claim after paying ($9.99 for the first 21 days, then $49.99 a month; relay/quote-worker.js `/gate/`).
   Never add any other way to get a code, and never publish the desk pages unsealed while the gate is on.
 - A local `python build.py --render-only` with the variable unset seals the desk with no codes (locked for
   everyone); set `MARKETS_ACCESS_CODES=test` to look at it locally.

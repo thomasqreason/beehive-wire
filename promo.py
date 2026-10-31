@@ -42,8 +42,8 @@ PROMO = [
     ("FIVE TO TEN STOCK STORIES\nEVERY TRADING DAY",
      "Five to ten stock stories every trading day, written from the numbers. And a scorecard that keeps the desk "
      "honest about every call it makes."),
-    ("$9.99 FOR YOUR FIRST 21 DAYS\nTHEN $49 A MONTH",
-     "Try it for nine ninety-nine for your first twenty-one days. Then forty-nine dollars a month. Cancel any time."),
+    ("$9.99 FOR YOUR FIRST 21 DAYS\nTHEN $49.99 A MONTH",
+     "Try it for nine ninety-nine for your first twenty-one days. Then forty-nine ninety-nine a month. Cancel any time."),
     (f"{URL}\nLink in the description",
      "Beehive wire dot com, slash markets. The link is in the description."),
 ]
@@ -60,7 +60,7 @@ Leaders, bases and breakouts. Numbers first.
 - A chart for any ticker: daily, weekly, monthly, intraday
 - Five to ten stock stories every trading day, and a scorecard on every call
 
-$9.99 for your first 21 days, then $49 a month. Cancel any time.
+$9.99 for your first 21 days, then $49.99 a month. Cancel any time.
 https://beehivewire.com/markets
 
 The front page, free, twice a day: https://beehivewire.com

@@ -153,7 +153,7 @@ in `markets.yaml`. Nothing issues a code automatically.
 browser). Mint a code for a friend, see every code with who has it and when it was last used, revoke or
 restore. Nothing links to this page.
 
-**Paid access (Stripe).** The pitch is **$9.99 for the first 21 days, then $49 a month.** One-time setup:
+**Paid access (Stripe).** The pitch is **$9.99 for the first 21 days, then $49.99 a month.** One-time setup:
 
 1. Cloudflare → Workers & Pages → `beehive-quotes` → Settings → Bindings: add a **KV namespace** binding named
    `GATE` (create a namespace called `beehive-gate`). Under Variables and Secrets add three secrets:
@@ -161,8 +161,8 @@ restore. Nothing links to this page.
    `STRIPE_SECRET_KEY` (Stripe → Developers → API keys, the secret key) and `STRIPE_WEBHOOK_SECRET` (step 4).
    Then paste the current `quote-worker.js` in and Deploy, as for any relay update.
 2. Nothing on GitHub: the build needs no secret for the gate.
-3. Stripe → Product catalog: a product **Market Desk** with a recurring price of **$49 / month** and a one-time
-   price of **$9.99** named "First 21 days". Then **Payment Links → New**: add the $49 monthly price with a
+3. Stripe → Product catalog: a product **Market Desk** with a recurring price of **$49.99 / month** and a one-time
+   price of **$9.99** named "First 21 days". Then **Payment Links → New**: add the $49.99 monthly price with a
    **21-day free trial**, add the $9.99 one-time price to the same link, and under *After payment* choose
    "Don't show confirmation page" with the redirect
    `https://beehivewire.com/markets/welcome/?session_id={CHECKOUT_SESSION_ID}`. Copy the link into

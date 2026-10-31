@@ -25,7 +25,7 @@ desk:
     # https://beehivewire.com/markets/welcome/?session_id={CHECKOUT_SESSION_ID}, which shows their code.
     # Leave payment_link empty to hide the Subscribe button. Codes are kept by the relay (relay/README.md).
     payment_link: ""
-    price_label: "$9.99 for your first 21 days, then $49 a month"   # shown with the Subscribe button (Todd, Oct 30, 2026)
+    price_label: "$9.99 for your first 21 days, then $49.99 a month"   # shown with the Subscribe button (Todd, Oct 30, 2026)
     video_id: ""                             # the promo's YouTube id (promo.py / Actions -> promo); shows it on the gate page
 
 # The watch list: big companies and the names most likely to lead the next leg.
