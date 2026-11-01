@@ -1054,5 +1054,16 @@
   "iso": "2026-10-31T16:02:25-06:00",
   "top": "SPIRIT HALLOWEEN SHOOTINGS LEAVE 2 DEAD...",
   "count": 100
+ },
+ {
+  "no": 97,
+  "file": "2026-11-01-morning.html",
+  "date": "2026-11-01",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:03 a.m.",
+  "iso": "2026-11-01T04:03:08-07:00",
+  "top": "EUROPE ERUPTS OVER COST OF LIVING...",
+  "count": 100
  }
 ]
