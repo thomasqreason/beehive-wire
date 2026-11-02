@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEEHIVE WIRE</title>
+<meta name="description" content="BEEHIVE WIRE — Morning Edition, MON NOV 2 2026 · 4:16 AM MST. Two editions a day: morning and evening.">
+<meta property="og:site_name" content="BEEHIVE WIRE">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://beehivewire.com/">
+<meta property="og:title" content="CRASH AUDIO: &#39;MANAGING THE ICE&#39;...">
+<meta property="og:description" content="BEEHIVE WIRE — Morning Edition. Morning and evening. Nothing in between.">
+<meta property="og:image" content="https://beehivewire.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CRASH AUDIO: &#39;MANAGING THE ICE&#39;...">
+<meta name="twitter:description" content="BEEHIVE WIRE — Morning Edition. Morning and evening. Nothing in between.">
+<meta name="twitter:image" content="https://beehivewire.com/social-card.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#12161b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Beehive Wire">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<script>try{if(localStorage.getItem('bw-theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}if(localStorage.getItem('bw-cols')==='1'){document.documentElement.setAttribute('data-cols','1');}}catch(e){}</script>
+<style>
+  :root{color-scheme:light}
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.35}
+  a{color:#000;text-decoration:underline}
+  a:hover{background:#000;color:#fff;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:10px 16px 48px}
+  .mast{text-align:center;padding:14px 0 8px;border-bottom:4px double #000}
+  .mast h1{margin:0;font:900 46px/1 "Arial Black",Impact,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .mast h1 a{text-decoration:none}
+  .mast h1 a:hover{background:none;color:#000;text-decoration:underline}
+  .mast .tag{font:italic 13px/1.4 Georgia,"Times New Roman",serif;margin-top:4px}
+  .mast .edition{font:bold 13px/1.4 "Courier New",Courier,monospace;letter-spacing:.26em;text-transform:uppercase;margin-top:10px}
+  .mast .stamp{font:12px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:3px;color:#333}
+  .next{margin-top:34px;border-top:1px solid #000;padding-top:14px;text-align:center;font:13px/1.5 Georgia,"Times New Roman",serif;font-style:italic}
+  .flash{text-align:center;margin:18px auto 0;max-width:900px}
+  .flash a{display:block;font:bold 17px/1.25 Arial,Helvetica,sans-serif;text-transform:uppercase;margin:6px 0}
+  .top{text-align:center;margin:22px auto 8px;max-width:980px}
+  .top img{max-width:100%;height:auto;max-height:440px;border:1px solid #000;display:block;margin:0 auto 14px}
+  .top a.head{display:block;font:900 44px/1.05 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  .top a.head.urgent{color:#c00000}
+  .top a.head.urgent:hover{background:#c00000;color:#fff}
+  .cols{display:flex;gap:34px;margin-top:22px;border-top:1px solid #000;padding-top:18px}
+  .col{flex:1 1 0;min-width:0}
+  .col a{display:block;text-transform:uppercase;margin:0 0 12px;font-size:13px}
+  .cols.one .col{max-width:720px;margin:0 auto}
+  .cols.one .col a{font-size:15px;margin-bottom:13px}
+  /* A column story running with its picture. Drudge-sized: big enough to stop the scroll,
+     small enough that the page is still a list of headlines. */
+  .col a.pic{margin-bottom:14px}
+  .col .shot{display:block;margin:4px 0 7px;max-width:100%}
+  .col .shot img{display:block;width:100%;max-width:330px;height:auto;border:1px solid #000}
+  .cols.one .col .shot img{max-width:360px}
+  @media (max-width:640px){.col .shot img{max-width:100%}}
+  .col a.held,.flash a.held{color:#8a8a8a}
+  /* Story stacks: a lead headline with its follow-ups indented beneath it, read as one block.
+     The negative top margin pulls each follow-up up against the line above so the group reads
+     tighter than the gap between unrelated stories. */
+  .col a.sub{margin-left:27px;margin-top:-5px;margin-bottom:10px;font-size:13px;position:relative}
+  .cols.one .col a.sub{font-size:13.5px}
+  .col a.sub::before{content:"";position:absolute;left:-15px;top:.62em;width:9px;height:1px;background:#000}
+  .col a.sub.held::before{background:#8a8a8a}
+  .mast .fresh{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;color:#555}
+  .mast .fresh b{color:#000;font-weight:bold}
+  /* ── the edition's video ─────────────────────────────────────────────────
+     A click-to-play poster: no iframe, no YouTube request and no cookie until the
+     reader presses play. 16:9 is held by aspect-ratio so nothing jumps as it loads. */
+  .watch{margin:26px auto 0;max-width:720px}
+  .watch .lbl{font:bold 11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    text-align:center;margin-bottom:8px}
+  .watch .player{position:relative;aspect-ratio:16/9;background:#12161b;border:1px solid #000;cursor:pointer}
+  .watch .player img,.watch .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .watch .player img{object-fit:cover}
+  .watch .player button{position:absolute;inset:0;width:100%;height:100%;border:0;background:none;cursor:pointer;padding:0}
+  .watch .player button span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:68px;height:48px;border-radius:12px;background:#12161b;border:2px solid #fdb512;display:block;
+    box-shadow:0 2px 14px rgba(0,0,0,.55)}
+  .watch .player button span::after{content:"";position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);
+    border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fdb512}
+  .watch .player button:hover span{background:#fdb512}
+  .watch .player button:hover span::after{border-left-color:#12161b}
+  .watch .player button:focus-visible span{outline:3px solid #fdb512;outline-offset:3px}
+  .watch .cap{text-align:center;margin-top:7px;font:italic 12px/1.4 Georgia,"Times New Roman",serif}
+  .watch .cap a{color:#333}
+  @media(max-width:700px){.watch{margin-top:20px}.watch .player button span{width:56px;height:40px}}
+
+  /* ── the evergreen shelf ─────────────────────────────────────────────────
+     The permanent links: never news, always worth a look. Sits below the
+     sign-off so it can never bury the edition. */
+  .shelf{margin-top:40px;border-top:4px double #000;padding-top:20px}
+  .shelf .house{text-align:center;margin-bottom:26px}
+  .shelf .house a{display:inline-block;margin:0 10px 8px;font:bold 13px/1.4 Arial,Helvetica,sans-serif;
+    text-transform:uppercase;letter-spacing:.04em}
+  .shelf .grp{margin-bottom:22px}
+  .shelf h2{font:11px/1.4 "Courier New",Courier,monospace;letter-spacing:.24em;text-transform:uppercase;
+    color:#555;margin:0 0 9px;padding-bottom:5px;border-bottom:1px solid #ccc;font-weight:bold}
+  .shelf ul{list-style:none;margin:0;padding:0;columns:2;column-gap:28px}
+  .shelf .wide ul{columns:3;column-gap:22px}
+  .shelf li{break-inside:avoid;margin:0 0 7px}
+  .shelf li a{font:12px/1.35 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.02em}
+  @media (max-width:640px){
+    .shelf ul,.shelf .wide ul{columns:2;column-gap:16px}
+    .shelf li a{font-size:11px}
+  }
+  hr.sep{border:0;border-top:1px solid #000;margin:6px 0 16px;width:60%}
+  .col > hr.sep:first-child{display:none}   /* side by side, a column never opens with a rule */
+  /* The reader's own one-column switch (footer). The page is rendered in two columns; this stacks them in
+     reading order and widens the type to the old single-file look. Remembered in the browser as bw-cols. */
+  html[data-cols="1"] .cols{display:block}
+  html[data-cols="1"] .col{max-width:720px;margin:0 auto}
+  html[data-cols="1"] .col a{font-size:15px;margin-bottom:13px}
+  html[data-cols="1"] .col a.sub{font-size:13.5px}
+  html[data-cols="1"] .col .shot img{max-width:360px}
+  html[data-cols="1"] .col > hr.sep:first-child{display:block}
+  .foot{margin-top:44px;border-top:4px double #000;padding-top:12px;font:11px/1.7 "Courier New",Courier,monospace;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  .foot .srcs{margin-top:6px;text-transform:none;letter-spacing:0;color:#333;word-spacing:.15em}
+  .foot .srcs .lbl{text-transform:uppercase;letter-spacing:.06em;color:#000}
+  .foot .srcs a{color:#333;text-decoration:none}
+  .foot .srcs a:hover{background:none;color:#000;text-decoration:underline}
+  .empty{text-align:center;font:italic 15px Georgia,serif;padding:60px 0}
+  #install[hidden]{display:none}
+  #install{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;gap:12px;
+    padding:11px 14px;padding-bottom:calc(11px + env(safe-area-inset-bottom,0px));
+    background:#12161b;color:#fff;border-top:3px solid #fdb512;
+    box-shadow:0 -6px 24px rgba(0,0,0,.28);
+    transform:translateY(115%);transition:transform .34s cubic-bezier(.22,.9,.3,1)}
+  #install.up{transform:none}
+  #install img{width:42px;height:42px;border-radius:9px;flex:0 0 auto;display:block}
+  #install .txt{flex:1 1 auto;min-width:0}
+  #install b{display:block;font:bold 13px/1.3 Arial,Helvetica,sans-serif}
+  #install span{display:block;font:12px/1.35 Georgia,"Times New Roman",serif;color:#c6c1b8;margin-top:2px}
+  #install .go{flex:0 0 auto;background:#fdb512;color:#12161b;border:0;border-radius:6px;cursor:pointer;
+    padding:10px 16px;font:bold 13px/1 Arial,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.06em}
+  #install .go:hover{background:#ffc63f}
+  #install .go[hidden]{display:none}
+  #install .no{flex:0 0 auto;background:none;border:0;cursor:pointer;color:#8b8680;font:400 24px/1 Arial,Helvetica,sans-serif;padding:2px 2px 6px}
+  #install .no:hover{color:#fff}
+  @media (max-width:420px){
+    #install{gap:10px;padding-left:11px;padding-right:11px}
+    #install img{width:38px;height:38px}
+    #install b{font-size:12px}
+    #install span{font-size:11px}
+    #install .go{padding:9px 12px;font-size:12px}
+  }
+  .arc{background:#12161b;color:#fff;margin:0 -16px 12px;padding:9px 16px;font:11px/1.5 "Courier New",Courier,monospace;
+    letter-spacing:.1em;text-transform:uppercase;text-align:center}
+  .arc b{color:#fdb512;letter-spacing:.14em}
+  .arc a{color:#fff}
+  .arc a:hover{background:#fdb512;color:#12161b;text-decoration:none}
+  .foot .arch{margin-top:8px}
+  .foot .arch a{font-weight:bold;letter-spacing:.12em}
+  .siren{background:#c00000;color:#fff;margin:0 -16px;padding:9px 16px;text-align:center;
+    font:900 15px/1 "Arial Black",Impact,Arial,sans-serif;letter-spacing:.34em;text-transform:uppercase}
+  .siren .dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:#fff;
+    vertical-align:middle;margin:0 16px;animation:flash 1s steps(1,end) infinite}
+  .siren .dot.b{animation-delay:.5s}
+  @keyframes flash{0%,49%{opacity:1}50%,100%{opacity:.15}}
+  @media (prefers-reduced-motion:reduce){ .siren .dot{animation:none;opacity:1} }
+  @media (max-width:760px){
+    .mast h1{font-size:32px;letter-spacing:.06em}
+    .mast .edition{font-size:11px;letter-spacing:.18em}
+    .mast .stamp{font-size:10px;letter-spacing:.08em}
+    .flash a{font-size:15px}
+    .top a.head{font-size:30px}
+    .cols{display:block;gap:0}
+    .col > hr.sep:first-child{display:block}   /* stacked, the seam between columns is a topic break */
+    .col a{font-size:14px;margin-bottom:14px}
+    html[data-cols="1"] .col a{font-size:14px;margin-bottom:14px}
+    .foot .colsw{display:none}   /* a phone is always one column; the switch would do nothing */
+    hr.sep{width:80%}
+  }
+
+  /* ── the reader's dark plate ────────────────────────────────────────────
+     Opt-in, remembered per browser. Light mode above is untouched.
+     Freshness reads the other way round here: new stories burn bright,
+     held-over ones go dim — the same signal, inverted for a dark page. */
+  .theme{margin-top:16px}
+  .theme button{display:inline-flex;align-items:center;gap:9px;background:none;border:0;cursor:pointer;
+    font:11px/1 "Courier New",Courier,monospace;letter-spacing:.14em;text-transform:uppercase;
+    color:#333;padding:7px 8px}
+  .theme button:hover{color:#000}
+  .theme .sw{display:inline-block;width:34px;height:16px;border:1px solid #777;border-radius:9px;
+    position:relative;flex:0 0 auto;transition:background .18s,border-color .18s}
+  .theme .sw::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;
+    background:#777;transition:transform .18s,background .18s}
+  @media (prefers-reduced-motion:reduce){ .theme .sw,.theme .sw::after{transition:none} }
+  #cols-btn[aria-checked="true"] .sw{background:#fdb512;border-color:#fdb512}
+  #cols-btn[aria-checked="true"] .sw::after{transform:translateX(18px);background:#12161b}
+
+  html[data-theme="dark"]{color-scheme:dark}
+  html[data-theme="dark"] body,html[data-theme="dark"]{background:#12161b;color:#f2efe9}
+  html[data-theme="dark"] a{color:#f2efe9}
+  html[data-theme="dark"] a:hover{background:#fdb512;color:#12161b}
+  html[data-theme="dark"] .mast{border-bottom-color:#f2efe9}
+  html[data-theme="dark"] .mast h1 a:hover{background:none;color:#fdb512}
+  html[data-theme="dark"] .mast .stamp{color:#99a3ad}
+  html[data-theme="dark"] .mast .fresh{color:#8b949e}
+  html[data-theme="dark"] .mast .fresh b{color:#f2efe9}
+  html[data-theme="dark"] .next,html[data-theme="dark"] .cols{border-top-color:#39434f}
+  html[data-theme="dark"] hr.sep{border-top-color:#39434f}
+  html[data-theme="dark"] .top img{border-color:#39434f}
+  html[data-theme="dark"] .top a.head.urgent{color:#ff5b5b}
+  html[data-theme="dark"] .top a.head.urgent:hover{background:#ff5b5b;color:#12161b}
+  html[data-theme="dark"] .col a.sub::before{background:#f2efe9}
+  html[data-theme="dark"] .col a.sub.held::before{background:#697381}
+  html[data-theme="dark"] .col .shot img{border-color:#39434f}
+  html[data-theme="dark"] .col a.held,html[data-theme="dark"] .flash a.held{color:#697381}
+  html[data-theme="dark"] .col a.held:hover,html[data-theme="dark"] .flash a.held:hover{color:#12161b}
+  html[data-theme="dark"] .arc{background:#1b212a;border-top:1px solid #39434f;border-bottom:1px solid #39434f}
+  html[data-theme="dark"] .watch .player{border-color:#39434f}
+  html[data-theme="dark"] .watch .cap a{color:#8b949e}
+  html[data-theme="dark"] .shelf{border-top-color:#f2efe9}
+  html[data-theme="dark"] .shelf h2{color:#8b949e;border-bottom-color:#39434f}
+  html[data-theme="dark"] .foot{border-top-color:#f2efe9}
+  .foot .row{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;margin-top:10px}
+  .foot .row .theme{margin-top:0}
+  .foot .desk{display:inline-block;color:#999;text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .foot .desk:hover{background:none;color:#888}
+  html[data-theme="dark"] .foot .desk{color:#7f8a97}
+  html[data-theme="dark"] .foot .srcs,html[data-theme="dark"] .foot .srcs a{color:#7f8a97}
+  html[data-theme="dark"] .foot .srcs .lbl{color:#f2efe9}
+  html[data-theme="dark"] .foot .srcs a:hover{background:none;color:#f2efe9}
+  html[data-theme="dark"] .theme button{color:#8b949e}
+  html[data-theme="dark"] .theme button:hover{color:#f2efe9}
+  html[data-theme="dark"] .theme .sw{background:#fdb512;border-color:#fdb512}
+  html[data-theme="dark"] .theme .sw::after{transform:translateX(18px);background:#12161b}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+  <div class="arc">
+    <b>Archived edition</b> &middot; MON NOV 2 2026 · 4:16 AM MST &middot;
+    <a href="../">Today&rsquo;s front page</a> &middot;
+    <a href="../archive/">All editions</a>
+  </div>
+
+
+  <div class="mast">
+    <h1><a href="../">BEEHIVE WIRE</a></h1>
+    <div class="tag">Morning and evening. Nothing in between.</div>
+    <div class="edition">Morning Edition &middot; No. 99</div>
+    <div class="stamp">MON NOV 2 2026 · 4:16 AM MST</div>
+    <div class="fresh"><b>57 new</b> since last evening&#39;s edition &middot; 43 held over, in gray</div>
+  </div>
+
+  
+
+  
+  <div class="flash">
+    <a class="held" href="https://news.google.com/rss/articles/CBMixAFBVV95cUxOTE5uUFJRanVCeXJONkl6QndiZU03VE0yUHhFWW54MnhUTjJjYjc1b1JBYzcwdDRWcHVvbTlzaFQwV0o4N2FaZmhqa2RWUDNLTkJvc3VNZ0RDR3pHZXJ6X1ZacjhKbmU5bEM3WURMN2JqU25sTko5RURTU3RsLUF4cmlEZDdpLVZ5RnJUT0JXamxsV2F4enc1eXZCZlJiRUVDYjcyWnljNXpiZk1fcF9DNjJUMW5YYjYzUkcxSk1JV09lRnUy?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="USA Today: Only 8 states back Trump days before midterm elections">ONLY 8 STATES BACK TRUMP AHEAD OF MIDTERMS...</a>
+    <a href="https://www.bbc.co.uk/news/articles/c3j47gjx29vro?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: Trump makes final campaign push in final weekend before election">TRUMP MAKES FINAL PUSH BEFORE TUESDAY&#39;S VOTE...</a>
+    <a href="https://www.bbc.co.uk/news/articles/cmg47p3edv4do?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: Democrats have high hopes for midterms - but are the polls right?">COULD THE POLLS BE WRONG AGAIN?...</a>
+    
+  </div>
+  
+
+  <div class="top">
+    <a href="https://www.dailymail.com/news/article-16258045/Panicked-crew-doomed-private-jet-warned-managing-ice-cockpit-audio-moments-plunged-30-000ft-killing-nine-just-eight-miles-Mar-Lago.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34;><img src="https://i.dailymail.com/1s/2026/11/02/08/112240759-0-image-a-6_1793608454939.jpg" alt=""></a>
+    <a class="head" href="https://www.dailymail.com/news/article-16258045/Panicked-crew-doomed-private-jet-warned-managing-ice-cockpit-audio-moments-plunged-30-000ft-killing-nine-just-eight-miles-Mar-Lago.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail: Panicked crew of doomed private jet warned they were &#39;managing the ice&#39; in cockpit audio moments before it plunged 30,000ft killing all nine just eight miles from Mar-a-Lago">CRASH AUDIO: &#39;MANAGING THE ICE&#39;...</a>
+  </div>
+
+  
+
+  
+
+  <div class="cols">
+    
+    <div class="col">
+      <a class="held" href="https://www.dailymail.com/news/article-16257173/jet-crash-mar-lago-florida-audio.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Distressing final cockpit audio as female pilot screams in terror before private jet crashes in Palm Beach killing all nine on board">PILOT&#39;S FINAL SCREAMS BEFORE CRASH KILLED NINE...</a>
+      <hr class="sep"><a class="held" href="https://news.antiwar.com/2026/11/01/four-year-old-among-eight-palestinians-killed-by-israeli-attacks-across-gaza/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Antiwar.com: Four-Year-Old Among Eight Palestinians Killed by Israeli Attacks Across Gaza">FOUR-YEAR-OLD AMONG 8 PALESTINIANS KILLED IN GAZA STRIKES...</a>
+      <a href="https://www.middleeasteye.net/news/israel-former-army-chief-says-our-bombs-killed-captives" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: ‘Our bombs killed hostages’ in Gaza, says former Israeli army chief">&#39;OUR BOMBS KILLED HOSTAGES,&#39; EX-ISRAELI ARMY CHIEF SAYS...</a>
+      <a class="held" href="https://www.middleeasteye.net/live-blog/live-blog-update/irans-irgc-navy-says-two-tankers-exploded-after-hitting-mines-hormuz" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Iran&#39;s IRGC Navy says two tankers &#39;exploded&#39; after hitting mines in Hormuz">CLAIM: TWO TANKERS HIT MINES IN HORMUZ, IRAN SAYS...</a>
+      <a class="sub" href="https://nypost.com/2026/11/02/world-news/iranian-ghost-fleet-filmed-evading-us-blockade-en-route-to-china-uani-says/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="New York Post: Iranian ‘ghost fleet’ filmed evading US blockade en route to China, UANI says">IRANIAN &#39;GHOST FLEET&#39; FILMED DODGING US BLOCKADE...</a>
+      <a class="sub" href="https://www.middleeasteye.net/live-blog/live-blog-update/irans-foreign-ministry-says-exchanges-us-ongoing-mediators-afp" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Iran&#39;s foreign ministry says exchanges with US ongoing via mediators: AFP">IRAN: BACK-CHANNEL TALKS WITH US &#39;ONGOING&#39;...</a>
+      <a href="https://www.middleeasteye.net/live-blog/live-blog-update/saudi-led-coalition-says-it-destroyed-houthi-missile-targeting-kingdoms" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Saudi-led coalition says it destroyed Houthi missile targeting kingdom&#39;s southern region">SAUDIS SAY THEY DOWNED HOUTHI MISSILE TARGETING KINGDOM...</a>
+      <a class="held" href="https://www.middleeasteye.net/live-blog/live-blog-update/trump-says-iran-war-will-end-very-soon-one-way-or-other" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Middle East Eye: Trump says Iran war will end ‘very soon, one way or the other’">TRUMP: IRAN WAR WILL END &#39;VERY SOON, ONE WAY OR THE OTHER&#39;...</a>
+      <hr class="sep"><a class="held" href="https://www.bbc.co.uk/news/articles/c64g1y90p71eo?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC: Russian strikes cut power to thousands in Ukraine as Kherson ceasefire ends">RUSSIAN STRIKES CUT POWER AS KHERSON CEASEFIRE ENDS...</a>
+      <hr class="sep"><a class="held" href="https://www.zerohedge.com/markets/no-workable-plan-obama-judge-throws-out-doj-bid-halt-alaska-certification-if-real-sullivan" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: &#34;No Workable Plan&#34;: Obama Judge Throws Out DOJ Bid To Halt Alaska Certification If &#39;Real&#39; Sullivan Loses">OBAMA JUDGE TOSSES DOJ BID TO HALT ALASKA CERTIFICATION...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMivwFBVV95cUxNMVZwTlU3YXhCSElkMU9JNElzMnJEazVDakVnUVY5NnhXZG9SY2JUMjRUMWFxZ2JGZEdvdV9XbC1hVll5RzhUY2RLS1FvQmk5cWZ6aUhVbk9rUFcyaWlUYTdCVXZSVnFuYk1QSnI4X01iNk01U05Sbks2RHZxdm9WMXBPSDBsTm5WMzMyTFRBck4wcGI2eTk2Q1RLQ2J1UXNyRUhLM3hRd1gzSW1neU5LbG5TWm1uNk1KSUt6aDUxUQ?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Forbes: Latest Polls In 2026 Midterms: Democrats Lead Nearly All Key Senate Races">POLLS: DEMOCRATS LEAD NEARLY ALL KEY SENATE RACES...</a>
+      <a class="sub" href="https://news.google.com/rss/articles/CBMijgFBVV95cUxOc3R1am1kUjRJNFREYjFsUEM0Nl9mMlV5SmhFZHBVYUVEalk5dFBfRHpTekxBLUxnVEh5UDFUcDBLS1NRVkNHcG9SUVBGbTdXMjRZRUJMV1BqaWdMYWxic2pRMC00TDJNbzZvWS1CeGdNWF9NWENicU1DTXExbmxXZmlYdFoxMkxwdHctQ1N3?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Al Majalla: Republicans set to take a huge hit in US midterms">GOP BRACES FOR ROUGH NIGHT AS POLLS WIDEN...</a>
+      <a class="sub" href="https://responsiblestatecraft.org/darline-graham-midterms/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Responsible Statecraft: Is Darline Graham the canary in coal mine for midterm war backlash?">SC SENATE RACE SUDDENLY A TOSS-UP...</a>
+      <a href="https://news.google.com/rss/articles/CBMidkFVX3lxTFBGRm44VVB1VzNCdkIxcE82eHJiSEVxWW11M3ZfekNEMF8wTDJKeGlwNGF6SkZvVHpxeVJTZ0RKeWhQUXVGVlU0TVQ4SWVaOFM3Y2Q2MEJEVlR4Nl9EckE4REY4LXR0dnpvZXZXOWVQMlFpeUE0WWc?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The New York Times: Democrats Fume After Defeated Senate Candidate Backs G.O.P. Rival in Michigan">MICHIGAN DEMOCRAT ENDORSES GOP RIVAL AFTER LOSING PRIMARY...</a>
+      <a class="sub" href="https://www.bbc.co.uk/news/videos/cqvgjljj74n8o?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: How a Democrat in Michigan rocked the party days before the US midterms">INSIDE THE PARTY REVOLT THAT ROCKED MICHIGAN...</a>
+      <a class="sub" href="https://responsiblestatecraft.org/el-sayed-anti-muslim-attacks/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Responsible Statecraft: El-Sayed panic has GOP digging out old &#39;jihadi&#39; bugaboos from GWOT">CRUZ: EL-SAYED WIN COULD &#39;COST AMERICAN LIVES&#39;...</a>
+      <a class="held" href="https://www.bbc.co.uk/news/articles/cmy0r2y6zeddo?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: Democrats are used to heartbreak in Texas - could Talarico turn the tide?">TEXAS DEMOCRATS&#39; $500M BET ON TALARICO...</a>
+      <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxOUmhuLUZaeV9WZzFxN3JORWV0U3ZlWFFpYm9ZODY5ODNKMkpBMlNZTjVOaWVmdElFOGxJYmQzQ25URmZpaTRjdkFOcVVab2ZIN3ZJWUVwQ2tIUy1QUHRPdTZPSmpONWk5ZzhBRWN0eE96RVJYR1dXc1k3dWpDbnBHRENIc3VSeWM?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="VPM: Analysis: Corruption allegations in political ads flood Virginia’s midterms">CORRUPTION ADS FLOOD VIRGINIA&#39;S FINAL STRETCH...</a>
+      <a class="shot" href="https://nypost.com/2026/11/02/us-news/susan-collins-accuses-chuck-schumer-of-pushing-attack-ads-filled-with-outright-lies-in-tight-maine-race/" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Frunning-re-election-tight-race-146881684.jpg?w%3D1024" alt="" loading="lazy"></a><a class="pic" href="https://nypost.com/2026/11/02/us-news/susan-collins-accuses-chuck-schumer-of-pushing-attack-ads-filled-with-outright-lies-in-tight-maine-race/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="New York Post: Susan Collins accuses Schumer of pushing attack ads filled with ‘outright lies’ in tight Maine race">SUSAN COLLINS: SCHUMER ADS FILLED WITH &#39;OUTRIGHT LIES&#39;...</a>
+      <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxPbzVLZ1dpcDJzYkxlWUZBY190VGt3bGNCYU9hYjVjVlZKSHFEdTZrc1dRVkppbmFUMEJpQ2hSdnhzZkY1S21DVm5VUWpTQzNUcFBPbzFUcGQyN1RoRXRtMmNkVHZweHZfb29UN1RXRDBDUkZpbnBVekhfTlMtNkFULUFZckpGRGIxTnAwZGVpVFFucU1E?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Politico: Chuck Schumer’s leadership hopes run through the midterms">SCHUMER&#39;S OWN LEADERSHIP HOPES RIDE ON TUESDAY...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMivwFBVV95cUxNUjVueDA0QXB1cXlOVExZd0hwMkc0TjEteXZhTzVJTjNfY3BKeC1JXzNzQkdweG4ybkdzVlRqTWYxQnkyOEt0MDVhRzRCd2lTdl8wT0xLalpIcmdtWGdseXEtS2tvdGZfV213eHU1NGhvUzFmV0pkUWVCbW1uWURQYzVfdEN2WWFLNm9qcFgtaEl4UndhTGFoVGFXUDRfd2RTRGJFcjhGLTNELTY4UWZZMEo0dmxZMzRmOGtVZHF2SQ?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Forbes: Trump Says He May Become ‘Mr. Veto’ If Democrats Win Control Of Congress">TRUMP: I MAY BECOME &#39;MR. VETO&#39; IF DEMS WIN CONGRESS...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOd1NUWEdseDVpckhXbGZiYWREMHB2QThZMm9hNUZWVDV5WGJhZ1hHSlFIRF9GRkxWWHVobl9PSUljN1VBVEQ3dHQ0bnJNUzJiN2RqMDJLd3N5ODlfQTlldTBSYm1CNnRVZEdTS1BFTGlMTzNRS29vT19xU1AwbXNnVWR4blZyNzdLU2pxc3VITWtpeC1BOU1KQ0RFN3djNFdyZ25DZFJUc3NaT1c5Q21YbEZnREF3TmVYbXc?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Washington Post: Trump hosts lavish Halloween party at Mar-a-Lago days before midterms">TRUMP THROWS LAVISH MAR-A-LAGO HALLOWEEN BASH BEFORE VOTE...</a>
+      <a class="held" href="https://www.dailymail.com/news/article-16250171/donald-trump-air-force-one-campaign-sprint.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Inside Trump&#39;s final days before the midterms aboard Air Force One: Natalie Harp, celebrity guests and a &#39;party vibe&#39; sparking GOP alarm">ON AIR FORCE ONE, &#39;PARTY VIBE&#39; SPARKS GOP ALARM...</a>
+      <a class="shot" href="https://nypost.com/2026/11/02/us-news/trump-allies-brace-for-massive-legal-bills-if-gop-loses-midterms-but-have-new-way-to-fight-dem-probes/" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F10%2Funited-states-president-donald-trump-146984627.jpg?w%3D1024" alt="" loading="lazy"></a><a class="pic" href="https://nypost.com/2026/11/02/us-news/trump-allies-brace-for-massive-legal-bills-if-gop-loses-midterms-but-have-new-way-to-fight-dem-probes/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="New York Post: Trump allies brace for massive legal bills if GOP loses midterms — but have new way to fight Dem probes">TRUMP ALLIES BRACE FOR LEGAL BILLS IF GOP LOSES HOUSE...</a>
+      <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxObi1jZ2pGb1FORjl5RDJBallnLUtGU0JCU2dSbVc0TVhyNm0xd1ZUanExWEI1WkFRdURSZmxmS0Z1NkZ2NUhHWnBJMXN6RUp0ZW5JVDZYYlNuTHlqajI1TGltYlJQbTZ2Q2lyWHp0dWJqMGd5VE1ReWV5TlpjZEgxbEZ2REtsbVZkRXY3R0piaC1CSEVoenZQYTZKZUdVSXc2YmlPY1hxbEdlTnBpLTN5a2FnZ1RSZEE?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Washington Post: JD Vance may announce a 2028 run. First, he has to get through the midterms.">VANCE EYES 2028 -- AFTER TUESDAY...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxObi1sNERWSTVJaUtlMUhLUUl6TVBrT19GNV82R3NhRjhOaHo2Nnl1Wm4zSzZFVjlHOWZ6NUhYZGtvbGRobF9RWm53Ui15WklYNk51Yi1jWWxXTzhhX01UWnhkR2ZaSGlsVGxrT0tyTUcxRkY4Y29oSzlfalFuM0FQQXl2a1YwY1Y0R2xvNEVUQ0tHZlBsODR3dXNiRElJSjlJaTZqNG9ETkNzNTBKZEhYS3NVOHJqRnZt?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="PJ Media: Maryland Wokies Released MS-13 Member Charged With Attempted Murder, Defying ICE">MARYLAND FREES MS-13 ATTEMPTED-MURDER SUSPECT, DEFIES ICE...</a>
+      <a href="https://nypost.com/2026/11/02/us-news/teen-girl-flees-maryland-illegal-migrant-cabbie-accused-of-kidnapping-her/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="New York Post: Heart-stopping moment girl flees home after being allegedly kidnapped, stabbed by Maryland cabbie who entered US illegally under Biden">MARYLAND CABBIE WHO ENTERED US ILLEGALLY CHARGED IN GIRL&#39;S KIDNAPPING, STABBING...</a>
+      <a href="https://www.zerohedge.com/political/after-10-youths-beat-german-teen-mayors-calls-more-civic-courage-widely-mocked-example" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: After 10 Youths Beat German Teen, Mayor&#39;s Calls For More &#39;Civic Courage&#39; Widely Mocked As Example Of &#39;State Failure&#39;">GERMAN MAYOR MOCKED FOR &#39;CIVIC COURAGE&#39; PLEA AFTER TEEN BEATING...</a>
+      <a href="https://news.google.com/rss/articles/CBMi9wFBVV95cUxNWWZJZ3kwTC1GUl9RYXIxYVZQYnV0c3Bfc2FyN3V6UkQ2QllSX3BhaFRLV0pFWUEzdnRfbmZSandWa1NDVVBySGQ0RVl5M2tXYWhXZTIyeTJYUzVGaktBVEZ4WlYySTY0NnEwNUd2VlozT1pUTGRvVmVtMjA1Y1JidGlzTEtIUVdTanJ6dG5WVWtvTFdPZkxMendibThSSWhrWGQ0dDE4LThQUnQ4VTNOSEFyZW9RbFUwVTh6NXRXOWh3VmM1Sks3Yy1TRkxjYW9ybDd0R2czbGg1WmxEZWFUZ1dLRThyVTRTanNydlh0YnhjRElDUDg4?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Australian: Afghan drug courier wins right to stay in Australia despite reoffending risk">AUSSIE COURT LETS AFGHAN DRUG COURIER STAY DESPITE REOFFENDING RISK...</a>
+      <a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxQY2dQTWlrbVBpMDRBNHhtQmtMaUR3b0Fxd2hsUmE4alpHUHAzSDZQV0IzQlR6a1RFX29RcFdEeVRqck1nZ1FfaU5xa1h4eVBmRnh3ME94R2Fsb0E2cnh3SGt0UFF4NF9qOFFoWnhFSnhWVkxwazEybVp0TkVHQ01qekxBbkdTLV9wTDd4bHA1NFVrT3hNU3JGYU5BVUJ2U2lXZFRuYTlqSVJFdlJRVTBTRlRaZDhtODIwMkhGT0FVYW5qVC1o?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="SMH.com.au: Labor quietly makes people pay upfront to appeal refugee refusals">AUSTRALIA MAKES REFUGEES PAY UPFRONT TO APPEAL REJECTIONS...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMi1gFBVV95cUxPZUNSSzFXcGdheWxMTkd4UTdVMzFWWU1PeE51RGdXc1ktSGVzSHNjdzFjOXM0T2JwOHE1TGl3X3p0QjJFazRJYUdoelhrc2NBS0JYdl9jLVJTb1FJVVplcy1qRXdRcHI4ZlQxUUszUGhaTEYxM3dQa0Jlb3Z2TzY2TFRPeUxpcThaNGxqSFZMbEtTUTR4c1QzNlJidmdXRXNrVU13NE15UjV6MS1RWVVXTVFzTjlaSUxFR3E5NFZuU25fMi03NFlHWUM0VkNEQk5pTDRxRlln?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Dexerto: Influencer who flaunted private jets indicted over alleged $4 million food stamp fraud scheme">INFLUENCER WHO FLAUNTED PRIVATE JETS INDICTED OVER $4M FOOD STAMP FRAUD...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNLUVwNDNzdEMzbjJLeGlQaTR1RE5WRGtZa2dwanZXdHNnQVpONDkwMk9pVk1qTlJPYTRVajhYVTVTRzBLZFhzamNxQWI4dU9xMmxzZkRVMVBlSTVUajVjcDVfSHZKR21jb0FSTlU4cHF5TEgwcmxpelliYm10NTFtY09kU2ZDeU5OaUZLek1QSkE?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Yahoo Finance: Minnesota man cleared of $7.2M Medicaid fraud charges now faces sentencing after appeals court restores guilty verdict">MINNESOTA MAN&#39;S $7.2M MEDICAID FRAUD VERDICT REINSTATED...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMiiAJBVV95cUxNYkpRcmxEQU9fZVFYZ2d3djBIeHdJQkdCWDJ6QWNnd1lsWDRvSWd4U0F2bUtJR0FONHc3T3lqZ3dpU0FZTmRaWHoxd3JnV2FUUlpqMTBoNTRsS2VuRG9NZG5IQ0JkWDF6c0FST05oaVdxd0J4bWRMVU1yLWhqQUJMLUIyNzdkQlpEakNqU2hwZzVvMjBub0VFaTlFWVVmUUUtNkNkZVJCdDE0T2R6REs1WXpTaXJ4ZGRTRzV3TDZaZ1QyZ1VYSGhicDhjc3hWV1lYbXBzUUpSUFF2SkR6X3V4UHd6VXM5b2tZWnFtZlNFRm11RURkV2Vfa05kOE10SlpzSEt5bVFoRnrSAY4CQVVfeXFMTU9NcUhSS01UZnFxRWttdkk0Z3lPVklNQldnMEw0a1NoMnZsU0c1OW5ZdVNURVhoM3ZvSHVpVWw0REF0MEVZVnZJRERhdWdaQWE4X2lWLWRNLTJYcjAwM1h3cjlUV01xQ1gtZjNuSW93OW9hRUh0YzZLeVAwRDRfaHhYRnpITVV0cGNNWG5aYmVTMk1vblRDajFEa0RVaGZQSGxuRnhUb3A1TlEtNVpzR2t6X3ZWdkJyNW91dlQtUGR6SXhfRXBfbUtEVUxlZktxdXAySUxZQWlHek10cDIydElJOENfSnhndVRiX042VTJMNEh5OUhSaUVvNkFNdllqODkxdllsdTNKekoxTmlB?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Economic Times: &#39;Answer the question!&#39;: Senators torch Soros-funded witness at fiery Minnesota Somali fraud hearing">&#39;ANSWER THE QUESTION!&#39;: SENATORS TORCH WITNESS AT SOMALI FRAUD HEARING...</a>
+      <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQd3BBT1ROY3RERlA2a3R5NVcxQVFCRDYzbjJfZ19yM2ZkZ1I2LXpIaHBLTHJiM0YxcXJVcjZjVjlrLVhvY1FCeG9WODl1VzhRWWhmSXNGMkRJUlNrNFItT0lQZ1JjcWJLeDJpYkFkd24tY0J4N294OTA2RFF2TktLZVRvNDJweVBsVG02d0s1dEtqTzNPYTdZaXJ5azRQSW5Ca1E?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="5 Towns Central: Eight Indicted in Alleged $7 Million SNAP Benefits Fraud Scheme">8 INDICTED IN $7M SNAP BENEFITS FRAUD SCHEME...</a>
+      <a class="shot" href="https://www.bbc.co.uk/news/articles/c3j47g4kk1npo?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/98f0/live/47c962c0-d689-11f1-b7fe-13bd08d80ad6.jpg" alt="" loading="lazy"></a><a class="pic" href="https://www.bbc.co.uk/news/articles/c3j47g4kk1npo?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC: Hunt for attackers after Halloween party stabbings">FIVE TEENS HOSPITALIZED IN UK HALLOWEEN PARTY STABBING...</a>
+      <a href="https://www.dailymail.com/tvshowbiz/article-16257613/melissa-rycroft-charged-dwi-texas-bachelor.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: The Bachelor&#39;s Melissa Rycroft is charged with DWI in Texas over alleged hit-and-run on ambulance just two months after pleading guilty to earlier charge">BACHELOR ALUM MELISSA RYCROFT CHARGED IN DWI HIT-AND-RUN ON AMBULANCE...</a>
+      <hr class="sep"><a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxNTUFpMGV1VHJaak4zLUh4UUNfcUdVbzFjUk1GVlBzSW5iLUhiaXJGZkJ2VUNlZjFIa3RRVmxlOWlONlVmeGZpekQ3OGFqdm1McjhNSlRkTF94TFZTRWppanFMMEZoUmdEVDlUOC03NzJ3SlpVcHRZN285UzRaeHlGa25Hc3c?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="GuruFocus: Anthropic Plans $3.5 Billion IPO in Japan">ANTHROPIC PLANS $3.5B SHARE SALE IN JAPAN AHEAD OF NASDAQ LISTING...</a>
+      <a class="held sub" href="https://www.zerohedge.com/political/anthropics-ipo-will-make-its-effective-altruist-aligned-founders-worth-hundreds-billions" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: Anthropic&#39;s IPO Will Make Its Effective Altruist-Aligned Founders Worth Hundreds Of Billions">ANTHROPIC IPO SEEN MAKING FOUNDERS WORTH HUNDREDS OF BILLIONS...</a>
+      <a class="sub" href="https://news.google.com/rss/articles/CBMi6gFBVV95cUxOVlBqVk5MMlBya2s5XzhjVkpmZi1Nb1daYlh1a1NkdXprNUpBSjM0djNXZUhfNXdWOGRhMWVjdGhpc3FqS1dMX3RhbEJuTzZaRldzdTZncU85d21mU3gtbHhzYzl4eEpFQXdIcGMzRjMzdzBsRWtTRDRBbGU1aU95QldIQ01kQ01GOGtCZDM4Z3ZKMkN3U1oxVWhXalFRUlQydTZPTDZwM1ZmLWJPTG9JZzVXYTQxUG05YjVVTzd5UnZ5NDBXYkpOWVlFeHVVZWluRE5NeUJWdzU2YmQzVjZfZUptOVZWMnNHdXc?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Benzinga: Jim Cramer Says Bears Want to ‘Derail’ Anthropic IPO as AI Valuation Fears Mount: ‘That Will Be the Straw">CRAMER: BEARS WANT TO &#39;DERAIL&#39; ANTHROPIC IPO...</a>
+      <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxOd28xTnJNWkQ1U3I5X29QQWdfUGhIVGhsNk4yQnJKN2oyNTA0a1EtX3J0S3k1ZmQtYk1kWUdPMUczTFdIcG1IczdnVVpaTFBwek9fdjNHaWUzQmhuTzRXanhTWkdyUktCRnlDUzEzM0VZb3FqcDFlTk5TRFpJdXVPZ09IeWRwX2FEbEhBdjBMaFBGbTAyenJZNENMdw?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Breakingthenews.net: OpenAI, Anthropic set up first election &#39;war rooms&#39;">OPENAI, ANTHROPIC SET UP ELECTION &#39;WAR ROOMS&#39;...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMiigFBVV95cUxQRjdkdmUzRUhPbUpRakJ2WkdFTEw2TmpuekxnVXNwUzNNNEJpcUM2WEVHSHJKeUNyVC1QYTMyUEpnYW9wTDg5ckNyYW9pNzIxbXAtSkFWa3NMZDhKSjkzbWl0eGw4WXFqNlUyQU1IUjZOUjBLSnVJUF9QWFpfRjVGbS1tdE54THpmYlE?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Mezha.net: OpenAI tightens ChatGPT weapons information limits for teens">OPENAI TIGHTENS WEAPONS-INFO LIMITS FOR TEENS...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMic0FVX3lxTFB2VlVpWWQwR21DWmo0R1hfcmJQU1BlbVJqbUZ1WnpJV2h3QkJnd01fY092Vm5vUXZBSXNySXhnYkxyUV9Xb3BOVE9QTWJXLUtaazNsTDJZQmNUUFVsaUpNLXhuNEtOUHlwbmtxaGk4aDJPVGM?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="PCMag: Claude: Stop Using Me to Recreate Games">CLAUDE PUSHES BACK ON GAME CLONES...</a>
+      <a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxPVUpySTdKc3dZN0JVV015eDFCMVR1Vjd3cG1VQ29uQUd2SWxhX2xKUzQ3WHRHTDhiQTBLUkYtNVktbG1SNXphbWQ1ZmFjQlRUeGdwVlhjS2Z5OUxJN0l3RnV5QVJCbFVCU0hZdTd4TkQ0eHVfalJiSl9QWVIxYllkQlJuS0dYT0dRdFNxcVllTDdfUk1SY09Cdw?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Jerusalem Post: A surprise in the AI world: ChatGPT surpassed specialized medical tools">STUDY: CHATGPT OUTPERFORMS SPECIALIZED MEDICAL TOOLS...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMigwNBVV95cUxQajlHZ0gxVlhoUUJEcWo0Ukh3aFNjYndRbDloS0liQlV2M3JPSVlrTnlqTG1VNkNPZW9MSUEwNUlONXdPWkFOdU56OVEyR0RsR2t0ZnJtWlRHZEhmSThlM09EdGd4Yi1QV2ROUHl4MVk0LTYzLVZqZTVFdVlub1ZnLUpxNXFTd3hHMXoxMVBJbjFlOHBxMjZJcG1zOUpfd2kzREZFNmJTenE4SmIwTkJKSVVaSGpvRnpGYmF1VVJ1dWxmZjlNWC14b1E2eUNyd2pOb1RKallwUm16ZmxzaGhKQ1A5eFlKTVRVVEtEckNDVlVXdGh2Y2xvSGNEX2tXaDg5OE5CeG44WTdoQ3FGZGd5UnFhZGZwZUNOamFOX0ZpYnd1Q0phVDJWdFpyN2ZpQVU0Vnk0SnY0RUZLV1VJeHRYVUQ4b0V5azV0YW9hNmhlQ1Uza2tkdDNtdFpHeG95clA2THRDcWFiYUlXWmw0WnJvaFRtdmRFSXJxNUgzZUdzcmxTLTg?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Tom&#39;s Hardware: New AI-driven Windows malware feeds stolen data to Claude to rank victims’ assets by value, then deletes itself — payload builds custom target assessment, can switch models if one refuses, or skip…">AI MALWARE FEEDS STOLEN DATA TO CLAUDE TO PRICE IT...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNbTNLV05ISzMwWlRkNUtHTWRCRF9sSjBMVG1lbkg0THY0ZU1vQXlHd2hYdk9CYml5cnZZVnRzR3N3Rkh5X2hhTng3MDd0UTMySVNaZzQ5aWdCaWtHYUJWeld0dUVRWmpOVnFXeVo3c0VONThDbDJwbC1rN3BsNFhPZnM0WGZWa3Z2bVhXNVZQRmQ4QVJTa3B1RGcyRzZmc1YzMkZFbw?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="CryptoSlate: Cursor urges credential resets after malicious Claude Code marketplace update">CURSOR: RESET YOUR LOGINS AFTER CLAUDE CODE HACK...</a>
+      <a class="shot" href="https://deadline.com/2026/11/netflix-uk-layoffs-anna-mallett-1000-layoffs-sarandos-1237211138/" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://deadline.com/wp-content/uploads/2020/11/Anna-Mallett-headshot-June-2020-e1757967024132.jpg" alt="" loading="lazy"></a><a class="pic" href="https://deadline.com/2026/11/netflix-uk-layoffs-anna-mallett-1000-layoffs-sarandos-1237211138/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Deadline: Anna Mallett Exits Netflix Amid UK Layoffs">NETFLIX CUTS 2-3% OF LONDON STAFF IN UK LAYOFFS...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPOXgzY3NDX0RFZ2lZOGVuYlNOTzFrWFlGNHFCQlhKM1pKTWJnNk9OZ3V6a2FzQjdqeFktemVpY0tMbnpFN3YyV2dEOHRkUHNIT3lEOG1rcDB3QjNNbUNUS3hMSm5zSTZuZVhCVGlpQWlNcXdNR2xOZ29OdTBzdW9mU2VienVLYzhuRmpFV3h1Y0Z6aW5SYnZfZzZwMi1mSlU4?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Quasa.io: ChatGPT Dots Text US Pro Users Without End-to-End Encryption">CHATGPT TEXTS PRO USERS WITHOUT END-TO-END ENCRYPTION...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMiigFBVV95cUxPRFB2QzF2elN5cXJ0MEQtU0F6djY4dVIyUWVleEJSQmlMMldQbDljbUlud2ZySVZjbHhxdFllSnFmNGZsZ1htYjAyUExXaVhrWHJXMElkaHNRNzdiU3hFUnF0ckhtODA4TmZvejVwbTltYzBVV25Wb2NuQkYxZmY2V2Z5bi04c0llclE?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MIXED News: “Opening the shared link was the only required action”: ChatGPT privacy flaw is fixed">CHATGPT PRIVACY FLAW FIXED AFTER SHARED-LINK BUG...</a>
+      
+    </div>
+    
+    <div class="col">
+      <hr class="sep"><a class="held" href="https://www.investors.com/news/a-stock-market-smackdown-week-elections-jobs-data-iran-and-earnings/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Investor&#39;s Business Daily: A Stock Market Smackdown Week: Elections, Jobs Data, Iran And Earnings">IBD: SMACKDOWN WEEK AHEAD -- ELECTIONS, JOBS, IRAN COLLIDE...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxQNnh0RUxfMGk2OW1JOE1LUUFsNkJzamc4RkZKODNFTlVSWk1wR2VseGlFWF9zZ1RKdTlrNVZldm94LWpIa3hHcVdjV3NmdlhqdWh5UlE3UTVyR1AyWUhrRGlpTVN3RkJOZGE4WVBDM0FHdW9jYmZua3RBWFhVOV80alRyUkY2V0ROb0Vrem1Jbmw3Qml2Zm1WZERhdWFCVUIyazVDc1VWemVEall3dGhDVG1RaE9Lc05KVXpDMg?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="WSJ: Week Ahead for FX, Bonds: U.S. Midterms, Jobs Data in Focus; BOE Expected to Raise Rates">WSJ: MIDTERMS, JOBS DATA LOOM FOR MARKETS THIS WEEK...</a>
+      <a class="held" href="https://www.investors.com/news/tesla-china-ev-rivals-byd-xiaomi-xpeng-strong-sales-year-end-push/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Investor&#39;s Business Daily: Tesla China EV Rivals BYD, Xiaomi, XPeng Report Strong Sales As Year-End Push Begins">IBD: TESLA&#39;S CHINA RIVALS BYD, XIAOMI POST STRONG SALES...</a>
+      <a class="held" href="https://www.marketwatch.com/story/apples-new-earnings-era-begins-at-a-critical-time-for-big-tech-2236a44e?mod=mw_rss_topstories" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MarketWatch: Apple’s new earnings era begins at a critical time for Big Tech">MARKETWATCH: APPLE EARNINGS ARRIVE AT CRITICAL MOMENT FOR BIG TECH...</a>
+      <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxPSVlEWkkyN3lYZG41WXJvcl9pNWlKYW5VNjdmb1lHYkNGVHpmT1BHLWVDUFQydFNra3JIeVlfVFh5ZzhoTzRfMVdwZ2didmtGZ0hGZDN6ZmtTbUk5b2lIb3JfZ2poRld3R1BCM28zLUlHUnlZcHJQMXp3S01PTGNBSmxRN1pYMThUZXQtbHBHaU5CWnhTMFF6VTFidG05QzdQTnVJYmJiZl9YQTFxX3ZhWExjN0NZOUpTWjFTaUh5WUFSem9MdW1Z?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Reuters: October dive for AI-related shares tests broader US stock market&#39;s resilience">AI STOCK SLIDE TESTS WALL STREET&#39;S NERVE...</a>
+      <a href="https://www.marketwatch.com/story/the-election-will-be-good-news-regardless-of-outcome-says-morgan-stanleys-chief-stock-market-strategist-ffa320ed?mod=mw_rss_topstories" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MarketWatch: The election will be good news, regardless of outcome, says Morgan Stanley’s chief stock-market strategist">MORGAN STANLEY: MARKETS WIN EITHER WAY TUESDAY...</a>
+      <a href="https://www.marketwatch.com/story/tech-stocks-have-made-big-v-shaped-rebounds-five-times-in-30-months-and-now-deutsche-bank-forecasts-another-bounce-0a552a62?mod=mw_rss_topstories" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MarketWatch: Tech stocks have made big V-shaped rebounds five times in 30 months — and now Deutsche Bank forecasts another bounce">DEUTSCHE BANK SEES ANOTHER TECH-STOCK REBOUND COMING...</a>
+      <a href="https://news.google.com/rss/articles/CBMibkFVX3lxTE9zeUV1S0FMQzdjaTU2S0djZmVVMjNSZ0hKMGdGdHpjU1p3NEs0ckRaNjJlemVySWtTeWZGMkNraWVmR1F5Y3RjUHhxZkxiRlpRXy1UY1VTYm9fWm5WTzhjRDlWOENzazhrWGhkZW130gFzQVVfeXFMUDNESWlyVGRXTEFHaHJxSFp1YXNkeWlQNkk2cXU4eG9maHROb3lZdzhMRzRJOWptcGF4bjZNZzlkTTE0cERiQ25vMGh1MUpvRGFHd3pMaE94N2dCcENocHJ3QlhVLWVlM1dpemVmV2QtWWhidw?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="CNBC: Treasury yields mixed as oil prices tumble ahead of the midterms">TREASURY YIELDS MIXED AS OIL TUMBLES BEFORE VOTE...</a>
+      <hr class="sep"><a class="held" href="https://www.marketwatch.com/story/america-is-doing-better-than-you-think-your-algorithm-is-just-hiding-it-7dbdecff?mod=mw_rss_topstories" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MarketWatch: America is doing better than you think. Your algorithm is just hiding it.">MARKETWATCH: BOTTOM HALF&#39;S NET WORTH HAS DOUBLED SINCE 2019...</a>
+      <a class="held" href="https://www.bbc.co.uk/news/videos/cwly0eev3m44o?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC Business: &#39;I&#39;ve had people eating cat food&#39;: Rising cost of living top of mind for US voters">&#39;I&#39;VE HAD PEOPLE EATING CAT FOOD&#39;: COST OF LIVING TOPS VOTERS&#39; MINDS...</a>
+      <hr class="sep"><a class="held" href="https://www.zerohedge.com/political/34-million-los-angeles-school-sits-vacant-and-vandalized-2021" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: $34 Million Los Angeles School Sits Vacant And Vandalized Since 2021">$34M LA SCHOOL SITS VACANT, VANDALIZED SINCE 2021...</a>
+      <a href="https://www.marketwatch.com/story/retired-world-series-champ-matt-holliday-lists-11-6-million-arizona-estate-he-bought-months-ago-a48b6a9b?mod=mw_rss_topstories" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MarketWatch: Retired World Series champ Matt Holliday lists $11.6 million Arizona estate he bought months ago">EX-MLB STAR MATT HOLLIDAY LISTS $11.6M ARIZONA ESTATE...</a>
+      <hr class="sep"><a href="https://www.zerohedge.com/energy/germanys-natgas-storage-levels-are-alarming-low-levels" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: &#34;Serious Warning&#34;: Germany Misses November NatGas Storage Levels As Cold Snap Looms">GERMANY MISSES GAS STORAGE TARGET AS COLD SNAP LOOMS...</a>
+      <hr class="sep"><a class="held" href="https://studyfinds.com/vaping-deposits-toxic-metals-deep-in-lung-tissue-after-just-four-days-mouse-study-finds/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="StudyFinds: Vaping May Hit the Lungs in a Way Cigarettes Never Did, Study Finds">STUDY: VAPING HITS LUNGS WORSE THAN CIGARETTES -- IN MICE...</a>
+      <a class="held" href="https://www.sciencedaily.com/releases/2026/10/261031013035.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ScienceDaily Health: Common pesticide linked to 2.5 times the risk of Parkinson’s disease">STUDY: COMMON PESTICIDE LINKED TO 2.5X PARKINSON&#39;S RISK...</a>
+      <a class="held" href="https://www.sciencedaily.com/releases/2026/10/261030003001.htm" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ScienceDaily Health: Scientists discover a surprising brain benefit of eating peanuts every day">STUDY: PEANUTS A DAY BOOST BRAIN HEALTH IN SENIORS...</a>
+      <hr class="sep"><a class="held" href="https://www.bbc.co.uk/sport/formula1/articles/cv62y1e6wly6o?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC: Antonelli becomes world champion as Verstappen wins in Mexico">ANTONELLI BECOMES F1&#39;S YOUNGEST-EVER WORLD CHAMPION...</a>
+      <a class="sub" href="https://www.dailymail.com/sport/formulaone/article-16256565/Kimi-Antonelli-youngest-champion-F1-history-place-finish-Mexico-Grand-Prix-secures-title-triumph-20-year-old-superstar-race-won-Max-Verstappen.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Kimi Antonelli becomes youngest champion in F1 history! Third-place finish at Mexico Grand Prix secures title triumph for 20-year-old superstar in race won by Max Verstappen">VERSTAPPEN WINS THE RACE, ANTONELLI WINS THE TITLE...</a>
+      <a class="sub" href="https://www.aljazeera.com/sports/2026/11/2/just-the-beginning-for-antonelli-f1s-prodigious-charismatic-new-king?traffic_source=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Al Jazeera: ‘Just the beginning’ for Antonelli, F1’s prodigious, charismatic new king">&#39;JUST THE BEGINNING,&#39; PADDOCK SAYS OF NEW CHAMPION...</a>
+      <a class="shot" href="https://sports.ksl.com/local-athletes/locals-in-nfl/tyler-huntley-injured/578250" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://sports.ksl.com/wp-content/uploads/2026/11/Tyler-Huntley-5-of-the-Baltimore-Ravens-toe-injury-150x150.jpg" alt="" loading="lazy"></a><a class="pic" href="https://sports.ksl.com/local-athletes/locals-in-nfl/tyler-huntley-injured/578250" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="KSL Sports: Locals in the NFL: Former Utah QB Tyler Huntley injured in Ravens’ loss to Bills">FORMER UTAH QB TYLER HUNTLEY HURT IN RAVENS&#39; LOSS TO BILLS...</a>
+      <a href="https://sports.ksl.com/nwsl/utah-royals/royals-fall-to-shield-winning-gotham-face-questions-ahead-of-playoffs/578673" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="KSL Sports: Royals fall to Shield-winning Gotham, face questions ahead of playoffs">UTAH ROYALS FALL TO GOTHAM, LOSE NWSL SHIELD...</a>
+      <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE02cnQ1M25GSDQ5aV85TC02STVGNmJwY004dHBjX20xWTVDcmFJZG80QzZ0UFNkeGN6R19MdjhvRVltaGRsZDBWTlpUcHhzTHhybWtZZDN4azRueWxocE0ycmtKZEZPb3RWV2EzQnZjT1NyWG1PYUF4bEJfRQ?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Salt Lake Tribune: Real concern or overreaction? Breaking down the Jazz’s 1-5 start to the season.">JAZZ&#39;S 1-5 START -- REAL CONCERN OR OVERREACTION?...</a>
+      <hr class="sep"><a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPb05ySGRjTWxJMW9mekpFSnB0R19UTGduRnFLLW9CYW11TWZtaTI2dW1fSW5ld29DdXRxSHp1ZUU3U0gxbnBhQ1N0a0gxdDdWLTc3ZjZZVHpWSlZmVzQ2dTZVUjVjalRLRGItRTZvYW9IdThBRzNyYVA2TEljcmx2RThhVEhudzROT1VDa3pjekxyaUF6bGFJVnJ1VlJvWF9RdFJaektZOWdBczhlZ05DcF9mTWFwV3BKcVlzemlDS2xyeVZKUTE2TUtfRQ?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Tyla: Mormon Wives star McCall DaPron slammed for ‘appallingly distasteful’ Jackie Kennedy JFK Halloween costume">MORMON WIVES STAR MOCKED FOR JFK ASSASSINATION HALLOWEEN COSTUME...</a>
+      <hr class="sep"><a class="held" href="https://www.dailymail.com/news/article-16256587/Andrew-Shue-Marilee-Fiebig-marry-New-Jersey-exes-TJ-Amy.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Second time around: Andrew Shue and Marilee Fiebig marry at his sprawling New Jersey estate weeks after their exes T.J. Holmes and Amy Robach tie the knot">ANDREW SHUE WEDS -- WEEKS AFTER HIS EX TIES THE KNOT TOO...</a>
+      <a class="held" href="https://variety.com/2026/music/news/my-chemical-romance-scores-first-no-1-with-the-black-parade-1236936933/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Variety: My Chemical Romance Scores First-Ever No. 1 on Albums Chart With ‘The Black Parade,’ 20 Years After Its Release">MY CHEMICAL ROMANCE HITS NO. 1, 20 YEARS AFTER RELEASE...</a>
+      <a class="held" href="https://deadline.com/2026/11/box-office-global-clayface-resident-evil-1237210872/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Deadline: ‘Clayface’ Still Boss With Near $23M WW; ‘Resident Evil’ Racks Up $400M WW Poised To Scare Away ‘Backrooms’ – Global Box Office Update">RESIDENT EVIL TOPS $400M WORLDWIDE...</a>
+      <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQSUt4c1lNYU5hTjNHLWw0TW1ZT3R6dzBWblN0VEhHdjl4T0F2RWdBTk8ySERPMS1fQTB5dm1Zdmx2Zkd6NEJCcUtFemJ1TTAtaUg2a24xV1dNWDM3YkxqdGt2NEYtNXlPZnRIVGZ0WTIxZzNuT3dJX29ERWNxQll1YUR2aEpvQ3FmUU1ac1JicnN5RldSVGI4WTYxcUczRW1fNmNMNUNNUFc0cHJNOGpuT2hVU2JDamJENlNmMHJfZUZCUmk5WDhHVzMtMTg4VXlhNFUzRzBodTVvLWlzOVl5bE930gHiAUFVX3lxTFBJS3hzWU1hTmFOM0ctbDRNbVlPdHp3MFZuU3RUSEd2OXhPQXZFZ0FOTzJIRE8xLV9BMHl2bVl2bHZmR3o0QkJxS0V6YnVNMC1pSDZrbjFXV01YMzdiTGp0a3Y0Ri01eU9mdEhUZnRZMjFnM25Pd0lfb0RFY3FCWXVhRHZoSm9DcWZRTVpzUmJyc3lGV1JUYjhZNjFxRzNFbV82Y0w1Q01QVzRwck04am5PaFVTYkNqYkQ2U2Ywcl9lRkJSaTlYOEdXMy0xODhVeWE0VTNHMGh1NW8taXM5WXlsT3c?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="uInterview: After Being Canceled, James Franco Makes His Return In ‘Confession,’ A Film Written By Right-Wi...">JAMES FRANCO MAKES COMEBACK WITH NEW FILM &#39;CONFESSION&#39;...</a>
+      <hr class="sep"><a class="held" href="https://www.zerohedge.com/personal-finance/pokemon-card-mania-sparks-bubble-fear-just-doing-crazy-bull-run" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: Pokemon Card Mania Sparks Bubble Fear: &#34;Just Doing A Crazy Bull Run&#34;">POKEMON CARD MANIA SPARKS BUBBLE FEARS...</a>
+      <a class="held" href="https://www.dailymail.com/news/article-16227479/noah-presgrove-oklahoma-highway-death.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Noah Presgrove&#39;s final hours revealed: Minute by minute of Oklahoma teen&#39;s rowdy night with friends before ending up dead on the highway next to his teeth">TEEN&#39;S FINAL HOURS BEFORE HE WAS FOUND DEAD ON HIGHWAY...</a>
+      <a class="shot" href="https://www.dailymail.com/news/article-16258241/Cyber-attackers-defrost-freezers-Swedish-Belgian-supermarkets.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://i.dailymail.com/1s/2026/11/02/10/112243213-0-image-a-4_1793616107780.jpg" alt="" loading="lazy"></a><a class="pic" href="https://www.dailymail.com/news/article-16258241/Cyber-attackers-defrost-freezers-Swedish-Belgian-supermarkets.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail: Cyber attackers defrost freezers in Swedish and Belgian supermarkets weeks after similar attack that cost shops millions in France">HACKERS DEFROST SUPERMARKET FREEZERS ACROSS SWEDEN, BELGIUM...</a>
+      <a href="https://studyfinds.com/tomb-near-paris-held-more-than-300-bodies-and-a-5000-year-old-mystery/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="StudyFinds: Tomb Near Paris Held More Than 300 Bodies and a 5,000-Year-Old Mystery">5,000-YEAR-OLD MASS TOMB NEAR PARIS STUMPS SCIENTISTS...</a>
+      <a href="https://nypost.com/2026/11/02/world-news/canadian-home-invasion-suspect-wounded-during-break-in-allowed-to-walk-free-from-hospital/" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="New York Post: Toronto home invasion suspect wounded during break-in was allowed to walk free from hospital: cops">SHOT HOME-INVASION SUSPECT ALLOWED TO WALK FREE FROM HOSPITAL...</a>
+      <hr class="sep"><a href="https://www.dailymail.com/news/article-16257919/umbrella-King-Charles-soaked-torrential-rain-antigua.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail: King Charles and Queen Camilla are left soaked in Antigua as row over slavery reparations deepens">KING CHARLES SOAKED IN ANTIGUA AS REPARATIONS ROW DEEPENS...</a>
+      <a href="https://www.zerohedge.com/political/south-africas-biggest-city-faces-total-infrastructure-collapse" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: South Africa&#39;s Biggest City Faces Total Infrastructure Collapse">JOHANNESBURG NEARS &#39;TOTAL INFRASTRUCTURE COLLAPSE&#39;...</a>
+      <a class="shot" href="https://www.bbc.co.uk/news/articles/cmjwe9nggp60o?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6df4/live/dcb768a0-d693-11f1-8f56-0b6ab08f384e.jpg" alt="" loading="lazy"></a><a class="pic" href="https://www.bbc.co.uk/news/articles/cmjwe9nggp60o?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: Popular Australian children&#39;s author jailed over child exploitation offences">AUSSIE CHILDREN&#39;S AUTHOR JAILED FOR CHILD EXPLOITATION...</a>
+      <a href="https://www.bbc.co.uk/news/videos/cqgm0der7zkmo?at_medium=RSS&amp;at_campaign=rss" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="BBC World: Peaceful protests in Germany spiral into violence and looting">GERMAN PROTESTS TURN TO LOOTING IN FRANKFURT, BERLIN...</a>
+      <hr class="sep"><a href="https://www.zerohedge.com/political/uks-nhs-trust-invites-white-staff-take-ps250-course-becoming-disruptors-racism" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="ZeroHedge: UK&#39;s NHS Trust Invites White Staff To Take £250 Course On Becoming &#39;Disruptors&#39; Of Racism">UK NHS OFFERS WHITE STAFF £250 COURSE ON BEING RACISM &#39;DISRUPTORS&#39;...</a>
+      <a href="https://www.dailymail.com/news/article-16258235/Labour-ditch-half-local-coalitions-Greens-amid-fury-Zionism-Racism-policy.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail: Labour &#39;to ditch half of local coalitions with Greens&#39; amid fury at &#39;Zionism is Racism&#39; policy">LABOUR TO DITCH HALF ITS GREEN COALITIONS OVER &#39;ZIONISM IS RACISM&#39; ROW...</a>
+      <hr class="sep"><a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQX0tqbXR2aFRJNF9MZHI5OWg4eS1ESnBfYXBVeDNVTGZ5NXVaTzRJazgwdFRfbVlJTXNzZGZlRXJLSEE5QnhmMUNZLU5pNzkybER3UFp6SEFaMGJQODRCLXNVbGhiekdoejUtQWgxb0pHMWZYOHY0Qm5HZGlINkFfZjlLOUNqM2gzdVFtQ0NPRmN5b25hdEkybGpubU1HTEZ2MklzQnI0U2dVbnc?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MPR News: Hate crimes increase in election years. Minnesota mosques say they won’t be silenced">MINNESOTA MOSQUES BRACE AS HATE CRIMES RISE IN ELECTION YEARS...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMiggFBVV95cUxPOS11MTR1MHMtYklGU0pxUHJsNVFUTVlSRGFSR1I2TlhrOVlxT3lzUFpTSHM4eHM3RGc3X3N1eHplLW5DdjlQN0JSQ2dKN2V3a1haakZXcU9DbkJzNWlvTWVic3AtNzYyZjE2TEFFZkRkZkZvZ0IzUU1NOGRramhmVUdB?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Salt Lake Tribune: Is God making a comeback with young adults? Survey shows a return to religion. Here’s what that looks like in Utah.">IS GOD MAKING A COMEBACK WITH YOUNG ADULTS?...</a>
+      <hr class="sep"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxNSko5NXlNeTJZZ3Q5bmdkUk1hN2ZuSGw2QTBwNnY5RGJkdHkxVWRmNXU0RHhLSFVHVzRtVWZReEFHWEJESjEwdnRDdXZVSzBVN2d6YTBNRF9felJ4NXpwVmZoYzZBSjNJaHhMa2JRa0VoTzl2U2YwTTJOZUQzdERIaDh3dGhVOVc4OC02OVRCN1hMaWFmeExBcVJiMk1VUVh3eXZEUld0SUtBdGItd3NuLXBMMmE?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="MPR News: Minnesota farmers speak on why these midterms are so tough">MINNESOTA FARMERS: WHY THIS MIDTERM FEELS DIFFERENT...</a>
+      <a class="shot" href="https://www.dailymail.com/real-estate/article-16246501/Ghost-towns-sale-five-Wild-West-properties-grabs-little-280-000-Properties-include-authentic-features-like-jail-gold-mill.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; tabindex="-1" aria-hidden="true"><img src="https://i.dailymail.com/1s/2026/10/31/00/112207727-0-image-a-4_1793407579751.jpg" alt="" loading="lazy"></a><a class="pic" href="https://www.dailymail.com/real-estate/article-16246501/Ghost-towns-sale-five-Wild-West-properties-grabs-little-280-000-Properties-include-authentic-features-like-jail-gold-mill.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Ghost towns for sale as five Wild West properties are up for grabs for as little as $280,000. Properties include authentic features like a jail or gold mill">GHOST TOWNS FOR SALE STARTING AT $280,000...</a>
+      <hr class="sep"><a href="https://www.dailymail.com/news/article-16257499/Raging-floods-trigger-evacuation-Arizona-powerful-storm.html?ns_mchannel=rss&amp;ns_campaign=1490" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Daily Mail US: Raging floods trigger mandatory evacuations in Arizona and Colorado as powerful storms sweep across states with residents warned of potentially &#39;catastrophic event&#39;">&#39;CATASTROPHIC&#39; FLOODING TRIGGERS EVACUATIONS IN ARIZONA, COLORADO...</a>
+      <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE93cXJTVGR6d2tDREQtV3lNS2pYcmZRci1QOE52QXVuM3c3VEowSE83RTUwYllQRjNiUnJCRUdIbTBoYURQaDd3bzY3MS13el9rVGV5aXlwRG1zbHNJNlNDekhPWEFqYTBUR0FYcXNxaFl0RFo2SHZTOWJORzFvdw?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="The Salt Lake Tribune: ‘Historic flooding’ has hit roads in San Juan County and Four Corners area, officials said">&#39;HISTORIC FLOODING&#39; SWAMPS SAN JUAN COUNTY ROADS...</a>
+      <hr class="sep"><a class="held" href="https://www.youtube.com/shorts/emtDOj-HL4o" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Tucker Carlson Network (YouTube): Did Ben Shapiro Just Call For Banning Arab Voting Rights?">WATCH: DID SHAPIRO CALL FOR BANNING ARAB VOTING RIGHTS?...</a>
+      <a href="https://www.youtube.com/shorts/JcAZWKVgexE" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Tucker Carlson Network (YouTube): Fox News Host Yells About Israeli Elections…">WATCH: FOX HOST ERUPTS OVER ISRAELI ELECTION TALK...</a>
+      <hr class="sep"><a class="held" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQX2FHcHFUc2FHcFNFdlgyU2xwdjFlUDZ4ZG1aQjk1aDdCYnNFaE5WSXM5Q0E5cHB5Z0tKaWp0QXZ2dThVYjU2ZW1VemZmYmswcm1lUHA3TXhNVVBmUWdSQnRBTVJBdFlHQmlvempGUkFnTFo1aHBTZTZGeU53T3pIYUxXUTFaVGtaLXFldGwyUGRFNTNlWWtn?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Reuters: Republicans face legal setback in Alaska while Democrat&#39;s endorsement gives boost">GOP HIT BY LEGAL SETBACK IN ALASKA RACE...</a>
+      <a class="held" href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQeGN0eVdQeDhtWnY1RldaQXl3NHgwQldOcDlQZmMwVUE1XzBmN2g2dlBzQmlydVVLbkxGeTgtZmo4R1hDaVBKUUdPM1BSUzgyWHdVNmlfQ2J6a1djRjhYbVRTSkFCbldDTXFfeF82dzZBV3dVUkoyUlVaaThmUkVueDBidVg1cWdtZmhtc1g0VTZEUQ?oc=5" target=&#34;_blank&#34; rel=&#34;noopener&#34; title="Just Security: 2026 Midterms: Election Integrity Litigation Tracker">TRACKER: ELECTION INTEGRITY LAWSUITS PILE UP BEFORE VOTE...</a>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="next">That&rsquo;s the morning edition. Next edition this evening at 6:00 p.m. Eastern &mdash; go get something done.</div>
+  
+
+  
+
+  
+  <div class="shelf">
+    
+    <div class="house">
+      <a href="../markets/">MARKET DESK</a><a href="../archive/">ARCHIVE — EVERY EDITION</a><a href="../sources/">THE WIRE WE READ</a>
+    </div>
+    
+    
+    <div class="grp">
+      <h2>The numbers</h2>
+      <ul>
+        <li><a href="https://www.realclearpolling.com/polls/approval/donald-trump/approval-rating" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TRUMP APPROVAL TRACKER</a></li>
+        <li><a href="https://www.realclearpolling.com/polls/generic-congressional-vote" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GENERIC CONGRESSIONAL BALLOT</a></li>
+        <li><a href="https://www.natesilver.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SILVER BULLETIN</a></li>
+        <li><a href="https://polymarket.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ELECTION ODDS — POLYMARKET</a></li>
+        <li><a href="https://kalshi.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ELECTION ODDS — KALSHI</a></li>
+        <li><a href="https://gasprices.aaa.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GAS PRICES — AAA</a></li>
+        <li><a href="https://www.eia.gov/petroleum/gasdiesel/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PUMP + DIESEL — EIA</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The record</h2>
+      <ul>
+        <li><a href="https://www.congress.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CONGRESS — BILLS AND VOTES</a></li>
+        <li><a href="https://www.federalregister.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FEDERAL REGISTER</a></li>
+        <li><a href="https://www.supremecourt.gov/opinions/slipopinion/25" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SUPREME COURT OPINIONS</a></li>
+        <li><a href="https://www.whitehouse.gov/presidential-actions/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>WHITE HOUSE ACTIONS</a></li>
+        <li><a href="https://www.bls.gov/schedule/news_release/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BLS RELEASE CALENDAR</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The charts</h2>
+      <ul>
+        <li><a href="https://www.boxofficemojo.com/daily/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BOX OFFICE — DAILY</a></li>
+        <li><a href="https://www.nielsen.com/data-center/top-ten/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TV RATINGS — NIELSEN TOP TEN</a></li>
+        <li><a href="https://podcastcharts.byspotify.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — SPOTIFY</a></li>
+        <li><a href="https://podcasts.apple.com/us/charts" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PODCAST RANKS — APPLE</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp">
+      <h2>The map</h2>
+      <ul>
+        <li><a href="https://earthquake.usgs.gov/earthquakes/map/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>EARTHQUAKES — USGS LIVE</a></li>
+        <li><a href="https://www.nhc.noaa.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>HURRICANES — NHC</a></li>
+        <li><a href="https://droughtmonitor.unl.edu/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DROUGHT MONITOR</a></li>
+        <li><a href="https://www.flightradar24.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FLIGHTS ALOFT</a></li>
+        <li><a href="https://en.kiosko.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>WORLD FRONT PAGES</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="grp wide">
+      <h2>The wire</h2>
+      <ul>
+        <li><a href="https://www.972mag.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>+972 MAGAZINE</a></li>
+        <li><a href="https://19fortyfive.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>19FORTYFIVE</a></li>
+        <li><a href="https://404media.co/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>404 MEDIA</a></li>
+        <li><a href="https://aljazeera.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AL JAZEERA</a></li>
+        <li><a href="https://al-monitor.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AL-MONITOR</a></li>
+        <li><a href="https://amgreatness.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AMERICAN GREATNESS</a></li>
+        <li><a href="https://antiwar.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ANTIWAR.COM</a></li>
+        <li><a href="https://arstechnica.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ARS TECHNICA</a></li>
+        <li><a href="https://axios.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>AXIOS</a></li>
+        <li><a href="https://bbc.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BBC</a></li>
+        <li><a href="https://billboard.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BILLBOARD</a></li>
+        <li><a href="https://bls.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BLS RELEASES</a></li>
+        <li><a href="https://borderreport.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BORDER REPORT</a></li>
+        <li><a href="https://feedburner.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BREITBART</a></li>
+        <li><a href="https://breitbart.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BREITBART EUROPE</a></li>
+        <li><a href="https://brownstone.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BROWNSTONE INSTITUTE</a></li>
+        <li><a href="https://brusselssignal.eu/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BRUSSELS SIGNAL</a></li>
+        <li><a href="https://businessinsider.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BUSINESS INSIDER</a></li>
+        <li><a href="https://www.cbo.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBO</a></li>
+        <li><a href="https://cbsnews.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBS NEWS</a></li>
+        <li><a href="https://cbssports.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CBS SPORTS: COLLEGE FOOTBALL</a></li>
+        <li><a href="https://cis.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CENTER FOR IMMIGRATION STUDIES</a></li>
+        <li><a href="https://chroniclesmagazine.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CHRONICLES</a></li>
+        <li><a href="https://cnbc.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CNBC TOP</a></li>
+        <li><a href="https://compactmag.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>COMPACT</a></li>
+        <li><a href="https://dailymail.co.uk/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DAILY MAIL</a></li>
+        <li><a href="https://deadline.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DEADLINE</a></li>
+        <li><a href="https://justice.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>DOJ PRESS</a></li>
+        <li><a href="https://eff.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>EFF</a></li>
+        <li><a href="https://fbi.gov/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>FBI PRESS</a></li>
+        <li><a href="https://investors.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>INVESTOR&#39;S BUSINESS DAILY</a></li>
+        <li><a href="https://sports.ksl.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>KSL</a></li>
+        <li><a href="https://marketwatch.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MARKETWATCH</a></li>
+        <li><a href="https://middleeasteye.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MIDDLE EAST EYE</a></li>
+        <li><a href="https://modernity.news/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MODERNITY</a></li>
+        <li><a href="https://mormonstories.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MORMON STORIES</a></li>
+        <li><a href="https://nypost.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>NEW YORK POST</a></li>
+        <li><a href="https://openai.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>OPENAI NEWS</a></li>
+        <li><a href="https://pagesix.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PAGE SIX</a></li>
+        <li><a href="https://youtube.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PAUL JOSEPH WATSON</a></li>
+        <li><a href="https://public.substack.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PUBLIC</a></li>
+        <li><a href="https://radiofreemormon.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RADIO FREE MORMON</a></li>
+        <li><a href="https://reclaimthenet.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RECLAIM THE NET</a></li>
+        <li><a href="https://rmx.news/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>REMIX NEWS</a></li>
+        <li><a href="https://responsiblestatecraft.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>RESPONSIBLE STATECRAFT</a></li>
+        <li><a href="https://sltrib.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SALT LAKE TRIBUNE</a></li>
+        <li><a href="https://sciencedaily.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SCIENCEDAILY</a></li>
+        <li><a href="https://seymourhersh.substack.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SEYMOUR HERSH</a></li>
+        <li><a href="https://studyfinds.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>STUDYFINDS</a></li>
+        <li><a href="https://theamericanconservative.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE AMERICAN CONSERVATIVE</a></li>
+        <li><a href="https://thefp.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE FREE PRESS</a></li>
+        <li><a href="https://theregister.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>THE REGISTER</a></li>
+        <li><a href="https://tmz.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TMZ</a></li>
+        <li><a href="https://tuckercarlson.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>TUCKER CARLSON NETWORK</a></li>
+        <li><a href="https://variety.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>VARIETY</a></li>
+        <li><a href="https://zerohedge.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ZEROHEDGE</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+  
+
+  <div class="foot">
+    BEEHIVE WIRE &middot; 100 links &middot; Morning Edition &middot; No. 99
+    
+    <div class="srcs"><span class="lbl">In this edition:</span> <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>5 Towns Central</a> &middot; <a href="https://www.aljazeera.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Al Jazeera</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Al Majalla</a> &middot; <a href="https://news.antiwar.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Antiwar.com</a> &middot; <a href="https://www.bbc.co.uk/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BBC</a> &middot; <a href="https://www.bbc.co.uk/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BBC Business</a> &middot; <a href="https://www.bbc.co.uk/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>BBC World</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Benzinga</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Breakingthenews.net</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CNBC</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>CryptoSlate</a> &middot; <a href="https://www.dailymail.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Daily Mail</a> &middot; <a href="https://www.dailymail.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Daily Mail US</a> &middot; <a href="https://deadline.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Deadline</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Dexerto</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Forbes</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>GuruFocus</a> &middot; <a href="https://www.investors.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Investor&#39;s Business Daily</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Just Security</a> &middot; <a href="https://sports.ksl.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>KSL Sports</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MIXED News</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MPR News</a> &middot; <a href="https://www.marketwatch.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>MarketWatch</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Mezha.net</a> &middot; <a href="https://www.middleeasteye.net/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Middle East Eye</a> &middot; <a href="https://nypost.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>New York Post</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PCMag</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>PJ Media</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Politico</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Quasa.io</a> &middot; <a href="https://responsiblestatecraft.org/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Responsible Statecraft</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Reuters</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>SMH.com.au</a> &middot; <a href="https://www.sciencedaily.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ScienceDaily Health</a> &middot; <a href="https://studyfinds.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>StudyFinds</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Australian</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Economic Times</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Jerusalem Post</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The New York Times</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Salt Lake Tribune</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>The Washington Post</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Tom&#39;s Hardware</a> &middot; <a href="https://www.youtube.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Tucker Carlson Network (YouTube)</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Tyla</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>USA Today</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>VPM</a> &middot; <a href="https://variety.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Variety</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>WSJ</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>Yahoo Finance</a> &middot; <a href="https://www.zerohedge.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>ZeroHedge</a> &middot; <a href="https://news.google.com/" target=&#34;_blank&#34; rel=&#34;noopener&#34;>uInterview</a></div>
+    <div class="arch"><a href="../sources/">The wire we read &mdash; all 217 sources, beat by beat</a></div>
+    <div class="theme">
+      <button id="theme-btn" type="button" role="switch" aria-checked="false">
+        <span class="sw" aria-hidden="true"></span><span>Dark mode</span>
+      </button>
+    </div>
+    <div class="row">
+      <div class="theme colsw">
+        <button id="cols-btn" type="button" role="switch" aria-checked="false" aria-label="Show the headlines in one column">
+          <span class="sw" aria-hidden="true"></span><span id="cols-lbl">One column</span>
+        </button>
+      </div>
+      <a class="desk" href="../markets/">Market Desk &rarr;</a>
+    </div>
+  </div>
+
+</div>
+
+
+
+<script>
+(function () {
+  // Dark mode is the reader's own choice, remembered in this browser until
+  // they change it. The <head> sets the attribute before first paint so the
+  // page never flashes white on the way in.
+  var KEY = 'bw-theme', root = document.documentElement, btn = document.getElementById('theme-btn');
+  if (!btn) return;
+
+  function paint(dark) {
+    if (dark) { root.setAttribute('data-theme', 'dark'); }
+    else { root.removeAttribute('data-theme'); }
+    btn.setAttribute('aria-checked', dark ? 'true' : 'false');
+  }
+
+  paint(root.getAttribute('data-theme') === 'dark');
+
+  btn.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') !== 'dark';
+    paint(dark);
+    try { localStorage.setItem(KEY, dark ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+(function () {
+  // One column or two: the reader's choice, remembered in this browser (bw-cols). The page is printed
+  // in two columns; the switch stacks them. Its label names the layout it would switch TO: on two
+  // columns it reads "One column", on one it reads "Two columns". (Todd, Oct 28, 2026.)
+  var KEY = 'bw-cols', root = document.documentElement, btn = document.getElementById('cols-btn'), lbl = document.getElementById('cols-lbl');
+  if (!btn) return;
+  function paint(single) {
+    if (single) { root.setAttribute('data-cols', '1'); } else { root.removeAttribute('data-cols'); }
+    btn.setAttribute('aria-checked', single ? 'true' : 'false');
+    lbl.textContent = single ? 'Two columns' : 'One column';
+    btn.setAttribute('aria-label', single ? 'Show the headlines in two columns' : 'Show the headlines in one column');
+  }
+  paint(root.getAttribute('data-cols') === '1');
+  btn.addEventListener('click', function () {
+    var single = root.getAttribute('data-cols') !== '1';
+    paint(single);
+    try { localStorage.setItem(KEY, single ? '1' : '2'); } catch (e) {}
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics. Shared by every page (templates/analytics.html). Loaded only for readers: ?noct on any page switches this
+     browser off for good (the editor's own visits should not show up as traffic), ?yesct back on. -->
+<script>
+(function () {
+  var KEY = 'bw-no-count';
+  function say(msg) {
+    addEventListener('DOMContentLoaded', function () {
+      var d = document.createElement('div');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);z-index:9999;'
+        + 'background:#111;color:#fff;padding:.6rem 1rem;font:14px/1.3 system-ui,sans-serif;'
+        + 'border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.35)';
+      document.body.appendChild(d);
+      setTimeout(function () { d.remove(); }, 6000);
+    });
+  }
+  try {
+    var q = location.search;
+    if (q.indexOf('noct') > -1)  { localStorage.setItem(KEY, '1'); say('This browser is no longer counted in traffic stats.'); }
+    if (q.indexOf('yesct') > -1) { localStorage.removeItem(KEY);   say('This browser is counted again.'); }
+    if (localStorage.getItem(KEY)) return;
+  } catch (e) { /* private mode: count the visit and move on */ }
+  var s = document.createElement('script');
+  s.defer = true;
+  s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', '{"token": "bb536ae7a0964426a2c1860344ee8a29"}');
+  document.head.appendChild(s);
+})();
+</script>
+<script>
+// Click-to-play for the edition's video. Swaps the poster for the player on the first click only,
+// so a reader who never presses play never touches youtube.com. nocookie + autoplay=1 because the
+// click WAS the play. Does nothing at all on a page with no video block.
+// Each player on the page (the edition's, the market wrap's) works on its own.
+document.querySelectorAll('.watch .player').forEach(function (box) {
+  var id = box.getAttribute('data-video');
+  if (!id) return;
+  box.addEventListener('click', function play() {
+    box.removeEventListener('click', play);
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+    f.title = 'Beehive Wire video';
+    f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    box.textContent = '';
+    box.appendChild(f);
+    box.style.cursor = 'default';
+  });
+});
+</script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
+
+<!-- 2026-10-20 07:08 MDT: hand-pulled three re-dated stories (Clark tech, Bakker obituary + follow-up); the publisher-date check for every candidate follows -->
