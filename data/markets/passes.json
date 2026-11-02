@@ -3156,5 +3156,50 @@
 "day": 21,
 "pass": 3,
 "no": "21.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-02",
+"at": "2026-11-02T15:51:27+00:00",
+"href": "movers/2026-11-02-0851.html",
+"syms": [
+"IDXX",
+"TEM",
+"REGN",
+"ECHO",
+"EXEL",
+"CVNA",
+"GPN",
+"IFF",
+"MAR",
+"TSLA",
+"CCL",
+"VLTO",
+"NUE",
+"SHOP",
+"BE",
+"V",
+"RDDT",
+"SE",
+"AMZN",
+"UAL"
+],
+"heads": [
+"IDXX +16.1% on 6.8x volume, big move on the day",
+"TEM +10.2% on 4.0x volume, bounce off 50-day line",
+"REGN +4.2% on 3.8x volume, breakout past buy point, already extended",
+"ECHO +2.3% on 2.9x volume, still in buy range after breakout",
+"EXEL +1.9% on 2.9x volume, extended",
+"CVNA +6.2% on 2.8x volume, big move on the day",
+"GPN +3.0% on 2.7x volume, breakout past buy point",
+"IFF +1.5% on 2.3x volume, new 52-week high",
+"MAR +4.2% on 2.3x volume, breakout past buy point",
+"TSLA +3.4% on 2.3x volume, extended"
+],
+"extra": "16 qualifiers",
+"live": true,
+"day": 22,
+"pass": 1,
+"no": "22.1"
 }
 ]
