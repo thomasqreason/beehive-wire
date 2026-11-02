@@ -3201,5 +3201,39 @@
 "day": 22,
 "pass": 1,
 "no": "22.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-02",
+"at": "2026-11-02T18:38:36+00:00",
+"href": "movers/2026-11-02-1138.html",
+"syms": [
+"IDXX",
+"TEM",
+"REGN",
+"EXEL",
+"GPN",
+"ZBRA",
+"ECHO",
+"SFM",
+"RDDT",
+"SE",
+"CVNA",
+"MTZ"
+],
+"heads": [
+"IDXX +20.2% on 4.0x volume, big move on the day",
+"TEM +10.1% on 2.5x volume, bounce off 50-day line",
+"REGN +3.7% on 2.1x volume, breakout past buy point, already extended",
+"EXEL +2.4% on 1.9x volume, extended",
+"GPN +2.2% on 1.6x volume, breakout past buy point",
+"ZBRA +2.0% on 1.6x volume, bounce off 50-day line",
+"ECHO +2.3% on 1.5x volume, still in buy range after breakout"
+],
+"extra": "7 qualifiers",
+"live": true,
+"day": 22,
+"pass": 2,
+"no": "22.2"
 }
 ]
