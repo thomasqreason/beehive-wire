@@ -146,7 +146,8 @@ mix:
 # posted after the morning and evening editions print.
 video:
   channel_name: "Beehive Wire"     # what the intro card and the narrator call the show (the YouTube channel is BoringMoney)
-  expect_channel: "boringmoney"    # upload refuses unless the credentials belong to a channel whose name contains this
+  expect_channel: "boringmoney"    # PAUSED ON PURPOSE 2026-11-03: BoringMoney is now Beehive Wire Markets; news moves to the
+                                   # renamed QuitBird channel "Beehive Wire" once its token exists. upload refuses unless the credentials belong to a channel whose name contains this
   stories: 14                      # top story + flash lines + the page's next links, at most two per topic
   target_words: [1350, 1650]       # narration length Claude aims for: about 9 to 11 minutes at the voice's pace
   max_edition_age_hours: 10        # a slot that was missed is skipped, not backfilled with a stale video
@@ -185,9 +186,9 @@ video:
 # day, made from the Market Desk edition as soon as it prints. Anything not set here is taken from `video:` above
 # (voice, speed, privacy, pronunciations). See docs/HANDOFF-daily-market-video.md.
 market_video:
-  # Which channel. Until the Beehive Wire channel exists it posts to BoringMoney with the editions' credentials.
-  # To move it: add the YOUTUBE_REFRESH_TOKEN_BW secret (the workflow prefers it) and set this to "beehive wire".
-  expect_channel: "boringmoney"
+  # Which channel. BoringMoney was renamed "Beehive Wire Markets" on 2026-11-03; the market wrap stays there with the
+  # editions' credentials. Do NOT put the news channel's token in YOUTUBE_REFRESH_TOKEN_BW (the workflow prefers it).
+  expect_channel: "beehive wire markets"
   market_target_words: [850, 1150]  # about 5 1/2 to 7 1/2 minutes at the voice's pace
   setups: 3                         # names near a buy point, one chart each
   max_breakouts: 5
