@@ -3316,5 +3316,50 @@
 "day": 22,
 "pass": 4,
 "no": "22.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-03",
+"at": "2026-11-03T15:53:17+00:00",
+"href": "movers/2026-11-03-0853.html",
+"syms": [
+"NTRA",
+"FISV",
+"WAT",
+"DD",
+"VRSN",
+"RVTY",
+"DDOG",
+"AMD",
+"BE",
+"WST",
+"SNDK",
+"STX",
+"ON",
+"TEM",
+"EL",
+"CRL",
+"ORCL",
+"TLN",
+"RIOT",
+"ANET"
+],
+"heads": [
+"NTRA +2.9% on 4.6x volume, bounce off 50-day line",
+"FISV +11.5% on 3.9x volume, big move on the day",
+"WAT +5.1% on 3.5x volume, big move on the day",
+"DD +6.9% on 3.4x volume, nearing buy point",
+"VRSN +2.0% on 3.2x volume, breakout past buy point",
+"RVTY +12.6% on 3.0x volume, breakout past buy point",
+"DDOG +1.4% on 2.2x volume, slips back below buy point",
+"AMD +5.0% on 2.1x volume, breaks 50-day line",
+"BE +9.5% on 2.1x volume, big move on the day",
+"WST +1.4% on 2.0x volume, extended"
+],
+"extra": "16 qualifiers",
+"live": true,
+"day": 23,
+"pass": 1,
+"no": "23.1"
 }
 ]
