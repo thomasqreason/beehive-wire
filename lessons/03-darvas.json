@@ -1,0 +1,159 @@
+{
+ "slug": "03-darvas",
+ "title": "Nicolas Darvas and the Stop Under the Box",
+ "thumb": "DARVAS: THE STOP UNDER THE BOX",
+ "series": "LESSON 3  |  DARVAS",
+ "tags": [
+  "Beehive Wire",
+  "Market Desk",
+  "Nicolas Darvas",
+  "Darvas box",
+  "How I Made 2000000 in the Stock Market",
+  "stop loss",
+  "bear market",
+  "protect your 401k",
+  "1957 bear market",
+  "trading rules",
+  "S&P 500",
+  "market correction",
+  "risk management",
+  "stock market lessons",
+  "box theory"
+ ],
+ "description": "Nicolas Darvas's box method: buy when a stock clears the top of its trading range, put the stop just under the bottom of the new box, raise it as new boxes stack up, and never lower it. Shown on the 1957 bear market and on the S&P 500 this week, which closed under the bottom of its September to October box on November 2.",
+ "beats": [
+  {
+   "type": "card",
+   "text": "DARVAS: THE STOP UNDER THE BOX",
+   "chapter": "Intro",
+   "say": "This is the Beehive Wire Market Desk, lesson three: Nicolas Darvas. Darvas was a professional dancer who, by his own account in How I Made 2 Million Dollars in the Stock Market, published in 1960, made more than 2 million dollars in about 18 months while touring. He traded from cabled price quotes, without news, tips or brokers' opinions. His method had one feature that mattered more than any other: every position had its exit set before it was bought."
+  },
+  {
+   "type": "text",
+   "title": "The box",
+   "chapter": "The box",
+   "body": "A rising stock trades in a range, then clears it.\nEach range is a box.\nBuy when the price clears the top of the box.\nThe stop goes just under the bottom of the new box.",
+   "say": "The method. A stock in a strong uptrend does not rise in a straight line. It trades in a range for a stretch, then moves to a higher range. Darvas called each range a box. He bought when the price cleared the top of a box, and placed a stop loss order just under the bottom of the new box. When the stock built a higher box, the stop moved up under it. The stop never moved down."
+  },
+  {
+   "type": "text",
+   "title": "Why it protects capital",
+   "chapter": "Why it works",
+   "body": "The exit is set before the entry.\nThe stop is an order, not an opinion.\nIt only moves up.\nA stopped-out trade is the method working.",
+   "say": "Why it protects capital. The exit is set before the money goes in, when there is no position to defend. The stop is an order sitting with the broker, so it executes whether or not the investor agrees on the day. It only moves up, so a winning trade can shrink to a small gain but cannot turn into a large loss. Darvas treated being stopped out as the method working, not as a mistake, and he bought back when the stock built a new box above the old one. Combined with O'Neil's 7 to 8% limit, the stop sits at whichever is closer."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "1956-06-01",
+   "end": "1958-09-30",
+   "title": "S&P 500, 1957 bear market",
+   "shade": [
+    [
+     "1957-07-15",
+     "1957-10-22"
+    ]
+   ],
+   "marks": [
+    [
+     "1957-07-15",
+     "Jul 15 high"
+    ],
+    [
+     "1957-10-22",
+     "Oct 22 low"
+    ]
+   ],
+   "facts": [
+    [
+     "High, Jul 15 1957",
+     "49.13",
+     ""
+    ],
+    [
+     "Low, Oct 22 1957",
+     "38.98",
+     ""
+    ],
+    [
+     "Decline",
+     "-20.7%",
+     "bad"
+    ],
+    [
+     "Trading days",
+     "70",
+     ""
+    ]
+   ],
+   "chapter": "1957",
+   "say": "The test came in 1957. The S&P 500 fell 20.7% from July 15 to October 22. In his account, the stops under his boxes sold him out of his stocks as the market turned, one after another, and he held cash through the decline. He did not predict the bear market. The stops took him out of it. He bought again when stocks began building new boxes above their old highs."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "2026-07-15",
+   "end": "2026-11-03",
+   "title": "S&P 500 to Nov 2: the September to October box",
+   "levels": [
+    [
+     7818.93,
+     "Box top 7,818.93 (Oct 6)"
+    ],
+    [
+     7551.81,
+     "Box bottom 7,551.81 (Sep 16)"
+    ]
+   ],
+   "facts": [
+    [
+     "Box top, Oct 6",
+     "7,818.93",
+     ""
+    ],
+    [
+     "Box bottom, Sep 16",
+     "7,551.81",
+     ""
+    ],
+    [
+     "Close, Nov 2",
+     "7,541.40",
+     "bad"
+    ],
+    [
+     "vs box bottom",
+     "-0.1%",
+     "bad"
+    ],
+    [
+     "The desk's read",
+     "Correction",
+     "gold"
+    ]
+   ],
+   "chapter": "This week's box",
+   "say": "This week, on the S&P 500. From September 16 to October 30 the index closed between 7551.81 and 7818.93. That is the box. On November 2 it closed at 7541.40, under the bottom of the box. Under Darvas's rules a position held on that box is stopped out, and nothing new is bought until the index builds a new box and clears its top. The desk's read, from O'Neil's distribution count, says the same thing: market in correction."
+  },
+  {
+   "type": "text",
+   "title": "Darvas's rules",
+   "chapter": "The rules",
+   "body": "1. Set the stop before you buy.\n2. Put it just under the bottom of the box.\n3. Raise it as new boxes form. Never lower it.\n4. When stopped out, wait for a new box.\n5. In a bear market, stay in cash.",
+   "say": "Darvas's rules. Set the stop before you buy. Put it just under the bottom of the box. Raise it as new boxes form, and never lower it. When stopped out, wait for a new box above the old one. In a bear market, stay in cash. For a 401k the box works at the index level: a fund that closes under the bottom of its recent range moves to the stable value fund, and moves back when the index clears the top of a new range."
+  },
+  {
+   "type": "text",
+   "title": "Three traders, one rule",
+   "chapter": "One rule",
+   "body": "Livermore: take the first loss, and take it small.\nDarvas: the stop under the box.\nO'Neil: 7 to 8% from the buy, and the market's direction first.",
+   "say": "Three traders, one rule. Livermore: take the first loss, and take it small. Darvas: the stop under the box, set before the buy. O'Neil: no loss larger than 7 to 8%, and the market's direction before any stock. Each of them kept his gains by getting out of declines early."
+  },
+  {
+   "type": "card",
+   "text": "THE MARKET DESK\nTHREE WEEKS FOR $9.99\nbeehivewire.com/markets",
+   "chapter": "The Market Desk",
+   "say": "The Market Desk prints every buy point, every buy range and the market's direction each trading day. Try the Market Desk: three weeks for $9.99. The link is in the description. Like and subscribe for the close every trading day and the next lesson. This lesson is education only, not financial advice, and past results are no guarantee of future returns."
+  }
+ ]
+}

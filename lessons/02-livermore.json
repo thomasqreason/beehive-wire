@@ -1,0 +1,168 @@
+{
+ "slug": "02-livermore",
+ "title": "Jesse Livermore's Rules for a Falling Market",
+ "thumb": "LIVERMORE'S RULES FOR A FALLING MARKET",
+ "series": "LESSON 2  |  LIVERMORE",
+ "tags": [
+  "Beehive Wire",
+  "Market Desk",
+  "Jesse Livermore",
+  "Reminiscences of a Stock Operator",
+  "line of least resistance",
+  "1929 crash",
+  "bear market",
+  "protect your 401k",
+  "cut losses",
+  "trend following",
+  "stock market lessons",
+  "Nasdaq",
+  "market correction",
+  "risk management",
+  "trading rules"
+ ],
+ "description": "Jesse Livermore's rules for a falling market, from Reminiscences of a Stock Operator (1923): trade with the line of least resistance, take the first loss small, never add to a loser, and sit tight with a winner. Shown on the 1929 to 1932 decline, when the index lost 86.2%, and on the Nasdaq this week, 5.2% under its 50-day line as of November 2.",
+ "beats": [
+  {
+   "type": "card",
+   "text": "LIVERMORE'S RULES FOR A FALLING MARKET",
+   "chapter": "Intro",
+   "say": "This is the Beehive Wire Market Desk, lesson two: Jesse Livermore. Reminiscences of a Stock Operator, published in 1923, is the story of his career told under the name Larry Livingston. It is still the most quoted book on speculation, and its rules for a falling market are the same ones William O'Neil and Nicolas Darvas built on later."
+  },
+  {
+   "type": "text",
+   "title": "Reminiscences, 1923",
+   "chapter": "Nothing new",
+   "body": "“There is nothing new in Wall Street. There can't be because speculation is as old as the hills. Whatever happens in the stock market to-day has happened before and will happen again.”",
+   "say": "The book's central line: There is nothing new in Wall Street. There can't be because speculation is as old as the hills. Whatever happens in the stock market today has happened before and will happen again. The declines in lesson one, 2000, 2008, 2020 and 2022, ran the same pattern: leaders broke first, the indexes lost their moving averages, and the distribution count rose before the worst of the decline."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "1928-06-01",
+   "end": "1932-12-31",
+   "weekly": true,
+   "title": "S&P index 1928 to 1932, weekly (90 stocks before 1957)",
+   "shade": [
+    [
+     "1929-09-16",
+     "1932-06-01"
+    ]
+   ],
+   "marks": [
+    [
+     "1929-09-16",
+     "Sep 16, 1929"
+    ],
+    [
+     "1932-06-01",
+     "Jun 1, 1932"
+    ]
+   ],
+   "facts": [
+    [
+     "Peak, Sep 16 1929",
+     "31.86",
+     ""
+    ],
+    [
+     "First close under 200-day",
+     "Oct 23, 1929",
+     ""
+    ],
+    [
+     "Loss at that point",
+     "-16.5%",
+     "bad"
+    ],
+    [
+     "Low, Jun 1 1932",
+     "4.40",
+     ""
+    ],
+    [
+     "Total decline",
+     "-86.2%",
+     "bad"
+    ]
+   ],
+   "chapter": "1929",
+   "say": "1929. The index peaked at 31.86 on September 16. It first closed under its 200-day line on October 23, 16.5% off the high, the day before the crash began. It bottomed at 4.40 on June 1, 1932, down 86.2%. Livermore was short going into the crash and was widely reported to have made about 100 million dollars. An investor who sold on the first close under the 200-day line gave up 16.5%. One who held gave up 86.2%."
+  },
+  {
+   "type": "text",
+   "title": "The line of least resistance",
+   "chapter": "Least resistance",
+   "body": "Prices move along the line of least resistance.\nTrade in that direction, not against it.\nIn a correction the line points down.",
+   "say": "Livermore's first rule: prices move along the line of least resistance, and the job is to find that line and trade in its direction. He did not buy a stock because it looked cheap after a decline, and he did not short one because it looked expensive in a rally. He waited for the market to show its direction, then acted. In a correction, the line of least resistance points down, and new buying works against it."
+  },
+  {
+   "type": "text",
+   "title": "Take the first loss",
+   "chapter": "The first loss",
+   "body": "“Instead of hoping he must fear; instead of fearing he must hope.”\nCut the loser. Never add to it.",
+   "say": "The second rule is about losses. In the book, Livingston holds a losing cotton position and sells a profitable wheat position early. He calls it the reverse of sound practice. His summary: instead of hoping he must fear; instead of fearing he must hope. He must fear that his loss may develop into a much bigger loss, and hope that his profit may become a big profit. Hope holds losers. Fear sells winners. Both are backwards. Averaging down on a falling stock is adding money to the part of the account that is already wrong."
+  },
+  {
+   "type": "text",
+   "title": "Sit tight",
+   "chapter": "Sitting tight",
+   "body": "“It never was my thinking that made the big money for me. It always was my sitting.”",
+   "say": "The third rule is the other half of the second. It never was my thinking that made the big money for me. It always was my sitting. Got that? My sitting tight. The big money was in the main trend, not the daily swings. Small losses cut fast and large gains held long is the whole of the arithmetic. Livermore went broke more than once in his career, in the stretches when he broke these rules himself."
+  },
+  {
+   "type": "chart",
+   "sym": "^IXIC",
+   "start": "2026-05-01",
+   "end": "2026-11-03",
+   "title": "Nasdaq Composite to Nov 2, red ticks = distribution days",
+   "dist": [
+    "2026-10-08",
+    "2026-10-14",
+    "2026-10-22",
+    "2026-10-30"
+   ],
+   "facts": [
+    [
+     "Close, Nov 2",
+     "25,164.32",
+     ""
+    ],
+    [
+     "vs 50-day line",
+     "-5.2%",
+     "bad"
+    ],
+    [
+     "vs 200-day line",
+     "+0.4%",
+     ""
+    ],
+    [
+     "From 52-week high",
+     "-9.2%",
+     "bad"
+    ],
+    [
+     "Distribution days",
+     "4",
+     ""
+    ]
+   ],
+   "chapter": "This week's tape",
+   "say": "This week. The Nasdaq Composite closed at 25164.32 on November 2, 5.2% under its 50-day line and 0.4% above its 200-day line, 9.2% off its 52-week high, with 4 distribution days in 25 sessions. On the desk, only 6% of the AI infrastructure names sit above their 50-day lines, and leadership has narrowed to oil, steel and drug stocks. The line of least resistance for the tech-heavy index is down. Livermore's rules say no adding to losing positions, cut the ones at the loss limit, and wait for the market to turn before buying."
+  },
+  {
+   "type": "text",
+   "title": "Livermore's rules",
+   "chapter": "The rules",
+   "body": "1. Trade with the line of least resistance.\n2. Take the first loss, and take it small.\n3. Never add to a losing position.\n4. Add only to a position that shows a profit.\n5. Sit tight while the trend holds.",
+   "say": "Livermore's rules, in order. Trade with the line of least resistance. Take the first loss, and take it small. Never add to a losing position. Add only to a position that already shows a profit. Sit tight while the trend holds. For a 401k invested in index funds the same rules apply: do not add to an index fund falling under its moving averages on the theory that it is on sale, and move to the stable value fund when the trend turns."
+  },
+  {
+   "type": "card",
+   "text": "THE MARKET DESK\nTHREE WEEKS FOR $9.99\nbeehivewire.com/markets",
+   "chapter": "The Market Desk",
+   "say": "The Market Desk reports the market's direction every trading day: the index lines, the distribution count and the desk's read, with the leaders and the stocks in a buy range. Try the Market Desk: three weeks for $9.99. The link is in the description. Like and subscribe, and the next lesson: Nicolas Darvas and the stop under the box. This lesson is education only, not financial advice, and past results are no guarantee of future returns."
+  }
+ ]
+}

@@ -205,6 +205,7 @@ market_video:
   market_tags: ["Beehive Wire", "Market Desk", "stock market today", "stock market", "S&P 500", "Nasdaq",
                 "breakout stocks", "buy point", "growth stocks", "William O'Neil", "how to make money in stocks"]
   say_as:                           # market names Kokoro misreads (merged with video.say_as above); checked
+    "401k": "four oh one k"
     Cheniere: "Shuhneer"            # with kokoro_onnx.tokenizer.Tokenizer().phonemize() on Oct 31, 2026
     AbbVie: "Ab-vee"
     Cameco: "Kam-ehko"

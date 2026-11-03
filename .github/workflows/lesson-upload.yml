@@ -1,0 +1,54 @@
+name: lesson-upload
+
+# Hand-run only. Posts a video rendered on Todd's PC (lesson_video.py render) to YouTube.
+# The rendered folder (video.mp4, thumbnail.png, meta.json) is attached to a GitHub release named by `tag`,
+# so the file that was checked locally is the file that is posted. The upload refuses unless the token's
+# channel name contains the expected name for the chosen channel.
+#   markets   -> YOUTUBE_REFRESH_TOKEN     (Beehive Wire Markets, ex-BoringMoney)
+#   dailypage -> YOUTUBE_REFRESH_TOKEN_DP  (Daily Page AI, ex-Deming Studio; set by youtube-connect-channel.py)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag holding video.mp4, thumbnail.png, meta.json"
+        type: string
+        required: true
+      channel:
+        description: "Which channel"
+        type: choice
+        options: [markets, dailypage]
+        default: markets
+      privacy:
+        type: choice
+        options: [public, unlisted, private]
+        default: public
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lesson-upload-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ inputs.channel == 'dailypage' && secrets.YOUTUBE_REFRESH_TOKEN_DP || secrets.YOUTUBE_REFRESH_TOKEN }}
+      EXPECT: ${{ inputs.channel == 'dailypage' && 'daily page' || 'beehive wire markets' }}
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag }}
+      PRIVACY: ${{ inputs.privacy }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: gh release download "$TAG" -R "$GITHUB_REPOSITORY" -D upload
+      - run: python lesson_video.py upload --dir upload --expect "$EXPECT" --privacy "$PRIVACY"

@@ -1,0 +1,476 @@
+{
+ "slug": "01-falls-faster",
+ "title": "355 Days to Lose 57%, 1,021 Days to Get It Back: How the Market Falls",
+ "thumb": "355 DAYS DOWN\n1,021 DAYS BACK",
+ "series": "LESSON 1  |  O'NEIL",
+ "tags": [
+  "Beehive Wire",
+  "Market Desk",
+  "stock market crash",
+  "bear market",
+  "protect your 401k",
+  "William O'Neil",
+  "how to make money in stocks",
+  "distribution days",
+  "200-day moving average",
+  "S&P 500",
+  "market correction",
+  "drawdown",
+  "risk management",
+  "investing lessons",
+  "stock market today"
+ ],
+ "description": "The S&P 500 took 355 trading days to lose 56.8% from October 2007 to March 2009, and 1,021 trading days to get back to its high. This lesson puts four bear markets side by side, shows why the biggest up days all come inside declines, tests a simple 200-day-line rule on 26 years of prices, and lays the rules William O'Neil taught for reading market direction over this week's tape: the desk called a correction on November 2.",
+ "beats": [
+  {
+   "type": "card",
+   "text": "355 DAYS DOWN\n1,021 DAYS BACK",
+   "chapter": "Intro",
+   "say": "This is the Beehive Wire Market Desk, lesson one. From October 2007 to March 2009 the S&P 500 lost 56.8% in 355 trading days. Getting back to the old high took 1,021 trading days. Declines are faster than recoveries, and the arithmetic of a loss is the reason capital protection comes before stock selection. Here are the numbers, and the rules for acting on them."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "2007-01-02",
+   "end": "2013-06-30",
+   "weekly": true,
+   "title": "S&P 500, 2007 to 2013, weekly",
+   "shade": [
+    [
+     "2007-10-09",
+     "2009-03-09"
+    ]
+   ],
+   "marks": [
+    [
+     "2007-10-09",
+     "Peak"
+    ],
+    [
+     "2009-03-09",
+     "Low"
+    ],
+    [
+     "2013-03-28",
+     "Back to the high"
+    ]
+   ],
+   "facts": [
+    [
+     "Peak, Oct 9 2007",
+     "1,565.15",
+     ""
+    ],
+    [
+     "Low, Mar 9 2009",
+     "676.53",
+     ""
+    ],
+    [
+     "Decline",
+     "-56.8%",
+     "bad"
+    ],
+    [
+     "Days down",
+     "355",
+     ""
+    ],
+    [
+     "Days back",
+     "1,021",
+     ""
+    ]
+   ],
+   "chapter": "2007 to 2013",
+   "say": "The S&P 500 closed at 1565.15 on October 9, 2007, and at 676.53 on March 9, 2009. That is a decline of 56.8%. It closed above the 2007 high again on March 28, 2013. The shaded stretch is the decline. Everything to the right of it is the time spent getting even."
+  },
+  {
+   "type": "table",
+   "title": "Four bear markets, S&P 500",
+   "cols": [
+    "Decline",
+    "Loss",
+    "Days down",
+    "Days back",
+    "Ratio"
+   ],
+   "rows": [
+    [
+     "2000 to 2002",
+     "-49.1%",
+     "637",
+     "1,166",
+     "1.8x"
+    ],
+    [
+     "2007 to 2009",
+     "-56.8%",
+     "355",
+     "1,021",
+     "2.9x"
+    ],
+    [
+     "2020",
+     "-33.9%",
+     "23",
+     "103",
+     "4.5x"
+    ],
+    [
+     "2022",
+     "-25.4%",
+     "195",
+     "318",
+     "1.6x"
+    ]
+   ],
+   "colors": [
+    [
+     "",
+     "bad",
+     "",
+     "",
+     ""
+    ],
+    [
+     "",
+     "bad",
+     "",
+     "",
+     ""
+    ],
+    [
+     "",
+     "bad",
+     "",
+     "",
+     ""
+    ],
+    [
+     "",
+     "bad",
+     "",
+     "",
+     ""
+    ]
+   ],
+   "note": "Trading days, peak to low and low back to the prior high. Closes on price.",
+   "chapter": "Four bear markets",
+   "say": "Four bear markets on the S&P 500. 2000 to 2002: down 49.1% in 637 trading days, 1166 days back. 2007 to 2009: down 56.8% in 355 days, 1021 back. 2020: down 33.9% in 23 days, 103 back. 2022: down 25.4% in 195 days, 318 back. In every case the recovery took longer than the decline, from 1.6 times as long to 4.5 times. The Nasdaq Composite is the harder case: it fell 77.9% from March 2000 to October 2002 and did not close above its 2000 high until April 2015."
+  },
+  {
+   "type": "table",
+   "title": "The arithmetic of a loss",
+   "cols": [
+    "Loss",
+    "Gain to get even"
+   ],
+   "rows": [
+    [
+     "-8%",
+     "+8.7%"
+    ],
+    [
+     "-20%",
+     "+25%"
+    ],
+    [
+     "-25%",
+     "+33%"
+    ],
+    [
+     "-34%",
+     "+51%"
+    ],
+    [
+     "-50%",
+     "+100%"
+    ],
+    [
+     "-57%",
+     "+131%"
+    ],
+    [
+     "-78%",
+     "+352%"
+    ]
+   ],
+   "colors": [
+    [
+     "",
+     "good"
+    ],
+    [
+     "",
+     ""
+    ],
+    [
+     "",
+     ""
+    ],
+    [
+     "",
+     ""
+    ],
+    [
+     "",
+     "bad"
+    ],
+    [
+     "",
+     "bad"
+    ],
+    [
+     "",
+     "bad"
+    ]
+   ],
+   "chapter": "The arithmetic",
+   "say": "The gain needed to recover grows faster than the loss. An 8% loss takes 8.7% to recover. A 25% loss takes 33%. A 50% loss takes 100%. The 2008 decline required 131%, and the Nasdaq's 2002 low required 352%. This is why William O'Neil capped every loss at 7 to 8% from the purchase price. At that size the hole is small enough to climb out of with the next good trade."
+  },
+  {
+   "type": "table",
+   "title": "The 5 biggest up days since 1950",
+   "cols": [
+    "Date",
+    "S&P 500",
+    "Under the 200-day?"
+   ],
+   "rows": [
+    [
+     "Oct 13, 2008",
+     "+11.6%",
+     "Yes"
+    ],
+    [
+     "Oct 28, 2008",
+     "+10.8%",
+     "Yes"
+    ],
+    [
+     "Apr 9, 2025",
+     "+9.5%",
+     "Yes"
+    ],
+    [
+     "Mar 24, 2020",
+     "+9.4%",
+     "Yes"
+    ],
+    [
+     "Mar 13, 2020",
+     "+9.3%",
+     "Yes"
+    ]
+   ],
+   "colors": [
+    [
+     "",
+     "good",
+     "bad"
+    ],
+    [
+     "",
+     "good",
+     "bad"
+    ],
+    [
+     "",
+     "good",
+     "bad"
+    ],
+    [
+     "",
+     "good",
+     "bad"
+    ],
+    [
+     "",
+     "good",
+     "bad"
+    ]
+   ],
+   "note": "All 20 of the biggest up days since 1950 came with the index below its 200-day line.",
+   "chapter": "Where the big days happen",
+   "say": "Down stretches are also more violent in both directions. All 20 of the S&P 500's biggest one-day gains since 1950 came with the index below its 200-day moving average. So did 17 of the 20 biggest one-day losses. The largest, plus 11.6% on October 13, 2008, came in the middle of the decline, not at the start of a new bull market. The argument that an investor must stay fully invested so as not to miss the best days ignores where those days occur. They occur inside bear markets, next to the worst days."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "2019-10-01",
+   "end": "2020-09-30",
+   "title": "S&P 500, 2020",
+   "shade": [
+    [
+     "2020-02-19",
+     "2020-03-23"
+    ]
+   ],
+   "marks": [
+    [
+     "2020-02-19",
+     "Feb 19 high"
+    ],
+    [
+     "2020-03-23",
+     "Mar 23 low"
+    ]
+   ],
+   "facts": [
+    [
+     "Decline",
+     "-33.9%",
+     "bad"
+    ],
+    [
+     "Trading days",
+     "23",
+     ""
+    ],
+    [
+     "Days back",
+     "103",
+     ""
+    ],
+    [
+     "Worst day",
+     "-12.0%",
+     "bad"
+    ]
+   ],
+   "chapter": "2020",
+   "say": "2020 is the fastest case on record. The S&P 500 fell 33.9% in 23 trading days, from February 19 to March 23, including a 12% loss on March 16. It broke the 50-day line, then the 200-day line, within days of the high. A rule that acts on the index closing under its moving averages gets an investor out early in a decline like that. Waiting for an explanation of the decline does not."
+  },
+  {
+   "type": "text",
+   "title": "O'Neil's market rules",
+   "chapter": "O'Neil's rules",
+   "body": "1. Three of four stocks follow the market's direction.\n2. Five or six distribution days in 25 sessions mark a top.\n3. In a correction, cut exposure and wait.\n4. A new uptrend needs a follow-through day.",
+   "say": "William O'Neil built his method around this. His research found that three of every four stocks move with the general market, so the first question is the market's direction, not the stock. He measured it with distribution days: a decline of 0.2% or more on the index, on higher volume than the session before. Five or six of them inside 25 sessions has marked most market tops. In a correction, he raised cash and waited. He bought again only after a follow-through day: on the fourth day or later of a rally attempt, a major index gaining 1.25% or more on higher volume than the session before."
+  },
+  {
+   "type": "table",
+   "title": "The 200-day rule, tested",
+   "cols": [
+    "Period",
+    "Buy and hold",
+    "200-day rule"
+   ],
+   "rows": [
+    [
+     "2000 to 2002 decline",
+     "-49.1%",
+     "-21.1%"
+    ],
+    [
+     "2007 to 2009 decline",
+     "-56.4%",
+     "-7.9%"
+    ],
+    [
+     "2022 decline",
+     "-24.9%",
+     "-13.6%"
+    ],
+    [
+     "Worst drawdown, 2000 to now",
+     "-56.8%",
+     "-24.9%"
+    ],
+    [
+     "Growth of $1, 2000 to now",
+     "$5.13",
+     "$3.41"
+    ]
+   ],
+   "colors": [
+    [
+     "",
+     "bad",
+     "good"
+    ],
+    [
+     "",
+     "bad",
+     "good"
+    ],
+    [
+     "",
+     "bad",
+     "good"
+    ],
+    [
+     "",
+     "bad",
+     "good"
+    ],
+    [
+     "",
+     "good",
+     ""
+    ]
+   ],
+   "note": "Closes on price, no dividends, cash earns nothing. 192 switches in 26 years.",
+   "chapter": "Testing a rule",
+   "say": "A test of the plainest version. Hold the S&P 500 when it closed above its 200-day line the day before, hold cash when it did not. Through the 2007 to 2009 decline, buy and hold lost 56.4% and the rule lost 7.9%. Through 2000 to 2002, 49.1% against 21.1%. Through 2022, 24.9% against 13.6%. The worst drawdown since 2000 drops from 56.8% to 24.9%. The cost: on price alone, a dollar held since January 2000 grew to 5.13 dollars, against 3.41 dollars for the rule, which switched 192 times. The test pays nothing on cash, and a money market fund would have paid interest for most of that time. The rule gives up return in rallies to stay out of the decline. For an investor near retirement, the size of the worst drawdown is the number that matters."
+  },
+  {
+   "type": "chart",
+   "sym": "^GSPC",
+   "start": "2026-05-01",
+   "end": "2026-11-03",
+   "title": "S&P 500 to Nov 2, red ticks = distribution days",
+   "facts": [
+    [
+     "Close, Nov 2",
+     "7,541.40",
+     ""
+    ],
+    [
+     "vs 50-day line",
+     "-2.0%",
+     "bad"
+    ],
+    [
+     "vs 200-day line",
+     "+3.1%",
+     "good"
+    ],
+    [
+     "Distribution days",
+     "6",
+     "bad"
+    ],
+    [
+     "The desk's read",
+     "Correction",
+     "gold"
+    ]
+   ],
+   "chapter": "This week's tape",
+   "say": "Now this week. On November 2 the S&P 500 closed at 7541.40, 2% under its 50-day line and 3.1% above its 200-day line, with 6 distribution days in the last 25 sessions: October 7, 8, 14, 22, 29 and 30. The Nasdaq closed 5.2% under its 50-day line with 4. The desk's read is market in correction. By O'Neil's rules that means light exposure, losses cut at 7 to 8%, and no new full positions until a follow-through day.",
+   "dist": [
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-14",
+    "2026-10-22",
+    "2026-10-29",
+    "2026-10-30"
+   ]
+  },
+  {
+   "type": "text",
+   "title": "For a 401k",
+   "chapter": "For a 401k",
+   "body": "Most plans hold index funds, not stocks.\nThe same rules apply at the index level:\nthe 50-day and 200-day lines, the distribution count,\nand the plan's stable value or money market fund.",
+   "say": "Most 401k plans offer index funds and a stable value or money market fund, not individual stocks. The rules carry over at the index level. The 50-day and 200-day lines, the distribution day count and the desk's read are the signals. Moving part of a balance to the stable value fund when the read turns to correction, and back after a follow-through day, applies the same discipline inside a retirement account. Check the plan's rules on transfers before relying on it."
+  },
+  {
+   "type": "card",
+   "text": "THE MARKET DESK\nTHREE WEEKS FOR $9.99\nbeehivewire.com/markets",
+   "chapter": "The Market Desk",
+   "say": "The Market Desk tracks the distribution count, the 50 and 200-day lines and the desk's read every trading day, with the setups and the stocks in a buy range. Try the Market Desk: three weeks for $9.99. The link is in the description. Like and subscribe for the close every trading day, and the next lesson: Jesse Livermore on the line of least resistance. This lesson is education only, not financial advice, and past results are no guarantee of future returns."
+  }
+ ]
+}
