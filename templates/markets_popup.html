@@ -14,7 +14,9 @@
   // nothing is squeezed to fit or stretched to fill (Todd, Oct 28, 2026). Intraday is pitched so a portrait
   // phone shows one full trading day of 5-minute bars (78); the others keep the desk's usual density.
   var PL=8,PR=62,H=420,PT=10,PH=290,VT=318,VH=90;
-  var PITCH={d:5.3,w:6.3,m:12,i:4.5},DAY_BARS=78;
+  // Nov 4, 2026 (Todd): every tab packs bars as tight as Intraday, and the pop-up spans the screen, so a desktop
+  // shows ~1.5 years of daily bars, ~7 years of weekly and ~30 years of monthly.
+  var PITCH={d:4.5,w:4.5,m:4.5,i:4.5},DAY_BARS=78;
   function width(){return Math.max(300,body.clientWidth||760);}
   function fit(mode,W){var avail=W-PL-PR,p=PITCH[mode]||PITCH.d;if(mode==='i')p=Math.min(p,avail/DAY_BARS);return Math.max(10,Math.floor(avail/p));}
   function clip(s,k){var n=s.c.length;if(n<=k)return s;var off=n-k,o={};
@@ -133,6 +135,43 @@
     for(var i=0;i<j.c.length;i++){var kk=bucketKey(j.d[i],mode);if(kk!==key){key=kk;k++;out.d.push(j.d[i]);out.o.push(j.o[i]);out.h.push(j.h[i]);out.l.push(j.l[i]);out.c.push(j.c[i]);out.v.push(j.v[i]);out.rs.push(rsByDate?rsByDate[j.d[i]]||null:null);}
       else{out.d[k]=j.d[i];out.h[k]=Math.max(out.h[k],j.h[i]);out.l[k]=Math.min(out.l[k],j.l[i]);out.c[k]=j.c[i];out.v[k]+=j.v[i];out.rs[k]=rsByDate?rsByDate[j.d[i]]||out.rs[k]:null;}}
     var n=out.d.length,s=Math.max(0,n-keep);['d','o','h','l','c','v','rs'].forEach(function(f){out[f]=out[f].slice(s);});return out;}
+  // Deeper history, fetched after the chart opens and drawn in when it lands. Daily: the relay's two years
+  // (?hist=) put in front of the pass's 130 bars. Weekly/Monthly: the relay's ?long= (ten years weekly, every
+  // month Yahoo has). The pass's own bars stay as they are; only older bars are added in front, and their
+  // moving averages are worked out over the joined closes. If the relay predates ?long=, the tabs keep 2 years.
+  function emaArr(c,n){var o=[],k=2/(n+1),e=null;for(var i=0;i<c.length;i++){if(i<n-1){o.push(null);continue;}
+    if(e===null){var t=0;for(var q=i-n+1;q<=i;q++)t+=c[q];e=t/n;}else e=c[i]*k+e*(1-k);o.push(+e.toFixed(2));}return o;}
+  var GOT={};
+  function relayGet(kind,sym){var key=kind+':'+sym;if(GOT[key])return GOT[key];
+    return GOT[key]=fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+kind+'='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});}
+  function deepDaily(s,j,sp){
+    if(!s||!s.d||!s.d.length||!j||!j.d)return;var k=0;while(k<j.d.length&&j.d[k]<s.d[0])k++;if(!k)return;
+    var spm=null;if(sp&&sp.d){spm={};for(var i=0;i<sp.d.length;i++)spm[sp.d[i]]=sp.c[i];}
+    ['d','o','h','l','c','v'].forEach(function(f){var pre=j[f].slice(0,k);if(f!=='d'&&f!=='v')pre=pre.map(function(x){return +(+x).toFixed(2);});s[f]=pre.concat(s[f]);});
+    var full={e21:emaArr(s.c,21),s50:smaArr(s.c,50),s200:smaArr(s.c,200)};
+    for(var key in full){var old=s[key]||[];s[key]=full[key].slice(0,k).concat(old.length?old:full[key].slice(k));}
+    if(s.rs){var pr=[];for(var i=0;i<k;i++)pr.push(spm&&spm[j.d[i]]?+(j.c[i]/spm[j.d[i]]).toFixed(5):null);s.rs=pr.concat(s.rs);}
+    ['rim_i','low_i','bo_i'].forEach(function(f){if(s[f]!=null)s[f]+=k;});
+    if(s.rsdot)s.rsdot=s.rsdot.map(function(i){return i+k;});
+  }
+  function deepFrame(fr,add,mode,spB){
+    if(!add||!add.d||!add.d.length)return fr;
+    if(!fr||!fr.d||!fr.d.length)return {d:add.d,o:add.o,h:add.h,l:add.l,c:add.c,v:add.v};
+    var first=bucketKey(fr.d[0],mode),k=0;while(k<add.d.length&&bucketKey(add.d[k],mode)<first)k++;if(!k)return fr;
+    ['d','o','h','l','c','v'].forEach(function(f){fr[f]=add[f].slice(0,k).concat(fr[f]);});
+    if(fr.rs){var pr=[];for(var i=0;i<k;i++){var b=spB&&spB[bucketKey(add.d[i],mode)];pr.push(b?+(add.c[i]/b).toFixed(5):null);}fr.rs=pr.concat(fr.rs);}
+    if(fr.rsdot)fr.rsdot=fr.rsdot.map(function(i){return i+k;});
+    return fr;
+  }
+  function deepen(d){
+    if(!RELAY||!d.series||d.__deep)return;d.__deep=true;var sym=d.sym;
+    Promise.all([d.__hist?Promise.resolve(d.__hist):relayGet('hist',sym),relayGet('long',sym),spx(),relayGet('long','^GSPC')]).then(function(x){
+      try{deepDaily(d.series,x[0],x[2]);}catch(e){}
+      try{if(x[1]){var spB=null;if(x[3]&&x[3].w){spB={};x[3].w.d.forEach(function(ds,i){spB[bucketKey(ds,'w')]=x[3].w.c[i];});}
+        d.series.w=deepFrame(d.series.w,x[1].w,'w',spB);d.series.m=deepFrame(d.series.m,x[1].m,'m',null);}}catch(e){}
+      if(body.getAttribute('data-sym')===sym&&REDRAW)REDRAW();
+    });
+  }
   function enrichFresh(d,j,sp){
     var rsBy=null;
     if(sp&&sp.c){var sm={};for(var i=0;i<sp.d.length;i++)sm[sp.d[i]]=sp.c[i];rsBy={};for(var i=0;i<j.d.length;i++){if(sm[j.d[i]])rsBy[j.d[i]]=j.c[i]/sm[j.d[i]];}
@@ -155,7 +194,7 @@
     Promise.all([fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'hist='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}),dist(),spx()]).then(function(x){
       var j=x[0];if(!j||!j.c||!j.c.length)throw new Error('none');
       var d=window.BWA&&BWA.analyze(sym,j,{buyZonePct:{{ desk.buy_zone_pct or 5 }},chartBars:{{ desk.chart_bars or 130 }}});if(!d)throw new Error('short');
-      d.name=j.name;d.industry=j.industry||j.sector;d.rs_rank=BWA.rsRank(d.rs_score,x[1]);
+      d.name=j.name;d.industry=j.industry||j.sector;d.rs_rank=BWA.rsRank(d.rs_score,x[1]);d.__hist=j;
       try{enrichFresh(d,j,x[2]);}catch(e){}
       render(d);
     }).catch(function(){body.className='wait';body.textContent='Couldn\'t find '+sym+'. Check the ticker (class shares use a dash, like BRK-B).';});
@@ -176,6 +215,7 @@
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,'d',lastW));}
       wireTabs(body,d);
       live(d.sym);
+      deepen(d);
   }
   // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.
   var SESSION={pre:'Pre-market',post:'After hours',overnight:'Overnight'};

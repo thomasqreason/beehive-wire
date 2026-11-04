@@ -18,10 +18,12 @@ on:
     # job) and the hourly siren are the real safety net; these are the backup clock.
     # When Mountain falls back in November, add one hour to each: "5,25,45 15", "5,25,45 18", "5,25,45 21",
     # "20,40 22".
-    - cron: "5,25,45 14 * * 1-5"
-    - cron: "5,25,45 17 * * 1-5"
-    - cron: "5,25,45 20 * * 1-5"
-    - cron: "20,40 21 * * 1-5"
+    # Both seasons are listed so nobody has to remember the switch: the check job runs markets.py due, which
+    # works in Mountain time and stands down any run whose slot hasn't come round or has already printed.
+    - cron: "5,25,45 14,15 * * 1-5"
+    - cron: "5,25,45 17,18 * * 1-5"
+    - cron: "5,25,45 20,21 * * 1-5"
+    - cron: "20,40 21,22 * * 1-5"
   workflow_dispatch:
     inputs:
       mode:

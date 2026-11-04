@@ -8,6 +8,8 @@
 //   which the page's quote box runs through the same chart analysis the desk uses (cached 60 s).
 //   GET https://<your-worker>.workers.dev/?intra=DELL  → five trading days of 5-minute bars, regular session
 //   only, for the pop-up's Intraday tab (cached 60 s).
+//   GET https://<your-worker>.workers.dev/?long=DELL   → ten years of weekly bars and every monthly bar Yahoo has,
+//   so the pop-up's Weekly and Monthly tabs reach back further than the desk's two-year download (cached 1 h).
 //
 // The Market Desk gate (Oct 30, 2026) lives here too, under /gate/. It needs a KV namespace bound as GATE and
 // three Worker secrets: GATE_ADMIN_TOKEN (for Todd's keys page), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET.
@@ -55,6 +57,18 @@ export default {
                           exchange: bars.exchange || null, ...bars.cols }, 200, { "Cache-Control": "public, max-age=60" });
       ctx.waitUntil(caches.default.put(hkey, hres.clone()));
       return withHeaders(hres, cors);
+    }
+    const long = (url.searchParams.get("long") || "").toUpperCase().trim();
+    if (long) {
+      if (!SYM.test(long)) return json({ error: "bad symbol" }, 400, cors);
+      const lkey = new Request("https://quote-cache.local/long/" + long);
+      const lhit = await caches.default.match(lkey);
+      if (lhit) return withHeaders(lhit, cors);
+      const [w, m] = await Promise.all([longBars(long, "1wk", "10y").catch(() => null), longBars(long, "1mo", "max").catch(() => null)]);
+      if (!w && !m) return json({ error: "no long history for " + long }, 404, cors);
+      const lres = json({ sym: long, w, m }, 200, { "Cache-Control": "public, max-age=3600" });
+      ctx.waitUntil(caches.default.put(lkey, lres.clone()));
+      return withHeaders(lres, cors);
     }
     const intra = (url.searchParams.get("intra") || "").toUpperCase().trim();
     if (intra) {
@@ -144,6 +158,29 @@ async function dailyBars(sym) {
   });
   if (cols.d.length < 15) return null;
   return { cols, name: m.longName || m.shortName, exchange: m.fullExchangeName };
+}
+
+// ── Weekly (1wk) or monthly (1mo) bars for the long view. Dated by Yahoo's bucket start (a Monday, or the 1st);
+//    the page files each bar into its own week or month, so only the date's bucket matters.
+async function longBars(sym, interval, range) {
+  const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=${interval}&range=${range}`,
+    { headers: { "User-Agent": UA }, cf: { cacheTtl: 3600 } });
+  if (!r.ok) return null;
+  const res = (await r.json())?.chart?.result?.[0];
+  if (!res?.timestamp) return null;
+  const m = res.meta || {}, q = res.indicators?.quote?.[0] || {}, off = m.gmtoffset || 0;
+  const cols = { d: [], o: [], h: [], l: [], c: [], v: [] };
+  res.timestamp.forEach((t, i) => {
+    const o = q.open?.[i], h = q.high?.[i], l = q.low?.[i], c = q.close?.[i], v = q.volume?.[i];
+    if ([o, h, l, c].some(x => x == null)) return;
+    const d = new Date((t + off) * 1000).toISOString().slice(0, 10);
+    const key = interval === "1mo" ? d.slice(0, 7) : d;
+    const lastKey = cols.d.length ? (interval === "1mo" ? cols.d[cols.d.length - 1].slice(0, 7) : cols.d[cols.d.length - 1]) : null;
+    if (lastKey === key) for (const k of ["d", "o", "h", "l", "c", "v"]) cols[k].pop();   // a duplicate live bar: keep the newer one
+    const r2 = x => Math.round(x * 100) / 100;
+    cols.d.push(d); cols.o.push(r2(o)); cols.h.push(r2(h)); cols.l.push(r2(l)); cols.c.push(r2(c)); cols.v.push(v == null ? 0 : v);
+  });
+  return cols.d.length ? cols : null;
 }
 
 // ── Five days of 5-minute bars for the pop-up's Intraday tab. Regular session only, so the day's shape is
