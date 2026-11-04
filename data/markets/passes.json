@@ -3565,5 +3565,50 @@
 "day": 24,
 "pass": 1,
 "no": "24.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-04",
+"at": "2026-11-04T21:29:35+00:00",
+"href": "movers/2026-11-04-1429.html",
+"syms": [
+"DUOL",
+"XYZ",
+"SWK",
+"CNC",
+"ZBH",
+"MMM",
+"PSA",
+"GEHC",
+"BDX",
+"HCA",
+"IDXX",
+"CVNA",
+"FISV",
+"TOST",
+"AMD",
+"FDS",
+"KDP",
+"EXPE",
+"PPG",
+"FTV"
+],
+"heads": [
+"DUOL +26.0% on 9.2x volume, nearing buy point",
+"XYZ +15.3% on 4.7x volume, breakout past buy point",
+"SWK +13.1% on 4.0x volume, breakout past buy point, already extended",
+"CNC +12.6% on 3.2x volume, new 52-week high",
+"ZBH +13.5% on 3.1x volume, breakout past buy point",
+"MMM +9.5% on 2.9x volume, breakout past buy point",
+"PSA +2.8% on 2.7x volume, breakout past buy point",
+"GEHC +6.4% on 2.6x volume, nearing buy point",
+"BDX +5.6% on 2.6x volume, new 52-week high",
+"HCA +10.3% on 2.6x volume, big move on the day"
+],
+"extra": "20 qualifiers",
+"live": false,
+"day": 24,
+"pass": 2,
+"no": "24.2"
 }
 ]
