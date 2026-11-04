@@ -1120,5 +1120,16 @@
   "iso": "2026-11-03T16:02:21-07:00",
   "top": "CNN POLL: VOTERS SOUR ON TRUMP...",
   "count": 100
+ },
+ {
+  "no": 103,
+  "file": "2026-11-04-morning.html",
+  "date": "2026-11-04",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:14 a.m.",
+  "iso": "2026-11-04T04:14:43-07:00",
+  "top": "DEMS SEIZE CONGRESS IN BLUE TSUNAMI...",
+  "count": 100
  }
 ]
