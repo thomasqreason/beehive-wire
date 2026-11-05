@@ -3831,5 +3831,74 @@
 "day": 25,
 "pass": 4,
 "no": "25.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-05",
+"at": "2026-11-05T22:37:43+00:00",
+"href": "movers/2026-11-05-1537.html",
+"syms": [
+"CPAY",
+"MSI",
+"EW",
+"STE",
+"BDX",
+"VRSK",
+"COST",
+"NEM",
+"CAH",
+"TYL",
+"FISV",
+"AWK",
+"CF",
+"CHYM",
+"APP",
+"EVRG",
+"CVS",
+"TTWO",
+"MOS",
+"BG"
+],
+"heads": [
+"CPAY +6.8% on 3.7x volume, breakout past buy point",
+"MSI +4.0% on 3.7x volume, breakout past buy point",
+"EW +1.5% on 2.4x volume, breakout past buy point",
+"STE +2.5% on 2.4x volume, in base",
+"BDX +2.1% on 2.3x volume, new 52-week high",
+"VRSK +6.9% on 2.0x volume, big move on the day",
+"COST +1.8% on 2.0x volume, nearing buy point",
+"NEM +1.4% on 1.9x volume, in base",
+"CAH +2.2% on 1.7x volume, breakout past buy point",
+"TYL +1.7% on 1.7x volume, extended"
+],
+"extra": "14 qualifiers",
+"live": false,
+"day": 25,
+"pass": 5,
+"no": "25.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-05",
+"at": "2026-11-05T22:42:30+00:00",
+"href": "2026-11-05.html",
+"syms": [
+"SAIL",
+"AMGN",
+"PFE",
+"TEAM"
+],
+"heads": [
+"SailPoint Bounces 3.9% After Hours Following 6.7% Drop In Tech Selloff",
+"Amgen Falls 3.8% In Market Rout While Expanding RNA Drug Hunt",
+"Pfizer Slips 3% As Sales Hold Flat; Shares Up 20% This Year",
+"Atlassian Falls 18% After Hours On Weaker Subscription Growth Outlook",
+"Company of the Day: Grainger Holds Near Highs After Best Revenue Growth In Five Years"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 25,
+"pass": 6,
+"no": "25.6"
 }
 ]
