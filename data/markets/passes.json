@@ -3736,5 +3736,34 @@
 "day": 25,
 "pass": 1,
 "no": "25.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-05",
+"at": "2026-11-05T18:53:35+00:00",
+"href": "movers/2026-11-05-1153.html",
+"syms": [
+"CPAY",
+"MSI",
+"COST",
+"VRSK",
+"APP",
+"EVRG",
+"ALB",
+"AEM",
+"MOS",
+"GLD"
+],
+"heads": [
+"CPAY +7.8% on 3.5x volume, breakout past buy point, already extended",
+"MSI +4.4% on 3.5x volume, breakout past buy point",
+"COST +1.8% on 1.7x volume, nearing buy point",
+"VRSK +4.1% on 1.6x volume, big move on the day"
+],
+"extra": "4 qualifiers",
+"live": true,
+"day": 25,
+"pass": 2,
+"no": "25.2"
 }
 ]
