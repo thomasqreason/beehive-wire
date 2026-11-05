@@ -399,3 +399,7 @@ cron opens the new cycle next trading day. From then on the schedule and `due` o
   use chart words ("Breaks Out Past ... Buy Point"); they print only when the writer fails.
 - 2026-11-05: the queued second job (docs/HANDOFF-market-desk-watchlist-alerts.md) is built as its own commit on
   top of this one; both wait on one push. The relay paste carries both jobs' worker changes.
+- 2026-11-05 2:45 PM MT: pushed on Todd's go-ahead (13d6aa5c, b523d2f8). First run: the push's build ran the new
+  `due`, found no midday pass today and dispatched one (run 42115520502): all steps green, Opus wrote GTLB / TSLA /
+  PLTR, the After Hours table screened 583 names, deployed. The 3:20 close pass is the schedule's. Follow-up
+  f873c781 (writer: midday time from `as_of`; a late catch-up after the bell is the close) waits on a push.
