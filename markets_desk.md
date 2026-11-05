@@ -43,9 +43,11 @@ move, a new chart status): lead with what changed.
   block (price, change, time read) from the premarket tape. The premarket print and the overnight news LEAD the
   story and the headline ("Datadog Jumps 9% Premarket After Raising Its Outlook"), with the prior close second.
   The payload's `futures` list holds the index futures against the prior settle.
-- `midday` (11:05 a.m. Mountain, the session under way). `intraday` is true and the day's numbers are the session
-  so far: say "as of 11:05 a.m. Mountain" once, then treat the partial bar as the session. `vol_ratio` is projected
-  to the full day (`vol_projected`); say "on pace for 2.1x its 50-day average volume".
+- `midday` (11:05 a.m. Mountain, the session under way). When `intraday` is true the day's numbers are the session
+  so far: give the time once, from the payload's `as_of` in Mountain time ("as of 11:05 a.m. Mountain"), then treat
+  the partial bar as the session. `vol_ratio` is projected to the full day (`vol_projected`); say "on pace for 2.1x
+  its 50-day average volume". When `intraday` is false (a late catch-up run after the bell), the numbers are the
+  close: write them as the close and give no intraday time.
 - `close` (3:20 p.m. Mountain): the session's close, After Hours when present, the market note in full, and the
   profile and The Lesson when the payload has them. Unchanged from before.
 
