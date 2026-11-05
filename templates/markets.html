@@ -158,6 +158,8 @@
     {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
     {% if webster %}<li><a href="#webster">Health screen</a></li>{% endif %}
     <li><a href="#positions">My positions</a></li>
+    <li><a href="#watchlists">My watchlists</a></li>
+    {% if desk.quote_relay and (desk.alerts or {}).get('enabled', true) %}<li><a href="#alerts">My alerts</a></li>{% endif %}
     {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
     {% if lists %}<li><a href="#beehive50">Beehive {{ lists.method.list_size or lists.beehive50|length }}</a></li><li><a href="#bigcap20">Big Cap {{ lists.method.big_cap_size or lists.bigcap20|length }}</a></li>{% endif %}
     {% for s in stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
@@ -363,6 +365,16 @@
     <button type="button" id="pos-save">Save</button>
     <div id="pos-out"></div>
   </div>
+
+  <h3 class="sec" id="watchlists">My Watchlists</h3>
+  <div class="legend">From any chart's Watchlist button, up to {{ desk.watchlist_max or 50 }} names a list. Browse: swipe on a phone; arrow keys or Tab / Shift+Tab on a laptop.</div>
+  <div id="wl-out"></div>
+
+  {% if desk.quote_relay and (desk.alerts or {}).get('enabled', true) %}
+  <h3 class="sec" id="alerts">My Alerts</h3>
+  <div class="legend">Price alerts from any chart's Alerts button. One-shot; regular-session prices.</div>
+  <div id="al-out"></div>
+  {% endif %}
 
   {% if scorecard %}
   <h3 class="sec" id="scorecard">Scorecard</h3>

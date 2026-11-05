@@ -60,3 +60,6 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
 - The desk runs five passes a day since Nov 5, 2026 (docs/HANDOFF-market-desk-passes.md). Typed tickers get an
   earnings date on their chart only once Todd pastes relay/quote-worker.js (the `earnings` field in merge()) into the
   Cloudflare Worker. Nothing pings 15:50-20:50 UTC, so the 11:05 midday pass leans on GitHub's own cron.
+- Watchlists and alerts in the chart pop-up (docs/HANDOFF-market-desk-watchlist-alerts.md): sync and push need the
+  same worker paste plus, in Cloudflare, the `ALERT_SALT` secret and a `*/5 * * * 1-5` Cron Trigger (relay/README.md
+  "Watchlists and alerts"). Until then lists and alerts stay in each browser and alerts fire only on an open page.

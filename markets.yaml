@@ -10,6 +10,12 @@ desk:
   # writer passes about four hours apart each add `stories` new names, and the page shows the newest `stories_keep`
   # across today and yesterday (each date page keeps all of its day's). Retune here, not in code.
   stories_keep: 10
+  # The chart pop-up's Watchlist and Alerts buttons (Todd, Nov 5, 2026). Lists and alerts sync through the relay
+  # under the reader's code; alerts push through ntfy (Worker secret ALERT_SALT + a */5 * * * 1-5 Cron Trigger).
+  watchlist_max: 50
+  alerts:
+    enabled: true
+    ntfy_server: "https://ntfy.sh"
   passes:
     premarket:    {at: "07:15", stories: 3}   # Premarket Movers table, today's date at the top, futures, 3 stories
     movers_open:  {at: "07:45"}               # first Volume Surges pass

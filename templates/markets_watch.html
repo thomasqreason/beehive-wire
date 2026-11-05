@@ -1,0 +1,237 @@
+{% set al_cfg = desk.alerts or {} %}
+<script>
+/* Watchlists and Alerts (Todd, Nov 5, 2026). The chart pop-up's Watchlist and Alerts buttons; list mode (swipe on a
+   phone, arrow keys or Tab / Shift+Tab on a laptop, through a list's charts); the page's Watchlists and Alerts
+   sections; the in-page alert check. Kept in this browser (localStorage bw-watchlists, bw-alerts) and, for a reader
+   whose access code the relay knows, on the relay under that code (relay/quote-worker.js /me), so a phone and a
+   laptop share them. The newer copy wins. Pop-up hooks: window.BWPOP (markets_popup.html). */
+(function(){
+  var RELAY=String({{ (desk.quote_relay or '')|tojson }}).replace(/\/+$/,''),MAX={{ desk.watchlist_max or 50 }};
+  var ALERTS={{ 'true' if (desk.quote_relay and al_cfg.get('enabled', true)) else 'false' }},NTFY={{ (al_cfg.get('ntfy_server') or 'https://ntfy.sh')|tojson }};
+  var MBASE={{ ((root or '../') ~ 'markets/')|tojson }},P=window.BWPOP;
+  if(!P)return;
+  function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function f2(x){return x==null||isNaN(x)?'–':Number(x).toFixed(2);}
+  function pc(x){return x==null?'–':(x>=0?'+':'')+Number(x).toFixed(1)+'%';}
+  function cls(x){return (x||0)>=0?'pos':'neg';}
+  function now(){return new Date().toISOString();}
+  function mt(iso){try{var d=new Date(iso);return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT '+d.toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/Denver'});}catch(e){return iso;}}
+  function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  var WL=lsGet('bw-watchlists'),AL=lsGet('bw-alerts');
+  if(!WL||!Array.isArray(WL.lists))WL={v:1,updated:'',lists:[]};
+  if(!AL||!Array.isArray(AL.rules))AL={v:1,updated:'',rules:[]};
+  var CODE=null;try{CODE=localStorage.getItem('bw-desk-code');}catch(e){}
+  var SYNC=!!(RELAY&&CODE),TOPIC=null;
+
+  // ── sync with the relay: read on open, write (debounced) on every change; the newer `updated` wins
+  function api(path,method,body){return fetch(RELAY+path,{method:method,headers:{'Content-Type':'application/json'},cache:'no-store',
+      body:JSON.stringify(Object.assign({code:CODE},body||{}))}).then(function(r){return r.json().catch(function(){return {};}).then(function(j){j.__s=r.status;return j;});});}
+  var tW=null,tA=null;
+  function putWL(){if(!SYNC)return;clearTimeout(tW);tW=setTimeout(function(){api('/me/watchlists','PUT',{updated:WL.updated,lists:WL.lists}).then(function(j){
+    if(j.__s===401)SYNC=false;if(j.__s===409&&j.watchlists){WL={v:1,updated:j.watchlists.updated,lists:j.watchlists.lists||[]};lsSet('bw-watchlists',WL);changed();}}).catch(function(){});},400);}
+  function putAL(){if(!SYNC)return;clearTimeout(tA);tA=setTimeout(function(){api('/me/alerts','PUT',{updated:AL.updated,rules:AL.rules}).then(function(j){
+    if(j.__s===401)SYNC=false;if(j.alerts&&(j.__s===409||j.__s===200)){var same=JSON.stringify(j.alerts.rules||[])===JSON.stringify(AL.rules);
+      AL={v:1,updated:j.alerts.updated,rules:j.alerts.rules||[]};lsSet('bw-alerts',AL);if(!same)changed();}}).catch(function(){});},400);}
+  function pull(){if(!SYNC)return Promise.resolve();
+    return api('/me','POST').then(function(j){
+      if(j.__s!==200){if(j.__s===401||j.__s===404||j.__s===503)SYNC=false;return;}
+      TOPIC=j.topic||null;var rw=j.watchlists,ra=j.alerts;
+      if(rw&&String(rw.updated||'')>String(WL.updated||'')){WL={v:1,updated:rw.updated,lists:rw.lists||[]};lsSet('bw-watchlists',WL);}
+      else if(WL.updated&&String(WL.updated)>String((rw||{}).updated||''))putWL();
+      if(ra&&String(ra.updated||'')>String(AL.updated||'')){AL={v:1,updated:ra.updated,rules:ra.rules||[]};lsSet('bw-alerts',AL);}
+      else if(AL.updated&&String(AL.updated)>String((ra||{}).updated||''))putAL();
+      changed();
+    }).catch(function(){});}
+  function saveWL(){WL.updated=now();lsSet('bw-watchlists',WL);putWL();changed();}
+  function saveAL(){AL.updated=now();lsSet('bw-alerts',AL);putAL();changed();}
+  function onAny(sym){return WL.lists.some(function(l){return l.syms.indexOf(sym)>=0;});}
+  function armedFor(sym){return AL.rules.filter(function(r){return r.sym===sym&&!r.fired;}).length;}
+
+  // ── the pop-up: buttons in the tabs row (one line; » scrolls it on a narrow screen), the dropdown, the panel
+  var CUR=null,MENU=null,PANEL=false,LM=null,NEWING=false;
+  function decorate(d){
+    var body=P.body,tabs=body.querySelector('.tabs');if(!tabs)return;
+    var wrap=document.createElement('div');wrap.className='tabsw';tabs.parentNode.insertBefore(wrap,tabs);wrap.appendChild(tabs);
+    var wb=document.createElement('button');wb.type='button';wb.className='act wlb';tabs.appendChild(wb);
+    var ab=null;if(ALERTS){ab=document.createElement('button');ab.type='button';ab.className='act alb';tabs.appendChild(ab);}
+    var more=document.createElement('button');more.type='button';more.className='tmore';more.setAttribute('aria-label','More buttons');wrap.appendChild(more);
+    CUR={d:d,wrap:wrap,tabs:tabs,wb:wb,ab:ab,more:more};MENU=null;NEWING=false;
+    tabs.addEventListener('scroll',fitRow,{passive:true});setTimeout(fitRow,0);
+    if(window.ResizeObserver)try{new ResizeObserver(fitRow).observe(tabs);}catch(e){}
+    more.addEventListener('click',function(){var t=CUR.tabs,end=t.scrollLeft+t.clientWidth>=t.scrollWidth-2;t.scrollLeft=end?0:t.scrollWidth;fitRow();});
+    wb.addEventListener('click',function(e){e.stopPropagation();MENU?closeMenu():openMenu();});
+    if(ab)ab.addEventListener('click',function(){PANEL=!PANEL;paintPanel();});
+    paintButtons();paintStrip(true);if(PANEL)paintPanel();
+  }
+  function fitRow(){if(!CUR)return;var t=CUR.tabs,over=t.scrollWidth>t.clientWidth+2,end=t.scrollLeft+t.clientWidth>=t.scrollWidth-2;
+    CUR.more.style.display=over?'':'none';CUR.more.textContent=end?'«':'»';CUR.wrap.classList.toggle('over',over);}
+  window.addEventListener('resize',function(){setTimeout(fitRow,50);});
+  function paintButtons(){if(!CUR)return;var s=CUR.d.sym,on=onAny(s);
+    CUR.wb.innerHTML=(on?'★':'☆')+' Watchlist';CUR.wb.classList.toggle('on2',on);CUR.wb.setAttribute('aria-pressed',on?'true':'false');
+    if(CUR.ab){var n=armedFor(s);CUR.ab.innerHTML='Alerts'+(n?' <span class="badge">'+n+'</span>':'');}}
+
+  function menuHtml(sym){
+    var h='<div class="wlmenu" role="menu">';
+    WL.lists.forEach(function(l,i){var has=l.syms.indexOf(sym)>=0,full=!has&&l.syms.length>=MAX;
+      h+='<div class="wlrow'+(full?' full':'')+'"><button type="button" class="wlt" data-i="'+i+'"'+(full?' disabled':'')+'><span class="ck">'+(has?'✓':'')+'</span>'
+        +esc(l.name)+(full?' &middot; full ('+MAX+')':' <span class="n">'+l.syms.length+'</span>')+'</button><button type="button" class="wlo" data-i="'+i+'">Open</button></div>';});
+    h+=NEWING?'<div class="wlrow new"><input class="wlname" maxlength="30" placeholder="List name" aria-label="New list name"></div>'
+             :'<div class="wlrow new"><button type="button" class="wln">New list…</button></div>';
+    return h+'</div>';
+  }
+  function openMenu(){if(!CUR)return;closeMenu();var box=document.createElement('div');box.innerHTML=menuHtml(CUR.d.sym);MENU=box.firstChild;CUR.wrap.appendChild(MENU);wireMenu();}
+  function closeMenu(){if(MENU&&MENU.parentNode)MENU.parentNode.removeChild(MENU);MENU=null;NEWING=false;}
+  function redrawMenu(){if(!MENU||!CUR)return;var box=document.createElement('div');box.innerHTML=menuHtml(CUR.d.sym);var m=box.firstChild;MENU.parentNode.replaceChild(m,MENU);MENU=m;wireMenu();}
+  function wireMenu(){
+    MENU.addEventListener('click',function(e){e.stopPropagation();var b=e.target.closest('button');if(!b||b.disabled)return;var sym=CUR.d.sym,i=+b.getAttribute('data-i');
+      if(b.classList.contains('wlt')){var l=WL.lists[i],k=l.syms.indexOf(sym);if(k>=0)l.syms.splice(k,1);else if(l.syms.length<MAX)l.syms.push(sym);saveWL();redrawMenu();}
+      else if(b.classList.contains('wlo')){var L=WL.lists[i];closeMenu();if(L.syms.length)listMode(L.name,Math.max(0,L.syms.indexOf(sym)));}
+      else if(b.classList.contains('wln')){NEWING=true;redrawMenu();var inp=MENU.querySelector('.wlname');if(inp)inp.focus();}});
+    var inp=MENU.querySelector('.wlname');
+    if(inp)inp.addEventListener('keydown',function(e){if(e.key!=='Enter')return;e.preventDefault();var name=inp.value.trim().slice(0,30);
+      if(!name)return;var ex=WL.lists.filter(function(l){return l.name.toLowerCase()===name.toLowerCase();})[0];
+      if(ex){if(ex.syms.indexOf(CUR.d.sym)<0&&ex.syms.length<MAX)ex.syms.push(CUR.d.sym);}else WL.lists.push({name:name,syms:[CUR.d.sym]});
+      NEWING=false;saveWL();redrawMenu();});
+  }
+  document.addEventListener('click',function(e){if(MENU&&!MENU.contains(e.target)&&!(CUR&&CUR.wb.contains(e.target)))closeMenu();});
+
+  // ── Alerts panel: this symbol's rules, quick picks from the chart's own numbers, a custom price
+  function rid(){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+  function lastPrice(d){var px=P.body.querySelector('h2 .px'),v=px?parseFloat(px.textContent):NaN;return isNaN(v)?d.close:v;}
+  function ruleText(r){return r.label||(r.kind+' '+f2(r.price));}
+  function arm(sym,kind,price,label){price=Math.round(price*100)/100;if(!(price>0))return;
+    if(AL.rules.some(function(r){return r.sym===sym&&r.kind===kind&&Math.abs(r.price-price)<0.005&&!r.fired;}))return;
+    var t=now();AL.rules.push({id:rid(),sym:sym,kind:kind,price:price,label:label||null,created:t,armed_at:t,fired:null,fired_price:null});saveAL();}
+  function rearm(id){AL.rules.forEach(function(r){if(r.id===id){r.fired=null;r.fired_price=null;r.armed_at=now();}});saveAL();}
+  function drop(id){AL.rules=AL.rules.filter(function(r){return r.id!==id;});saveAL();}
+  function pushLine(){
+    var h='';
+    if('Notification' in window&&Notification.permission==='default')h+='<button type="button" class="alnot">Browser notifications</button> ';
+    if(TOPIC)h+='<span class="st">Push</span> <a href="'+esc(NTFY+'/'+TOPIC)+'" target="_blank" rel="noopener">'+esc(TOPIC)+'</a> <span class="st">(ntfy app)</span> <button type="button" class="altest">Test</button>';
+    return h;
+  }
+  function panelHtml(d){
+    var sym=d.sym,b=d.base||{},last=lastPrice(d),rules=AL.rules.filter(function(r){return r.sym===sym;}),h='<div class="alpanel">';
+    rules.forEach(function(r){h+='<div class="alr"><b>'+esc(sym)+' '+esc(ruleText(r))+'</b> <span class="st">'+(r.fired?'fired '+esc(mt(r.fired))+' at '+f2(r.fired_price):'armed')+'</span>'
+      +(r.fired?' <button type="button" class="alre" data-id="'+esc(r.id)+'">Re-arm</button>':'')+' <button type="button" class="alx" data-id="'+esc(r.id)+'" aria-label="Delete">&times;</button></div>';});
+    var picks=[];
+    if(b.buy_point)picks.push(['above',b.buy_point,'above buy point '+f2(b.buy_point)]);
+    if(last)picks.push(['below',last*0.92,'below 8% stop '+f2(last*0.92)]);
+    if(d.hi52)picks.push(['above',d.hi52,'above 52-week high '+f2(d.hi52)]);
+    h+='<div class="alq">'+picks.map(function(p){return '<button type="button" class="alpk" data-k="'+p[0]+'" data-p="'+(Math.round(p[1]*100)/100)+'" data-l="'+esc(p[2])+'">'+esc(p[2].charAt(0).toUpperCase()+p[2].slice(1))+'</button>';}).join('')+'</div>';
+    h+='<div class="alc"><label>Above <input class="alin" data-k="above" inputmode="decimal" autocomplete="off"></label> <label>Below <input class="alin" data-k="below" inputmode="decimal" autocomplete="off"></label> <button type="button" class="alarm">Arm</button></div>';
+    h+='<div class="sub">Regular-session prices only.'+(SYNC?'':' This browser only.')+'</div>';
+    var pl=pushLine();if(pl)h+='<div class="alpush">'+pl+'</div>';
+    return h+'</div>';
+  }
+  function paintPanel(){if(!CUR)return;var old=P.body.querySelector('.alpanel');if(old)old.parentNode.removeChild(old);if(!PANEL||!CUR.ab)return;
+    var box=document.createElement('div');box.innerHTML=panelHtml(CUR.d);var pnl=box.firstChild;CUR.wrap.parentNode.insertBefore(pnl,CUR.wrap.nextSibling);wireActions(pnl,CUR.d.sym);}
+  function wireActions(root,sym){
+    root.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+      if(b.classList.contains('alpk'))arm(sym,b.getAttribute('data-k'),+b.getAttribute('data-p'),b.getAttribute('data-l'));
+      else if(b.classList.contains('alarm'))root.querySelectorAll('.alin').forEach(function(i){var v=parseFloat(String(i.value).replace(/[$,\s]/g,''));if(v>0)arm(sym,i.getAttribute('data-k'),v,i.getAttribute('data-k')+' '+f2(v));});
+      else if(b.classList.contains('alre'))rearm(b.getAttribute('data-id'));
+      else if(b.classList.contains('alx'))drop(b.getAttribute('data-id'));
+      else if(b.classList.contains('alnot')){try{Notification.requestPermission().then(changed);}catch(x){}}
+      else if(b.classList.contains('altest')){b.disabled=true;api('/me/alerts/test','POST').then(function(j){b.textContent=j.ok?'Sent':'Failed';}).catch(function(){b.textContent='Failed';});}});
+    root.querySelectorAll('.alin').forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var a=root.querySelector('.alarm');if(a)a.click();}});});
+  }
+
+  // ── list mode: ‹ 3 of 12 · Growth ›, one name at a time; swipe, arrows, Tab / Shift+Tab, stop at the ends
+  function listMode(name,i){var L=WL.lists.filter(function(l){return l.name===name;})[0];if(!L||!L.syms.length)return;
+    LM={name:name,i:Math.max(0,Math.min(i||0,L.syms.length-1))};go();}
+  function lmList(){if(!LM)return null;var L=WL.lists.filter(function(l){return l.name===LM.name;})[0];if(!L||!L.syms.length){LM=null;return null;}if(LM.i>=L.syms.length)LM.i=L.syms.length-1;return L;}
+  function go(){var L=lmList();if(!L)return;var sym=L.syms[LM.i];
+    try{history.replaceState(null,'','#list='+encodeURIComponent(LM.name)+'&i='+LM.i);}catch(e){}
+    P.open(sym);var nx=L.syms[LM.i+1];if(nx)fetch(MBASE+'series/'+encodeURIComponent(nx)+'.json',{cache:'no-cache'}).catch(function(){});}
+  function move(k){var L=lmList();if(!L)return;var j=LM.i+k;if(j<0||j>=L.syms.length)return;LM.i=j;go();}
+  function paintStrip(fromRender){var old=P.body.querySelector('.lstrip');if(old)old.parentNode.removeChild(old);var L=lmList();if(!L||!CUR)return;
+    if(L.syms[LM.i]!==CUR.d.sym){if(fromRender)LM=null;return;}     // another chart was opened: list mode ends
+    var s=document.createElement('div');s.className='lstrip';
+    s.innerHTML='<button type="button" class="lprev" aria-label="Previous"'+(LM.i?'':' disabled')+'>‹</button><span>'+(LM.i+1)+' of '+L.syms.length+' &middot; '+esc(L.name)+'</span><button type="button" class="lnext" aria-label="Next"'+(LM.i<L.syms.length-1?'':' disabled')+'>›</button>';
+    var sub=P.body.querySelector('.sub');(sub||CUR.wrap).parentNode.insertBefore(s,sub||CUR.wrap);
+    s.querySelector('.lprev').addEventListener('click',function(){move(-1);});s.querySelector('.lnext').addEventListener('click',function(){move(1);});}
+  document.addEventListener('keydown',function(e){
+    if(!P.isOpen())return;
+    var t=e.target,typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable);
+    if(e.key==='Escape'){if(MENU){closeMenu();e.preventDefault();e.stopImmediatePropagation();}return;}
+    if(!LM||typing||e.altKey||e.ctrlKey||e.metaKey)return;
+    var nx=e.key==='ArrowRight'||(e.key==='Tab'&&!e.shiftKey),pv=e.key==='ArrowLeft'||(e.key==='Tab'&&e.shiftKey);
+    if(!nx&&!pv)return;e.preventDefault();e.stopImmediatePropagation();move(nx?1:-1);},true);
+  var modal=document.getElementById('modal'),sw=null;
+  if(modal){
+    modal.addEventListener('touchstart',function(e){sw=null;if(!LM||e.touches.length!==1)return;var el=e.target;
+      if(el.closest&&el.closest('.tabsw,.wlmenu,.alpanel,input,textarea,.tblwrap'))return;
+      var t=e.touches[0];sw={x:t.clientX,y:t.clientY,t:Date.now(),chart:!!(el.closest&&el.closest('svg.chart'))};},{passive:true});
+    modal.addEventListener('touchend',function(e){var s=sw;sw=null;if(!s||!LM||!e.changedTouches.length)return;var t=e.changedTouches[0],dx=t.clientX-s.x,dy=t.clientY-s.y;
+      if(s.chart&&Date.now()-s.t>280)return;              // press, hold and drag on a chart is the crosshair
+      if(Math.abs(dx)>=60&&Math.abs(dx)>Math.abs(dy))move(dx<0?1:-1);},{passive:true});
+  }
+
+  // ── the in-page check: every minute while a desk page is open, armed rules against the relay's live price
+  function banner(r){var bar=document.getElementById('alertbar');if(!bar){bar=document.createElement('div');bar.id='alertbar';bar.className='alertbar';document.body.appendChild(bar);
+      bar.addEventListener('click',function(e){var x=e.target.closest('.abx');if(x){var row=x.parentNode;row.parentNode.removeChild(row);if(!bar.children.length)bar.parentNode.removeChild(bar);}});}
+    var row=document.createElement('div');row.className='abrow';
+    row.innerHTML='<a class="tk" href="#chart='+esc(r.sym)+'" data-sym="'+esc(r.sym)+'">'+esc(r.sym)+'</a> '+f2(r.fired_price)+' &mdash; '+esc(ruleText(r))+' &middot; '+esc(mt(r.fired))+' <button type="button" class="abx" aria-label="Dismiss">&times;</button>';
+    bar.appendChild(row);
+    try{if('Notification' in window&&Notification.permission==='granted')new Notification(r.sym+' '+f2(r.fired_price),{body:ruleText(r),tag:r.id});}catch(e){}}
+  function check(){
+    if(!ALERTS||document.hidden)return;var armed=AL.rules.filter(function(r){return !r.fired;});if(!armed.length)return;
+    var syms=armed.map(function(r){return r.sym;}).filter(function(s,i,a){return a.indexOf(s)===i;}),batches=[];
+    for(var i=0;i<syms.length;i+=25)batches.push(syms.slice(i,i+25));
+    Promise.all(batches.map(function(b){return fetch(RELAY+'/?s='+b.map(encodeURIComponent).join(','),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});})).then(function(rs){
+      var Q={};rs.forEach(function(j){if(j&&j.quotes)for(var k in j.quotes)Q[k]=j.quotes[k];});
+      var hits=[];AL.rules.forEach(function(r){if(r.fired)return;var q=Q[r.sym];if(!q||!q.live||!q.regular||q.regular.price==null)return;var px=q.regular.price;
+        if((r.kind==='above'&&px>=r.price)||(r.kind==='below'&&px<=r.price)){r.fired=now();r.fired_price=Math.round(px*100)/100;hits.push(r);}});
+      if(hits.length){saveAL();hits.forEach(banner);}});
+  }
+  window.BWAlertCheck=check;          // the test plan stubs quotes and calls this
+
+  // ── the page's Watchlists and Alerts sections
+  var DOCS={};
+  function doc(sym){if(DOCS[sym]!==undefined)return Promise.resolve(DOCS[sym]);
+    return fetch(MBASE+'series/'+encodeURIComponent(sym)+'.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(j){DOCS[sym]=j;return j;});}
+  function sections(){
+    var wo=document.getElementById('wl-out');
+    if(wo){
+      if(!WL.lists.length)wo.innerHTML='<div class="sum">No lists yet.</div>';
+      else{var all=[];WL.lists.forEach(function(l){l.syms.forEach(function(s){if(all.indexOf(s)<0)all.push(s);});});
+        Promise.all(all.map(doc)).then(function(){var h='';
+          WL.lists.forEach(function(l,li){h+='<div class="wlblock"><div class="wlhead"><b>'+esc(l.name)+'</b> <span class="st">'+l.syms.length+' of '+MAX+'</span>'
+            +(l.syms.length?' <a href="#" class="wlbrowse" data-i="'+li+'">Browse</a>':'')+' <a href="#" class="wldel" data-i="'+li+'">Delete list</a></div>';
+            if(l.syms.length){h+='<div class="tblwrap"><table class="board"><tr><th>Sym</th><th>Last</th><th>Chg</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>Earnings</th><th></th></tr>';
+              l.syms.forEach(function(s,si){var d=DOCS[s],b=(d&&d.base)||{};
+                h+='<tr><td class="sym"><a href="#" class="wlk tk2" data-i="'+li+'" data-j="'+si+'">'+esc(s)+'</a></td>'+(d?'<td>'+f2(d.close)+'</td><td class="'+cls(d.chg_pct)+'">'+pc(d.chg_pct)+'</td><td class="st">'+esc(d.angle||d.status||'')+'</td><td>'+(b.buy_point?f2(b.buy_point)+'&ndash;'+f2(b.buy_max):'–')+'</td><td class="'+cls(d.from_pivot)+'">'+(d.from_pivot!=null?pc(d.from_pivot):'–')+'</td><td class="st">'+esc(d.next_earnings||'–')+'</td>'
+                  :'<td colspan="6" class="st">typed ticker: chart from the relay</td>')+'<td><button type="button" class="wlrm" data-i="'+li+'" data-j="'+si+'" aria-label="Remove">&times;</button></td></tr>';});
+              h+='</table></div>';}
+            h+='</div>';});
+          wo.innerHTML=h;});}
+    }
+    var ao=document.getElementById('al-out');
+    if(ao){var h='';
+      if(!AL.rules.length)h='<div class="sum">No alerts set. Arm one from any chart\'s Alerts button.</div>';
+      else{h='<div class="tblwrap"><table class="board"><tr><th>Sym</th><th>Rule</th><th>State</th><th>Fired</th><th></th></tr>';
+        AL.rules.slice().sort(function(a,b){return (a.fired?1:0)-(b.fired?1:0)||a.sym.localeCompare(b.sym);}).forEach(function(r){
+          h+='<tr><td class="sym"><a class="tk" href="#chart='+esc(r.sym)+'" data-sym="'+esc(r.sym)+'">'+esc(r.sym)+'</a></td><td class="st">'+esc(ruleText(r))+'</td><td class="st">'+(r.fired?'fired':'armed')+'</td><td class="st">'+(r.fired?esc(mt(r.fired))+' at '+f2(r.fired_price):'–')+'</td>'
+            +'<td>'+(r.fired?'<button type="button" class="alre" data-id="'+esc(r.id)+'">Re-arm</button> ':'')+'<button type="button" class="alx" data-id="'+esc(r.id)+'" aria-label="Delete">&times;</button></td></tr>';});
+        h+='</table></div>';}
+      var pl=pushLine();h+='<div class="alpush">'+(pl||'')+(SYNC?'':'<span class="st">This browser only.</span>')+'</div>';
+      ao.innerHTML=h;}
+  }
+  document.addEventListener('click',function(e){var a=e.target.closest('.wlbrowse,.wldel,.wlk,.wlrm');if(!a)return;e.preventDefault();var li=+a.getAttribute('data-i'),L=WL.lists[li];if(!L)return;
+    if(a.classList.contains('wlbrowse'))listMode(L.name,0);
+    else if(a.classList.contains('wlk'))listMode(L.name,+a.getAttribute('data-j'));
+    else if(a.classList.contains('wlrm')){L.syms.splice(+a.getAttribute('data-j'),1);saveWL();}
+    else if(a.classList.contains('wldel')&&confirm('Delete the list "'+L.name+'"?')){WL.lists.splice(li,1);saveWL();}});
+  var ao0=document.getElementById('al-out');if(ao0)wireActions(ao0,null);
+
+  function changed(){paintButtons();redrawMenu();if(PANEL)paintPanel();paintStrip();sections();}
+  P.hook({render:decorate,quote:function(d){if(PANEL&&CUR&&CUR.d===d)paintPanel();},     // the 8% stop pick follows the live price
+          closed:function(){LM=null;closeMenu();PANEL=false;CUR=null;}});
+  sections();
+  pull();
+  if(ALERTS){setTimeout(check,4000);setInterval(check,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)check();});}
+  var m=/^#list=([^&]+)(?:&i=(\d+))?/.exec(location.hash);if(m)setTimeout(function(){listMode(decodeURIComponent(m[1]),+(m[2]||0));},0);
+})();
+</script>

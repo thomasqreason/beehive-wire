@@ -44,3 +44,17 @@ not a licensed feed. Allowed sites are listed in ALLOWED at the top of the file.
 The same worker keeps the desk's access codes (KV binding `GATE`) and talks to Stripe. Setup, secrets and the
 Stripe steps are in the main README under "The Market Desk gate". Endpoints are listed at the top of
 quote-worker.js.
+
+## Watchlists and alerts (Nov 5, 2026)
+The chart pop-up's Watchlist and Alerts buttons keep each reader's lists and price alerts in the browser and, under
+the reader's access code, in the same KV namespace (`wl:<CODE>`, `alerts:<CODE>`; endpoints `/me` at the bottom of
+quote-worker.js). Only codes the worker knows sync: Stripe codes and codes minted on /markets/keys/. A hand code
+that lives only in the MARKETS_ACCESS_CODES GitHub secret opens the desk but keeps lists in that browser.
+Two settings in Cloudflare, once, after pasting the worker:
+1. Secret: beehive-quotes → Settings → Variables and Secrets → Add → Type Secret, name `ALERT_SALT`, value any long
+   random string (it makes each reader's ntfy topic unguessable; changing it later moves every reader's topic).
+2. Cron: beehive-quotes → Settings → Triggers → Cron Triggers → Add → `*/5 * * * 1-5`. Every five minutes on
+   weekdays; it does nothing outside 9:30 a.m.-4:05 p.m. Eastern or on NYSE holidays (it reads
+   beehivewire.com/markets/holidays.json, written at every render). Regular-session prices only.
+Readers subscribe to their topic in the free ntfy app (iOS, Android, desktop) or at ntfy.sh/<topic>; the Alerts
+panel shows it with a Test button. Pages that are open check alerts in the browser too, every minute.

@@ -1139,6 +1139,13 @@ def render_site(site_cfg: dict | None = None) -> int:
         if (DATA / name).is_file():
             import shutil
             shutil.copy2(DATA / name, SITE / name)
+    # The relay's alert cron skips NYSE holidays and stops at 1 p.m. Eastern on early-close days from this file.
+    from datetime import date as _date, timedelta as _td
+    yr = datetime.now(timezone.utc).year
+    days = [_date(y, 1, 1) + _td(days=k) for y in (yr, yr + 1) for k in range(366) if (_date(y, 1, 1) + _td(days=k)).year == y]
+    (SITE / "holidays.json").write_text(json.dumps({
+        "holidays": sorted(d.isoformat() for y in (yr, yr + 1) for d in nyse_holidays(y)),
+        "early_closes": [d.isoformat() for d in days if nyse_early_close(d)]}), encoding="utf-8")
     tz = ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))
     site_name = ((site_cfg or {}).get("site") or {}).get("name") or "BEEHIVE WIRE"
     index = [{"date": e["date"], "human": human_date(e["date"]), "count": len(e["stories"]),

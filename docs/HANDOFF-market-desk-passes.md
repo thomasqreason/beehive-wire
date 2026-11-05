@@ -397,3 +397,5 @@ cron opens the new cycle next trading day. From then on the schedule and `due` o
   section 8's first run (dispatch the pass for the current hour, watch it, check the page). The writer's first
   real premarket/midday prose is only testable in CI. The no-writer fallback headlines (template_article) still
   use chart words ("Breaks Out Past ... Buy Point"); they print only when the writer fails.
+- 2026-11-05: the queued second job (docs/HANDOFF-market-desk-watchlist-alerts.md) is built as its own commit on
+  top of this one; both wait on one push. The relay paste carries both jobs' worker changes.

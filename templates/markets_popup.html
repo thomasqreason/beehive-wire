@@ -108,7 +108,7 @@
       if(window.BWXH){if(d.base&&d.base.buy_max&&mode!=='i')sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,mode,width()));}}
     REDRAW=function(){if(body.getAttribute('data-sym')===d.sym)draw(cur);};
     function pick(b){box.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});}
-    box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;
+    box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled||!b.hasAttribute('data-fr'))return;
       var mode=b.getAttribute('data-fr'),note=container.querySelector('.tabnote');if(note)note.parentNode.removeChild(note);
       if(mode!=='i'){pick(b);draw(mode);return;}
       var was=box.querySelector('button.on');b.disabled=true;b.textContent='Intraday\u2026';
@@ -223,6 +223,7 @@
       lastW=width();
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,'d',lastW));}
       wireTabs(body,d);
+      if(HOOK.render)try{HOOK.render(d);}catch(e){}
       live(d);
       deepen(d);
   }
@@ -252,9 +253,14 @@
         var top=x||r,px=h.querySelector('.px'),pg=h.querySelector('.pchg');   // the headline shows the freshest price
         if(px)px.textContent=f2(top.price);
         if(pg){pg.className='pchg '+cls(top.chg);pg.textContent=(top.chg>=0?'+':'')+f2(top.chg)+' ('+pc(top.chgPct)+')';}}
+      if(HOOK.quote)try{HOOK.quote(d);}catch(e){}
     }).catch(function(){});
   }
-  function hide(){scrim.classList.remove('on');if(/^#(chart|quote)=/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}
+  function hide(){scrim.classList.remove('on');if(HOOK.closed)try{HOOK.closed();}catch(e){}
+    if(/^#(chart|quote|list)=/.test(location.hash))history.replaceState(null,'',location.pathname+location.search);}
+  // Watchlist / Alerts (markets_watch.html) work through this: open a symbol, see the body, hear about renders.
+  var HOOK={};
+  window.BWPOP={body:body,open:show,isOpen:function(){return scrim.classList.contains('on');},hook:function(h){HOOK=h||{};}};
   var qb=document.getElementById('qbox');
   if(qb)qb.addEventListener('submit',function(e){e.preventDefault();var inp=document.getElementById('qsym');
     var s=(inp.value||'').trim().toUpperCase().replace(/^\$/,'').replace(/^([A-Z]+)[.\/]([A-Z])$/,'$1-$2');
@@ -268,3 +274,4 @@
 })();
 </script>
 {% include "markets_crosshair.html" %}
+{% include "markets_watch.html" %}

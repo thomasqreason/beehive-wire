@@ -19,6 +19,10 @@
 //   POST /gate/stripe         Stripe webhook: a cancelled or unpaid subscription revokes its code
 //   GET  /gate/admin/list, POST /gate/admin/mint|revoke|restore   Todd's keys page (Bearer GATE_ADMIN_TOKEN)
 //
+// A reader's watchlists and price alerts (Nov 5, 2026) live here too, under /me, keyed by the reader's access code
+// (an active code in GATE). Push goes through ntfy and needs one more secret, ALERT_SALT, and a Cron Trigger
+// (*/5 * * * 1-5) that runs scheduled() below. Endpoints are listed with the code, at the bottom of this file.
+//
 // Returns, per symbol: the regular-session price and change, plus the latest extended-hours price
 // (pre-market, after hours, or overnight) when there is one, each with its time. Quotes are cached
 // for 30 seconds, so a busy page costs Yahoo — and the free plan — one call per symbol per 30 s.
@@ -42,9 +46,10 @@ export default {
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Vary": "Origin",
     };
-    if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors, "Access-Control-Allow-Headers": "Authorization, Content-Type" } });
+    if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors, "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS", "Access-Control-Allow-Headers": "Authorization, Content-Type" } });
     const url = new URL(req.url);
     if (url.pathname.startsWith("/gate/")) return gate(req, url, env, { ...cors, "Access-Control-Allow-Headers": "Authorization, Content-Type", "Cache-Control": "no-store" });
+    if (url.pathname === "/me" || url.pathname.startsWith("/me/")) return me(req, url, env, { ...cors, "Access-Control-Allow-Headers": "Content-Type", "Cache-Control": "no-store" });
     const hist = (url.searchParams.get("hist") || "").toUpperCase().trim();
     if (hist) {
       if (!SYM.test(hist)) return json({ error: "bad symbol" }, 400, cors);
@@ -122,6 +127,11 @@ export default {
     const res = json({ asOf: Math.floor(Date.now() / 1000), quotes: out }, 200, { "Cache-Control": `public, max-age=${TTL}` });
     ctx.waitUntil(cache.put(key, res.clone()));
     return withHeaders(res, cors);
+  },
+
+  // The Cron Trigger (Cloudflare: beehive-quotes → Settings → Triggers → Cron Triggers → */5 * * * 1-5).
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runAlerts(env).then(r => console.log("alerts", JSON.stringify(r))).catch(e => console.log("alerts failed", String(e))));
   },
 };
 
@@ -428,3 +438,156 @@ async function stripeVerify(payload, header, secret) {
   return sigs.some(s => s.length === mac.length && timingSafeEqual(s, mac));
 }
 function timingSafeEqual(a, b) { let r = 0; for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i); return r === 0; }
+
+// ═══════════════════════════════════════════════════════════════ a reader's watchlists and price alerts
+// Keyed by the reader's access code; only an active code in GATE reads or writes. KV keys:
+//   wl:<CODE>      → {updated, lists: [{name, syms}]}
+//   alerts:<CODE>  → {updated, rules: [{id, sym, kind: "above"|"below", price, label, created, armed_at, fired, fired_price}]}
+//                    with metadata {armed: n}, so the cron's list skips readers with nothing armed (no read)
+// The page keeps both in localStorage and syncs here; the newer `updated` wins.
+//   POST /me {code}                             → {watchlists, alerts, topic}
+//   PUT  /me/watchlists {code, updated, lists}  → 409 + the stored copy when the stored one is newer
+//   PUT  /me/alerts {code, updated, rules}      → same; a rule the cron fired after the page armed it stays fired
+//   POST /me/alerts/test {code}                 → one test line to the reader's ntfy topic
+// Push: ntfy topic "bw-" + 12 hex of SHA-256(code + "|" + ALERT_SALT); unguessable without the code. No salt, no push.
+// Regular-session prices only: a rule fires once, when Yahoo's regularMarketPrice crosses it during the session.
+
+const NTFY = "https://ntfy.sh";
+const HOLIDAYS_URL = "https://beehivewire.com/markets/holidays.json";    // written by markets.py at every render
+const WL_MAX = 50, WL_LISTS = 30, AL_MAX = 200;
+
+async function readerOK(env, code) {
+  if (!code) return false;
+  const rec = await env.GATE.get("code:" + code, "json");
+  return !!rec && rec.status === "active";
+}
+
+async function topicFor(env, code) {
+  if (!env.ALERT_SALT) return null;
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(code + "|" + env.ALERT_SALT));
+  return "bw-" + [...new Uint8Array(h)].slice(0, 6).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function ntfyPost(topic, title, body, click, tag) {
+  const r = await fetch(`${NTFY}/${topic}`, { method: "POST", body,
+    headers: { Title: title, Tags: tag || "bell", ...(click ? { Click: click } : {}) } });
+  return r.ok;
+}
+
+function cleanLists(lists) {
+  if (!Array.isArray(lists)) return null;
+  const out = [], seen = new Set();
+  for (const l of lists.slice(0, WL_LISTS)) {
+    const name = String(l?.name || "").trim().slice(0, 30);
+    if (!name || seen.has(name.toLowerCase())) continue;
+    seen.add(name.toLowerCase());
+    const syms = [...new Set((Array.isArray(l.syms) ? l.syms : []).map(s => String(s).toUpperCase().trim()).filter(s => SYM.test(s)))];
+    out.push({ name, syms: syms.slice(0, WL_MAX) });
+  }
+  return out;
+}
+
+function cleanRules(rules) {
+  if (!Array.isArray(rules)) return null;
+  const out = [], t = new Date().toISOString();
+  for (const r of rules.slice(0, AL_MAX)) {
+    const sym = String(r?.sym || "").toUpperCase().trim(), price = Number(r?.price);
+    if (!SYM.test(sym) || !(price > 0) || !["above", "below"].includes(r?.kind)) continue;
+    const fired = r.fired ? String(r.fired).slice(0, 30) : null;
+    out.push({ id: String(r.id || crypto.randomUUID()).slice(0, 40), sym, kind: r.kind, price: Math.round(price * 100) / 100,
+               label: r.label ? String(r.label).slice(0, 60) : null, created: String(r.created || t).slice(0, 30),
+               armed_at: String(r.armed_at || r.created || t).slice(0, 30), fired, fired_price: fired ? (Number(r.fired_price) || null) : null });
+  }
+  return out;
+}
+const armedCount = rules => rules.filter(r => !r.fired).length;
+const newer = (a, b) => String(a?.updated || "") > String(b || "");
+
+async function me(req, url, env, cors) {
+  if (!env.GATE) return json({ error: "not configured: bind a KV namespace as GATE" }, 503, cors);
+  if (req.method !== "POST" && req.method !== "PUT") return json({ error: "POST or PUT" }, 405, cors);
+  const b = await req.json().catch(() => ({}));
+  const code = normCode(b.code);
+  if (!(await readerOK(env, code))) return json({ error: "unauthorized" }, 401, cors);
+  const path = url.pathname.replace(/\/+$/, "");
+  if (path === "/me") {
+    const [wl, al] = await Promise.all([env.GATE.get("wl:" + code, "json"), env.GATE.get("alerts:" + code, "json")]);
+    return json({ watchlists: wl, alerts: al, topic: await topicFor(env, code) }, 200, cors);
+  }
+  if (path === "/me/watchlists" && req.method === "PUT") {
+    const lists = cleanLists(b.lists);
+    if (!lists) return json({ error: "need lists" }, 400, cors);
+    const cur = await env.GATE.get("wl:" + code, "json");
+    if (newer(cur, b.updated)) return json({ error: "stale", watchlists: cur }, 409, cors);
+    const doc = { updated: String(b.updated || new Date().toISOString()).slice(0, 30), lists };
+    await env.GATE.put("wl:" + code, JSON.stringify(doc));
+    return json({ ok: true, watchlists: doc }, 200, cors);
+  }
+  if (path === "/me/alerts" && req.method === "PUT") {
+    let rules = cleanRules(b.rules);
+    if (!rules) return json({ error: "need rules" }, 400, cors);
+    const cur = await env.GATE.get("alerts:" + code, "json");
+    if (newer(cur, b.updated)) return json({ error: "stale", alerts: cur }, 409, cors);
+    const fired = new Map((cur?.rules || []).filter(r => r.fired).map(r => [r.id, r]));
+    rules = rules.map(r => { const f = fired.get(r.id); return f && !r.fired && f.fired > r.armed_at ? { ...r, fired: f.fired, fired_price: f.fired_price } : r; });
+    const doc = { updated: String(b.updated || new Date().toISOString()).slice(0, 30), rules };
+    await env.GATE.put("alerts:" + code, JSON.stringify(doc), { metadata: { armed: armedCount(rules) } });
+    return json({ ok: true, alerts: doc }, 200, cors);
+  }
+  if (path === "/me/alerts/test") {
+    const topic = await topicFor(env, code);
+    if (!topic) return json({ error: "push not configured: set the ALERT_SALT secret" }, 503, cors);
+    const ok = await ntfyPost(topic, "Beehive Wire alerts", "Test. Market Desk price alerts arrive here.", "https://beehivewire.com/markets/", "bell").catch(() => false);
+    return json({ ok, topic }, ok ? 200 : 502, cors);
+  }
+  return json({ error: "no such call" }, 404, cors);
+}
+
+// Every 5 minutes on weekdays: returns at once outside 9:30 a.m.-4:05 p.m. Eastern and on NYSE holidays, else checks
+// every armed rule against Yahoo's regular-session price, pushes each hit to its reader's topic and marks it fired.
+async function runAlerts(env, opts = {}) {
+  if (!env.GATE) return { skipped: "no GATE binding" };
+  const p = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", year: "numeric", month: "2-digit",
+    day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(opts.now || new Date()).reduce((o, x) => (o[x.type] = x.value, o), {});
+  const mins = (+p.hour % 24) * 60 + +p.minute, day = `${p.year}-${p.month}-${p.day}`;
+  if (!opts.force) {
+    if (p.weekday === "Sat" || p.weekday === "Sun" || mins < 9 * 60 + 30 || mins > 16 * 60 + 5) return { skipped: "outside the session" };
+    const cal = await fetch(HOLIDAYS_URL, { cf: { cacheTtl: 86400 } }).then(r => r.ok ? r.json() : null).catch(() => null);
+    if (cal?.holidays?.includes(day)) return { skipped: "NYSE holiday" };
+    if (cal?.early_closes?.includes(day) && mins > 13 * 60 + 5) return { skipped: "early close" };
+  }
+  const keys = []; let cursor;
+  do {
+    const l = await env.GATE.list({ prefix: "alerts:", cursor });
+    keys.push(...l.keys.filter(k => (k.metadata?.armed ?? 1) > 0));
+    cursor = l.list_complete ? null : l.cursor;
+  } while (cursor);
+  if (!keys.length) return { readers: 0 };
+  const docs = await Promise.all(keys.map(async k => ({ code: k.name.slice("alerts:".length), doc: await env.GATE.get(k.name, "json") })));
+  const syms = [...new Set(docs.flatMap(d => (d.doc?.rules || []).filter(r => !r.fired).map(r => r.sym)))];
+  const quotes = {};
+  for (let i = 0; i < syms.length; i += 25) Object.assign(quotes, await quoteFeed(syms.slice(i, i + 25)).catch(() => ({})));
+  let fired = 0;
+  for (const { code, doc } of docs) {
+    const hits = [];
+    for (const r of doc?.rules || []) {
+      if (r.fired) continue;
+      const q = quotes[r.sym], px = num(q?.regularMarketPrice);
+      if (px == null || (!opts.force && q?.marketState && q.marketState !== "REGULAR")) continue;
+      if ((r.kind === "above" && px >= r.price) || (r.kind === "below" && px <= r.price)) {
+        r.fired = new Date().toISOString(); r.fired_price = Math.round(px * 100) / 100; hits.push(r);
+      }
+    }
+    if (!hits.length || !(await readerOK(env, code))) continue;        // a revoked code gets nothing
+    const topic = await topicFor(env, code);
+    for (const r of hits) {
+      if (topic) await ntfyPost(topic, `${r.sym} ${r.fired_price.toFixed(2)}`, `${r.sym} ${r.fired_price.toFixed(2)}: ${r.label || r.kind + " " + r.price.toFixed(2)}`,
+                                `https://beehivewire.com/markets/#chart=${encodeURIComponent(r.sym)}`,
+                                r.kind === "above" ? "chart_with_upwards_trend" : "chart_with_downwards_trend").catch(() => false);
+    }
+    doc.updated = new Date().toISOString();
+    await env.GATE.put("alerts:" + code, JSON.stringify(doc), { metadata: { armed: armedCount(doc.rules) } });
+    fired += hits.length;
+  }
+  return { readers: docs.length, symbols: syms.length, fired };
+}

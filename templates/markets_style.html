@@ -154,6 +154,45 @@
   .scoresum{margin:0 0 12px}
   .tabs{display:flex;gap:6px;margin:6px 0 4px}
   .tabs button{font:900 11px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;background:none;border:1px solid var(--soft);color:var(--mut);padding:6px 10px;cursor:pointer}
+  /* Watchlist / Alerts (Nov 5, 2026): the tabs row stays one line and scrolls sideways; » appears when buttons are hidden */
+  .tabsw{position:relative}
+  .tabsw .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabsw .tabs::-webkit-scrollbar{display:none}
+  .tabsw .tabs button{flex:0 0 auto;white-space:nowrap}
+  .tabsw.over .tabs{padding-right:40px}
+  .tabsw .tmore{position:absolute;right:0;top:0;bottom:0;width:34px;font:900 16px/1 Arial,sans-serif;border:1px solid var(--soft);background:var(--bg);color:var(--ink);cursor:pointer;box-shadow:-8px 0 8px var(--bg)}
+  .tabs button.act{color:var(--ink)}
+  .tabs button.on2{border-color:var(--pivot);color:var(--pivot)}
+  .tabs .badge{display:inline-block;min-width:14px;padding:1px 4px;margin-left:4px;background:var(--coral);color:#fff;border-radius:8px;font-size:10px;letter-spacing:0}
+  .wlmenu{position:absolute;right:0;top:calc(100% + 4px);z-index:6;min-width:240px;max-width:92vw;background:var(--bg);border:1px solid var(--rule);box-shadow:0 6px 18px rgba(0,0,0,.18)}
+  .wlrow{display:flex;border-bottom:1px solid var(--soft)}
+  .wlrow button{font:700 13px/1.2 Arial,sans-serif;background:none;border:0;color:var(--ink);padding:9px 10px;cursor:pointer;text-align:left}
+  .wlrow .wlt{flex:1}
+  .wlrow .wlt .ck{display:inline-block;width:16px;color:var(--pivot)}
+  .wlrow .wlt .n{color:var(--mut);font-weight:400;margin-left:4px}
+  .wlrow .wlo{color:var(--mut);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .wlrow.full .wlt{color:var(--mut);cursor:default}
+  .wlrow.new{border-bottom:0}
+  .wlrow.new button{flex:1;color:var(--pivot)}
+  .wlrow .wlname{flex:1;margin:6px;font:14px Arial,sans-serif;padding:6px;border:1px solid var(--soft);background:var(--bg);color:var(--ink)}
+  .alpanel{background:var(--card);padding:10px 12px;margin:4px 0 8px;font-size:13px}
+  .alpanel .alr{margin:0 0 6px}
+  .alpanel .alq{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  .alpanel button,.alpush button,#al-out button,.wlblock button{font:700 12px/1 Arial,sans-serif;border:1px solid var(--soft);background:var(--bg);color:var(--ink);padding:6px 9px;cursor:pointer}
+  .alpanel .alin{width:84px;font:14px Arial,sans-serif;padding:5px;border:1px solid var(--soft);background:var(--bg);color:var(--ink)}
+  .alpanel .sub{margin:6px 0 0}
+  .alpush{margin:8px 0 0;font-size:13px}
+  .lstrip{display:flex;align-items:center;gap:10px;margin:2px 0 6px;font-size:13px;font-weight:700}
+  .lstrip button{font:900 20px/1 Arial,sans-serif;border:1px solid var(--soft);background:var(--bg);color:var(--ink);width:34px;height:30px;cursor:pointer}
+  .lstrip button[disabled]{opacity:.3;cursor:default}
+  .alertbar{position:fixed;left:0;right:0;top:0;z-index:70;background:var(--tag);color:var(--tagink);font:700 14px/1.4 Arial,sans-serif}
+  .alertbar .abrow{max-width:860px;margin:0 auto;padding:8px 16px}
+  .alertbar a{color:var(--tagink);font-weight:900}
+  .alertbar .abx{float:right;background:none;border:0;color:var(--tagink);font:900 18px/1 Arial,sans-serif;cursor:pointer}
+  .wlblock{margin:0 0 14px}
+  .wlhead{font-size:13px;margin:6px 0 4px}
+  .wlhead a{margin-left:8px;font-size:12px}
+  a.wlk{text-decoration:none;border-bottom:1px dotted var(--mut)}
   .tabs button.on{background:var(--tag);color:var(--tagink);border-color:var(--tag)}
   .tabs button[disabled]{opacity:.55;cursor:wait}
   .wbtoggle{font:900 11px/1 Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;background:none;border:1px solid var(--rule);color:var(--ink);padding:5px 9px;cursor:pointer;margin-left:8px}
