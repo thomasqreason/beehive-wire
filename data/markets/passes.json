@@ -3765,5 +3765,71 @@
 "day": 25,
 "pass": 2,
 "no": "25.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-05",
+"at": "2026-11-05T21:47:41+00:00",
+"href": "movers/2026-11-05-1447.html",
+"syms": [
+"CPAY",
+"MSI",
+"EW",
+"STE",
+"BDX",
+"VRSK",
+"COST",
+"NEM",
+"TYL",
+"CAH",
+"FISV",
+"AWK",
+"CHYM",
+"CF",
+"APP",
+"EVRG",
+"CVS",
+"TTWO",
+"MOS",
+"BG"
+],
+"heads": [
+"CPAY +6.8% on 3.7x volume, breakout past buy point",
+"MSI +4.0% on 3.7x volume, breakout past buy point",
+"EW +1.5% on 2.4x volume, breakout past buy point",
+"STE +2.5% on 2.4x volume, in base",
+"BDX +2.1% on 2.3x volume, new 52-week high",
+"VRSK +6.9% on 2.0x volume, big move on the day",
+"COST +1.8% on 2.0x volume, nearing buy point",
+"NEM +1.4% on 1.9x volume, in base",
+"TYL +1.7% on 1.7x volume, extended",
+"CAH +2.2% on 1.7x volume, breakout past buy point"
+],
+"extra": "14 qualifiers",
+"live": false,
+"day": 25,
+"pass": 3,
+"no": "25.3"
+},
+{
+"kind": "midday",
+"date": "2026-11-05",
+"at": "2026-11-05T21:51:48+00:00",
+"href": "2026-11-05.html#pass-midday",
+"syms": [
+"GTLB",
+"TSLA",
+"PLTR"
+],
+"heads": [
+"GitLab Falls 6.5% As Revenue Growth Holds At 21.3% Pace",
+"Tesla Falls 10.8% As Democratic Sweep Clouds SpaceX Merger Prospects",
+"Palantir Drops 9.7% As Wall Street Dumps Software's AI Winners"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 25,
+"pass": 4,
+"no": "25.4"
 }
 ]
