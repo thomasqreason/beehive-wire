@@ -273,7 +273,11 @@ function merge(sym, q, ch) {
     extended.chgPct = (extended.chg / reg.price) * 100;
   }
   const state = (q?.marketState || "").toUpperCase();           // PRE, REGULAR, POST, POSTPOST, CLOSED, PREPRE …
-  return { sym, name: q?.longName || q?.shortName || m.longName || m.shortName || null, regular: reg, extended,
+  // The next report (Nov 5, 2026): unix seconds from the v7 quote, so a ticker typed into the quote box gets the
+  // earnings date on its chart like the desk's own names. The page prefers start, then ts, and ignores past dates.
+  const earnings = q && (q.earningsTimestamp != null || q.earningsTimestampStart != null)
+    ? { ts: num(q.earningsTimestamp), start: num(q.earningsTimestampStart), end: num(q.earningsTimestampEnd) } : null;
+  return { sym, name: q?.longName || q?.shortName || m.longName || m.shortName || null, regular: reg, extended, earnings,
            live: state ? state === "REGULAR" : !!(tp && Date.now() / 1000 >= tp.regular?.start && Date.now() / 1000 < tp.regular?.end),
            marketState: state || null };
 }

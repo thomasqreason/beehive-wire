@@ -66,12 +66,13 @@ def desk_candidates(cfg: dict, now: datetime) -> list[dict]:
             summary = ((a.get("deck") or "") + (" NEWS: " + news if news else "")).strip()
             if a.get("headline"):
                 out.append({"title": a["headline"], "url": f"{base}#{s['sym']}", "summary": summary,
-                            "source": "Beehive Wire Market Desk", "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
+                            "source": "Beehive Wire Market Desk", "published": s.get("printed_at") or ed.get("generated"),
+                            "topic": "investing", "weight": 1.5})
         p = ed.get("profile") or {}
         if (p.get("article") or {}).get("headline"):
             out.append({"title": "Company of the Day: " + p["article"]["headline"], "url": f"{base}#profile-{p['sym']}",
                         "summary": p["article"].get("deck") or "", "source": "Beehive Wire Market Desk",
-                        "published": ed.get("generated"), "topic": "investing", "weight": 1.5})
+                        "published": ed.get("edition_generated") or ed.get("generated"), "topic": "investing", "weight": 1.5})
         return out
     except Exception as e:  # noqa: BLE001
         log(f"desk candidates skipped ({e})")

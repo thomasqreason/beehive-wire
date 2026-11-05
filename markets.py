@@ -153,6 +153,23 @@ def pct(a, b):
     return round((a / b - 1) * 100, 1) if a is not None and b else None
 
 
+def status_at(price: float, buy_point: float, buy_zone: float, days_since: int | None) -> tuple[str, float]:
+    """analyze()'s chart status at a given price: (status, % from the buy point). `days_since` = sessions since the
+    breakout close, None when the base has not broken out. A price through the buy point with no breakout close
+    behind it (a premarket or after-hours print) reads as in the buy range or extended, never as a breakout: the
+    close has not happened."""
+    from_pivot = pct(price, buy_point)
+    if days_since is not None:
+        if from_pivot < 0:
+            return "retest", from_pivot
+        if from_pivot <= buy_zone:
+            return ("breakout" if days_since <= 5 else "buy_zone"), from_pivot
+        return "extended", from_pivot
+    if price >= buy_point:
+        return ("buy_zone" if from_pivot <= buy_zone else "extended"), from_pivot
+    return ("setting_up" if from_pivot >= -5 else "in_base"), from_pivot
+
+
 # ────────────────────────────────────────────────────────────────────────── chart analysis
 
 def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
@@ -218,20 +235,12 @@ def analyze(sym: str, df, bench, cfg: dict) -> dict | None:
     status, from_pivot, days_since, bo_vol = "no_base", None, None, None
     if base:
         buy_point = round(base["pivot"] + 0.10, 2)
-        from_pivot = pct(C[t], buy_point)
         if base["breakout"] is not None:
             bi = base["breakout"]
             days_since = t - bi
             pv = float(np.mean(V[max(0, bi - 50):bi])) or 1.0
             bo_vol = round(V[bi] / pv, 2)
-            if from_pivot < 0:
-                status = "retest"
-            elif from_pivot <= buy_zone:
-                status = "breakout" if days_since <= 5 else "buy_zone"
-            else:
-                status = "extended"
-        else:
-            status = "setting_up" if from_pivot >= -5 else "in_base"
+        status, from_pivot = status_at(C[t], buy_point, buy_zone, days_since)
         base["buy_point"] = buy_point
         base["buy_max"] = round(buy_point * (1 + buy_zone / 100), 2)
         base["kind"] = "flat base" if base["depth"] <= 15 else ("cup" if base["depth"] <= 35 else "deep cup")
@@ -468,13 +477,86 @@ def enrich(f: dict) -> None:
 # ────────────────────────────────────────────────────────────────────────── scan
 
 BOARD_KEYS = ("sym", "close", "chg_pct", "status", "from_pivot", "rs_rank", "vol_ratio", "from_hi52", "vs_sma50", "angle")
+ET = ZoneInfo("America/New_York")
+WRITER_PASSES = ("premarket", "midday", "close")
+PASS_DEFAULTS = {"premarket": {"at": "07:15", "stories": 3}, "movers_open": {"at": "07:45"},
+                 "midday": {"at": "11:05", "stories": 3}, "movers_close": {"at": "14:05"}, "close": {"at": "15:20", "stories": 4}}
+PASS_LABEL = {"premarket": "Premarket", "midday": "Midday", "close": "Close"}
 
 
-def scan(cfg: dict) -> dict:
+def desk_passes(cfg: dict) -> dict:
+    """markets.yaml desk.passes over the defaults: {name: {at: "HH:MM" Mountain, stories: n}}."""
+    got = (cfg.get("desk") or {}).get("passes") or {}
+    return {k: v | (got.get(k) or {}) for k, v in PASS_DEFAULTS.items()}
+
+
+def session_date(now_utc: datetime | None = None) -> str:
+    """Today's date on the exchange's clock."""
+    return (now_utc or datetime.now(timezone.utc)).astimezone(ET).date().isoformat()
+
+
+def before_session(prices: dict, session: str) -> dict:
+    """Drop any bar dated `session` or later: the premarket pass works from the prior close. At 9:15 a.m. Eastern Yahoo
+    has no daily bar for today; a hand-run later in the day would otherwise read the session's partial bar."""
+    from datetime import date as _date
+    day = _date.fromisoformat(session)
+    out = {}
+    for sym, d in prices.items():
+        d2 = d[d.index.date < day]
+        if len(d2) >= 15:
+            out[sym] = d2
+    return out
+
+
+def recent_stories(n: int, upto: str) -> dict:
+    """{sym: status} for the newest `n` stories across the last two editions dated `upto` or earlier (newest first)."""
+    rows = []
+    for p in [p for p in sorted(DATA.glob("????-??-??.json")) if p.stem <= upto][-2:]:
+        try:
+            e = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            continue
+        for s in e.get("stories") or []:
+            rows.append((s.get("printed_at") or e.get("generated") or "", s["sym"], s.get("status")))
+    rows.sort(reverse=True)
+    out = {}
+    for _, sym, st in rows[:n]:
+        out.setdefault(sym, st)
+    return out
+
+
+TRIED_FILE = DATA / "tried.json"
+
+
+def mark_tried(pass_name: str, day: str) -> None:
+    """A writer pass started (data/markets/tried.json). due_pass() reads it so a pass that RAN and failed is not sent
+    again every hour, which would hold the 3:20 edition behind a broken midday pass."""
+    try:
+        t = json.loads(TRIED_FILE.read_text(encoding="utf-8")) if TRIED_FILE.is_file() else {}
+    except Exception:  # noqa: BLE001
+        t = {}
+    t[f"{day}-{pass_name}"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    t = dict(sorted(t.items())[-20:])
+    DATA.mkdir(parents=True, exist_ok=True)
+    TRIED_FILE.write_text(json.dumps(t, indent=0), encoding="utf-8")
+
+
+def scan(cfg: dict, pass_name: str = "close") -> dict:
+    """The writer's payload for one pass: premarket (7:15 a.m. Mountain, from the prior close plus the premarket tape),
+    midday (11:05, today's partial bar) or close (3:20, the session's bar plus after hours)."""
+    if pass_name not in WRITER_PASSES:
+        raise ValueError(f"unknown pass {pass_name}")
+    now = datetime.now(timezone.utc)
+    session = session_date(now)
+    if pass_name != "close":
+        mark_tried(pass_name, session)
     tickers = universe(cfg)
     bench_syms = list(cfg.get("benchmarks", {}).values())
     prices = download(tickers + bench_syms, cfg["desk"].get("history_period", "2y"))
+    if pass_name == "premarket":
+        prices = before_session(prices, session)
     bench = prices.get(cfg["benchmarks"].get("spx", "^GSPC"))
+    frac, live = session_fraction(now)
 
     facts = []
     for sym in tickers:
@@ -485,6 +567,12 @@ def scan(cfg: dict) -> dict:
                     facts.append(f)
             except Exception as e:  # noqa: BLE001
                 log(f"{sym}: analysis failed ({e})")
+    if pass_name == "midday" and live and frac > 0:
+        # today's bar is partial: project its volume to the full session, the way Volume Surges does
+        for f in facts:
+            if f["date"] == session and f.get("vol_ratio") is not None:
+                f["vol_ratio"] = round(f["vol_ratio"] / frac, 2)
+                f["vol_projected"] = True
     scored = sorted([f for f in facts if f["rs_score"] is not None], key=lambda f: f["rs_score"])
     for i, f in enumerate(scored):
         f["rs_rank"] = max(1, min(99, round(100 * (i + 1) / (len(scored) + 1))))
@@ -492,22 +580,19 @@ def scan(cfg: dict) -> dict:
         f["score"] = round(story_score(f, cfg), 1)
         f["angle"] = angle(f)
 
+    from desk_extras import distribution_days, distribution_summary
     pulse = {}
     for key, bsym in cfg.get("benchmarks", {}).items():
         d = prices.get(bsym)
         if d is None:
             continue
         c = d["Close"].to_numpy(dtype=float)
-        v = d["Volume"].to_numpy(dtype=float)
         s50v, s200v = sma(c, 50)[-1], sma(c, 200)[-1]
-        # Distribution days: a drop of 0.2%+ on volume above the prior session, counted over the last 25 sessions
-        dist = [d.index[i].date().isoformat() for i in range(max(1, len(c) - 25), len(c))
-                if c[i] / c[i - 1] - 1 <= -0.002 and v[i] > v[i - 1] > 0]
         pulse[key] = {"symbol": bsym, "close": round(c[-1], 2), "chg_pct": pct(c[-1], c[-2]),
                       "vs_sma50": None if math.isnan(s50v) else pct(c[-1], s50v),
                       "vs_sma200": None if math.isnan(s200v) else pct(c[-1], s200v),
                       "from_hi52": pct(c[-1], float(d["High"].tail(252).max())),
-                      "dist_days": len(dist), "dist_dates": dist}
+                      "date": d.index[-1].date().isoformat()} | distribution_summary(distribution_days(d, cfg))
     big = big_picture(pulse)
 
     # ── standing lists: breakouts this week, near a buy point, IPO watch, sell signals, groups
@@ -542,75 +627,123 @@ def scan(cfg: dict) -> dict:
                            "above50": round(100 * sum(1 for f in members if (f.get("vs_sma50") or 0) > 0) / len(members))})
     groups.sort(key=lambda g: -g["avg_rs"])
 
-    ranked = sorted(facts, key=lambda f: -f["score"])
-    n_max, n_min = int(cfg["desk"].get("stories_max", 10)), int(cfg["desk"].get("stories_min", 5))
-    chosen = [f for f in ranked if f["score"] >= 60][:n_max]
-    if len(chosen) < n_min:
-        chosen = ranked[:n_min]
-    log("stories: " + ", ".join(f"{f['sym']}({f['status']},{f['score']})" for f in chosen))
-    for f in chosen:
-        enrich(f)
-        time.sleep(0.5)
-
-    # ── Company of the Day: one leader profiled per edition, never the same name twice in a month.
-    profile = None
-    recent = set()
-    for p in sorted(DATA.glob("????-??-??.json"))[-20:]:
-        try:
-            recent.add((json.loads(p.read_text(encoding="utf-8")).get("profile") or {}).get("sym"))
-        except Exception:  # noqa: BLE001
-            pass
-    chosen_syms = {f["sym"] for f in chosen}
-    cands = [f for f in ranked if (f.get("rs_rank") or 0) >= 80 and f["status"] in ("breakout", "buy_zone", "setting_up", "extended", "in_base")
-             and f["sym"] not in recent and (f.get("vs_sma50") or -99) > -3]
-    cands.sort(key=lambda f: f["sym"] in chosen_syms)     # a name that is NOT already a story today goes first
-    for f in cands[:4]:
-        if f["sym"] not in chosen_syms:
-            enrich(f)
-        q = ((f.get("fundamentals") or {}).get("quarters") or [{}])[0]
-        if (q.get("eps_yoy") or 0) >= 20 or (q.get("rev_yoy") or 0) >= 20:
-            profile = f
-            break
-    if profile is None and cands:
-        profile = cands[0]
-    if profile:
-        log(f"profile: {profile['sym']} (RS {profile.get('rs_rank')})")
-
-    # ── The Lesson: Fridays (and any day the desk is run with MARKETS_CORNER=1).
-    corner_topic = None
-    topics = cfg.get("corner_topics") or []
-    if topics and (datetime.now(ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))).weekday() == 4
-                   or os.environ.get("MARKETS_CORNER") == "1"):
-        n_prev = sum(1 for p in DATA.glob("????-??-??.json") if '"corner":{' in p.read_text(encoding="utf-8"))
-        corner_topic = topics[n_prev % len(topics)]
-        log(f"the lesson: {corner_topic}")
-
-    date = max(f["date"] for f in facts) if facts else datetime.now().date().isoformat()
-    ah = {}
-    if facts and after_hours_window(datetime.now(timezone.utc)):
-        ah = after_hours([f["sym"] for f in facts], {f["sym"]: f["close"] for f in facts})
-        for f in facts:
-            f["after_hours"] = ah.get(f["sym"])
-    ah_movers = sorted([f for f in facts if f.get("after_hours") and abs(f["after_hours"]["chg_pct"]) >= 3],
-                       key=lambda f: -abs(f["after_hours"]["chg_pct"]))
-    for f in ah_movers:
-        fu = f.get("fundamentals")
-        if fu is None:                                   # name, industry, next earnings for the after-hours list
-            fc = fundamentals_cached(f["sym"])
-            f["name"] = fc.get("name") or f["sym"]
-            f["industry"] = fc.get("industry")
-    # ── extras: earnings this week, the scorecard (every call since the first edition), phone alerts
-    earnings = []
+    # next earnings and the desk score for every name (cached; the story choice below reads the earnings dates)
     try:
-        from desk_extras import next_earnings_cached, earnings_week, build_scorecard, send_alerts, breakout_alerts, holdings_alerts, big_picture_alert
-        from desk_extras import desk_score, cached_growth
+        from desk_extras import next_earnings_cached, desk_score, cached_growth
         for f in facts:
             f["next_earnings"] = next_earnings_cached(f["sym"])
             f["desk_score"] = desk_score(f, cached_growth(f["sym"]))
             time.sleep(0.05)
+    except Exception as e:  # noqa: BLE001
+        log(f"earnings dates skipped ({e})")
+
+    # ── the extended tape for the desk list: premarket prints before the open, after-hours prints after the close
+    ext_key = {"premarket": "premarket", "close": "after_hours"}.get(pass_name)
+    tape = {}
+    if facts and (pass_name == "premarket" or (pass_name == "close" and after_hours_window(now))):
+        kind = "pre" if pass_name == "premarket" else "post"
+        forced = os.environ.get("MARKETS_PRE" if kind == "pre" else "MARKETS_AH") == "1"
+        tape = extended_tape(kind, {f["sym"]: prices[f["sym"]] for f in facts}, None if forced else session)
+        for f in facts:
+            q = tape.get(f["sym"])
+            # the writer gets the print, its time and, when Yahoo reports it, the shares (never "0 shares" premarket)
+            f[ext_key] = None if q is None else {k: v for k, v in q.items() if k in ("price", "chg", "chg_pct", "as_of")
+                                                 or (k == "volume" and v)}
+
+    # ── story choice: this pass's count of new names, skipping any name that has a story among the newest
+    #    `stories_keep` unless something happened to it since (a breakout today, a 3%+ extended move, a new status)
+    passes = desk_passes(cfg)
+    n_new = int(passes[pass_name].get("stories", 3))
+    keep = int(cfg["desk"].get("stories_keep", 10))
+    recent = recent_stories(keep, session)
+
+    def news_since(f):
+        if f["sym"] not in recent:
+            return True
+        if f.get("days_since_breakout") == 0 and f["date"] == session:
+            return True
+        x = f.get("premarket") or f.get("after_hours")
+        if x and abs(x.get("chg_pct") or 0) >= 3:
+            return True
+        return f["status"] != recent[f["sym"]]
+
+    pool = [f for f in facts if news_since(f)]
+    ranked = sorted(pool, key=lambda f: -f["score"])
+    if pass_name == "premarket":
+        mm = float((cfg.get("extended") or {}).get("min_move_pct", 2.0))
+
+        def reacting(f):   # reported since the last close: the calendar still shows that date or today's
+            ne = (f.get("next_earnings") or "")[:10]
+            return bool(ne) and f["date"] <= ne <= session
+
+        movers_ = sorted([f for f in pool if f.get("premarket") and abs(f["premarket"]["chg_pct"]) >= mm],
+                         key=lambda f: (not reacting(f), -abs(f["premarket"]["chg_pct"])))
+        seen = {f["sym"] for f in movers_}
+        setups = [f for f in ranked if f["sym"] not in seen and f["status"] in ("breakout", "buy_zone", "setting_up")]
+        seen |= {f["sym"] for f in setups}
+        ranked = movers_ + setups + [f for f in ranked if f["sym"] not in seen]
+    chosen = ranked[:n_new]
+    log(f"{pass_name} stories ({len(pool)} of {len(facts)} names eligible; {len(recent)} covered recently): "
+        + ", ".join(f"{f['sym']}({f['status']},{f['score']})" for f in chosen))
+    for f in chosen:
+        enrich(f)
+        time.sleep(0.5)
+
+    # ── Company of the Day: one leader profiled per edition, never the same name twice in a month. Close pass only.
+    profile = None
+    if pass_name == "close":
+        recent_p = set()
+        for p in sorted(DATA.glob("????-??-??.json"))[-20:]:
+            try:
+                recent_p.add((json.loads(p.read_text(encoding="utf-8")).get("profile") or {}).get("sym"))
+            except Exception:  # noqa: BLE001
+                pass
+        chosen_syms = {f["sym"] for f in chosen}
+        cands = [f for f in sorted(facts, key=lambda f: -f["score"])
+                 if (f.get("rs_rank") or 0) >= 80 and f["status"] in ("breakout", "buy_zone", "setting_up", "extended", "in_base")
+                 and f["sym"] not in recent_p and (f.get("vs_sma50") or -99) > -3]
+        cands.sort(key=lambda f: f["sym"] in chosen_syms)     # a name that is NOT already a story today goes first
+        for f in cands[:4]:
+            if f["sym"] not in chosen_syms:
+                enrich(f)
+            q = ((f.get("fundamentals") or {}).get("quarters") or [{}])[0]
+            if (q.get("eps_yoy") or 0) >= 20 or (q.get("rev_yoy") or 0) >= 20:
+                profile = f
+                break
+        if profile is None and cands:
+            profile = cands[0]
+        if profile:
+            log(f"profile: {profile['sym']} (RS {profile.get('rs_rank')})")
+
+    # ── The Lesson: Fridays (and any day the desk is run with MARKETS_CORNER=1). Close pass only.
+    corner_topic = None
+    topics = cfg.get("corner_topics") or []
+    if pass_name == "close" and topics and (datetime.now(ZoneInfo(cfg["desk"].get("timezone", "America/Denver"))).weekday() == 4
+                                            or os.environ.get("MARKETS_CORNER") == "1"):
+        n_prev = sum(1 for p in DATA.glob("????-??-??.json") if '"corner":{' in p.read_text(encoding="utf-8"))
+        corner_topic = topics[n_prev % len(topics)]
+        log(f"the lesson: {corner_topic}")
+
+    prices_through = max(f["date"] for f in facts) if facts else session
+    # The premarket pass belongs to the session about to open: its stories go on today's page.
+    from datetime import date as _date
+    date = session if pass_name == "premarket" and is_trading_day(_date.fromisoformat(session)) else prices_through
+
+    # ── After Hours (close pass): the movers pass that runs first screens the broad universe and saves the table;
+    #    without it (a local `run`), the desk list's own tape stands in.
+    ah = {}
+    if pass_name == "close":
+        ah = load_extended("post", date) or {}
+        if not (ah.get("up") or ah.get("down")) and tape:
+            ah = extended_movers("post", prices, bench, cfg, lambda s: (by_sym.get(s) or {}).get("rs_rank"), tape=tape)
+    # ── extras: earnings this week, the scorecard (every pick since the first edition), phone alerts
+    earnings = []
+    try:
+        from desk_extras import earnings_week, build_scorecard, send_alerts, breakout_alerts, holdings_alerts, big_picture_alert
         earnings = earnings_week(facts)
         log(f"earnings this week: {', '.join(r['sym'] for r in earnings) or 'none'}")
-        build_scorecard(prices, bench, download)
+        if pass_name == "close":
+            build_scorecard(prices, bench, download)
         prev_state = None
         eds_prev = sorted(DATA.glob("????-??-??.json"))
         if eds_prev:
@@ -626,35 +759,54 @@ def scan(cfg: dict) -> dict:
     save_series(facts)
     board_n = int(cfg["desk"].get("board_rows", 40))
     board = sorted(facts, key=lambda f: -(f.get("rs_rank") or 0))[:board_n]
-    return {
-        "date": date, "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    stamp = now.isoformat(timespec="seconds")
+    out = {
+        "date": date, "prices_through": prices_through, "pass": pass_name, "as_of": stamp, "generated": stamp,
         "universe_size": len(facts), "pulse": pulse, "big_picture": big, "lists": lists, "groups": groups,
         "earnings_week": earnings,
         "stories": chosen,  # full facts incl. series, fundamentals, news
         "profile": profile,
         "corner_topic": corner_topic,
-        "after_hours_as_of": next((v["as_of"] for v in ah.values()), None),
-        "ah_movers": [{"sym": f["sym"], "name": f.get("name") or (f.get("fundamentals") or {}).get("name") or f["sym"],
-                       "industry": f.get("industry") or (f.get("fundamentals") or {}).get("industry"), "close": f["close"],
-                       "after_hours": f["after_hours"], "status": f["status"], "rs_rank": f.get("rs_rank"),
-                       "next_earnings": (f.get("fundamentals") or {}).get("next_earnings")} for f in ah_movers[:15]],
         "board": [{k: f.get(k) for k in BOARD_KEYS + ("rs_score",)} for f in board],
     }
+    if pass_name == "midday":
+        out.update(intraday=bool(live), session_fraction=round(frac, 2))
+    if pass_name == "premarket":
+        out["futures"] = index_futures()
+        out["premarket_as_of"] = next((v["as_of"] for v in sorted(tape.values(), key=lambda v: v.get("at") or "", reverse=True)), None)
+    if pass_name == "close":
+        out["after_hours_as_of"] = ah.get("tape_as_of_human") or next((v["as_of"] for v in tape.values()), None)
+        out["ah_movers"] = [r | {"after_hours": {"price": r["ext_price"], "chg": r["ext_chg"], "chg_pct": r["ext_chg_pct"],
+                                                  "as_of": r["ext_as_of"], "volume": r["ext_vol"]}}
+                            for r in (ah.get("up") or []) + (ah.get("down") or [])]
+        out["ah_meta"] = {k: ah.get(k) for k in ("kind", "date", "as_of", "tape_as_of_human", "universe_size", "criteria", "ref_date")} if ah else None
+    return out
+
+
+def pulse_keys(pulse: dict | None) -> list[str]:
+    return [k for k, v in (pulse or {}).items() if isinstance(v, dict)]
 
 
 def big_picture(pulse: dict) -> dict:
-    """A factual read of the indexes in three states, from the 50-day line and the distribution count."""
+    """A factual read of the indexes in three states, from the 50-day line and the WEIGHTED distribution count
+    (Nov 5, 2026: same thresholds as the raw count had, 4 and 6)."""
     spx, ndx = pulse.get("spx") or {}, pulse.get("nasdaq") or {}
+
+    def wtd(x):
+        return x.get("dist_weighted") if x.get("dist_weighted") is not None else (x.get("dist_days") or 0)
+
     dd = max(spx.get("dist_days") or 0, ndx.get("dist_days") or 0)
+    dw = max(wtd(spx), wtd(ndx))
     above = [(x.get("vs_sma50") or 0) > 0 for x in (spx, ndx) if x]
-    if above and all(above) and dd <= 4:
+    if above and all(above) and dw <= 4:
         state = "Confirmed uptrend"
-    elif above and any(above) and dd <= 6:
+    elif above and any(above) and dw <= 6:
         state = "Uptrend under pressure"
     else:
         state = "Market in correction"
-    return {"state": state, "dist_days": dd,
-            "note": f"S&P 500 {spx.get('dist_days', 0)} distribution days, Nasdaq {ndx.get('dist_days', 0)}, over the last 25 sessions."}
+    return {"state": state, "dist_days": dd, "dist_weighted": dw,
+            "note": f"S&P 500 {spx.get('dist_days', 0)} distribution days (weighted {wtd(spx):.1f}), "
+                    f"Nasdaq {ndx.get('dist_days', 0)} ({wtd(ndx):.1f}), over the last 25 sessions."}
 
 
 # ────────────────────────────────────────────────────────────────────────── prose fallback (no Claude)
@@ -830,7 +982,10 @@ def chart_svg(f: dict, cfg: dict) -> str:
     if av:
         out.append(f'<line x1="{PL}" x2="{W - PR}" y1="{yv(av):.1f}" y2="{yv(av):.1f}" stroke="var(--avgv)" stroke-width="1.1"/>')
     out.append(f'<text x="{W - PR + 4}" y="{VT + 12}" class="lbl">vol</text>')
-    out.append(f'<text x="{PL + 4}" y="{PT + 12}" class="lbl"><tspan fill="var(--ma21)">21-day</tspan>  <tspan fill="var(--ma50)">50-day</tspan>  <tspan fill="var(--ma200)">200-day</tspan></text>')
+    # the next report rides the legend line (top left), clear of the breakout marker over the newest bars
+    earn = earnings_label(f.get("next_earnings") or (f.get("fundamentals") or {}).get("next_earnings"))
+    etag = f'  <tspan class="earn{" soon" if earn[1] else ""}">· {earn[0]}</tspan>' if earn else ""
+    out.append(f'<text x="{PL + 4}" y="{PT + 12}" class="lbl"><tspan fill="var(--ma21)">21-day</tspan>  <tspan fill="var(--ma50)">50-day</tspan>  <tspan fill="var(--ma200)">200-day</tspan>{etag}</text>')
     out.append("</svg>")
     return "".join(out)
 
@@ -841,7 +996,13 @@ def edition_path(date: str) -> Path:
     return DATA / f"{date}.json"
 
 
-def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None = None) -> Path:
+def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None = None, append: bool = False) -> Path:
+    """Save one writer pass. append=True (every scheduled pass since Nov 5, 2026) adds this pass's stories to the
+    day's file: a name covered again replaces its earlier story, and a re-run of the same pass replaces that pass's
+    stories. The market note and every table follow the newest pass; the Desk Chief, Company of the Day, The Lesson
+    and the After Hours table come only from the close pass and are kept through any later premarket/midday re-run."""
+    pass_name = payload.get("pass") or "close"
+    printed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     by_sym = {}
     if articles:
         for a in articles.get("stories") or []:
@@ -857,12 +1018,33 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
                    "watch": str(a.get("watch") or "").strip(), "by": "editor"}
         else:
             art = template_article(f)
-        stories.append(f | {"article": art, "chart": chart_svg(f, cfg)})
-    ed = {k: v for k, v in payload.items() if k != "stories"}
-    ed["stories"] = stories
-    ed["market_note"] = (articles or {}).get("market_note")
-    # Company of the Day profile: the writer's piece if it is there, else the desk's numbers.
-    pf = payload.get("profile")
+        stories.append(f | {"article": art, "chart": chart_svg(f, cfg), "pass": pass_name, "printed_at": printed_at})
+    prev = {}
+    p = edition_path(payload["date"])
+    if append and p.is_file():
+        try:
+            prev = json.loads(p.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            log(f"{p.name} unreadable ({e}); this pass starts the day's file over")
+            prev = {}
+    new_syms = {s["sym"] for s in stories}
+    kept = [s | {"pass": s.get("pass") or "close", "printed_at": s.get("printed_at") or prev.get("generated")}
+            for s in prev.get("stories") or [] if s["sym"] not in new_syms and (s.get("pass") or "close") != pass_name]
+    ed = {k: v for k, v in payload.items() if k not in ("stories", "profile", "corner_topic", "ah_movers", "after_hours_as_of", "ah_meta")}
+    for k in ("chief", "profile", "corner", "corner_topic", "ah_movers", "after_hours_as_of", "ah_meta", "edition_generated"):
+        if k in prev and pass_name != "close":
+            ed[k] = prev[k]
+    if pass_name == "close":
+        for k in ("corner_topic", "ah_movers", "after_hours_as_of", "ah_meta"):
+            if payload.get(k) is not None:
+                ed[k] = payload[k]
+        ed["edition_generated"] = printed_at
+    ed["stories"] = sorted(stories + kept, key=lambda s: s.get("printed_at") or "", reverse=True)
+    ed["generated"] = printed_at
+    ed["passes_done"] = (prev.get("passes_done") or {}) | {pass_name: printed_at}
+    ed["market_note"] = (articles or {}).get("market_note") or (prev.get("market_note") if pass_name != "close" else None)
+    # Company of the Day profile: the writer's piece if it is there, else the desk's numbers. Close pass only.
+    pf = payload.get("profile") if pass_name == "close" else None
     if pf:
         a = (articles or {}).get("profile") or {}
         ok = bool(a.get("headline") and isinstance(a.get("body"), list) and len(a["body"]) >= 2)
@@ -871,14 +1053,14 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
                 "watch": str(a.get("watch") or "").strip(), "by": "editor"} if ok else template_article(pf))
         ed["profile"] = pf | {"article": art, "chart": chart_svg(pf, cfg)}
     # The Lesson: only when the writer delivered one.
-    c = (articles or {}).get("corner") or {}
+    c = ((articles or {}).get("corner") or {}) if pass_name == "close" else {}
     if c.get("headline") and isinstance(c.get("body"), list) and len(c["body"]) >= 3:
         ed["corner"] = {"topic": payload.get("corner_topic"), "headline": str(c["headline"]).strip(),
                         "deck": str(c.get("deck") or "").strip(), "example_sym": str(c.get("example_sym") or "").upper() or None,
                         "body": [p.strip() for p in c["body"] if isinstance(p, str) and p.strip()],
                         "takeaways": [t.strip() for t in (c.get("takeaways") or []) if isinstance(t, str) and t.strip()]}
     # The desk chief: Opus's judgment pass over every setup, when it delivered one.
-    if chief and isinstance(chief, dict) and (chief.get("verdict") or chief.get("picks")):
+    if pass_name == "close" and chief and isinstance(chief, dict) and (chief.get("verdict") or chief.get("picks")):
         ed["chief"] = {"verdict": str(chief.get("verdict") or "").strip(), "market": str(chief.get("market") or "").strip(),
                        "picks": [{"sym": str(x.get("sym") or "").upper(), "call": str(x.get("call") or "").strip(),
                                   "why": str(x.get("why") or "").strip(), "entry": str(x.get("entry") or "").strip()}
@@ -887,15 +1069,17 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
                                  for x in (chief.get("avoid") or []) if isinstance(x, dict) and x.get("sym")][:6],
                        "watch": str(chief.get("watch") or "").strip()}
     DATA.mkdir(parents=True, exist_ok=True)
-    p = edition_path(payload["date"])
     p.write_text(json.dumps(ed, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    log(f"edition saved {p} — {len(stories)} stories ({sum(1 for s in stories if s['article']['by'] == 'editor')} by editor)")
+    log(f"edition saved {p} ({pass_name} pass) — {len(stories)} new stories "
+        f"({sum(1 for s in stories if s['article']['by'] == 'editor')} by editor), {len(ed['stories'])} on the day")
     heads = [s["article"]["headline"] for s in stories]
-    if ed.get("profile"):
+    if pass_name == "close" and ed.get("profile"):
         heads.append("Company of the Day: " + ed["profile"]["article"]["headline"])
-    if ed.get("corner"):
+    if pass_name == "close" and ed.get("corner"):
         heads.append("The Lesson: " + ed["corner"]["headline"])
-    record_pass("edition", payload["date"], ed["generated"], f"{payload['date']}.html", [s["sym"] for s in stories], heads,
+    kind, href = {"premarket": ("premarket", f"{payload['date']}.html#pass-premarket"),
+                  "midday": ("midday", f"{payload['date']}.html#pass-midday")}.get(pass_name, ("edition", f"{payload['date']}.html"))
+    record_pass(kind, payload["date"], printed_at, href, [s["sym"] for s in stories], heads,
                 extra=(ed.get("big_picture") or {}).get("state"))
     return p
 
@@ -908,6 +1092,22 @@ def editions() -> list[dict]:
         except Exception as e:  # noqa: BLE001
             log(f"skip {p.name}: {e}")
     return out
+
+
+def month_day(d: str | None) -> str:
+    """2026-11-19 -> Nov 19."""
+    try:
+        x = datetime.fromisoformat(str(d)[:10])
+    except (TypeError, ValueError):
+        return "–"
+    return f"{x.strftime('%b')} {x.day}"
+
+
+def shares(n) -> str:
+    if n is None:
+        return "–"
+    n = float(n)
+    return f"{n / 1e6:.1f}M" if n >= 1e6 else f"{n / 1e3:.0f}K" if n >= 1e3 else f"{n:.0f}"
 
 
 def human_date(d: str) -> str:
@@ -924,6 +1124,10 @@ def render_site(site_cfg: dict | None = None) -> int:
         return 0
     env = Environment(loader=FileSystemLoader(str(ROOT / "templates")), autoescape=select_autoescape(["html"]))
     env.filters["money"] = money
+    env.filters["md"] = month_day
+    env.filters["shares"] = shares
+    env.filters["wt"] = lambda w: "–" if w is None else (f"{w:.2f}"[:-1] if f"{w:.2f}".endswith("0") else f"{w:.2f}")
+    env.globals["earn_soon"] = lambda d: bool((earnings_label(d) or ("", False))[1])
     tpl = env.get_template("markets.html")
     SITE.mkdir(parents=True, exist_ok=True)
     if SERIES_DIR.is_dir():
@@ -964,24 +1168,58 @@ def render_site(site_cfg: dict | None = None) -> int:
         ls["human"] = human_date(ls["date"])
         q = datetime.fromisoformat(ls["quotes_as_of"]).astimezone(tz) if ls.get("quotes_as_of") else datetime.fromisoformat(ls["generated"]).astimezone(tz)
         ls["quotes_human"] = q.strftime("%A %I:%M %p %Z").replace(" 0", " ")
-    # The page is dated by its freshest pass: an intraday movers run makes it today's page even while the
-    # written edition below still reflects yesterday's close.
+    # The page is dated by its freshest pass: the 7:15 a.m. premarket table or an intraday movers run makes it
+    # today's page even while the stories below are still yesterday's.
+    ext_latest = load_extended()
+    keep = int(cfg["desk"].get("stories_keep", 10))
     for i, e in enumerate(eds):
+        latest = i == len(eds) - 1
         gen = datetime.fromisoformat(e["generated"]).astimezone(tz)
-        page_date = e["date"]
-        if i == len(eds) - 1 and mv and mv.get("date") and mv["date"] > e["date"]:
-            page_date = mv["date"]
-        stamp_dt = gen
-        if page_date != e["date"] and mv:
-            stamp_dt = datetime.fromisoformat(mv["as_of"]).astimezone(tz)
-        stamp_time = stamp_dt.strftime("%I:%M %p %Z").lstrip("0")
-        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=e, human=human_date(page_date), stamp_time=stamp_time,
+        page_date, stamps, ext_src = e["date"], [gen], edition_extended(e)
+        if latest:
+            if mv and mv.get("date") and mv["date"] > page_date:
+                page_date = mv["date"]
+            if mv and mv.get("date") and mv["date"] >= e["date"]:
+                stamps.append(datetime.fromisoformat(mv["as_of"]).astimezone(tz))
+            if ext_latest and ext_latest.get("date") and ext_latest["date"] >= e["date"]:
+                ext_src = ext_latest                   # the freshest extended read: premarket, then after hours
+                page_date = max(page_date, ext_latest["date"])
+                stamps.append(datetime.fromisoformat(ext_latest["as_of"]).astimezone(tz))
+        ext = ext_view(ext_src, tz)
+        stamp_time = max(stamps).strftime("%I:%M %p %Z").lstrip("0")
+        # The stories: the index page shows the newest `stories_keep` across today's and yesterday's files, newest
+        # first, one per name; a dated page shows every story of its day.
+        pool = [(s, e) for s in e["stories"]] + ([(s, eds[i - 1]) for s in eds[i - 1]["stories"]] if latest and i else [])
+        pool.sort(key=lambda x: x[0].get("printed_at") or x[1].get("generated") or "", reverse=True)
+        stories, seen = [], set()
+        for s, src in pool:
+            if s["sym"] in seen:
+                continue
+            seen.add(s["sym"])
+            at = datetime.fromisoformat(s.get("printed_at") or src["generated"]).astimezone(tz)
+            when = at.strftime("%I:%M %p").lstrip("0") + " MT"
+            if src["date"] != page_date:
+                when = datetime.fromisoformat(src["date"]).strftime("%a") + " " + when
+            stories.append(s | {"stamp": f"{PASS_LABEL.get(s.get('pass') or 'close', 'Close')} · {when}"})
+        if latest:
+            stories = stories[:keep]
+        # Until today's close prints, the index page keeps the last Desk Chief, Company of the Day and Lesson.
+        view, carried = e, {}
+        if latest and i and "close" not in (e.get("passes_done") or {"close": True}):
+            prev_e = eds[i - 1]
+            view = dict(e)
+            for k in ("chief", "profile", "corner"):
+                if not e.get(k) and prev_e.get(k):
+                    view[k] = prev_e[k]
+                    carried[k] = datetime.fromisoformat(prev_e["date"]).strftime("%A")
+        ctx = dict(site_name=site_name, desk=cfg["desk"], ed=view, human=human_date(page_date), stamp_time=stamp_time,
+                   first_pass_at=desk_passes(cfg)["premarket"]["at"].lstrip("0"),
                    edition_human=human_date(e["date"]), edition_day=datetime.fromisoformat(e["date"]).strftime("%A"),
-                   stale_edition=(page_date != e["date"]),
-                   generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if i == len(eds) - 1 else None,
-                   lists=ls if i == len(eds) - 1 else None, scorecard=scorecard if i == len(eds) - 1 else None,
-                   webster=webster if i == len(eds) - 1 else None,
-                   status_label=STATUS_LABEL, index=index, latest=(i == len(eds) - 1), root="../")
+                   stale_edition=(page_date != e["date"]), stories=stories, ext=ext, carried=carried,
+                   generated=gen.strftime("%I:%M %p %Z").lstrip("0"), movers=mv if latest else None,
+                   lists=ls if latest else None, scorecard=scorecard if latest else None,
+                   webster=webster if latest else None, pass_label=PASS_LABEL,
+                   status_label=STATUS_LABEL, index=index, latest=latest, root="../")
         html = tpl.render(**ctx)
         (SITE / f"{e['date']}.html").write_text(html, encoding="utf-8")
         if i == len(eds) - 1:
@@ -1032,31 +1270,44 @@ def render_site(site_cfg: dict | None = None) -> int:
     return len(eds)
 
 
-# ────────────────────────────────────────────────────────────────────────── after hours
+# ────────────────────────────────────────────────────────────────────────── premarket and after hours
 
 def after_hours_window(now_utc: datetime) -> bool:
     """True from 4:05 p.m. to 8:00 p.m. Eastern on a weekday (Yahoo's post-market tape), or when MARKETS_AH=1."""
     if os.environ.get("MARKETS_AH") == "1":
         return True
-    et = now_utc.astimezone(ZoneInfo("America/New_York"))
+    et = now_utc.astimezone(ET)
     mins = et.hour * 60 + et.minute
     return et.weekday() < 5 and 16 * 60 + 5 <= mins <= 20 * 60
 
 
-def after_hours(symbols: list[str], closes: dict) -> dict:
-    """Post-market price per symbol from Yahoo's 5-minute pre/post tape, vs the official close in `closes`.
-    One bulk request per 60 names. Returns {sym: {price, chg, chg_pct, as_of, volume}}."""
+def extended_tape(kind: str, daily: dict, session: str | None = None) -> dict:
+    """The last extended-session print per symbol from Yahoo's 5-minute pre/post tape: kind "pre" = 4:00-9:30 a.m.
+    Eastern against the prior close, "post" = 4:00-8:00 p.m. against the day's close. `daily` is {sym: daily bars};
+    the reference close is read from it. Only bars dated `session` (an Eastern date) count; session=None takes the
+    newest date with such bars (MARKETS_PRE / MARKETS_AH plumbing tests). period="2d" because at 9:15 a.m. Eastern
+    Yahoo's "1d" can still be yesterday. One bulk request per 60 names.
+    Yahoo's tape carries no share volume before the open (and none for some names after the close): `bars` counts
+    the 5-minute bars of the session that traded, the activity measure where `volume` reads 0.
+    Returns {sym: {price, chg, chg_pct, as_of, at, volume, bars, session, ref_close, ref_date}}."""
     import pandas as pd
     import yfinance as yf
+    from datetime import date as _date
+    syms = [s for s in daily if not s.startswith("^")]
+    want = _date.fromisoformat(session) if session else None
     out = {}
-    for i in range(0, len(symbols), 60):
-        part = symbols[i:i + 60]
-        try:
-            df = yf.download(part, period="1d", interval="5m", prepost=True, group_by="ticker", auto_adjust=False,
-                             progress=False, threads=True, timeout=30)
-        except Exception as e:  # noqa: BLE001
-            log(f"after-hours download failed ({e})")
-            continue
+    for i in range(0, len(syms), 60):
+        part = syms[i:i + 60]
+        df = None
+        for attempt in range(3):
+            try:
+                df = yf.download(part, period="2d", interval="5m", prepost=True, group_by="ticker", auto_adjust=False,
+                                 progress=False, threads=True, timeout=30)
+                if df is not None and not df.empty:
+                    break
+            except Exception as e:  # noqa: BLE001
+                log(f"{kind} tape {part[0]}..{part[-1]} failed ({e}); retry {attempt + 1}")
+            time.sleep(4 * (attempt + 1))
         if df is None or df.empty:
             continue
         for sym in part:
@@ -1066,17 +1317,249 @@ def after_hours(symbols: list[str], closes: dict) -> dict:
                 continue
             if d.empty:
                 continue
-            et = d.index.tz_convert("America/New_York")
-            post = d[(et.hour >= 16)]
-            if post.empty or not closes.get(sym):
+            idx = d.index.tz_convert(ET)
+            mins = idx.hour * 60 + idx.minute
+            keep = (mins < 9 * 60 + 30) if kind == "pre" else (mins >= 16 * 60)
+            ext, eidx = d[keep], idx[keep]
+            if ext.empty:
                 continue
-            px = float(post["Close"].iloc[-1])
-            c = float(closes[sym])
+            day = want or max(x.date() for x in eidx)
+            on_day = [x.date() == day for x in eidx]
+            sel, sidx = ext[on_day], eidx[on_day]
+            if sel.empty:
+                continue
+            dd = daily[sym]
+            ref = dd[dd.index.date < day] if kind == "pre" else dd[dd.index.date <= day]
+            if ref.empty or (kind == "post" and ref.index[-1].date() != day):
+                continue                       # after hours needs the day's own close
+            c = float(ref["Close"].iloc[-1])
+            px = float(sel["Close"].iloc[-1])
             out[sym] = {"price": round(px, 2), "chg": round(px - c, 2), "chg_pct": round((px / c - 1) * 100, 1),
-                        "as_of": post.index[-1].tz_convert("America/New_York").strftime("%I:%M %p ET").lstrip("0"),
-                        "volume": int(post["Volume"].sum())}
-    log(f"after hours: {len(out)}/{len(symbols)} quotes")
+                        "as_of": sidx[-1].strftime("%I:%M %p ET").lstrip("0"), "at": sidx[-1].isoformat(),
+                        "volume": int(sel["Volume"].fillna(0).sum()), "bars": int(len(sel)), "session": day.isoformat(),
+                        "ref_close": round(c, 2), "ref_date": ref.index[-1].date().isoformat()}
+        time.sleep(1.0)
+    log(f"{kind} tape: {len(out)}/{len(syms)} quotes")
     return out
+
+
+EXT_DIR = DATA / "extended"
+EXT_LATEST = DATA / "extended-latest.json"
+EXT_TITLE = {"pre": "Premarket Movers", "post": "After Hours"}
+EXT_COL = {"pre": "Premarket", "post": "After hrs"}
+
+
+def extended_movers(kind: str, prices: dict, bench, cfg: dict, rs_rank_of, session: str | None = None, tape: dict | None = None) -> dict:
+    """The Premarket Movers (kind "pre") or After Hours ("post") table: names moving `extended.min_move_pct`+ in the
+    extended session on `min_volume`+ shares (where Yahoo reports none, as before every open: traded in `min_prints`+
+    five-minute bars), price `min_price`+, in the Volume Surges row shape with the extended print added. The buy-point distance and the Chart column are measured at the extended price (status_at); the
+    chart pop-up keeps the closing status. Every row's chart is saved (save_series) with its next earnings date."""
+    x = cfg.get("extended") or {}
+    min_move, min_price, min_vol = float(x.get("min_move_pct", 2.0)), float(x.get("min_price", 10)), float(x.get("min_volume", 20000))
+    min_prints = int(x.get("min_prints", 6))
+    n_up, n_down = int(x.get("rows_up", 20)), int(x.get("rows_down", 10))
+    zone = cfg["desk"].get("buy_zone_pct", 5)
+    now = datetime.now(timezone.utc)
+    if tape is None:
+        tape = extended_tape(kind, prices, session)
+    q_ok = {s: q for s, q in tape.items()
+            if q["ref_close"] >= min_price and abs(q["chg_pct"]) >= min_move
+            and (q["volume"] >= min_vol if q["volume"] > 0 else q.get("bars", 0) >= min_prints)}
+    ups = sorted([s for s, q in q_ok.items() if q["chg_pct"] > 0], key=lambda s: -q_ok[s]["chg_pct"])[:n_up]
+    downs = sorted([s for s, q in q_ok.items() if q["chg_pct"] < 0], key=lambda s: q_ok[s]["chg_pct"])[:n_down]
+    desk = set(universe(cfg))
+    ids = identities(ups + downs)
+    try:
+        from desk_extras import next_earnings_cached
+    except Exception:  # noqa: BLE001
+        next_earnings_cached = None
+    facts, out = [], {"up": [], "down": []}
+    from datetime import date as _date
+    for side, syms in (("up", ups), ("down", downs)):
+        for sym in syms:
+            q = q_ok[sym]
+            d = prices[sym]
+            hist = d[d.index.date <= _date.fromisoformat(q["ref_date"])]
+            ne = None
+            if next_earnings_cached:
+                ne = next_earnings_cached(sym)
+                time.sleep(0.05)
+            row = {"sym": sym, "name": (ids.get(sym) or {}).get("name"), "industry": (ids.get(sym) or {}).get("industry"),
+                   "close": q["ref_close"], "chg_pct": None, "ext_price": q["price"], "ext_chg": q["chg"], "ext_chg_pct": q["chg_pct"],
+                   "ext_vol": q["volume"] or None, "ext_bars": q.get("bars"), "ext_as_of": q["as_of"], "rs_rank": rs_rank_of(sym),
+                   "desk": sym in desk,
+                   "status": None, "close_status": None, "angle": None, "buy_point": None, "buy_max": None, "base_kind": None,
+                   "base_weeks": None, "from_pivot": None, "next_earnings": ne}
+            f = None
+            try:
+                f = analyze(sym, hist, bench, cfg) if len(hist) >= 16 else None
+            except Exception as e:  # noqa: BLE001
+                log(f"{sym}: analysis failed ({e})")
+            if f:
+                f["rs_rank"], f["next_earnings"] = row["rs_rank"], ne
+                f["name"], f["industry"] = row["name"], row["industry"]
+                facts.append(f)
+                b = f.get("base") or {}
+                st, fp = f["status"], None
+                if b.get("buy_point"):
+                    st, fp = status_at(q["price"], b["buy_point"], zone, f.get("days_since_breakout"))
+                # the Chart column is the status at the extended price ("in buy range" for a name trading through its
+                # buy point before the open); the session angle ("big move on the day") belongs to the prior close
+                row.update(chg_pct=f.get("chg_pct"), status=st, close_status=f["status"], angle=STATUS_LABEL[st].lower(),
+                           buy_point=b.get("buy_point"), buy_max=b.get("buy_max"), base_kind=b.get("kind"),
+                           base_weeks=b.get("weeks"), from_pivot=fp)
+            out[side].append(row)
+    save_series(facts)
+    last = max(tape.values(), key=lambda q: q["at"]) if tape else None
+    day = (last or {}).get("session") or session or session_date(now)
+    res = {"kind": kind, "date": day, "as_of": now.isoformat(timespec="seconds"),
+           "tape_as_of": last["at"] if last else None, "tape_as_of_human": last["as_of"] if last else None,
+           "ref_date": (last or {}).get("ref_date"), "universe_size": len([s for s in prices if not s.startswith("^")]),
+           "quoted": len(tape), "criteria": {"min_move_pct": min_move, "min_price": min_price, "min_volume": min_vol,
+                                             "min_prints": min_prints},
+           **out}
+    log(f"{EXT_TITLE[kind]}: {len(tape)} names quoted, {len(q_ok)} qualify; {len(out['up'])} up, {len(out['down'])} down")
+    return res
+
+
+def save_extended(ext: dict, record: bool = False) -> Path:
+    EXT_DIR.mkdir(parents=True, exist_ok=True)
+    p = EXT_DIR / f"{ext['date']}-{ext['kind']}.json"
+    txt = json.dumps(ext, ensure_ascii=False, separators=(",", ":"))
+    p.write_text(txt, encoding="utf-8")
+    EXT_LATEST.write_text(txt, encoding="utf-8")
+    log(f"{EXT_TITLE[ext['kind']]} saved -> {p}")
+    if record:
+        rows = ext["up"] + ext["down"]
+        heads = [f"{r['sym']} {r['ext_chg_pct']:+.1f}% {EXT_COL[ext['kind']].lower()}" + (f", {r['angle']}" if r.get("angle") else "") for r in rows[:12]]
+        record_pass("premarket" if ext["kind"] == "pre" else "edition", ext["date"], ext["as_of"], f"{ext['date']}.html#{'premarket' if ext['kind'] == 'pre' else 'after-hours'}",
+                    [r["sym"] for r in rows], heads, extra=f"{len(rows)} movers")
+    return p
+
+
+def load_extended(kind: str | None = None, date: str | None = None) -> dict | None:
+    """extended-latest.json, or with kind and date, that day's saved table."""
+    p = EXT_LATEST if kind is None else EXT_DIR / f"{date}-{kind}.json"
+    if p.is_file():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            return None
+    return None
+
+
+def edition_extended(e: dict) -> dict | None:
+    """An edition's own After Hours rows in the extended-table shape. Editions before Nov 5, 2026 hold the old
+    desk-list rows (name, close, after_hours{...}); they map onto the same columns, with the chart columns blank."""
+    rows = e.get("ah_movers") or []
+    if not rows:
+        return None
+    meta = e.get("ah_meta") or {}
+    conv = []
+    for r in rows:
+        if "ext_price" in r:
+            conv.append(r)
+            continue
+        a = r.get("after_hours") or {}
+        conv.append({"sym": r["sym"], "name": r.get("name"), "close": r.get("close"), "chg_pct": None, "ext_price": a.get("price"),
+                     "ext_chg": a.get("chg"), "ext_chg_pct": a.get("chg_pct"), "ext_vol": a.get("volume"), "ext_as_of": a.get("as_of"),
+                     "rs_rank": r.get("rs_rank"), "desk": True, "status": r.get("status"), "angle": None, "buy_point": None,
+                     "buy_max": None, "base_kind": None, "base_weeks": None, "from_pivot": None, "next_earnings": r.get("next_earnings")})
+    return {"kind": "post", "date": e["date"], "as_of": meta.get("as_of") or e.get("edition_generated") or e["generated"],
+            "tape_as_of_human": meta.get("tape_as_of_human") or e.get("after_hours_as_of"), "ref_date": meta.get("ref_date") or e["date"],
+            "universe_size": meta.get("universe_size"), "criteria": meta.get("criteria"), "legacy": not meta,
+            "up": [r for r in conv if (r.get("ext_chg_pct") or 0) > 0], "down": [r for r in conv if (r.get("ext_chg_pct") or 0) < 0]}
+
+
+def ext_view(x: dict | None, tz) -> dict | None:
+    """The Premarket / After Hours block as the template prints it: heading, column label and the legend line."""
+    if not x or not (x.get("up") or x.get("down")):
+        return None
+    from datetime import date as _date
+    kind = x.get("kind") or "post"
+    c = x.get("criteria") or {}
+    ref = x.get("ref_date") or x.get("date")
+    if x.get("legacy"):
+        legend = (f"Desk-list names moving 3% or more in post-market trading as of {x.get('tape_as_of_human') or 'the evening'}, "
+                  "against the 4 p.m. close.")
+    else:
+        if kind == "pre":
+            against = f"against {datetime.fromisoformat(ref).strftime('%A')}'s close"
+        else:
+            against = "against the " + ("1 p.m." if ref and nyse_early_close(_date.fromisoformat(ref)) else "4 p.m.") + " close"
+        legend = (f"As of {x.get('tape_as_of_human') or '–'}, {against}. {x.get('universe_size') or '–'} names screened "
+                  f"(S&P 500, Nasdaq-100, the desk list); {c.get('min_move_pct', 2):g}%+ moves on "
+                  f"{(c.get('min_volume') or 20000) / 1000:g}K+ shares or {c.get('min_prints', 6)}+ five-minute bars with trades, "
+                  f"price ${c.get('min_price', 10):g}+. "
+                  f"Buy-point distance and the Chart column are at the {EXT_COL[kind].lower().replace('hrs', 'hours')} price. "
+                  "Green names are on the desk list.")
+    return {"kind": kind, "anchor": "premarket" if kind == "pre" else "after-hours", "title": EXT_TITLE[kind], "col": EXT_COL[kind],
+            "col_words": "premarket" if kind == "pre" else "after hours",
+            "legend": legend, "up": x.get("up") or [], "down": x.get("down") or [], "date": x.get("date")}
+
+
+FUTURES = {"ES=F": "S&P 500 futures", "NQ=F": "Nasdaq 100 futures", "YM=F": "Dow futures"}
+
+
+def index_futures() -> list[dict]:
+    """The index futures for the premarket market note: the last print against the prior session's settle. Empty if
+    Yahoo does not answer; the note then works from the prior close alone."""
+    try:
+        import pandas as pd
+        import yfinance as yf
+        now = datetime.now(timezone.utc)
+        today = now.astimezone(ET).date()
+        daily = yf.download(list(FUTURES), period="7d", interval="1d", group_by="ticker", auto_adjust=False, progress=False, timeout=30)
+        intra = yf.download(list(FUTURES), period="2d", interval="5m", prepost=True, group_by="ticker", auto_adjust=False,
+                            progress=False, timeout=30)
+        out = []
+        for sym, name in FUTURES.items():
+            d = daily[sym].dropna(subset=["Close"]) if isinstance(daily.columns, pd.MultiIndex) else daily.dropna(subset=["Close"])
+            m = intra[sym].dropna(subset=["Close"]) if isinstance(intra.columns, pd.MultiIndex) else intra.dropna(subset=["Close"])
+            prior = d[d.index.date < today]
+            if prior.empty or m.empty:
+                continue
+            settle, px = float(prior["Close"].iloc[-1]), float(m["Close"].iloc[-1])
+            out.append({"sym": sym, "name": name, "price": round(px, 2), "settle": round(settle, 2), "chg_pct": pct(px, settle),
+                        "as_of": m.index[-1].tz_convert(ET).strftime("%I:%M %p ET").lstrip("0")})
+        log("futures: " + ", ".join(f"{f['sym']} {f['chg_pct']:+.1f}%" for f in out))
+        return out
+    except Exception as e:  # noqa: BLE001
+        log(f"futures skipped ({e})")
+        return []
+
+
+def rs_ranker(prices: dict):
+    """RS rank (1-99) of each name within the whole screened universe, the way the weekly lists rank it."""
+    import bisect
+    rs_all = {}
+    for sym, d in prices.items():
+        if len(d) >= 30 and not sym.startswith("^"):
+            v = rs_score(d["Close"].to_numpy(dtype=float))
+            if v is not None:
+                rs_all[sym] = v
+    ordered = sorted(rs_all.values())
+
+    def rs_rank_of(sym):
+        v = rs_all.get(sym)
+        return None if v is None else max(1, min(99, round(100 * (bisect.bisect_left(ordered, v) + 1) / (len(ordered) + 1))))
+    return rs_all, ordered, rs_rank_of
+
+
+def premarket(cfg: dict) -> dict:
+    """The 7:15 a.m. Mountain pass's table: Premarket Movers over the broad universe, from the prior close. Saved to
+    data/markets/extended/<today>-pre.json and extended-latest.json; the page is dated today from it."""
+    now = datetime.now(timezone.utc)
+    forced = os.environ.get("MARKETS_PRE") == "1"
+    session = session_date(now)
+    syms = broad_universe(cfg)
+    spx = cfg["benchmarks"].get("spx", "^GSPC")
+    prices = before_session(download(syms + [spx], cfg["desk"].get("history_period", "2y")), session)
+    bench = prices.get(spx)
+    _, _, rs_rank_of = rs_ranker(prices)
+    ext = extended_movers("pre", prices, bench, cfg, rs_rank_of, session=None if forced else session)
+    ext["futures"] = index_futures()
+    return ext
 
 
 # ────────────────────────────────────────────────────────────────────────── stocks on the move (intraday)
@@ -1188,6 +1671,33 @@ def nyse_early_close(d) -> bool:
     return d in (date(d.year, 7, 3), date(d.year, 12, 24)) and is_trading_day(d)
 
 
+def sessions_until(date_str: str | None, today=None) -> int | None:
+    """NYSE sessions from today to a date, counting that day (0 = today). None when the date is past or unreadable."""
+    from datetime import date, timedelta
+    try:
+        d = date.fromisoformat(str(date_str)[:10])
+    except (TypeError, ValueError):
+        return None
+    today = today or datetime.now(ZoneInfo("America/New_York")).date()
+    if d < today:
+        return None
+    n, x = 0, today
+    while x < d:
+        x += timedelta(days=1)
+        n += is_trading_day(x)
+    return n
+
+
+def earnings_label(date_str: str | None, today=None) -> tuple[str, bool] | None:
+    """The chart's earnings tag, "Earnings Nov 19 · 9 sessions", and whether it is inside 5 sessions."""
+    n = sessions_until(date_str, today)
+    if n is None:
+        return None
+    d = datetime.fromisoformat(str(date_str)[:10])
+    when = "today" if n == 0 else f"{n} session{'' if n == 1 else 's'}"
+    return f"Earnings {d.strftime('%b')} {d.day} · {when}", n <= 5
+
+
 def session_fraction(now_utc: datetime) -> tuple[float, bool]:
     """How much of the regular session (9:30-16:00 Eastern) has elapsed, and whether we are inside it."""
     et = now_utc.astimezone(ZoneInfo("America/New_York"))
@@ -1217,22 +1727,11 @@ def movers(cfg: dict) -> dict:
     bench = prices.get(cfg["benchmarks"].get("spx", "^GSPC"))
     today = max(d.index[-1].date() for d in prices.values()).isoformat() if prices else now.date().isoformat()
     # RS rank within the whole screened universe, the same way the weekly lists rank it
-    rs_all = {}
-    for sym, d in prices.items():
-        if len(d) >= 30:
-            v = rs_score(d["Close"].to_numpy(dtype=float))
-            if v is not None:
-                rs_all[sym] = v
-    ordered = sorted(rs_all.values())
+    rs_all, ordered, rs_rank_of = rs_ranker(prices)
     if len(ordered) >= 100:     # the quote box ranks any ticker against this same universe (templates/markets_analyze.js)
         DATA.mkdir(parents=True, exist_ok=True)
         (DATA / "rs_dist.json").write_text(json.dumps({"as_of": now.isoformat(timespec="seconds"), "n": len(ordered),
                                                        "scores": [round(v, 6) for v in ordered]}, separators=(",", ":")), encoding="utf-8")
-    import bisect
-
-    def rs_rank_of(sym):
-        v = rs_all.get(sym)
-        return None if v is None else max(1, min(99, round(100 * (bisect.bisect_left(ordered, v) + 1) / (len(ordered) + 1))))
 
     rows = []
     for sym, d in prices.items():
@@ -1254,14 +1753,19 @@ def movers(cfg: dict) -> dict:
     ups = [r for r in rows if r["chg_pct"] >= min_up][: n_up * 3]
     downs = [r for r in rows if r["chg_pct"] <= -min_up][: n_down * 2]
     mv_facts = []
+    try:
+        from desk_extras import next_earnings_cached
+    except Exception:  # noqa: BLE001
+        next_earnings_cached = None
     for r in ups + downs:   # chart status for the candidates only
+        r["next_earnings"] = next_earnings_cached(r["sym"]) if next_earnings_cached else None
         f = None
         try:
             f = analyze(r["sym"], prices[r["sym"]], bench, cfg)
         except Exception as e:  # noqa: BLE001
             log(f"{r['sym']}: analysis failed ({e})")
         if f:
-            f["rs_rank"] = r.get("rs_rank")
+            f["rs_rank"], f["next_earnings"] = r.get("rs_rank"), r["next_earnings"]
             mv_facts.append(f)
             b = f.get("base") or {}
             r.update(status=f["status"], angle=angle(f), from_pivot=f.get("from_pivot"), buy_point=b.get("buy_point"),
@@ -1305,9 +1809,15 @@ def movers(cfg: dict) -> dict:
     except Exception as e:  # noqa: BLE001
         log(f"list quote refresh failed ({e}); the lists keep their last quotes")
     if not live and after_hours_window(now):
-        ahq = after_hours([r["sym"] for r in ups + downs], {r["sym"]: r["close"] for r in ups + downs})
+        # After Hours over the whole screened universe (the edition prints this table at the top of the page)
+        try:
+            tape = extended_tape("post", prices, None if os.environ.get("MARKETS_AH") == "1" else session_date(now))
+            save_extended(extended_movers("post", prices, bench, cfg, rs_rank_of, tape=tape))
+        except Exception as e:  # noqa: BLE001
+            log(f"after-hours table skipped ({e})")
+            tape = {}
         for r in ups + downs:
-            r["after_hours"] = ahq.get(r["sym"])
+            r["after_hours"] = tape.get(r["sym"])
     ups_q = [r for r in ups if r["qualifies"]][:n_up]
     ups_x = [r for r in ups if not r["qualifies"]][: max(0, n_up - len(ups_q))]
     out = {"as_of": now.isoformat(timespec="seconds"), "date": today, "live": live, "session_fraction": round(frac, 2),
@@ -1391,10 +1901,16 @@ def save_series(facts: list[dict]) -> int:
     SERIES_DIR.mkdir(parents=True, exist_ok=True)
     n = 0
     ids = identities([f["sym"] for f in facts if f.get("series") and not (f.get("name") and f.get("industry"))])
+    try:
+        from desk_extras import next_earnings_cached
+    except Exception:  # noqa: BLE001
+        next_earnings_cached = None
     for f in facts:
         s = f.get("series")
         if not s:
             continue
+        if "next_earnings" not in f and next_earnings_cached:   # every chart carries its next report (Nov 5, 2026)
+            f["next_earnings"] = next_earnings_cached(f["sym"])
         b = f.get("base") or {}
         ident = ids.get(f["sym"]) or {}
         doc = {"sym": f["sym"], "name": f.get("name") or ident.get("name"), "industry": f.get("industry") or ident.get("industry"),
@@ -1415,7 +1931,7 @@ def save_series(facts: list[dict]) -> int:
 # ────────────────────────────────────────────────────────────────────────── the pass index (archive + search)
 
 PASSES_FILE = DATA / "passes.json"
-KIND_LABEL = {"movers": "Volume Surges", "edition": "Edition"}
+KIND_LABEL = {"movers": "Volume Surges", "premarket": "Premarket", "midday": "Midday", "edition": "Edition"}
 
 
 def load_passes() -> list[dict]:
@@ -1651,6 +2167,10 @@ def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today:
         v = rs_all.get(sym)
         return None if v is None or not desk_scores else max(1, min(99, round(100 * (bisect.bisect_left(desk_scores, v) + 1) / (len(desk_scores) + 1))))
 
+    try:
+        from desk_extras import next_earnings_cached
+    except Exception:  # noqa: BLE001
+        next_earnings_cached = None
     rows, hist_dates = [], []
     for sym, d in prices.items():
         hist = d.iloc[:-1] if (live and d.index[-1].date().isoformat() == today) else d
@@ -1681,7 +2201,8 @@ def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today:
                      round(float(np.max(H[-252:])), 4),
                      bool(np.nanmax(C[-5:]) > np.nanmax(s50[-5:])) if not np.all(np.isnan(s50[-5:])) else False,
                      len(C) if len(C) < 129 else None,
-                     *outer_base(b, [x.date().isoformat() for x in syn.index], cfg)])
+                     *outer_base(b, [x.date().isoformat() for x in syn.index], cfg),
+                     next_earnings_cached(sym, fetch=False) if next_earnings_cached else None])
     yr = datetime.now(timezone.utc).year
     from datetime import date as _date, timedelta as _td
     early = [dd.isoformat() for y in (yr, yr + 1) for dd in (_nth_weekday(y, 11, 3, 4) + _td(days=1), _date(y, 7, 3), _date(y, 12, 24))
@@ -1693,7 +2214,7 @@ def save_screen(prices: dict, bench, cfg: dict, rs_all: dict, rs_rank_of, today:
                         "buy_zone_pct": float(cfg["desk"].get("buy_zone_pct", 5))},
            "early_closes": early, "universe_size": len(prices),
            "cols": ["sym", "prev", "avgv", "rs", "rsd", "bp", "bm", "kind", "wk", "pv", "dsb", "s49", "a50", "n50", "hip", "bdp", "ipo",
-                    "opv", "obp", "obm", "okind", "owk"],
+                    "opv", "obp", "obm", "okind", "owk", "ne"],
            "rows": rows}
     DATA.mkdir(parents=True, exist_ok=True)
     (DATA / "screen.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -1759,16 +2280,31 @@ def load_lists() -> dict | None:
 
 # ────────────────────────────────────────────────────────────────────────── catch-up: which pass is overdue?
 
-SLOTS = [("movers", 8 * 60 + 5), ("movers", 11 * 60 + 5), ("movers", 14 * 60 + 5),
-         ("edition", 15 * 60 + 20)]   # Mountain time, trading days. 2:05 p.m. is the closing bell pass:
-# without it the page sat on 11:05 numbers from the close until the 3:20 edition — the stretch when the
-# final prices matter most. On an early-close day the 1:05 p.m. ET bell is past by then either way.
+def slots(cfg: dict | None = None) -> list[tuple[str, int]]:
+    """The day's passes in Mountain time, from markets.yaml desk.passes: (mode, minutes after midnight). Mode is what
+    markets.yml runs: premarket (7:15), movers (7:45), midday (11:05), movers (2:05, the closing numbers) and
+    edition (3:20). On an early-close day the 1 p.m. Eastern bell is past by 2:05 either way."""
+    ps = desk_passes(cfg if cfg is not None else load_cfg())
+    mode = {"premarket": "premarket", "movers_open": "movers", "midday": "midday", "movers_close": "movers", "close": "edition"}
+    out = []
+    for key, m in mode.items():
+        hh, mm = str(ps[key]["at"]).split(":")
+        out.append((m, int(hh) * 60 + int(mm)))
+    return sorted(out, key=lambda x: x[1])
 
 
-def due_pass(now_utc: datetime | None = None) -> str | None:
-    """GitHub drops and delays cron runs, so the hourly pinger-driven build asks: is a Market Desk pass
-    overdue? Returns 'movers' / 'edition' for the earliest slot of today that has come round with no
-    artifact printed since it, else None. Never on a weekend or an NYSE holiday."""
+def due_pass(now_utc: datetime | None = None, cfg: dict | None = None) -> str | None:
+    """GitHub drops and delays cron runs, so the hourly pinger-driven build asks: is a Market Desk pass overdue?
+    Returns premarket / movers / midday / edition for a slot of today that has come round with nothing printed for
+    it, else None. Never on a weekend or an NYSE holiday. Each pass is detected by what it prints:
+      premarket - data/markets/extended/<today>-pre.json; it lapses once the next slot (the 7:45 Volume Surges)
+                  comes round, since after the open it is no longer a premarket read
+      movers    - movers/<today>-HHMM.json at or after the slot less 10 minutes (any later pass prints one too)
+      midday    - today's edition has passes_done.midday, or a midday pass already started today (tried.json), so
+                  a midday that ran and failed is not sent again every hour ahead of the close
+      edition   - today's edition has passes_done.close (files from before Nov 5, 2026: `generated`)
+    Midday covers any movers slot before it (it runs Volume Surges first); the edition covers every movers slot but
+    never an unprinted midday: midday runs first and the edition at the next shot."""
     now = (now_utc or datetime.now(timezone.utc)).astimezone(ZoneInfo("America/Denver"))
     if not is_trading_day(now.date()):          # weekends and NYSE holidays: no passes
         return None
@@ -1778,30 +2314,55 @@ def due_pass(now_utc: datetime | None = None) -> str | None:
     for f in (DATA / "movers").glob(f"{today}-????.json") if (DATA / "movers").is_dir() else []:
         hhmm = f.stem[-4:]
         mover_times.append(int(hhmm[:2]) * 60 + int(hhmm[2:]))
-    edition_time = None
+
+    def mt(iso):
+        try:
+            t = datetime.fromisoformat(iso).astimezone(ZoneInfo("America/Denver"))
+            return t.hour * 60 + t.minute if t.date().isoformat() == today else None
+        except Exception:  # noqa: BLE001
+            return None
+
+    done = {}
     ep = edition_path(today)
     if ep.is_file():
         try:
-            gen = datetime.fromisoformat(json.loads(ep.read_text(encoding="utf-8"))["generated"]).astimezone(ZoneInfo("America/Denver"))
-            edition_time = gen.hour * 60 + gen.minute if gen.date().isoformat() == today else None
+            e = json.loads(ep.read_text(encoding="utf-8"))
+            pd_ = e.get("passes_done")
+            done = {k: mt(v) for k, v in pd_.items()} if isinstance(pd_, dict) else {"close": mt(e.get("generated") or "")}
         except Exception:  # noqa: BLE001
-            edition_time = None
+            done = {}
+    try:
+        tried = json.loads(TRIED_FILE.read_text(encoding="utf-8")) if TRIED_FILE.is_file() else {}
+    except Exception:  # noqa: BLE001
+        tried = {}
+    pre_done = (EXT_DIR / f"{today}-pre.json").is_file()
+    sl = slots(cfg)
     overdue = []
-    for kind, slot in SLOTS:
+    for n, (kind, slot) in enumerate(sl):
         if mins < slot:
             break
-        if kind == "movers" and any(t >= slot - 10 for t in mover_times):
-            continue
-        if kind == "edition" and edition_time is not None and edition_time >= slot - 10:
-            continue
-        # a movers slot is also satisfied by any later edition (the edition runs movers itself)
-        if kind == "movers" and edition_time is not None and edition_time >= slot:
-            continue
+        later = [s for _, s in sl[n + 1:]]
+        if kind == "premarket":
+            if pre_done or (later and mins >= later[0]):
+                continue
+        elif kind == "movers":
+            if any(t >= slot - 10 for t in mover_times):
+                continue
+            if any(t is not None and t >= slot for k, t in done.items() if k in ("midday", "close")):
+                continue
+        elif kind == "midday":
+            if done.get("midday") is not None or f"{today}-midday" in tried or done.get("close") is not None:
+                continue
+        elif kind == "edition":
+            if done.get("close") is not None and done["close"] >= slot - 10:
+                continue
         overdue.append(kind)
     if not overdue:
         return None
-    # the edition prints its own movers list, so once its slot has come round it settles everything at once
-    return "edition" if "edition" in overdue else overdue[0]
+    for kind in ("premarket", "midday", "edition"):
+        if kind in overdue:
+            return kind
+    return "movers"
 
 
 # ────────────────────────────────────────────────────────────────────────── main
@@ -1811,14 +2372,19 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan")
     s.add_argument("--out", default="data/build/markets_payload.json")
+    s.add_argument("--pass", dest="pass_name", choices=WRITER_PASSES, default="close")
     p = sub.add_parser("publish")
     p.add_argument("--payload", required=True)
     p.add_argument("--articles")
     p.add_argument("--chief")
+    p.add_argument("--append", action="store_true", help="add this pass's stories to the day's file (every scheduled pass)")
     sub.add_parser("render")
     sub.add_parser("scorecard")
-    sub.add_parser("run")
+    r = sub.add_parser("run")
+    r.add_argument("--pass", dest="pass_name", choices=WRITER_PASSES, default="close")
+    r.add_argument("--append", action="store_true")
     sub.add_parser("movers")
+    sub.add_parser("premarket")
     sub.add_parser("lists")
     sub.add_parser("due")
     a = ap.parse_args()
@@ -1836,18 +2402,24 @@ def main() -> int:
         save_movers(movers(cfg))
         render_site()
         return 0
+    if a.cmd == "premarket":
+        save_extended(premarket(cfg), record=True)
+        render_site()
+        return 0
     if a.cmd == "lists":
         save_lists(leader_lists(cfg))
         render_site()
         return 0
 
     if a.cmd in ("scan", "run"):
-        payload = scan(cfg)
+        payload = scan(cfg, a.pass_name)
         out = ROOT / (a.out if a.cmd == "scan" else "data/build/markets_payload.json")
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-        log(f"payload -> {out} ({len(payload['stories'])} stories, {payload['universe_size']} names)")
-        slim = {k: v for k, v in payload.items() if k not in ("board", "lists")}
+        log(f"payload -> {out} ({payload['pass']} pass, {len(payload['stories'])} stories, {payload['universe_size']} names)")
+        slim = {k: v for k, v in payload.items() if k not in ("board", "lists", "ah_meta")}
+        for k in pulse_keys(slim.get("pulse")):
+            slim["pulse"][k] = {kk: vv for kk, vv in slim["pulse"][k].items() if kk != "dist_dates"}
         slim["stories"] = [{k: v for k, v in f.items() if k not in ("series", "score")} for f in payload["stories"]]
         if payload.get("profile"):
             slim["profile"] = {k: v for k, v in payload["profile"].items() if k not in ("series", "score")}
@@ -1858,7 +2430,7 @@ def main() -> int:
         log(f"writer payload -> {wp} ({wp.stat().st_size // 1024} KB)")
         if a.cmd == "scan":
             return 0
-        publish(payload, None, cfg)
+        publish(payload, None, cfg, append=a.append)
         render_site()
         return 0
     if a.cmd == "publish":
@@ -1878,7 +2450,7 @@ def main() -> int:
                 chief = json.loads(raw)
             except Exception as e:  # noqa: BLE001
                 log(f"desk chief unreadable ({e})")
-        publish(payload, arts, cfg, chief=chief)
+        publish(payload, arts, cfg, chief=chief, append=a.append)
         render_site()
         return 0
     if a.cmd == "scorecard":

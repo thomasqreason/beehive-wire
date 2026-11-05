@@ -117,17 +117,19 @@ SCORE_FILE = DATA / "scorecard.json"
 
 
 def collect_calls() -> list[dict]:
-    """Every actionable call the desk has printed since the first edition: a story or a watch-list row that was
-    'breakout' or 'in buy range' that day. One call per symbol per base (same buy point within 1%)."""
+    """Every actionable pick the desk has printed since the first edition: a story or a watch-list row that was
+    'breakout' or 'in buy range' that day. One pick per symbol per base (same buy point within 1%), so a name the
+    premarket, midday and close passes all cover counts once. A story is measured from the price it was written on:
+    a premarket story's close is the prior session's, so its date is that session's (the story's own `date`)."""
     calls, last = [], {}
     for p in sorted(DATA.glob("????-??-??.json")):
         try:
             ed = json.loads(p.read_text(encoding="utf-8"))
         except Exception:  # noqa: BLE001
             continue
-        date = ed.get("date") or p.stem
+        date = ed.get("prices_through") or ed.get("date") or p.stem
         rows = []
-        for s in ed.get("stories", []):
+        for s in sorted(ed.get("stories", []), key=lambda s: s.get("printed_at") or ""):
             if s.get("status") in ("breakout", "buy_zone"):
                 rows.append(("story", s))
         for key in ("in_buy_range", "breakouts_week"):
@@ -142,7 +144,8 @@ def collect_calls() -> list[dict]:
             if prev and abs(prev / bp - 1) < 0.01:
                 continue
             last[r["sym"]] = bp
-            calls.append({"date": date, "sym": r["sym"], "kind": r["status"], "source": src, "call_price": r["close"],
+            calls.append({"date": (r.get("date") if src == "story" else None) or date, "sym": r["sym"], "kind": r["status"],
+                          "source": src, "call_price": r["close"],
                           "buy_point": bp, "buy_max": r.get("buy_max") or (r.get("base") or {}).get("buy_max"),
                           "rs_rank": r.get("rs_rank")})
     return calls
@@ -239,19 +242,25 @@ def load_scorecard() -> dict | None:
 # ────────────────────────────────────────────────────────────────────────── earnings this week
 
 CAL_DIR = DATA / "fund_cache"
+_CAL_FAILS = {"n": 0}      # consecutive Yahoo calendar failures this run; past 8 the run stops asking (rate limit)
 
 
-def next_earnings_cached(sym: str, max_age_days: int = 2) -> str | None:
-    """The next earnings date from Yahoo's calendar, cached two days per symbol (fund_cache/SYM.cal.json)."""
+def next_earnings_cached(sym: str, max_age_days: int = 2, fetch: bool = True) -> str | None:
+    """The next earnings date from Yahoo's calendar, cached two days per symbol (fund_cache/SYM.cal.json).
+    fetch=False reads the cache only (any age), for callers that cover hundreds of names."""
     CAL_DIR.mkdir(parents=True, exist_ok=True)
     p = CAL_DIR / f"{sym}.cal.json"
+    stale = None
     if p.is_file():
         try:
             c = json.loads(p.read_text(encoding="utf-8"))
-            if (datetime.now(timezone.utc) - datetime.fromisoformat(c["fetched"])).days < max_age_days:
-                return c.get("next_earnings")
+            stale = c.get("next_earnings")
+            if not fetch or (datetime.now(timezone.utc) - datetime.fromisoformat(c["fetched"])).days < max_age_days:
+                return stale
         except Exception:  # noqa: BLE001
             pass
+    if not fetch or _CAL_FAILS["n"] >= 8:
+        return stale
     nxt = None
     try:
         import yfinance as yf
@@ -260,8 +269,10 @@ def next_earnings_cached(sym: str, max_age_days: int = 2) -> str | None:
         if ed:
             v = ed[0] if isinstance(ed, (list, tuple)) else ed
             nxt = str(v)[:10]
+        _CAL_FAILS["n"] = 0
     except Exception:  # noqa: BLE001
-        return None  # not cached; retry next run
+        _CAL_FAILS["n"] += 1
+        return stale  # not cached; retry next run
     p.write_text(json.dumps({"fetched": datetime.now(timezone.utc).isoformat(timespec="seconds"), "next_earnings": nxt}), encoding="utf-8")
     return nxt
 
@@ -285,6 +296,63 @@ def earnings_week(facts: list[dict], days_ahead: int = 7) -> list[dict]:
                         "buy_point": (f.get("base") or {}).get("buy_point"), "vs_sma50": f.get("vs_sma50")})
     out.sort(key=lambda r: (r["date"], -(r["rs_rank"] or 0)))
     return out
+
+
+# ────────────────────────────────────────────────────────────────────────── weighted distribution days (Nov 5, 2026)
+
+DIST_DEFAULTS = {"window_sessions": 25, "barely_down_pct": 0.5, "sharply_down_pct": 1.5, "barely_more_vol": 1.05,
+                 "heavy_vol": 1.20, "adj": 0.25, "stall_max_up_pct": 0.4, "expire_on_5pct_rally": True}
+
+
+def distribution_days(df, cfg: dict | None = None) -> list[dict]:
+    """Every distribution or stalling session of an index in the last `window_sessions` (markets.yaml `distribution`).
+
+    Distribution: close down 0.2%+ on volume above the prior session (the desk's count since Oct 2026). Weighted
+    1 + price_adj + vol_adj (Todd, Nov 5, 2026): a drop under `barely_down_pct` counts `adj` less, one of
+    `sharply_down_pct` or more counts `adj` more; volume under `barely_more_vol` x the prior session counts less,
+    `heavy_vol` x or more counts more. Range 0.5-1.5.
+    Stalling: a close between -0.2% (exclusive) and +`stall_max_up_pct`, volume above the prior session, the close in
+    the lower half of the day's range, after an up session. Weight 1.0.
+    A day expires (weight no longer counted) once the index has closed 5%+ above that day's close.
+    Rows: {date, chg_pct, vol_ratio, kind, weight, why, expired}."""
+    import numpy as np
+    k = DIST_DEFAULTS | ((cfg or {}).get("distribution") or {})
+    adj = float(k["adj"])
+    C, H, L, V = (df[c].to_numpy(dtype=float) for c in ("Close", "High", "Low", "Volume"))
+    n = len(C)
+    out = []
+    for i in range(max(1, n - int(k["window_sessions"])), n):
+        if not (V[i - 1] > 0 and V[i] > V[i - 1]):
+            continue
+        r = C[i] / C[i - 1] - 1
+        vr = V[i] / V[i - 1]
+        row = None
+        if r <= -0.002:
+            drop = -r * 100
+            p_adj, p_lbl = ((-adj, "barely down") if drop < float(k["barely_down_pct"]) else
+                            (adj, "sharply down") if drop >= float(k["sharply_down_pct"]) else (0.0, "down"))
+            v_adj, v_lbl = ((-adj, "barely more volume") if vr < float(k["barely_more_vol"]) else
+                            (adj, "heavy volume") if vr >= float(k["heavy_vol"]) else (0.0, "more volume"))
+            row = {"kind": "distribution", "weight": round(1 + p_adj + v_adj, 2), "why": f"{p_lbl}, {v_lbl}"}
+        elif r <= float(k["stall_max_up_pct"]) / 100 and i >= 2 and C[i - 1] > C[i - 2]:
+            rng = H[i] - L[i]
+            if rng > 0 and (C[i] - L[i]) / rng < 0.5:
+                row = {"kind": "stalling", "weight": 1.0, "why": "stalling"}
+        if row is None:
+            continue
+        expired = bool(k.get("expire_on_5pct_rally") and i + 1 < n and float(np.max(C[i + 1:])) >= C[i] * 1.05)
+        out.append({"date": df.index[i].date().isoformat(), "chg_pct": round(float(r) * 100, 2), "vol_ratio": round(float(vr), 2), **row,
+                    "expired": expired})
+    return out
+
+
+def distribution_summary(rows: list[dict]) -> dict:
+    """The pulse fields: `dist_days` / `dist_dates` keep their old meaning (distribution sessions in the window,
+    unweighted, no expiry); `dist_weighted` is the sum of the live weights, stalling days included."""
+    dist = [r for r in rows if r["kind"] == "distribution"]
+    return {"dist_days": len(dist), "dist_dates": [r["date"] for r in dist],
+            "dist_weighted": round(sum(r["weight"] for r in rows if not r["expired"]), 1),
+            "dist_detail": rows}
 
 
 # ────────────────────────────────────────────────────────────────────────── alerts (ntfy)

@@ -53,7 +53,16 @@
       f.buy_point = b.bp; f.buy_max = b.bm; f.base_kind = b.kind; f.base_weeks = b.wk;
     }
     f.angle = (typeof BWA !== 'undefined') ? BWA.angle(f) : LABEL[f.status].toLowerCase();
+    f.next_earnings = r.ne || null;
     return f;
+  }
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function earnCell(ds) {   // the next report, coral inside five sessions (weekdays from today, Eastern)
+    if (!ds) return '<td class="st">–</td>';
+    ds = String(ds).slice(0, 10);
+    var t = et(new Date()).date, a = new Date(t + 'T12:00:00Z'), b = new Date(ds + 'T12:00:00Z'), n = 0;
+    while (a < b) { a.setUTCDate(a.getUTCDate() + 1); var w = a.getUTCDay(); if (w !== 0 && w !== 6) n++; }
+    return '<td class="' + (ds >= t && n <= 5 ? 'earn soon' : 'st') + '">' + MON[+ds.slice(5, 7) - 1] + ' ' + (+ds.slice(8, 10)) + '</td>';
   }
 
   function symCell(sym) {
@@ -62,13 +71,14 @@
   }
   function mvTable(rows, title) {
     if (!rows.length) return '';
-    var h = '<div class="list"><b>' + esc(title) + '</b><div class="tblwrap"><table class="board mv"><tr><th>Sym</th><th>Last</th><th>Chg</th><th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>';
+    var h = '<div class="list"><b>' + esc(title) + '</b><div class="tblwrap"><table class="board mv"><tr><th>Sym</th><th>Last</th><th>Chg</th><th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>Earnings</th></tr>';
     rows.forEach(function (r) {
       h += '<tr>' + symCell(r.sym) + '<td>' + f2(r.close) + '</td><td class="' + ((r.chg_pct || 0) >= 0 ? 'pos' : 'neg') + '">' + sg(r.chg_pct || 0) + '</td>'
         + '<td><b>+' + r.vol_pct + '%</b> <span class="st">(' + r.vol_ratio.toFixed(1) + 'x)</span></td><td>' + (r.rs_rank != null ? r.rs_rank : '–') + '</td>'
         + '<td class="st">' + esc(r.angle || LABEL[r.status] || '–') + (r.base_kind ? ' &middot; ' + r.base_weeks + 'w ' + esc(r.base_kind) : '') + '</td>'
         + '<td>' + (r.buy_point ? f2(r.buy_point) + '&ndash;' + f2(r.buy_max) : '–') + '</td>'
-        + '<td class="' + ((r.from_pivot || 0) >= 0 ? 'pos' : 'neg') + '">' + (r.from_pivot != null ? sg(r.from_pivot) : '–') + '</td></tr>';
+        + '<td class="' + ((r.from_pivot || 0) >= 0 ? 'pos' : 'neg') + '">' + (r.from_pivot != null ? sg(r.from_pivot) : '–') + '</td>'
+        + earnCell(r.next_earnings) + '</tr>';
     });
     return h + '</table></div></div>';
   }

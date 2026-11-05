@@ -8,6 +8,13 @@
   function pc(x){return (x==null)?'–':(x>=0?'+':'')+Number(x).toFixed(1)+'%';}
   function cls(x){return (x||0)>=0?'pos':'neg';}
   function niceStep(raw){if(raw<=0)return 1;var mag=Math.pow(10,Math.floor(Math.log10(raw)));var ms=[1,2,2.5,5,10];for(var i=0;i<ms.length;i++){if(raw<=ms[i]*mag)return ms[i]*mag;}return 10*mag;}
+  // The next report on the chart (Nov 5, 2026): "Earnings Nov 19 · 9 sessions", coral inside 5 sessions. Sessions are
+  // weekdays from today (Eastern) through the report day; the server's own charts count NYSE holidays too.
+  var MONS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function etDate(t){try{return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(t?new Date(t*1000):new Date());}catch(e){return (t?new Date(t*1000):new Date()).toISOString().slice(0,10);}}
+  function earnLabel(ds){ds=String(ds||'').slice(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(ds))return null;var t=etDate();if(ds<t)return null;
+    var a=new Date(t+'T12:00:00Z'),b=new Date(ds+'T12:00:00Z'),n=0;while(a<b){a.setUTCDate(a.getUTCDate()+1);var w=a.getUTCDay();if(w!==0&&w!==6)n++;}
+    return ['Earnings '+MONS[+ds.slice(5,7)-1]+' '+(+ds.slice(8,10))+' · '+(n===0?'today':n+' session'+(n===1?'':'s')),n<=5];}
   function smaArr(c,n){var o=[],s=0;for(var i=0;i<c.length;i++){s+=c[i];if(i>=n)s-=c[i-n];o.push(i>=n-1?+(s/n).toFixed(2):null);}return o;}
   // Geometry. The chart is drawn at the pop-up's own pixel width, and every bar gets the same width whatever
   // the screen: a phone held upright shows fewer bars, turned sideways it shows more, a desktop more still —
@@ -77,7 +84,9 @@
       o.push('<rect x="'+(x-bw/2).toFixed(1)+'" y="'+yv(s.v[i]).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+(VT+VH-yv(s.v[i])).toFixed(1)+'" fill="'+col+'" opacity=".75"/>');}
     if(s.avgv50)o.push('<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+yv(s.avgv50).toFixed(1)+'" y2="'+yv(s.avgv50).toFixed(1)+'" stroke="var(--avgv)" stroke-width="1.1"/>');
     var lg=s.legend||['21-day','50-day','200-day'];
-    o.push('<text x="'+(W-PR+4)+'" y="'+(VT+12)+'" class="lbl">vol</text><text x="'+(PL+4)+'" y="'+(PT+12)+'" class="lbl"><tspan fill="var(--ma21)">'+lg[0]+'</tspan>  <tspan fill="var(--ma50)">'+lg[1]+'</tspan>  <tspan fill="var(--ma200)">'+lg[2]+'</tspan></text></svg>');
+    // the next report rides the legend line (top left), clear of the breakout marker over the newest bars
+    var ek=earnLabel(d.next_earnings),et=ek?'  <tspan class="earn'+(ek[1]?' soon':'')+'">\u00b7 '+ek[0]+'</tspan>':'';
+    o.push('<text x="'+(W-PR+4)+'" y="'+(VT+12)+'" class="lbl">vol</text><text x="'+(PL+4)+'" y="'+(PT+12)+'" class="lbl"><tspan fill="var(--ma21)">'+lg[0]+'</tspan>  <tspan fill="var(--ma50)">'+lg[1]+'</tspan>  <tspan fill="var(--ma200)">'+lg[2]+'</tspan>'+et+'</text></svg>');
     return o.join('');
   }
   // Daily, Weekly, Monthly, then Intraday last on the right (Todd, Oct 28, 2026) — on every chart, desk-list
@@ -205,7 +214,7 @@
       h+='<div class="sub">'+esc(d.angle||'')+' &middot; prices through '+esc(d.date)+'</div>'+tabs(d)+chart(d,'d');
       h+='<div class="facts">';
       (d.aggressive||[]).forEach(function(a){if(a&&a.live)h+='<div><b>Aggressive entry: '+esc(a.kind)+'</b>'+f2(a.price)+' <span class="st">('+pc(a.from_price)+' from here)</span></div>';});
-      if(d.next_earnings)h+='<div><b>Next earnings</b>'+esc(d.next_earnings)+'</div>';
+      if(d.next_earnings)h+='<div class="ne"><b>Next earnings</b>'+esc(d.next_earnings)+'</div>';
       if(d.blue_dot||(d.series&&d.series.rsdot&&d.series.rsdot.indexOf(d.series.c.length-1)>=0))h+='<div><b>RS line</b><span style="color:var(--rs);font-weight:900">New 52-week high today</span></div>';
       var ds=d.desk_score;if(ds){h+='<div><b>Desk score</b><span style="font-size:16px;font-weight:900">'+ds.score+'</span> <span class="st">of 100</span><br><span class="st">RS '+ds.rs_pts+' + EPS '+ds.eps_pts+(ds.eps_yoy!=null?' ('+(ds.eps_yoy>=0?'+':'')+Math.round(ds.eps_yoy)+'%)':'')+' + Rev '+ds.rev_pts+(ds.rev_yoy!=null?' ('+(ds.rev_yoy>=0?'+':'')+Math.round(ds.rev_yoy)+'%)':'')+' + Chart '+ds.tech_pts+(ds.tech_parts&&ds.tech_parts.length?' ('+esc(ds.tech_parts.join(', '))+')':'')+(ds.note?' · '+esc(ds.note):'')+'</span></div>';}
       if(b.buy_point)h+='<div><b>Buy point</b>'+f2(b.buy_point)+'</div><div><b>Buy range</b>'+f2(b.buy_point)+' &ndash; '+f2(b.buy_max)+'</div><div><b>From buy point</b><span class="'+cls(d.from_pivot)+'">'+pc(d.from_pivot)+'</span></div><div><b>Base</b>'+esc(b.weeks)+'-week '+esc(b.kind)+', '+Math.round(b.depth||0)+'% deep</div>'+(b.breakout_date?'<div><b>Breakout</b>'+esc(b.breakout_date)+'</div>':'');
@@ -214,7 +223,7 @@
       lastW=width();
       var sv=body.querySelector('svg.chart');if(sv&&window.BWXH){if(d.base&&d.base.buy_max)sv.setAttribute('data-buymax',d.base.buy_max);BWXH.attach(sv,frameOf(d,'d',lastW));}
       wireTabs(body,d);
-      live(d.sym);
+      live(d);
       deepen(d);
   }
   // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.
@@ -222,10 +231,21 @@
   function clock(t){try{return new Date(t*1000).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT';}catch(e){return '';}}
   function day(t){try{var d=new Date(t*1000),n=new Date();return d.toDateString()===n.toDateString()?'':d.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Denver'})+' ';}catch(e){return '';}}
   function line(label,p,c,cp,t,cl){return '<div class="lq'+(cl?' '+cl:'')+'"><b>'+label+'</b> '+f2(p)+' <span class="'+cls(c)+'">'+(c>=0?'+':'')+f2(c)+' ('+pc(cp)+')</span> <span class="lt">'+day(t)+clock(t)+'</span></div>';}
-  function live(sym){
+  // A ticker with no saved earnings date (one typed into the quote box) takes it from the quote: the relay passes
+  // Yahoo's earningsTimestamp / Start / End through (relay/quote-worker.js merge()).
+  function earnFromQuote(d,q){
+    if(d.next_earnings||!q||!q.earnings)return;var t=etDate(),best=null;
+    [q.earnings.start,q.earnings.ts,q.earnings.end].forEach(function(x){if(x){var ds=etDate(x);if(ds>=t&&(!best||ds<best))best=ds;}});
+    if(!best)return;d.next_earnings=best;
+    var fx=body.querySelector('.facts');if(fx&&!fx.querySelector('.ne')){var el=document.createElement('div');el.className='ne';el.innerHTML='<b>Next earnings</b>'+esc(best);fx.insertBefore(el,fx.firstChild);}
+    if(REDRAW)REDRAW();
+  }
+  function live(d){
+    var sym=d.sym;
     if(!RELAY)return;
     fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'s='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).then(function(j){
       var q=j&&j.quotes&&j.quotes[sym];if(!q||!q.regular||body.getAttribute('data-sym')!==sym)return;
+      try{earnFromQuote(d,q);}catch(e){}
       var r=q.regular,x=q.extended,h=body.querySelector('h2'),el=document.createElement('div');el.className='lquote';
       el.innerHTML=line(q.live?'Live':'At close',r.price,r.chg,r.chgPct,r.time,q.live?'on':'')+(x?line(SESSION[x.session]||'Extended',x.price,x.chg,x.chgPct,x.time,'on'):'');
       if(h){h.parentNode.insertBefore(el,h.nextSibling);

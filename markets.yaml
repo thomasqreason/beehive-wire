@@ -1,13 +1,21 @@
 # Beehive Wire — Market Desk configuration.
-# The desk writes 5–10 breakout-method stock articles a day about the names below. Edit this list freely:
-# one ticker per line, Yahoo Finance symbols. Names with no price data are skipped automatically.
+# The desk writes breakout-method stock articles about the names below in three passes a day (desk.passes). Edit
+# this list freely: one ticker per line, Yahoo Finance symbols. Names with no price data are skipped automatically.
 
 desk:
   name: "MARKET DESK"
   tagline: "Leaders, bases and breakouts. Numbers first."
   timezone: "America/Denver"
-  stories_min: 5
-  stories_max: 10
+  # The day (Todd, Nov 5, 2026), Mountain time. markets.py due and the markets.yml crons read these slots; three
+  # writer passes about four hours apart each add `stories` new names, and the page shows the newest `stories_keep`
+  # across today and yesterday (each date page keeps all of its day's). Retune here, not in code.
+  stories_keep: 10
+  passes:
+    premarket:    {at: "07:15", stories: 3}   # Premarket Movers table, today's date at the top, futures, 3 stories
+    movers_open:  {at: "07:45"}               # first Volume Surges pass
+    midday:       {at: "11:05", stories: 3}   # Volume Surges, then 3 stories from the session so far
+    movers_close: {at: "14:05"}               # Volume Surges with the closing numbers
+    close:        {at: "15:20", stories: 4}   # After Hours, 4 stories, Desk Chief, Company of the Day, The Lesson (Fri)
   chart_bars: 130                  # daily bars drawn on each article's chart
   board_rows: 40                   # rows on the leaders board (sorted by RS)
   buy_zone_pct: 5                  # buy point to 5% above it
@@ -65,7 +73,7 @@ corner_topics:
   - "The 20-25% profit rule and when to let a winner run past it"
   - "Climax tops: the signs a leader's run is ending"
 
-# Volume Surges (8am / 11am Mountain runs, and again after the close). Qualifiers:
+# Volume Surges (7:45 and 11:05 a.m., 2:05 p.m. Mountain, and the live screen every minute of the session). Qualifiers:
 movers:
   min_price: 10              # dollars
   min_avg_volume: 400000     # 50-day average shares/day
@@ -74,6 +82,31 @@ movers:
   min_rs_rank: 70            # RS rank, measured against the desk list's distribution
   rows_up: 20
   rows_down: 10
+
+# Premarket Movers (7:15 a.m.) and After Hours (3:20 p.m.): S&P 500 + Nasdaq-100 + the desk list, in the Volume Surges
+# columns, with the distance from the buy point measured at the extended-session price.
+extended:
+  min_move_pct: 2.0          # premarket / after-hours move vs the prior close (premarket) or the day's close (after hours)
+  min_price: 10
+  min_volume: 20000          # extended-session shares; drops one-print noise
+  min_prints: 6              # where Yahoo reports no extended volume (every premarket): 5-minute bars that traded
+  rows_up: 20
+  rows_down: 10
+
+# Weighted distribution days (Todd, Nov 5, 2026). A distribution day is a 0.2%+ drop on more volume than the prior
+# session, weighted 1 +/- adj: barely down (< barely_down_pct) counts less, sharply down (>= sharply_down_pct) more;
+# barely more volume (< barely_more_vol x the prior session) less, heavy volume (>= heavy_vol x) more. Range 0.5-1.5.
+# A stalling day (flat to +stall_max_up_pct on more volume, closing in the lower half of its range after an up day)
+# counts 1.0. The market note's state reads the weighted sum against the same 4 / 6 lines the raw count used.
+distribution:
+  window_sessions: 25
+  barely_down_pct: 0.5
+  sharply_down_pct: 1.5
+  barely_more_vol: 1.05
+  heavy_vol: 1.20
+  adj: 0.25
+  stall_max_up_pct: 0.4
+  expire_on_5pct_rally: true # a day drops out once the index has closed 5%+ above that day's close
 
 # The Beehive 100 (growth leaders) and the Big Cap 40 — refreshed after Friday's close.
 # Composite = 40% RS rank + 25% latest-quarter EPS growth (capped at 200%) + 10% revenue growth (capped 100%)

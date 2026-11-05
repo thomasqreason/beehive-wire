@@ -28,7 +28,7 @@
   {% if rows %}
   <div class="list"><b>{{ title }}</b>
   <div class="tblwrap"><table class="board mv">
-    <tr><th>Sym</th><th>Last</th><th>Chg</th>{% if rows[0].after_hours is defined %}<th>After hrs</th>{% endif %}<th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
+    <tr><th>Sym</th><th>Last</th><th>Chg</th>{% if rows[0].after_hours is defined %}<th>After hrs</th>{% endif %}<th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>Earnings</th></tr>
     {% for r in rows %}<tr>
       <td class="sym"><a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a></td>
       <td>{{ '%.2f'|format(r.close) }}</td>
@@ -39,6 +39,7 @@
       <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
       <td>{% if r.buy_point %}{{ '%.2f'|format(r.buy_point) }}&ndash;{{ '%.2f'|format(r.buy_max) }}{% else %}–{% endif %}</td>
       <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
+      <td class="{{ 'earn soon' if earn_soon(r.next_earnings) else 'st' }}">{{ r.next_earnings|md if r.next_earnings else '–' }}</td>
     </tr>{% endfor %}
   </table></div></div>
   {% endif %}

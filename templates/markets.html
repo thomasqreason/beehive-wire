@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="wrap">
-  {% set story_syms = ed.stories|map(attribute='sym')|list %}
+  {% set story_syms = stories|map(attribute='sym')|list %}
   <div class="mast">
     <h1><a href="{{ root }}">{{ site_name }}</a><span>{{ desk.name }}</span></h1>
     <div class="stamp">{{ human }} &middot; {{ stamp_time }}{% if stale_edition %} &middot; the articles below are from {{ edition_day }}'s close{% endif %}{% if not latest %} &middot; <a href="index.html">latest edition &rarr;</a>{% endif %}</div>
@@ -26,32 +26,82 @@
     <div><b>{{ {'spx':'S&P 500','nasdaq':'Nasdaq','dow':'Dow'}.get(key, key) }}</b> {{ '%.2f'|format(p.close) }}
       <span class="{{ 'pos' if (p.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(p.chg_pct or 0) }}%</span>
       {% if p.vs_sma50 is not none %}<span style="color:var(--mut)">&middot; {{ '%+.1f'|format(p.vs_sma50) }}% vs 50-day</span>{% endif %}
-      {% if p.dist_days is not none %}<span style="color:var(--mut)">&middot; {{ p.dist_days }} dist. day{{ '' if p.dist_days == 1 else 's' }}</span>{% endif %}
+      {% if p.dist_days is not none %}<span style="color:var(--mut)">&middot; {{ p.dist_days }} dist. day{{ '' if p.dist_days == 1 else 's' }}{% if p.dist_weighted is defined and p.dist_weighted is not none %} ({{ '%.1f'|format(p.dist_weighted) }} wtd){% endif %}</span>{% endif %}
     </div>
     {% endfor %}
+    {% if ed.futures %}<div><b>Futures</b> {% for f in ed.futures %}{{ f.name|replace(' futures', '') }} <span class="{{ 'pos' if (f.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(f.chg_pct or 0) }}%</span>{% if not loop.last %} &middot; {% endif %}{% endfor %} <span style="color:var(--mut)">&middot; {{ ed.futures[0].as_of }}</span></div>{% endif %}
   </div>
   {% endif %}
 
   {% if ed.big_picture %}
   <div class="bigpic"><span class="st">Market Note</span> <b>{{ ed.big_picture.state }}</b> &middot; {{ ed.big_picture.note }}</div>
+  {% set dist_keys = [] %}{% for k in ['spx', 'nasdaq'] if ed.pulse and ed.pulse[k] is defined and ed.pulse[k].dist_detail %}{% set _ = dist_keys.append(k) %}{% endfor %}
+  {% if dist_keys %}
+  <div class="dist">
+    {% for k in dist_keys %}{% set p = ed.pulse[k] %}
+    <div class="tblwrap"><table class="board distt">
+      <tr><th colspan="5">{{ {'spx':'S&P 500','nasdaq':'Nasdaq'}[k] }} &middot; {{ p.dist_days }} dist. day{{ '' if p.dist_days == 1 else 's' }}, {{ '%.1f'|format(p.dist_weighted) }} weighted</th></tr>
+      <tr><th>Date</th><th>Chg</th><th>Vol vs prior</th><th>Weight</th><th>Kind</th></tr>
+      {% for r in p.dist_detail|reverse %}<tr class="{{ 'exp' if r.expired else '' }}">
+        <td>{{ r.date|md }}</td>
+        <td class="{{ 'pos' if r.chg_pct >= 0 else 'neg' }}">{{ '%+.2f'|format(r.chg_pct) }}%</td>
+        <td>{{ '%+.0f'|format((r.vol_ratio - 1) * 100) }}%</td>
+        <td><b>{{ r.weight|wt }}</b>{% if r.expired %} <span class="st">expired</span>{% endif %}</td>
+        <td class="st">{{ r.why }}</td>
+      </tr>{% endfor %}
+    </table></div>
+    {% endfor %}
+  </div>
+  {% endif %}
   {% endif %}
   {% if ed.market_note %}<p class="note">{{ ed.market_note }}</p>{% endif %}
 
-  {% if ed.ah_movers %}
-  <h3 class="sec" id="after-hours" style="margin-top:22px">After Hours</h3>
-  <div class="legend">Desk-list names moving 3% or more in post-market trading as of {{ ed.after_hours_as_of }}, against the 4 p.m. close. Earnings reactions show up here first; the numbers in the articles below are the close unless they say otherwise.</div>
-  <div class="tblwrap"><table class="board">
-    <tr><th>Sym</th><th>Company</th><th>Close</th><th>After hours</th><th>Chg</th><th>Chart</th><th>Next earnings</th></tr>
-    {% for r in ed.ah_movers %}<tr>
-      <td class="sym{% if r.sym in story_syms %} story{% endif %}">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>
-      <td class="st" style="white-space:normal;text-align:left">{{ r.name }}{% if r.industry %} &middot; {{ r.industry }}{% endif %}</td>
-      <td>{{ '%.2f'|format(r.close) }}</td>
-      <td>{{ '%.2f'|format(r.after_hours.price) }}</td>
-      <td class="{{ 'pos' if (r.after_hours.chg_pct or 0) >= 0 else 'neg' }}"><b>{{ '%+.1f'|format(r.after_hours.chg_pct) }}%</b></td>
-      <td class="st">{{ status_label[r.status] }} &middot; RS {{ r.rs_rank }}</td>
-      <td class="st">{{ r.next_earnings[:10] if r.next_earnings else '–' }}</td>
+  {% macro symcell(r) %}<td class="sym{% if r.sym in story_syms or r.desk %} story{% endif %}">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>{% endmacro %}
+  {% macro earncell(r) %}<td class="{{ 'earn soon' if earn_soon(r.next_earnings) else 'st' }}">{{ r.next_earnings|md if r.next_earnings else '–' }}</td>{% endmacro %}
+  {# Volume Surges rows; with ext ("Premarket" / "After hrs") the same columns for the extended-session table:
+     the prior close, the extended print, its shares, and the buy-point distance from the extended price. #}
+  {% macro mvtable(rows, title, ext=none) %}
+  {% if rows %}
+  <div class="list"><b>{{ title }}</b>
+  <div class="tblwrap"><table class="board mv">
+    {% if ext %}
+    <tr><th>Sym</th><th>Close</th><th>Chg</th><th>{{ ext }}</th><th>Last print</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>Earnings</th></tr>
+    {% for r in rows %}<tr>
+      {{ symcell(r) }}
+      <td>{{ '%.2f'|format(r.close) if r.close is not none else '–' }}</td>
+      <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{% if r.chg_pct is not none %}{{ '%+.1f'|format(r.chg_pct) }}%{% else %}–{% endif %}</td>
+      <td>{{ '%.2f'|format(r.ext_price) }} <b class="{{ 'pos' if (r.ext_chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.ext_chg_pct) }}%</b></td>
+      <td class="st">{{ (r.ext_as_of or '–')|replace(' ET', '') }}{% if r.ext_vol %} &middot; {{ r.ext_vol|shares }} sh{% endif %}</td>
+      <td>{{ r.rs_rank if r.rs_rank is not none else '–' }}</td>
+      <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
+      <td>{% if r.buy_point %}{{ '%.2f'|format(r.buy_point) }}&ndash;{{ '%.2f'|format(r.buy_max) }}{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
+      {{ earncell(r) }}
     </tr>{% endfor %}
-  </table></div>
+    {% else %}
+    <tr><th>Sym</th><th>Last</th><th>Chg</th>{% if rows[0].after_hours is defined %}<th>After hrs</th>{% endif %}<th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th><th>Earnings</th></tr>
+    {% for r in rows %}<tr>
+      {{ symcell(r) }}
+      <td>{{ '%.2f'|format(r.close) }}</td>
+      <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.chg_pct or 0) }}%</td>
+      {% if rows[0].after_hours is defined %}<td>{% if r.after_hours %}{{ '%.2f'|format(r.after_hours.price) }} <span class="{{ 'pos' if (r.after_hours.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.after_hours.chg_pct) }}%</span>{% else %}–{% endif %}</td>{% endif %}
+      <td><b>+{{ r.vol_pct }}%</b> <span class="st">({{ '%.1f'|format(r.vol_ratio) }}x)</span></td>
+      <td>{{ r.rs_rank if r.rs_rank is not none else '–' }}</td>
+      <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
+      <td>{% if r.buy_point %}{{ '%.2f'|format(r.buy_point) }}&ndash;{{ '%.2f'|format(r.buy_max) }}{% else %}–{% endif %}</td>
+      <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
+      {{ earncell(r) }}
+    </tr>{% endfor %}
+    {% endif %}
+  </table></div></div>
+  {% endif %}
+  {% endmacro %}
+
+  {% if ext %}
+  <h3 class="sec" id="{{ ext.anchor }}" style="margin-top:22px">{{ ext.title }}</h3>
+  <div class="legend">{{ ext.legend }}</div>
+  {{ mvtable(ext.up, "Up " ~ ext.col_words, ext.col) }}
+  {{ mvtable(ext.down, "Down " ~ ext.col_words, ext.col) }}
   {% endif %}
 
   {% if movers %}
@@ -61,25 +111,6 @@
     {{ movers.universe_size }} names screened (S&amp;P 500, Nasdaq-100, the desk list). To qualify: price ${{ movers.criteria.min_price|int }}+,
     50-day average volume {{ (movers.criteria.min_avg_volume / 1000)|int }}K+, volume {{ movers.criteria.min_volume_ratio }}x average or more,
     up {{ movers.criteria.min_up_pct }}%+ on the day, RS rank {{ movers.criteria.min_rs_rank }}+. Green names are in today's stories.</div>
-  {% macro mvtable(rows, title) %}
-  {% if rows %}
-  <div class="list"><b>{{ title }}</b>
-  <div class="tblwrap"><table class="board mv">
-    <tr><th>Sym</th><th>Last</th><th>Chg</th>{% if rows[0].after_hours is defined %}<th>After hrs</th>{% endif %}<th>Vol vs avg</th><th>RS</th><th>Chart</th><th>Buy point</th><th>vs buy pt</th></tr>
-    {% for r in rows %}<tr>
-      <td class="sym{% if r.sym in story_syms %} story{% endif %}">{% if r.sym in story_syms %}<a href="#{{ r.sym }}">{{ r.sym }}</a>{% else %}<a class="tk" href="#chart={{ r.sym }}" data-sym="{{ r.sym }}">{{ r.sym }}</a>{% endif %}</td>
-      <td>{{ '%.2f'|format(r.close) }}</td>
-      <td class="{{ 'pos' if (r.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.chg_pct or 0) }}%</td>
-      {% if rows[0].after_hours is defined %}<td>{% if r.after_hours %}{{ '%.2f'|format(r.after_hours.price) }} <span class="{{ 'pos' if (r.after_hours.chg_pct or 0) >= 0 else 'neg' }}">{{ '%+.1f'|format(r.after_hours.chg_pct) }}%</span>{% else %}–{% endif %}</td>{% endif %}
-      <td><b>+{{ r.vol_pct }}%</b> <span class="st">({{ '%.1f'|format(r.vol_ratio) }}x)</span></td>
-      <td>{{ r.rs_rank if r.rs_rank is not none else '–' }}</td>
-      <td class="st">{{ r.angle or (status_label[r.status] if r.status else '–') }}{% if r.base_kind %} &middot; {{ r.base_weeks }}w {{ r.base_kind }}{% endif %}</td>
-      <td>{% if r.buy_point %}{{ '%.2f'|format(r.buy_point) }}&ndash;{{ '%.2f'|format(r.buy_max) }}{% else %}–{% endif %}</td>
-      <td class="{{ 'pos' if (r.from_pivot or 0) >= 0 else 'neg' }}">{% if r.from_pivot is not none %}{{ '%+.1f'|format(r.from_pivot) }}%{% else %}–{% endif %}</td>
-    </tr>{% endfor %}
-  </table></div></div>
-  {% endif %}
-  {% endmacro %}
   {{ mvtable(movers.up, "Up on volume — qualifiers (top " ~ movers.up|length ~ ")") }}
   {% if not movers.up %}<div class="none" style="font-size:13px;color:var(--mut)">No qualifying up-on-volume names at this hour.</div>{% endif %}
   {{ mvtable(movers.up_low_rs, "Up on volume — RS below " ~ movers.criteria.min_rs_rank ~ " (for the record)") }}
@@ -89,7 +120,7 @@
 
   {% if ed.chief %}
   <h3 class="sec" id="chief" style="margin-top:22px">Desk Chief</h3>
-  <div class="legend">The one opinion on the desk: an editor's pass over every setup the numbers found, ranked by judgment. Numbers from the desk; the calls are the chief's.</div>
+  <div class="legend">{% if carried.chief %}From {{ carried.chief }}'s close. {% endif %}The one opinion on the desk: an editor's pass over every setup the numbers found, ranked by judgment. Numbers from the desk; the calls are the chief's.</div>
   <div class="chief">
     <p class="verdict">{{ ed.chief.verdict }}</p>
     {% if ed.chief.market %}<p class="mkt"><b>Exposure</b> {{ ed.chief.market }}</p>{% endif %}
@@ -121,15 +152,15 @@
   {% endif %}
 
   <ul class="toc">
+    {% if ext %}<li><a href="#{{ ext.anchor }}">{{ ext.title }}</a></li>{% endif %}
     {% if movers %}<li><a href="#movers">Volume Surges</a></li>{% endif %}
     {% if ed.chief %}<li><a href="#chief">Desk Chief</a></li>{% endif %}
     {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
     {% if webster %}<li><a href="#webster">Health screen</a></li>{% endif %}
     <li><a href="#positions">My positions</a></li>
     {% if scorecard %}<li><a href="#scorecard">Scorecard</a></li>{% endif %}
-    {% if ed.ah_movers %}<li><a href="#after-hours">After hours</a></li>{% endif %}
     {% if lists %}<li><a href="#beehive50">Beehive {{ lists.method.list_size or lists.beehive50|length }}</a></li><li><a href="#bigcap20">Big Cap {{ lists.method.big_cap_size or lists.bigcap20|length }}</a></li>{% endif %}
-    {% for s in ed.stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
+    {% for s in stories %}<li><a href="#{{ s.sym }}">{{ s.sym }}</a></li>{% endfor %}
     {% if ed.profile %}<li><a href="#new-america">Company of the Day: {{ ed.profile.sym }}</a></li>{% endif %}
     {% if ed.corner %}<li><a href="#corner">The Lesson</a></li>{% endif %}
     <li><a href="#lists">Watch lists</a></li>
@@ -140,7 +171,7 @@
   {% macro art(s, label, anchor) %}
   {% set a = s.article %}{% set b = s.base %}{% set fu = s.fundamentals or {} %}
   <article id="{{ anchor }}">
-    <div class="kick"><span class="st">{{ label }}</span>{{ s.name or s.sym }} ({{ s.sym }}){% if fu.industry %} &middot; {{ fu.industry }}{% endif %}</div>
+    <div class="kick"><span class="st">{{ label }}</span>{% if s.stamp %}<span class="ps">{{ s.stamp }}</span>{% endif %}{{ s.name or s.sym }} ({{ s.sym }}){% if fu.industry %} &middot; {{ fu.industry }}{% endif %}</div>
     <h2><a href="#{{ anchor }}">{{ a.headline }}</a></h2>
     {% if a.deck %}<p class="deck">{{ a.deck }}</p>{% endif %}
 
@@ -149,7 +180,8 @@
 
     <div class="facts">
       <div><b>Close</b>{{ '%.2f'|format(s.close) }} <span class="{{ 'pos' if (s.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.chg or 0) }} ({{ '%+.1f'|format(s.chg_pct or 0) }}%)</span></div>
-      <div><b>Volume vs 50-day</b>{{ '%.1f'|format(s.vol_ratio or 0) }}x</div>
+      <div><b>Volume vs 50-day{% if s.vol_projected %} (projected){% endif %}</b>{{ '%.1f'|format(s.vol_ratio or 0) }}x</div>
+      {% if s.premarket %}<div><b>Premarket ({{ s.premarket.as_of }})</b>{{ '%.2f'|format(s.premarket.price) }} <span class="{{ 'pos' if (s.premarket.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.premarket.chg) }} ({{ '%+.1f'|format(s.premarket.chg_pct) }}%)</span></div>{% endif %}
       {% if s.after_hours %}<div><b>After hours ({{ s.after_hours.as_of }})</b>{{ '%.2f'|format(s.after_hours.price) }} <span class="{{ 'pos' if (s.after_hours.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.after_hours.chg) }} ({{ '%+.1f'|format(s.after_hours.chg_pct) }}%)</span></div>{% endif %}
       {% if b %}
       <div><b>Buy point</b>{{ '%.2f'|format(b.buy_point) }}</div>
@@ -170,7 +202,7 @@
       {% if s.ret_1y is not none %}<div><b>One year</b>{{ '%+.1f'|format(s.ret_1y) }}%</div>{% endif %}
       {% if fu.market_cap %}<div><b>Market cap</b>{{ fu.market_cap|money }}</div>{% endif %}
       {% if fu.pe_forward %}<div><b>Forward P/E</b>{{ '%.0f'|format(fu.pe_forward) }}</div>{% endif %}
-      {% if fu.next_earnings %}<div><b>Next earnings</b>{{ fu.next_earnings[:10] }}</div>{% endif %}
+      {% set ne = fu.next_earnings or s.next_earnings %}{% if ne %}<div><b>Next earnings</b>{{ ne[:10] }}</div>{% endif %}
     </div>
 
     <div class="body">
@@ -200,19 +232,20 @@
   </article>
   {% endmacro %}
 
-  {% if stale_edition %}<h3 class="sec" style="margin-top:22px">{{ edition_day }}'s Edition</h3><div class="legend">Written after {{ edition_day }}'s close ({{ edition_human }}). Today's edition prints after the 2 p.m. Mountain close.</div>{% endif %}
-  {% for s in ed.stories %}{{ art(s, status_label[s.status], s.sym) }}{% endfor %}
+  {% if stale_edition %}<h3 class="sec" style="margin-top:22px">{{ edition_day }}'s Stories</h3><div class="legend">From {{ edition_day }} ({{ edition_human }}). Today's first stories print with the {{ first_pass_at }} a.m. Mountain premarket pass.</div>{% endif %}
+  {% set pas = namespace(seen=[]) %}
+  {% for s in stories %}{% if s.pass and s.pass not in pas.seen %}{% set pas.seen = pas.seen + [s.pass] %}<a id="pass-{{ s.pass }}"></a>{% endif %}{{ art(s, status_label[s.status], s.sym) }}{% endfor %}
 
   {% if ed.profile %}
   <h3 class="sec" id="new-america">Company of the Day</h3>
-  <div class="legend">One leader a day, profiled: what it does, why it is winning, what the chart says. Never the same name twice in a month.</div>
+  <div class="legend">{% if carried.profile %}From {{ carried.profile }}'s close. {% endif %}One leader a day, profiled: what it does, why it is winning, what the chart says. Never the same name twice in a month.</div>
   {{ art(ed.profile, 'Profile · ' ~ status_label[ed.profile.status], 'profile-' ~ ed.profile.sym) }}
   {% endif %}
 
   {% if ed.corner %}
   <h3 class="sec" id="corner">The Lesson</h3>
   <article class="corner">
-    <div class="kick"><span class="st">Lesson</span>{% if ed.corner.example_sym %}Taught on today's {{ ed.corner.example_sym }} chart{% endif %}</div>
+    <div class="kick"><span class="st">Lesson</span>{% if ed.corner.example_sym %}Taught on {{ (carried.corner ~ "'s") if carried.corner else "today's" }} {{ ed.corner.example_sym }} chart{% endif %}</div>
     <h2>{{ ed.corner.headline }}</h2>
     {% if ed.corner.deck %}<p class="deck">{{ ed.corner.deck }}</p>{% endif %}
     <div class="body">{% for p in ed.corner.body %}<p>{{ p }}</p>{% endfor %}</div>
@@ -333,10 +366,10 @@
 
   {% if scorecard %}
   <h3 class="sec" id="scorecard">Scorecard</h3>
-  <div class="legend">Every "breakout" or "in buy range" call the desk has printed since {{ scorecard.first_human }} (stories and watch lists; one call per base), measured from the close the day it printed. Stop = 8% under that price; 20%+ = reached the method's profit target within 40 sessions. S&P 500 shown over the same stretch.</div>
+  <div class="legend">Every "breakout" or "in buy range" pick the desk has printed since {{ scorecard.first_human }} (stories and watch lists; one pick per base), measured from the price it was printed on. Stop = 8% under that price; 20%+ = reached the method's profit target within 40 sessions. S&P 500 shown over the same stretch.</div>
   {% set S = scorecard.summary %}
   <div class="facts scoresum">
-    <div><b>Calls</b>{{ S.n }}</div>
+    <div><b>Picks</b>{{ S.n }}</div>
     {% if S.now %}<div><b>Now (avg)</b><span class="{{ 'pos' if S.now.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.now.avg) }}%</span> <span class="st">win {{ S.now.win }}%</span></div>{% endif %}
     {% if S.w1 %}<div><b>1 week</b><span class="{{ 'pos' if S.w1.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.w1.avg) }}%</span> <span class="st">win {{ S.w1.win }}% · n={{ S.w1.n }}{% if S.spx_w1 %} · S&amp;P {{ '%+.1f'|format(S.spx_w1.avg) }}%{% endif %}</span></div>{% endif %}
     {% if S.w4 %}<div><b>4 weeks</b><span class="{{ 'pos' if S.w4.avg >= 0 else 'neg' }}">{{ '%+.1f'|format(S.w4.avg) }}%</span> <span class="st">win {{ S.w4.win }}% · n={{ S.w4.n }}{% if S.spx_w4 %} · S&amp;P {{ '%+.1f'|format(S.spx_w4.avg) }}%{% endif %}</span></div>{% endif %}
@@ -344,11 +377,11 @@
     <div><b>Hit the 8% stop</b>{{ S.stopped_pct }}%</div>
     <div><b>Reached 20%+</b>{{ S.hit20_pct }}%</div>
     {% if S.now and S.now.avg_win is not none %}<div><b>Avg winner / loser</b><span class="pos">{{ '%+.1f'|format(S.now.avg_win) }}%</span> / <span class="neg">{{ '%+.1f'|format(S.now.avg_loss) }}%</span></div>{% endif %}
-    {% if S.by_kind.breakout %}<div><b>Breakout calls</b>{{ '%+.1f'|format(S.by_kind.breakout.avg) }}% <span class="st">n={{ S.by_kind.breakout.n }}</span></div>{% endif %}
-    {% if S.by_kind.buy_zone %}<div><b>In-range calls</b>{{ '%+.1f'|format(S.by_kind.buy_zone.avg) }}% <span class="st">n={{ S.by_kind.buy_zone.n }}</span></div>{% endif %}
+    {% if S.by_kind.breakout %}<div><b>Breakout picks</b>{{ '%+.1f'|format(S.by_kind.breakout.avg) }}% <span class="st">n={{ S.by_kind.breakout.n }}</span></div>{% endif %}
+    {% if S.by_kind.buy_zone %}<div><b>In-range picks</b>{{ '%+.1f'|format(S.by_kind.buy_zone.avg) }}% <span class="st">n={{ S.by_kind.buy_zone.n }}</span></div>{% endif %}
   </div>
   <div class="tblwrap"><table class="board">
-    <tr><th>Date</th><th>Sym</th><th>Call</th><th>At</th><th>Buy pt</th><th>Now</th><th>1w</th><th>4w</th><th>8w</th><th>Best</th><th>Worst</th><th>Result</th></tr>
+    <tr><th>Date</th><th>Sym</th><th>Pick</th><th>At</th><th>Buy pt</th><th>Now</th><th>1w</th><th>4w</th><th>8w</th><th>Best</th><th>Worst</th><th>Result</th></tr>
     {% for c in scorecard.calls %}<tr>
       <td>{{ c.date }}</td>
       <td class="sym"><a class="tk" href="#chart={{ c.sym }}" data-sym="{{ c.sym }}">{{ c.sym }}</a></td>
@@ -390,7 +423,7 @@
   </div>
 
   <div class="foot">
-    {{ site_name }} &middot; {{ desk.name }} &middot; printed {{ generated }} &middot; prices through the {{ ed.date }} close, Yahoo Finance daily data.
+    {{ site_name }} &middot; {{ desk.name }} &middot; printed {{ generated }} &middot; prices through the {{ ed.prices_through or ed.date }} {{ 'session so far' if ed.intraday else 'close' }}, Yahoo Finance daily data.
     Buy point = base high + 10 cents; buy range = buy point to 5% above it; RS rank is within this {{ ed.universe_size }}-name list, not the whole market.
     Any dotted ticker opens its chart.
     <div class="theme"><button id="theme-btn" type="button">Dark mode</button></div>

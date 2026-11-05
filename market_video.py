@@ -105,7 +105,9 @@ def cmd_due(args) -> int:
     if not args.dry_run and not os.environ.get("YOUTUBE_REFRESH_TOKEN"):
         V.set_output(go="no", key=key_of(d), reason="YouTube credentials are not set; nothing to upload to")
         return 0
-    if not M.edition_path(d).is_file():
+    # Since Nov 5, 2026 the day's file starts with the 7:15 a.m. premarket pass; the wrap waits for the close pass.
+    done = (load_edition(d).get("passes_done") if M.edition_path(d).is_file() else None)
+    if not M.edition_path(d).is_file() or (isinstance(done, dict) and not done.get("close")):
         V.set_output(go="no", key=key_of(d), reason=f"the desk edition for {d} has not printed yet")
         return 0
     if args.force:
@@ -114,7 +116,7 @@ def cmd_due(args) -> int:
     if any(p.get("key") == key_of(d) for p in published()):
         V.set_output(go="no", key=key_of(d), reason="already has a video")
         return 0
-    gen = build.parse_iso(load_edition(d).get("generated"))
+    gen = build.parse_iso(load_edition(d).get("edition_generated") or load_edition(d).get("generated"))
     max_age = float(v.get("max_edition_age_hours", 6))
     if not args.dry_run and gen and (build.utcnow() - gen).total_seconds() > max_age * 3600:
         V.set_output(go="no", key=key_of(d), reason=f"edition is more than {max_age:g}h old; skipped, not backfilled")

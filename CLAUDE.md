@@ -57,3 +57,6 @@ Use the `set_session_title` tool when it is available. Rename again if the sessi
   the Beehive Wire channel itself (Todd, by hand: a Google Brand Account), whether the edition videos move with it,
   a link to the latest wrap on the Market Desk gate page (left out while another session was editing desk_gate.py),
   and the handoff's 4:30 p.m. Eastern time: the wrap needs the desk edition, which prints about 5:20 p.m. Eastern.
+- The desk runs five passes a day since Nov 5, 2026 (docs/HANDOFF-market-desk-passes.md). Typed tickers get an
+  earnings date on their chart only once Todd pastes relay/quote-worker.js (the `earnings` field in merge()) into the
+  Cloudflare Worker. Nothing pings 15:50-20:50 UTC, so the 11:05 midday pass leans on GitHub's own cron.
