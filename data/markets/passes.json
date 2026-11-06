@@ -3945,5 +3945,68 @@
 "day": 26,
 "pass": 1,
 "no": "26.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-06",
+"at": "2026-11-06T19:57:03+00:00",
+"href": "movers/2026-11-06-1257.html",
+"syms": [
+"ABNB",
+"SOLV",
+"APP",
+"AMD",
+"CPAY",
+"SNDK",
+"MU",
+"TMDX",
+"NET",
+"OKLO",
+"ASTS",
+"IREN",
+"COHR",
+"RIOT",
+"CORZ",
+"PWR",
+"STRL",
+"FIX",
+"EME",
+"TSM"
+],
+"heads": [
+"ABNB +12.6% on 2.3x volume, nearing buy point",
+"SOLV +4.4% on 1.9x volume, nearing buy point",
+"APP +11.6% on 1.9x volume, big move on the day",
+"AMD +10.3% on 1.8x volume, big move on the day",
+"CPAY +1.8% on 1.8x volume, breakout past buy point, already extended",
+"SNDK +2.3% on 1.8x volume, in base",
+"MU +5.4% on 1.6x volume, big move on the day"
+],
+"extra": "7 qualifiers",
+"live": true,
+"day": 26,
+"pass": 2,
+"no": "26.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-06",
+"at": "2026-11-06T20:00:04+00:00",
+"href": "2026-11-06.html#pass-midday",
+"syms": [
+"ZS",
+"GWW",
+"NTRA"
+],
+"heads": [
+"Zscaler Slips 1.6% As Cybersecurity Stocks Swing With AI Trade",
+"Grainger Holds Near Highs After Earnings Beat And Double-Digit Sales Growth",
+"Natera Tumbles 14.7% On Wider Third-Quarter Loss And Sudden CEO Change"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 26,
+"pass": 3,
+"no": "26.3"
 }
 ]
