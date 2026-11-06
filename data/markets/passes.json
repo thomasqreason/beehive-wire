@@ -3900,5 +3900,50 @@
 "day": 25,
 "pass": 6,
 "no": "25.6"
+},
+{
+"kind": "movers",
+"date": "2026-11-06",
+"at": "2026-11-06T14:51:21+00:00",
+"href": "movers/2026-11-06-0751.html",
+"syms": [
+"AMD",
+"SNDK",
+"ABNB",
+"MU",
+"MRVL",
+"SOLV",
+"LITE",
+"DELL",
+"MRNA",
+"APP",
+"NET",
+"CORZ",
+"IREN",
+"TMDX",
+"TSM",
+"AFRM",
+"GEV",
+"OKLO",
+"COHR",
+"AKAM"
+],
+"heads": [
+"AMD +13.1% on 6.4x volume, big move on the day",
+"SNDK +12.5% on 6.1x volume, big move on the day",
+"ABNB +9.5% on 6.0x volume, nearing buy point",
+"MU +10.0% on 5.2x volume, big move on the day",
+"MRVL +8.6% on 4.0x volume, big move on the day",
+"SOLV +5.6% on 3.7x volume, nearing buy point",
+"LITE +8.5% on 3.0x volume, big move on the day",
+"DELL +9.8% on 2.9x volume, big move on the day",
+"MRNA +3.7% on 2.8x volume, extended",
+"APP +4.2% on 2.7x volume, big move on the day"
+],
+"extra": "10 qualifiers",
+"live": true,
+"day": 26,
+"pass": 1,
+"no": "26.1"
 }
 ]
