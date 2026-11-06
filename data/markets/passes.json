@@ -4053,5 +4053,75 @@
 "day": 26,
 "pass": 4,
 "no": "26.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-06",
+"at": "2026-11-06T23:05:15+00:00",
+"href": "movers/2026-11-06-1605.html",
+"syms": [
+"ABNB",
+"APP",
+"CPAY",
+"AMD",
+"APA",
+"HUM",
+"BEN",
+"SNDK",
+"VTRS",
+"MU",
+"XYZ",
+"CHYM",
+"TMDX",
+"SOLV",
+"NET",
+"NRG",
+"OKLO",
+"FIX",
+"PWR",
+"ASTS"
+],
+"heads": [
+"ABNB +11.7% on 2.8x volume, nearing buy point",
+"APP +9.9% on 2.2x volume, big move on the day",
+"CPAY +1.8% on 2.2x volume, breakout past buy point, already extended",
+"AMD +11.0% on 2.0x volume, big move on the day",
+"APA +2.6% on 2.0x volume, breaks 50-day line",
+"HUM +5.3% on 2.0x volume, bounce off 50-day line",
+"BEN +4.7% on 1.9x volume, big move on the day",
+"SNDK +3.6% on 1.8x volume, in base",
+"VTRS +5.0% on 1.6x volume, big move on the day",
+"MU +5.1% on 1.6x volume, big move on the day"
+],
+"extra": "12 qualifiers",
+"live": false,
+"day": 26,
+"pass": 5,
+"no": "26.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-06",
+"at": "2026-11-06T23:11:31+00:00",
+"href": "2026-11-06.html",
+"syms": [
+"DVN",
+"OXY",
+"ZETA",
+"TEM"
+],
+"heads": [
+"Devon Energy Falls 1.6% As Energy Stocks Slide Into Friday's Close",
+"Occidental Petroleum Sits Flat As Third-Quarter Report Nears Monday",
+"Zeta Global Jumps 5% Ahead Of Monday's Third-Quarter Report",
+"Tempus AI Jumps 8% As Week-Old Report Shows Revenue Up 23%",
+"Company of the Day: Airbnb Surges 11.7% As Growth Accelerates And It Plans Own AI Agent",
+"The Lesson: Reading A Cup: Tempus AI Has The Bowl But Not Yet The Handle"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 26,
+"pass": 6,
+"no": "26.6"
 }
 ]
