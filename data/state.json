@@ -10,7 +10,8 @@
   "first_seen": "2026-11-07T11:23:26+00:00",
   "topic": "crime",
   "headline": "ARMED ILLEGAL ALIEN ARRESTED OVER TRUMP THREAT...",
-  "urgent": false
+  "urgent": false,
+  "video": true
  },
  "flash": [
   {
@@ -106,18 +107,6 @@
    "headline": "FIRST MEDICAID FRAUD CASES HEAD TO TRIAL AS ONE PLEADS GUILTY..."
   },
   {
-   "id": "39df19c744",
-   "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9ITHJyZEVDaDAtVVhYczBZTFhVWlh2LS0zbUJWY2JtaUZTN3JINVk2aE16am5tRHBySDhLeWx2Ul9KcVpvZlNPSmM2NXU5RUdyUTFCa1d30gFWQVVfeXFMT0hMcnJkRUNoMC1VWFhzMFlMWFVaWHYtLTNtQlZjYm1pRlM3ckg1WTZoTXpqbm1EcHJIOEt5bHZSX0pxWm9mU09KYzY1dTlFR3JRMUJrV3c?oc=5",
-   "title": "Healthcare Execs Indicted Over $14M DC Medicaid Fraud",
-   "source": "Law360",
-   "published": "2026-11-07T00:15:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-07T11:23:26+00:00",
-   "topic": "crime",
-   "headline": "DC HEALTH EXECS INDICTED IN $14M MEDICAID SCHEME...",
-   "under": "cd68ba5962"
-  },
-  {
    "id": "b94678a96c",
    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNcGJBc0JIYVFuYWx5bHRHcFJIbTBQT1pwVTc4SjZSWGMyNE1ZNm1vUndnY0g2ZWhCb1dyak5MbERLTkpPb3FjdXRXMFlONkM4cHpCcFI2Wk05aUN3YU9OMnFNRnIwQlpiR25EMHpEZVlHOGdjYXlOcEFqdWR2QW8zYWNwNGszVWM?oc=5",
    "title": "Former social worker pleads ‘not guilty’ to Medicaid fraud",
@@ -127,14 +116,15 @@
    "first_seen": "2026-11-07T11:23:26+00:00",
    "topic": "crime",
    "headline": "EX-SOCIAL WORKER PLEADS NOT GUILTY IN SEPARATE CASE...",
-   "under": "cd68ba5962"
+   "under": "cd68ba5962",
+   "video": true
   },
   {
    "id": "d472765821",
    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQQkpKeDBIanBaQVVfNkNvNUJZRlhHMFdBTzNUdW5ZMVNZMm9CS0VSOUZsY21OSFJ1UXZIT1FHTUhUNEhTZDNJb3RaQ0I3bFVoRDNtYmkwRUNUblh2TldpbjBxYk11RVhYMzllem5wZ1llakVWWElhUlJJMHdoamFaYkJsdkNGa3hjNG5MMllIUFZBRW1iLVV2Rlc3aw?oc=5",
    "title": "LA Man Sentenced to Prison for $3.8M COVID Benefits Fraud",
    "source": "MyNewsLA.com",
-   "published": "2026-11-06T21:42:59+00:00",
+   "published": "2026-11-06T11:42:59+00:00",
    "image": null,
    "first_seen": "2026-11-06T23:03:59+00:00",
    "topic": "crime",
@@ -178,17 +168,6 @@
    "headline": "MIDTERM RESULTS SPOOK ISRAEL OVER US ALLIANCE...",
    "editions": 1,
    "last_edition": "2026-11-07-morning"
-  },
-  {
-   "id": "99448a4307",
-   "url": "https://deadline.com/2026/11/real-time-bill-maher-trump-amazingly-humble-blue-wave-1237216187/",
-   "title": "‘Real Time’: Bill Maher Thinks Trump Has Been “Amazingly Humble” Amid Blue Wave, Jokes He “Might Get To Go” To White House Dinner Again",
-   "source": "Deadline",
-   "published": "2026-11-07T04:08:50+00:00",
-   "image": "https://deadline.com/wp-content/uploads/2026/11/Screenshot-2026-11-06-at-7.52.08-PM.png",
-   "first_seen": "2026-11-07T11:23:26+00:00",
-   "topic": "trump_watch",
-   "headline": "MAHER: TRUMP 'AMAZINGLY HUMBLE' AFTER BLUE WAVE..."
   },
   {
    "id": "0db73ad1c0",
@@ -456,7 +435,7 @@
    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPbjNPdUJfdzNXSnZRS3BWOWZwdGZQanZqX3l3MkxSZFplQjdxcFRheVowSUU3VG9tS1VTNEN5Sjg0bU9CTUcwX1d0MFdFUGpFb1FSUzlxN3YxQkxJRUp6dUdfckVzOGZ1bXFfVHc0dzZub1VBQlZOcDJZdlFWanl4a2tqYUxWTkFRNzN5aUdzbEUwUWtnc1BDZkRNR2ZXbWdweFotWE8teUpwSHpWX1pybGpNRVgyM1hHOWxEWmx3?oc=5",
    "title": "Cardinal Parolin on U.S. midterm elections: ‘Let’s hope that reason and common sense prevail’",
    "source": "EWTN Vatican",
-   "published": "2026-11-07T09:35:48+00:00",
+   "published": "2026-11-07T09:35:22+00:00",
    "image": null,
    "first_seen": "2026-11-07T11:23:26+00:00",
    "topic": "faith_family_schools",
@@ -496,19 +475,6 @@
    "first_seen": "2026-11-06T23:03:59+00:00",
    "topic": "business_ai",
    "headline": "MICROSOFT DROPS ORACLE AI DEAL...",
-   "editions": 1,
-   "last_edition": "2026-11-07-morning"
-  },
-  {
-   "id": "afc24a46d9",
-   "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNYWtYTmcxQTVrYnI5b3M2NEN6VjEtbGFuMXVfajFVQ2ppUDJfRmY2eTNUQ0xSbTZJamlkdnlMSHFJdWhLOG9aMWxNalFTQkhtUlpXajdsWFpKUFdULWtPYXl4NjFKTjlVUnltNXRMdkZLTGw0RHI4OFF3QTIxblJtN1FvRTRvUEJPSzQtazM3QUwydUs2WmVqekY2MkZvNkds?oc=5",
-   "title": "Global AI Stocks React to U.S. Midterm Results",
-   "source": "Foreign Policy",
-   "published": "2026-11-06T21:59:39+00:00",
-   "image": null,
-   "first_seen": "2026-11-06T23:03:59+00:00",
-   "topic": "business_ai",
-   "headline": "MIDTERMS DEEPEN THE AI ROUT...",
    "editions": 1,
    "last_edition": "2026-11-07-morning"
   },
@@ -671,32 +637,6 @@
    "last_edition": "2026-11-07-morning"
   },
   {
-   "id": "f9cded84da",
-   "url": "https://www.investors.com/market-trend/the-big-picture/stock-market-dow-jones-nasdaq-cpi-inflation-data-coreweave-earnings/",
-   "title": "Stock Market Up, Still Suffers Stiff Weekly Loss; Inflation Data, CoreWeave Earnings Due",
-   "source": "Investor's Business Daily",
-   "published": "2026-11-06T22:37:59+00:00",
-   "image": null,
-   "first_seen": "2026-11-06T23:03:59+00:00",
-   "topic": "investing",
-   "headline": "STOCK MARKET LIMPS TO A WEEKLY LOSS...",
-   "editions": 1,
-   "last_edition": "2026-11-07-morning"
-  },
-  {
-   "id": "9f265adf4c",
-   "url": "https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-sandisk-micron-broken-apple-amazon-microsoft-strong-berkshire-earnings/",
-   "title": "Dow Jones Futures: Market Needs Repair But Sandisk, Micron Broken; Apple, Amazon, Microsoft Strong",
-   "source": "Investor's Business Daily",
-   "published": "2026-11-06T21:45:10+00:00",
-   "image": null,
-   "first_seen": "2026-11-06T23:03:59+00:00",
-   "topic": "investing",
-   "headline": "SANDISK, MICRON BROKEN; APPLE HOLDS UP...",
-   "editions": 1,
-   "last_edition": "2026-11-07-morning"
-  },
-  {
    "id": "1f65a6b29c",
    "url": "https://www.marketwatch.com/story/microns-stock-is-dirt-cheap-and-thats-igniting-a-fierce-online-debate-0626791d?mod=mw_rss_topstories",
    "title": "Micron’s stock is dirt cheap — and that’s igniting a fierce online debate",
@@ -729,18 +669,8 @@
    "image": null,
    "first_seen": "2026-11-07T11:23:26+00:00",
    "topic": "investing",
-   "headline": "STOCKS SLIDE AFTER MIDTERM ELECTIONS..."
-  },
-  {
-   "id": "bd106a51d7",
-   "url": "https://www.investors.com/news/technology/moderna-stock-moderna-earnings-q3-2026/",
-   "title": "Moderna Hits Five-Year High On Sales Beat; But The Real Story Is Still Its Cancer Vaccine",
-   "source": "Investor's Business Daily",
-   "published": "2026-11-06T18:13:15+00:00",
-   "image": null,
-   "first_seen": "2026-11-07T11:23:26+00:00",
-   "topic": "investing",
-   "headline": "MODERNA HITS 5-YEAR HIGH ON SALES BEAT..."
+   "headline": "STOCKS SLIDE AFTER MIDTERM ELECTIONS...",
+   "video": true
   },
   {
    "id": "cecebee0bb",
@@ -910,7 +840,8 @@
    "topic": "sports",
    "headline": "'YOOOOO!' ILLINOIS PLAYER STUNNED CLARK WAS WATCHING...",
    "editions": 1,
-   "last_edition": "2026-11-07-morning"
+   "last_edition": "2026-11-07-morning",
+   "video": true
   },
   {
    "id": "d4868853d3",
@@ -923,7 +854,8 @@
    "topic": "sports",
    "headline": "GENO AURIEMMA TAKES ANOTHER SWIPE AT CAITLIN CLARK...",
    "editions": 1,
-   "last_edition": "2026-11-07-morning"
+   "last_edition": "2026-11-07-morning",
+   "video": true
   },
   {
    "id": "ee36c2e492",
@@ -981,7 +913,7 @@
    "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5ERnhMU1dTLVlTaXNTb1Bra2lLd1FMZnhDcEhLRFJ5R1l0WjJmbW15UzJidmhYei1IYzdsNmwzdWV6WE5sZnFMZFpYU1AyaFJLWkM2M2c0WUl5NDFmNVBFOFk0QWRBOWoyOVFNSkhHb0hES1h4bkJTV21GNVVSQQ?oc=5",
    "title": "Utah Royals stun the San Diego Wave in NWSL playoffs",
    "source": "The Salt Lake Tribune",
-   "published": "2026-11-07T05:29:02+00:00",
+   "published": "2026-11-07T05:27:55+00:00",
    "image": null,
    "first_seen": "2026-11-07T11:23:26+00:00",
    "topic": "sports",
@@ -1188,7 +1120,8 @@
    "topic": "video",
    "headline": "WATCH: TUCKER RESPONDS TO RUMORS TRUMP WILL BLAME HIM...",
    "editions": 1,
-   "last_edition": "2026-11-07-morning"
+   "last_edition": "2026-11-07-morning",
+   "video": true
   }
  ],
  "seen": {
