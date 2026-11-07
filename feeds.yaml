@@ -34,7 +34,6 @@ feeds:
   - {name: "The Hill", url: "https://thehill.com/feed/", topic: politics_culture_world}
   - {name: "Politico", url: "https://rss.politico.com/politics-news.xml", topic: politics_culture_world}
   - {name: "Axios", url: "https://api.axios.com/feed/", topic: politics_culture_world}
-  - {name: "NYT Home", url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", topic: politics_culture_world}
   - {name: "CBS News", url: "https://www.cbsnews.com/latest/rss/main", topic: politics_culture_world}
   - {name: "Google News: Top", url: "https://news.google.com/rss/search?q=when:1d&hl=en-US&gl=US&ceid=US:en", topic: politics_culture_world, google: true}
 
@@ -131,7 +130,6 @@ feeds:
   - {name: "The Defender (CHD)", url: "https://childrenshealthdefense.org/defender/feed/", topic: health}
   - {name: "Epoch Times Health", url: "https://www.theepochtimes.com/health/feed", topic: health}
   - {name: "Fox News Health", url: "https://moxie.foxnews.com/google-publisher/health.xml", topic: health}
-  - {name: "NYT Health", url: "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml", topic: health}
 
   # ── Utah / Latter-day Saints (occasional, but more than any other state) ───────
   # The Salt Lake Tribune is the house paper for this beat — it outranks KSL and Deseret News,
@@ -154,8 +152,12 @@ feeds:
   - {name: "Google News: Utah", url: "https://news.google.com/rss/search?q=Utah+when:1d&hl=en-US&gl=US&ceid=US:en", topic: utah_mormon, google: true, weight: 0.9}
 
   # ── Pop culture ───────────────────────────────────────────────────────────────
-  - {name: "Variety", url: "https://variety.com/feed/", topic: pop_culture, weight: 1.2}
-  - {name: "Deadline", url: "https://deadline.com/feed/", topic: pop_culture, weight: 1.2}
+  - {name: "Variety", url: "https://variety.com/feed/", topic: pop_culture, weight: 1.4}
+  - {name: "Deadline", url: "https://deadline.com/feed/", topic: pop_culture, weight: 1.3}
+  # Added Nov 7, 2026: what's coming out — trailers, first looks, biopics, casting (Todd's example: a Jimmy Stewart biopic)
+  - {name: "IndieWire", url: "https://www.indiewire.com/feed/", topic: pop_culture, weight: 0.9}
+  - {name: "Collider", url: "https://collider.com/feed/", topic: pop_culture, weight: 0.8}
+  - {name: "Google News: New movies", url: "https://news.google.com/rss/search?q=biopic+OR+%22first+trailer%22+OR+%22first+look%22+OR+%22to+star+as%22+OR+%22cast+as%22+OR+%22opening+weekend%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: pop_culture, google: true, weight: 1.1}
   - {name: "The Hollywood Reporter", url: "https://www.hollywoodreporter.com/feed/", topic: pop_culture}
   - {name: "TMZ", url: "https://www.tmz.com/rss.xml", topic: pop_culture, weight: 1.2}
   - {name: "Page Six", url: "https://pagesix.com/feed/", topic: pop_culture, weight: 1.2}
@@ -177,9 +179,6 @@ feeds:
   # ── Business / AI / futurism / data centers ────────────────────────────────────
   - {name: "CNBC Top", url: "https://www.cnbc.com/id/100003114/device/rss/rss.html", topic: economy}
   - {name: "CNBC Tech", url: "https://www.cnbc.com/id/19854910/device/rss/rss.html", topic: business_ai}
-  - {name: "WSJ Markets", url: "https://feeds.a.dj.com/rss/RSSMarketsMain.xml", topic: economy}
-  - {name: "WSJ Tech", url: "https://feeds.a.dj.com/rss/RSSWSJD.xml", topic: business_ai}
-  - {name: "WSJ Business", url: "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml", topic: economy}
   - {name: "TechCrunch", url: "https://techcrunch.com/feed/", topic: tech}
   - {name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/index", topic: tech}
   - {name: "The Verge", url: "https://www.theverge.com/rss/index.xml", topic: tech}
@@ -206,6 +205,9 @@ feeds:
   - {name: "KSL Sports", url: "https://sports.ksl.com/feed", topic: sports, weight: 1.2}
   - {name: "CBS Sports: College Football", url: "https://www.cbssports.com/rss/headlines/college-football/", topic: sports}
   - {name: "Yahoo Sports: College Football", url: "https://sports.yahoo.com/college-football/rss/", topic: sports, weight: 0.9}
+  # Added Nov 7, 2026: sports PERSONALITIES — the athletes people talk about off the field (Todd's example: Sophie Cunningham)
+  - {name: "OutKick", url: "https://www.outkick.com/feed/", topic: sports, weight: 1.1}
+  - {name: "Google News: Sports stars", url: "https://news.google.com/rss/search?q=%22Sophie+Cunningham%22+OR+%22Paige+Bueckers%22+OR+%22Angel+Reese%22+OR+%22Travis+Kelce%22+OR+%22Shohei+Ohtani%22+OR+%22Aaron+Rodgers%22+when:1d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.1}
   - {name: "Google News: Caitlin Clark", url: "https://news.google.com/rss/search?q=%22Caitlin+Clark%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 1.3}
   - {name: "Google News: Utah college sports", url: "https://news.google.com/rss/search?q=%22Utah+Utes%22+OR+%22BYU+Cougars%22+OR+%22Utah+State+Aggies%22+OR+%22Utah+Valley+Wolverines%22+OR+%22Weber+State%22+when:2d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true, weight: 0.7}
   - {name: "Google News: College football upsets", url: "https://news.google.com/rss/search?q=%22college+football%22+upset+OR+%22Top+25%22+OR+fired+when:1d&hl=en-US&gl=US&ceid=US:en", topic: sports, google: true}

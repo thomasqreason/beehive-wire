@@ -233,7 +233,8 @@ def fetch_feed(feed: dict, cfg: dict) -> list[dict]:
                 m = re.match(r"^(.*)\s-\s([^-]{2,40})$", title)
                 if m:
                     title, source = m.group(1).strip(), m.group(2).strip()
-        if blocked_source(source, feed.get("topic", ""), cfg):
+        if blocked_source(source, feed.get("topic", ""), cfg) or paywalled_source(source, cfg) \
+                or paywalled_url(link, cfg):
             skipped += 1
             continue
         published = None
@@ -268,6 +269,7 @@ def fetch_feed(feed: dict, cfg: dict) -> list[dict]:
                 "source": source,
                 "published": iso(published),
                 "image": image,
+                "video": is_video_url(link) or any(str(enc.get("type", "")).startswith("video") for enc in e.get("enclosures") or []),
                 "topic_hint": feed.get("topic", "politics_culture_world"),
                 "weight": float(feed.get("weight", 1.0)),
             }
@@ -1013,6 +1015,7 @@ def apply_plan(plan: dict, state: dict, cands: list[dict], cfg: dict, now: datet
                 "source": src["source"],
                 "published": src.get("published"),
                 "image": src.get("image"),
+                **({"video": True} if src.get("video") else {}),
                 "first_seen": current[sid]["first_seen"] if sid in current else iso(now),
                 "topic": entry.get("topic") if entry.get("topic") in TOPICS else src.get("topic_hint") or src.get("topic"),
                 "headline": finish_headline(entry.get("headline", ""), src["title"]),
@@ -1244,6 +1247,36 @@ PUB_DATE_RES = [
 ]
 
 
+PAYWALL_RE = re.compile(r'"isAccessibleForFree"\s*:\s*"?(?:false|False|FALSE)"?')
+VIDEO_RE = re.compile(r'<meta[^>]+property=["\']og:(?:video(?::url|:secure_url)?|type["\'][^>]+content=["\']video)', re.I)
+
+
+def is_video_url(url: str) -> bool:
+    """A link that IS a video: YouTube, or a publisher's /video/ page."""
+    u = urlparse(url)
+    host = (u.netloc or "").lower()
+    if any(h in host for h in ("youtube.com", "youtu.be", "rumble.com", "vimeo.com")):
+        return True
+    return bool(re.search(r"/(?:video|videos|watch)(?:/|$|-)", u.path or "", re.I))
+
+
+def paywalled_url(url: str, cfg: dict) -> bool:
+    """config.yaml `paywalled.domains`: outlets that lock their stories. Todd can't read them, so no reader can."""
+    host = (urlparse(url).netloc or "").lower()
+    return any(host == d or host.endswith("." + d) for d in ((cfg.get("paywalled") or {}).get("domains") or []))
+
+
+def paywall_exempt(url: str, cfg: dict) -> bool:
+    """config.yaml `paywalled.allow`: metered sites that tag every page locked but let a reader through."""
+    host = (urlparse(url).netloc or "").lower()
+    return any(host == d or host.endswith("." + d) for d in ((cfg.get("paywalled") or {}).get("allow") or []))
+
+
+def paywalled_source(source: str, cfg: dict) -> bool:
+    s = (source or "").lower()
+    return any(str(n).lower() in s for n in ((cfg.get("paywalled") or {}).get("sources") or []) if n)
+
+
 def fetch_page_meta(url: str, cfg: dict) -> dict:
     """One fetch of the story's own page: its og:image and the date the PUBLISHER says it was published.
 
@@ -1253,7 +1286,7 @@ def fetch_page_meta(url: str, cfg: dict) -> dict:
     datePublished and the like — never a modified/updated time, which is exactly the stamp that
     lies. Anything outside 2020..tomorrow is treated as a broken template and ignored.
     """
-    out: dict = {"image": None, "published": None}
+    out: dict = {"image": None, "published": None, "paywalled": False, "video": False}
     # NOTE: a paywalled publisher (USA Today answers 402) yields nothing; the editor-side fallback is a hand-set state image.
     try:
         import requests
@@ -1263,6 +1296,12 @@ def fetch_page_meta(url: str, cfg: dict) -> dict:
             url = real
         r = requests.get(url, timeout=8, headers={"User-Agent": cfg["fetch"]["user_agent"]})
         text = r.text
+        # Publishers that lock a story mark it for Google: schema.org isAccessibleForFree=false. That is
+        # how NYT, WSJ, WaPo and the New York Post's Post+ pieces flag a subscriber-only page (Nov 7, 2026).
+        if (PAYWALL_RE.search(text) or paywalled_url(r.url or url, cfg)) and not paywall_exempt(r.url or url, cfg):
+            out["paywalled"] = True
+        if is_video_url(r.url or url) or VIDEO_RE.search(text):
+            out["video"] = True
         m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', text, re.I) or re.search(
             r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', text, re.I
         )
@@ -1338,20 +1377,20 @@ def verify_dates(stories: list[dict], cfg: dict, now: datetime, cache: dict) -> 
     todo: list[dict] = []
     for it in stories:
         real = url_date(it["url"])
-        if real is not None:
-            out[it["id"]] = real
-            continue
         rec = cache.get(it["id"])
-        if isinstance(rec, dict) and (hours_since(rec.get("t"), now) or 0) <= SEEN_HOURS:
-            out[it["id"]] = parse_iso(rec.get("p"))
+        # Every page is fetched once (cached ten days) even when its URL carries the date: the same
+        # fetch answers whether it is paywalled and whether it is a video (Nov 7, 2026).
+        if isinstance(rec, dict) and "pw" in rec and (hours_since(rec.get("t"), now) or 0) <= SEEN_HOURS:
+            out[it["id"]] = real or parse_iso(rec.get("p"))
             continue
         todo.append(it)
     if todo:
         with cf.ThreadPoolExecutor(max_workers=cfg["fetch"]["workers"]) as ex:
             for it, meta in zip(todo, ex.map(lambda i: fetch_page_meta(i["url"], cfg), todo)):
                 dt = meta.get("published")
-                cache[it["id"]] = {"p": iso(dt), "t": iso(now)}
-                out[it["id"]] = dt
+                cache[it["id"]] = {"p": iso(dt), "t": iso(now), "pw": int(bool(meta.get("paywalled"))),
+                                   "v": int(bool(meta.get("video")))}
+                out[it["id"]] = url_date(it["url"]) or dt
         log(f"dates: asked {len(todo)} publishers, {sum(1 for i in todo if out.get(i['id']))} answered "
             f"({len(stories) - len(todo)} known already)")
     return out
@@ -1364,6 +1403,12 @@ def drop_stale(stories: list[dict], limit_hours: float, cfg: dict, now: datetime
     dates = verify_dates(stories, cfg, now, cache)
     keep = []
     for it in stories:
+        rec = cache.get(it["id"]) or {}
+        if rec.get("pw") or paywalled_url(it["url"], cfg) or paywalled_source(it.get("source", ""), cfg):
+            log(f"PAYWALL {what}: {it.get('source')} — {str(it.get('title'))[:70]} — subscriber-only, dropped")
+            continue
+        if rec.get("v") or is_video_url(it["url"]):
+            it["video"] = True
         dt = dates.get(it["id"])
         age = (now - dt).total_seconds() / 3600 if dt else None
         if age is not None and age > limit_hours:

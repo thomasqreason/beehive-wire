@@ -61,6 +61,8 @@
   .cols.one .col .shot img{max-width:360px}
   @media (max-width:640px){.col .shot img{max-width:100%}}
   .col a.held,.flash a.held{color:#8a8a8a}
+  .vid { color: #c00; font-weight: bold; white-space: nowrap; }
+  html[data-theme="dark"] .vid { color: #ff6b6b; }
   /* Story stacks: a lead headline with its follow-ups indented beneath it, read as one block.
      The negative top margin pulls each follow-up up against the line above so the group reads
      tighter than the gap between unrelated stories. */
@@ -259,14 +261,14 @@
 
   {% if flash %}
   <div class="flash">
-    {% for f in flash %}<a{% if f.held %} class="held"{% endif %} href="{{ f.url }}"{{ target }} title="{{ f.source }}: {{ f.title }}">{{ f.headline }}</a>
+    {% for f in flash %}<a{% if f.held %} class="held"{% endif %} href="{{ f.url }}"{{ target }} title="{{ f.source }}: {{ f.title }}">{{ f.headline }}{% if f.video and not f.headline.upper().startswith("WATCH") and "VIDEO" not in f.headline.upper() %} <span class="vid">(VIDEO)</span>{% endif %}</a>
     {% endfor %}
   </div>
   {% endif %}
 
   <div class="top">
     {% if top.image %}<a href="{{ top.url }}"{{ target }}><img src="{{ top.image }}" alt=""></a>{% endif %}
-    <a class="head{% if top.urgent %} urgent{% endif %}" href="{{ top.url }}"{{ target }} title="{{ top.source }}: {{ top.title }}">{{ top.headline }}</a>
+    <a class="head{% if top.urgent %} urgent{% endif %}" href="{{ top.url }}"{{ target }} title="{{ top.source }}: {{ top.title }}">{{ top.headline }}{% if top.video and not top.headline.upper().startswith("WATCH") and "VIDEO" not in top.headline.upper() %} <span class="vid">(VIDEO)</span>{% endif %}</a>
   </div>
 
   {% if video %}
@@ -303,7 +305,7 @@
   <div class="cols{% if columns|length == 1 %} one{% endif %}">
     {% for col in columns %}
     <div class="col">
-      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}{% if it.show_image and it.image %}<a class="shot" href="{{ it.url }}"{{ target }} tabindex="-1" aria-hidden="true"><img src="{{ it.image }}" alt="" loading="lazy"></a>{% endif %}{% set cls = ([] + (['held'] if it.held else []) + (['sub'] if it.sub else []) + (['pic'] if (it.show_image and it.image) else [])) %}<a{% if cls %} class="{{ cls|join(' ') }}"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}</a>
+      {% for it in col %}{% if it.sep %}<hr class="sep">{% endif %}{% if it.show_image and it.image %}<a class="shot" href="{{ it.url }}"{{ target }} tabindex="-1" aria-hidden="true"><img src="{{ it.image }}" alt="" loading="lazy"></a>{% endif %}{% set cls = ([] + (['held'] if it.held else []) + (['sub'] if it.sub else []) + (['pic'] if (it.show_image and it.image) else [])) %}<a{% if cls %} class="{{ cls|join(' ') }}"{% endif %} href="{{ it.url }}"{{ target }} title="{{ it.source }}: {{ it.title }}">{{ it.headline }}{% if it.video and not it.headline.upper().startswith("WATCH") and "VIDEO" not in it.headline.upper() %} <span class="vid">(VIDEO)</span>{% endif %}</a>
       {% endfor %}
     </div>
     {% endfor %}

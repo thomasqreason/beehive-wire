@@ -60,6 +60,20 @@ spiked:
   - Bakker's
   - PTL Club
 
+# Subscriber-only outlets never reach the page (Nov 7, 2026 — "I can't read those"). Feeds and Google News
+# items from these are dropped on fetch; every other story's own page is also checked for the schema.org
+# isAccessibleForFree=false flag (how the New York Post marks Post+ pieces), and a locked page is dropped
+# from the candidates AND swept off the live page. `allow` holds metered sites that tag every page locked
+# but let readers through.
+paywalled:
+  domains: [nytimes.com, wsj.com, washingtonpost.com, bloomberg.com, ft.com, economist.com, theatlantic.com,
+            newyorker.com, barrons.com, theathletic.com, businessinsider.com, theinformation.com, thetimes.com,
+            thetimes.co.uk, latimes.com, bostonglobe.com, statnews.com, foreignaffairs.com, hbr.org]
+  sources: [New York Times, NYT, Wall Street Journal, WSJ, Washington Post, Bloomberg, Financial Times,
+            The Economist, The Atlantic, The New Yorker, Barron's, The Athletic, Business Insider,
+            The Information, Los Angeles Times, Boston Globe, Foreign Affairs]
+  allow: [sltrib.com, beehivewire.com]
+
 blocklist:
   sources: []                      # never run a story from these outlets, on any beat
   by_topic:
@@ -119,10 +133,10 @@ mix:
   ukraine_russia: 2               # 4 -> 2 on Oct 13, 2026 (same reason)
   world: 4                        # 5 -> 4 on Oct 8, 2026 (mix retuned to 100 after investing was added)
   immigration: 2                  # HARD CAP: max 2 ICE/illegal-immigration links on the page (see editorial.md)
-  crime: 5
-  trump_watch: 5
-  elections: 5
-  politics_culture_world: 4       # Washington and the culture war (5 -> 4, Oct 8, 2026)
+  crime: 4                        # 5 -> 4 on Nov 7, 2026 (room for entertainment)
+  trump_watch: 4                  # 5 -> 4 on Nov 7, 2026
+  elections: 4                    # 5 -> 4 on Nov 7, 2026
+  politics_culture_world: 3       # 4 -> 3 on Nov 7, 2026. Washington and the culture war (5 -> 4, Oct 8, 2026)
   media: 2
   faith_family_schools: 4
   military: 2                     # 3 -> 2 on Oct 13, 2026 (same reason)
@@ -130,14 +144,14 @@ mix:
   tech: 4
   surveillance: 3               # the surveillance state and civil liberties — added Sep 18, 2026
   american_life: 6              # how Americans actually live — added Sep 18, 2026; 5 -> 6 on Oct 13
-  economy: 6                      # 7 -> 6 on Oct 8, 2026; investing has its own line now
+  economy: 5                      # 6 -> 5 on Nov 7, 2026; investing has its own line now
   investing: 4                  # stocks and investing, 3-5 links every edition; the Market Desk's own pieces count (added Oct 5, 2026)
   energy: 3
   housing: 3
   health: 4                       # 5 -> 4 on Oct 8, 2026
   utah_mormon: 4
-  sports: 4
-  pop_culture: 4                  # 3 -> 4 on Oct 13, 2026: big-star news earns its slots
+  sports: 6                       # 4 -> 6 on Nov 7, 2026: sports personalities, not just results
+  pop_culture: 7                  # 4 -> 7 on Nov 7, 2026: more Variety/Deadline, new movies, trailers, biopics
   weather_disasters: 2
   weird: 6                        # 2 -> 6 on Oct 13, 2026: the odd-corner tail is what makes the page scrollable
   video: 3                        # WATCH: links — PJW, Tucker, Candace and the like, clustered at the foot

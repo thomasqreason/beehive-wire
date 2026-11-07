@@ -461,7 +461,9 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   Members are people, not punchlines; the faith itself is not mocked — the institution is fair game.
   SOURCING: the Salt Lake Tribune is the house paper — when two candidates cover the same Utah story, take
   the Tribune's. KSL, Deseret News, the Church Newsroom and the TV stations are backup, not default.
-- SPORTS: New on the page, four or five links, and never a sports page. Caitlin Clark whenever she is in the
+- SPORTS: About six links, and never a sports page. PERSONALITIES over results (Nov 7, 2026): the athletes
+  people talk about off the field — Sophie Cunningham is Todd's example — their feuds, comments, viral
+  moments, deals, relationships (no-rumor rule applies), and what they say that lands outside sports. Caitlin Clark whenever she is in the
   news — the games, the numbers, the feuds, the injuries, the ratings she carries. The Utah schools get
   LESS than they used to (Oct 5, 2026): BYU is not a beat. The in-state teams earn a link when they are in
   the AP Top 25 and the ranking moves, when they win or lose a game that matters nationally, or when there
@@ -469,7 +471,13 @@ beats; the spotlight moves every edition, so each beat gets the page about every
   (NO. 9 BYU, NO. 14 UTAH BOTH WIN...). No weekly BYU recaps, no previews, no recruiting chatter. NCAA Division I football when it is news
   to a general reader: a big upset, a ranking shakeup, a scandal, a coach fired, a playoff fight. No
   game-recap filler; a sports link needs a result, a number or a story behind it.
-- POP CULTURE: Cynical about Hollywood, not sour about it. Nobody cares who won what: an awards night is news
+- INTERESTING BEATS IMPORTANT (Nov 7, 2026): the page had gone heavy and samey. A reader should hit a story
+  every few links that they click because it is FUN — a personality, a movie, a strange true thing. Pop culture
+  runs about seven links and sports about six; give them the play.
+- POP CULTURE: Cynical about Hollywood, not sour about it. WHAT'S COMING OUT is news (Nov 7, 2026): a new
+  movie or series announced, a first trailer or first look, a casting that makes people talk, and above all
+  BIOPICS of famous people (Todd's example: a new movie about Jimmy Stewart's life). Variety and Deadline are
+  the house trades — lean on them. Nobody cares who won what: an awards night is news
   for its ratings (usually a new low), a walkout, or a speech that blows up — not the winners' list. The
   real stories are the numbers: box-office flops, ticket sales, tours that can't sell out, streaming
   cancellations, ratings collapses, budgets and write-downs, studios and networks in trouble. And the
@@ -516,7 +524,11 @@ also the thing that makes the page worth visiting — anyone can read the AP.
    paywall. When a beat has a document behind it, prefer the document over somebody's summary of it.
 2. THE INDEPENDENTS ARE THE BACKBONE. The alt feeds carry stories the legacy desks will not touch and carry
    them first. Lean on them.
-3. FREE BEATS PAYWALLED, ALWAYS. When the same story is available from a paywalled outlet and a free one,
+3. NO PAYWALLED LINKS, EVER (Nov 7, 2026 — this replaces the old "column link only" exception). Todd
+   cannot read them and neither can most readers. The code already drops the known subscriber-only outlets
+   (NYT, WSJ, WaPo, Bloomberg, the Atlantic...) and any page that flags itself locked, including New York
+   Post "Post+" pieces; if one still reaches you — the summary says subscribe, Post+, or members only — skip it.
+   Former rule, kept for the reasoning: FREE BEATS PAYWALLED, ALWAYS. When the same story is available from a paywalled outlet and a free one,
    take the free one — every time. NEVER put a paywalled link in the giant headline or the flash lines; that
    is the link everyone clicks and a subscription wall is how a reader learns not to come back. The
    paywalled outlets stay in the mix only for a story genuinely nobody else has, and then only as a column
