@@ -1208,5 +1208,16 @@
   "iso": "2026-11-07T16:13:43-07:00",
   "top": "KRAKOW GUNMAN KILLS NINE IN 'TERROR ATTACK'...",
   "count": 100
+ },
+ {
+  "no": 111,
+  "file": "2026-11-08-morning.html",
+  "date": "2026-11-08",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "4:02 a.m.",
+  "iso": "2026-11-08T04:02:31-07:00",
+  "top": "KRAKOW GUNMAN'S FAMILY FOUND DEAD...",
+  "count": 100
  }
 ]
