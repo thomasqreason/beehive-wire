@@ -4391,5 +4391,58 @@
 "day": 28,
 "pass": 4,
 "no": "28.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-10",
+"at": "2026-11-10T23:14:39+00:00",
+"href": "movers/2026-11-10-1614.html",
+"syms": [
+"CLX",
+"AMD",
+"ZETA",
+"HUM",
+"AKAM",
+"TTWO",
+"NWS",
+"OXY",
+"CVS",
+"RKLB"
+],
+"heads": [
+"CLX +1.0% on 3.1x volume, in base",
+"AMD +1.3% on 1.9x volume, in base",
+"ZETA +8.2% on 1.9x volume, breakout past buy point",
+"HUM +3.5% on 1.5x volume, nearing buy point"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 28,
+"pass": 5,
+"no": "28.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-10",
+"at": "2026-11-10T23:20:08+00:00",
+"href": "2026-11-10.html",
+"syms": [
+"ZETA",
+"OXY",
+"XOM",
+"AMGN"
+],
+"heads": [
+"Zeta Global Jumps 8% After Earnings Call Touts Higher Outlook",
+"Occidental Gains 2% After Q3 Report As UBS Cites Debt Reduction",
+"ExxonMobil Slips As Oil Falls To Lowest Since August",
+"Amgen Holds Steady As Repatha Study Shows Cost-Effectiveness",
+"Company of the Day: Tempus AI Slips 4.6% After Rally On Data Business, Testing Growth"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 28,
+"pass": 6,
+"no": "28.6"
 }
 ]
