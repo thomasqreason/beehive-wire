@@ -4362,5 +4362,34 @@
 "day": 28,
 "pass": 3,
 "no": "28.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-10",
+"at": "2026-11-10T22:14:44+00:00",
+"href": "movers/2026-11-10-1514.html",
+"syms": [
+"CLX",
+"AMD",
+"ZETA",
+"HUM",
+"AKAM",
+"TTWO",
+"NWS",
+"OXY",
+"CVS",
+"RKLB"
+],
+"heads": [
+"CLX +1.0% on 3.1x volume, in base",
+"AMD +1.3% on 1.9x volume, in base",
+"ZETA +8.2% on 1.9x volume, breakout past buy point",
+"HUM +3.5% on 1.5x volume, nearing buy point"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 28,
+"pass": 4,
+"no": "28.4"
 }
 ]
