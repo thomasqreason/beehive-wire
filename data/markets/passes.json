@@ -4282,5 +4282,40 @@
 "day": 27,
 "pass": 5,
 "no": "27.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-10",
+"at": "2026-11-10T14:51:05+00:00",
+"href": "movers/2026-11-10-0751.html",
+"syms": [
+"AMD",
+"ZETA",
+"TMDX",
+"NET",
+"GPN",
+"TTWO",
+"SE",
+"AKAM",
+"RIOT",
+"CVS",
+"TSM",
+"AMZN",
+"AVGO",
+"WMB",
+"DUOL"
+],
+"heads": [
+"AMD +2.1% on 4.0x volume, in base",
+"ZETA +3.7% on 3.3x volume, bounce off 50-day line",
+"TMDX +3.2% on 2.6x volume, breakout past buy point",
+"NET +2.5% on 1.8x volume, in base",
+"GPN +4.1% on 1.5x volume, new 52-week high"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 28,
+"pass": 1,
+"no": "28.1"
 }
 ]
