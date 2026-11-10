@@ -4317,5 +4317,50 @@
 "day": 28,
 "pass": 1,
 "no": "28.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-10",
+"at": "2026-11-10T20:27:32+00:00",
+"href": "movers/2026-11-10-1327.html",
+"syms": [
+"CLX",
+"AMD",
+"ZETA",
+"AKAM",
+"TTWO",
+"NWS"
+],
+"heads": [
+"CLX +2.4% on 2.2x volume, in base",
+"AMD +1.7% on 1.9x volume, in base",
+"ZETA +5.9% on 1.6x volume, bounce off 50-day line"
+],
+"extra": "3 qualifiers",
+"live": true,
+"day": 28,
+"pass": 2,
+"no": "28.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-10",
+"at": "2026-11-10T20:30:28+00:00",
+"href": "2026-11-10.html#pass-midday",
+"syms": [
+"ZETA",
+"PFE",
+"GWW"
+],
+"heads": [
+"Zeta Global Jumps 6% After Earnings Call Highlights Higher Outlook",
+"Pfizer Edges Up After Posting Phase 3 Elrexfio Win",
+"Grainger Rises 1.6% In A Down Market After Earnings Beat"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 28,
+"pass": 3,
+"no": "28.3"
 }
 ]
