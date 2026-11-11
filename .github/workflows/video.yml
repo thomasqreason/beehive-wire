@@ -12,20 +12,11 @@ name: video
 # Secrets (Settings > Secrets and variables > Actions): CLAUDE_CODE_OAUTH_TOKEN (already used by build.yml),
 # YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN. See README, "The YouTube video".
 
+# DISABLED 2026-11-11: failed every run and nobody watched the videos. Workflow disabled in GitHub; cron schedule removed.
 on:
   workflow_run:
     workflows: [build]
     types: [completed]
-  schedule:
-    # The cron: twice a day, three shots each, UTC. Editions land at 10:00 and 22:00 UTC (Mountain daylight)
-    # and a build takes ~20 minutes, so the first shot of each trio is just after the edition is up and the
-    # other two catch a late build or a dropped run (GitHub delays and drops scheduled runs). Extra shots cost
-    # nothing: `due` decides by edition, not by the hour, so an edition is only ever made once and daylight
-    # saving needs no edit.
-    - cron: "10,50 11 * * *"      # morning edition
-    - cron: "30 12 * * *"
-    - cron: "10,50 23 * * *"      # evening edition
-    - cron: "30 0 * * *"
   workflow_dispatch:
     inputs:
       force:
