@@ -4444,5 +4444,50 @@
 "day": 28,
 "pass": 6,
 "no": "28.6"
+},
+{
+"kind": "movers",
+"date": "2026-11-11",
+"at": "2026-11-11T14:50:59+00:00",
+"href": "movers/2026-11-11-0750.html",
+"syms": [
+"SNDK",
+"AMD",
+"ZETA",
+"MRVL",
+"LITE",
+"MU",
+"LNG",
+"DELL",
+"NET",
+"COST",
+"PANW",
+"XYZ",
+"SNOW",
+"APP",
+"CRWV",
+"NVDA",
+"NBIS",
+"FTNT",
+"IREN",
+"HIMS"
+],
+"heads": [
+"SNDK +11.5% on 4.3x volume, big move on the day",
+"AMD +2.8% on 4.0x volume, in base",
+"ZETA +5.5% on 3.8x volume, breakout past buy point, already extended",
+"MRVL +6.6% on 3.4x volume, big move on the day",
+"LITE +9.8% on 3.3x volume, big move on the day",
+"MU +8.1% on 2.8x volume, big move on the day",
+"LNG +1.0% on 2.5x volume, slips back below buy point",
+"DELL +8.3% on 2.3x volume, big move on the day",
+"NET +2.7% on 2.1x volume, in base",
+"COST +1.0% on 1.9x volume, nearing buy point"
+],
+"extra": "14 qualifiers",
+"live": true,
+"day": 29,
+"pass": 1,
+"no": "29.1"
 }
 ]
