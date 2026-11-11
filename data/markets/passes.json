@@ -4489,5 +4489,52 @@
 "day": 29,
 "pass": 1,
 "no": "29.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-11",
+"at": "2026-11-11T20:11:15+00:00",
+"href": "movers/2026-11-11-1311.html",
+"syms": [
+"AMD",
+"SNDK",
+"CRWV",
+"NVDA",
+"HIMS",
+"NBIS",
+"TTWO",
+"FIS",
+"IREN"
+],
+"heads": [
+"AMD +7.9% on 1.6x volume, big move on the day",
+"SNDK +15.2% on 1.5x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 29,
+"pass": 2,
+"no": "29.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-11",
+"at": "2026-11-11T20:14:36+00:00",
+"href": "2026-11-11.html#pass-midday",
+"syms": [
+"FAST",
+"ZETA",
+"BLK"
+],
+"heads": [
+"Fastenal Edges To New High As Quarterly Sales Climb 15.5%",
+"Zeta Global Jumps 7.7% After Third-Quarter Beat And Higher Outlook",
+"BlackRock Holds Near High As Its Bitcoin Fund Draws Inflows"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 29,
+"pass": 3,
+"no": "29.3"
 }
 ]
