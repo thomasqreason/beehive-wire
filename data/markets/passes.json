@@ -4536,5 +4536,39 @@
 "day": 29,
 "pass": 3,
 "no": "29.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-11",
+"at": "2026-11-11T21:08:34+00:00",
+"href": "movers/2026-11-11-1408.html",
+"syms": [
+"AMD",
+"VTRS",
+"SNDK",
+"CRWV",
+"NVDA",
+"NBIS",
+"ETOR",
+"HIMS",
+"AXON",
+"TTWO",
+"CORZ",
+"HSY",
+"FIS",
+"IBKR",
+"ALNY",
+"IREN"
+],
+"heads": [
+"AMD +7.3% on 1.7x volume, big move on the day",
+"VTRS +1.0% on 1.6x volume, new 52-week high",
+"SNDK +13.7% on 1.5x volume, big move on the day"
+],
+"extra": "3 qualifiers",
+"live": false,
+"day": 29,
+"pass": 4,
+"no": "29.4"
 }
 ]
