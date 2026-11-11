@@ -4570,5 +4570,70 @@
 "day": 29,
 "pass": 4,
 "no": "29.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-11",
+"at": "2026-11-11T23:13:08+00:00",
+"href": "movers/2026-11-11-1613.html",
+"syms": [
+"HUM",
+"AMD",
+"VTRS",
+"SNDK",
+"ZETA",
+"REGN",
+"CRWV",
+"NVDA",
+"HIMS",
+"CORZ",
+"NBIS",
+"HSY",
+"ETOR",
+"FIS",
+"TTWO",
+"AXON",
+"JCI",
+"IBKR",
+"ALNY",
+"IREN"
+],
+"heads": [
+"HUM +1.9% on 1.8x volume, nearing buy point",
+"AMD +7.3% on 1.7x volume, big move on the day",
+"VTRS +1.0% on 1.6x volume, new 52-week high",
+"SNDK +13.7% on 1.6x volume, big move on the day",
+"ZETA +7.6% on 1.6x volume, breakout past buy point, already extended",
+"REGN +4.7% on 1.5x volume, big move on the day"
+],
+"extra": "6 qualifiers",
+"live": false,
+"day": 29,
+"pass": 5,
+"no": "29.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-11",
+"at": "2026-11-11T23:17:39+00:00",
+"href": "2026-11-11.html",
+"syms": [
+"AAPL",
+"COP",
+"ADI",
+"LNG"
+],
+"heads": [
+"Apple Climbs To New High As Google Brings Gemini To CarPlay",
+"ConocoPhillips Rises 1.7% After Raising Its Dividend 10.7%",
+"Analog Devices Gives Back 2% After Hours After 4% Gain",
+"Cheniere Energy Jumps 3.8% As QatarEnergy Eyes More U.S. LNG Deals",
+"Company of the Day: Regeneron Jumps 4.7% As Its Liver Drug Advances After Early Trial"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 29,
+"pass": 6,
+"no": "29.6"
 }
 ]
