@@ -4728,5 +4728,51 @@
 "day": 30,
 "pass": 4,
 "no": "30.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-12",
+"at": "2026-11-12T22:39:40+00:00",
+"href": "movers/2026-11-12-1539.html",
+"syms": [
+"LUNR",
+"AMD",
+"OXY",
+"AVGO",
+"HUBS"
+],
+"heads": [
+"LUNR +7.0% on 3.5x volume, big move on the day",
+"AMD +5.9% on 2.2x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 30,
+"pass": 5,
+"no": "30.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-12",
+"at": "2026-11-12T22:45:48+00:00",
+"href": "2026-11-12.html",
+"syms": [
+"EOG",
+"SPOT",
+"TSLA",
+"ANET"
+],
+"heads": [
+"EOG Resources Edges Up 1.2% After 7.8% Dividend Raise, Oil Above $85",
+"Spotify Slips 1.7% On Quiet Trade, Holds 14.2% One-Month Gain",
+"Tesla Rises 1.7% On Reports Of SpaceX Tie-Up As Early As December",
+"Arista Networks Jumps 5.1% As Company Guides Higher After Earnings",
+"Company of the Day: Intuitive Machines Rises 7.0% After Record Quarter, Backlog Reaches $1.9 Billion"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 30,
+"pass": 6,
+"no": "30.6"
 }
 ]
