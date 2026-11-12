@@ -4707,5 +4707,26 @@
 "day": 30,
 "pass": 3,
 "no": "30.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-12",
+"at": "2026-11-12T21:08:31+00:00",
+"href": "movers/2026-11-12-1408.html",
+"syms": [
+"LUNR",
+"AMD",
+"OXY",
+"AVGO"
+],
+"heads": [
+"LUNR +7.0% on 3.5x volume, big move on the day",
+"AMD +5.9% on 2.1x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": false,
+"day": 30,
+"pass": 4,
+"no": "30.4"
 }
 ]
