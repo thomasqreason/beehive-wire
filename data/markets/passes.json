@@ -4666,5 +4666,46 @@
 "day": 30,
 "pass": 1,
 "no": "30.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-12",
+"at": "2026-11-12T20:47:35+00:00",
+"href": "movers/2026-11-12-1347.html",
+"syms": [
+"LUNR",
+"AMD",
+"OXY"
+],
+"heads": [
+"LUNR +8.5% on 3.3x volume, big move on the day",
+"AMD +5.3% on 2.0x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 30,
+"pass": 2,
+"no": "30.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-12",
+"at": "2026-11-12T20:50:09+00:00",
+"href": "2026-11-12.html#pass-midday",
+"syms": [
+"FAST",
+"MSFT",
+"AMGN"
+],
+"heads": [
+"Fastenal Holds Near Its 52-Week High On 20.7% Earnings Growth",
+"Microsoft Expands AI Ties With Ohio State; Shares Edge Higher",
+"Amgen Holds Steady After Sjogren's Drug Hits In Phase 3 Trial"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 30,
+"pass": 3,
+"no": "30.3"
 }
 ]
