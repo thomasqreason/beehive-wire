@@ -4774,5 +4774,32 @@
 "day": 30,
 "pass": 6,
 "no": "30.6"
+},
+{
+"kind": "movers",
+"date": "2026-11-13",
+"at": "2026-11-13T14:51:08+00:00",
+"href": "movers/2026-11-13-0751.html",
+"syms": [
+"KDP",
+"ZETA",
+"AAPL",
+"ACN",
+"ECHO",
+"NU",
+"TTWO"
+],
+"heads": [
+"KDP +3.8% on 16.8x volume, still in buy range after breakout",
+"ZETA +1.6% on 2.3x volume, breakout past buy point, already extended",
+"AAPL +1.3% on 1.7x volume, still in buy range after breakout",
+"ACN +1.1% on 1.6x volume, in base",
+"ECHO +1.2% on 1.5x volume, slips back below buy point"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 31,
+"pass": 1,
+"no": "31.1"
 }
 ]
