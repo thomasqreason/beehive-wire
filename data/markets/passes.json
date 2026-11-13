@@ -4801,5 +4801,46 @@
 "day": 31,
 "pass": 1,
 "no": "31.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-13",
+"at": "2026-11-13T20:28:34+00:00",
+"href": "movers/2026-11-13-1328.html",
+"syms": [
+"KDP",
+"SO",
+"NU",
+"KLAR"
+],
+"heads": [
+"KDP +3.2% on 3.3x volume, still in buy range after breakout"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 31,
+"pass": 2,
+"no": "31.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-13",
+"at": "2026-11-13T20:32:01+00:00",
+"href": "2026-11-13.html#pass-midday",
+"syms": [
+"CVX",
+"ZETA",
+"COST"
+],
+"heads": [
+"Chevron Edges Up 1% With $7 Billion Venezuela Bet In Focus",
+"Zeta Global Slips 2% But Holds Gains As Revenue Climbs 46%",
+"Costco Rises 1% Near Record Amid $4 Billion Buyback, Special Dividend"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 31,
+"pass": 3,
+"no": "31.3"
 }
 ]
