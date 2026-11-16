@@ -4922,5 +4922,45 @@
 "day": 32,
 "pass": 1,
 "no": "32.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-16",
+"at": "2026-11-16T18:44:02+00:00",
+"href": "movers/2026-11-16-1144.html",
+"syms": [
+"CHYM",
+"TSN"
+],
+"heads": [
+"CHYM +1.8% on 2.2x volume, nearing buy point",
+"TSN +6.7% on 2.0x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 32,
+"pass": 2,
+"no": "32.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-16",
+"at": "2026-11-16T18:46:14+00:00",
+"href": "2026-11-16.html#pass-midday",
+"syms": [
+"DUOL",
+"SAIL",
+"TEM"
+],
+"heads": [
+"Duolingo, Inc. Breaks Out Past 167.48 Buy Point",
+"SailPoint, Inc. Bounces Off 50-Day Line",
+"Tempus AI, Inc. Breaks Below 50-Day Line"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 32,
+"pass": 3,
+"no": "32.3"
 }
 ]
