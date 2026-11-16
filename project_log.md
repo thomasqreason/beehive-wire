@@ -91,3 +91,38 @@ This repository holds two things:
 **Conclusion:** nothing is broken. Google is crawling the site slowly, which is normal for a site that went from 1 to ~7,000 pages in September.
 
 **Watch:** if "Discovered" isn't shrinking by early November, or "Crawled – not indexed" climbs into the hundreds, treat it as Google judging the trade-city pages too templated (the doorway-page risk in section 8 of the Utah Homes Guide handoff doc). Then improve internal links and content on the pages that have providers.
+
+---
+
+## 2026-11-16 — How utahhomesguide.com is ranking
+
+**Worked on**
+- The owner asked how the site is ranking. This session can't log in to Search Console, so the numbers came from Google emails in Gmail.
+
+**What the data says**
+- **Search Console milestone, Oct 2, 2026:** 20 clicks from Google Search in the previous 28 days. That is the first milestone; the site had zero indexed pages before Sept 4.
+- **Google Analytics, Oct 8 – Nov 4, 2026** (all traffic sources, not only Google):
+  - 156 active users, up 156% on the previous 4 weeks, so roughly 60 before.
+  - 153 new users, 919 events, 34 seconds average engagement.
+  - Top pages:
+    - Home page: 73 views, 34 users.
+    - Closet Designers in Providence: 7 views.
+    - Closet Designers in Utah: 7 views.
+    - Contact: 7 views.
+    - Christmas Light Installers in Draper: 6 views.
+    - Cabinet & Countertop Installers in Utah: 5 views.
+    - Painters in Salt Lake City: 5 views.
+- **Indexing as of 10/3/26** (from the earlier entry): 2.94K pages indexed and 3,954 "Discovered – currently not indexed".
+
+**Conclusion**
+- The site is growing from a very small base. Google is sending a trickle of clicks to long-tail pages (one trade in one city). Total traffic is far too small to rent featured slots yet.
+- Average positions per keyword are not known. They are only in Search Console → Performance.
+
+**Blockers and open questions**
+- No Search Console access from the cloud session. Exact rankings need the owner to open Performance → Search results, or to connect a Search Console tool.
+- Is the 3,954 "Discovered – not indexed" number shrinking? This was due to be checked in early November.
+
+**Next steps**
+1. The owner opens Search Console → Performance → Search results, sets the last 3 months, ticks "Average position", and screenshots the Queries and Pages tabs.
+2. Re-check Indexing → Pages and compare against 2.94K indexed and 3,954 discovered as of 10/3.
+3. Use the queries that already get impressions to pick which trade-city pages to strengthen first.
