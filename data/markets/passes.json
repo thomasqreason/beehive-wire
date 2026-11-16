@@ -4891,5 +4891,36 @@
 "day": 31,
 "pass": 5,
 "no": "31.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-16",
+"at": "2026-11-16T14:51:21+00:00",
+"href": "movers/2026-11-16-0751.html",
+"syms": [
+"TSN",
+"CHYM",
+"PG",
+"LLY",
+"FISV",
+"CNC",
+"IVZ",
+"TSCO",
+"KLAR",
+"UAL"
+],
+"heads": [
+"TSN +10.5% on 4.2x volume, big move on the day",
+"CHYM +2.5% on 3.3x volume, nearing buy point",
+"PG +1.5% on 2.3x volume, still in buy range after breakout",
+"LLY +1.7% on 1.9x volume, new 52-week high",
+"FISV +1.6% on 1.7x volume, in base",
+"CNC +4.6% on 1.6x volume, big move on the day"
+],
+"extra": "6 qualifiers",
+"live": true,
+"day": 32,
+"pass": 1,
+"no": "32.1"
 }
 ]
