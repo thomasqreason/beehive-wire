@@ -5046,5 +5046,41 @@
 "day": 33,
 "pass": 1,
 "no": "33.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-17",
+"at": "2026-11-17T18:47:21+00:00",
+"href": "movers/2026-11-17-1147.html",
+"syms": [
+"KLAR"
+],
+"heads": [],
+"extra": "0 qualifiers",
+"live": true,
+"day": 33,
+"pass": 2,
+"no": "33.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-17",
+"at": "2026-11-17T18:49:59+00:00",
+"href": "2026-11-17.html#pass-midday",
+"syms": [
+"MSFT",
+"AMGN",
+"SPOT"
+],
+"heads": [
+"Microsoft Falls 2.8% Before Ignite As Software Stocks Retreat",
+"Amgen Holds Near Its High As Healthcare Leads A Weak Tape",
+"Spotify Eases 1.7% After Price-Target Hike On AI Remixing Prospects"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 33,
+"pass": 3,
+"no": "33.3"
 }
 ]
