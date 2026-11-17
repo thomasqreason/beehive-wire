@@ -1,30 +1,42 @@
 {
- "updated": "2026-11-17T00:13:20+00:00",
+ "updated": "2026-11-17T11:11:26+00:00",
  "top": {
-  "id": "c71c449871",
-  "url": "https://www.dailymail.com/news/article-16297521/Jeffrey-Epsteins-death-NOT-suicide-forensic-scientist-rules-Michael-Freeman.html?ns_mchannel=rss&ns_campaign=1490",
-  "title": "Jeffrey Epstein's death was not suicide, top forensic scientist finds in new report: 'That's not a hanging mark'",
-  "source": "Daily Mail US",
-  "published": "2026-11-16T22:49:38+00:00",
-  "image": "https://i.dailymail.com/1s/2026/11/16/20/112545397-0-image-a-15_1794861895514.jpg",
-  "first_seen": "2026-11-17T00:13:20+00:00",
-  "topic": "american_life",
-  "headline": "FORENSIC EXPERT: EPSTEIN WAS KILLED...",
+  "id": "4b88ce23b6",
+  "url": "https://www.bbc.co.uk/news/articles/cw772jk4rvmxo?at_medium=RSS&at_campaign=rss",
+  "title": "Crimean Bridge partly collapses as Zelensky hails 'unprecedented' attack by Ukraine",
+  "source": "BBC",
+  "published": "2026-11-17T03:46:56+00:00",
+  "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f3f8/live/238ed940-e263-11f1-900c-895604014268.jpg",
+  "first_seen": "2026-11-17T11:11:26+00:00",
+  "topic": "politics_culture_world",
+  "headline": "CRIMEAN BRIDGE DOWN...",
   "urgent": false
  },
  "flash": [
   {
-   "id": "0fd8e03eb8",
-   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNX01aN0Vqc2Iwc1F5UlFFQTh6RkFXUS0wSjVkY1o3dmZyOG82MjhUZXJGa2RSMktDaGxUT0JiaTQtWUg3bUx3eXdzeTRZeFpjaXBIS1NiMmxRZVFMa0EzaUhiMkxhbG42bDBGMXl6VlJIZkpwUHpEODBrT1h3V3ZzSXQ4UmZIeW5oZ3FZUEV3?oc=5",
-   "title": "Anthropic IPO: the age of miracles, priced at $78 a share",
-   "source": "Asia Times",
-   "published": "2026-11-16T04:58:48+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "business_ai",
-   "headline": "ANTHROPIC PRICES IPO AT $78 A SHARE...",
+   "id": "a746b244be",
+   "url": "https://nypost.com/2026/11/17/us-news/trump-arrives-in-philippines-to-kick-off-asia-trip-ahead-of-historic-three-way-nuclear-talks-with-xi-and-putin/",
+   "title": "Trump arrives in Philippines to kick off Asia trip ahead of historic three-way nuclear talks with Xi and Putin",
+   "source": "New York Post",
+   "published": "2026-11-17T10:17:11+00:00",
+   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fus-president-donald-trump-waves-149068632.jpg?w%3D1024",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "TRUMP LANDS IN MANILA AHEAD OF NUCLEAR TALKS WITH XI, PUTIN..."
+  },
+  {
+   "id": "c71c449871",
+   "url": "https://www.dailymail.com/news/article-16297521/Jeffrey-Epsteins-death-NOT-suicide-forensic-scientist-rules-Michael-Freeman.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Jeffrey Epstein's death was not suicide, top forensic scientist finds in new report: 'That's not a hanging mark'",
+   "source": "Daily Mail US",
+   "published": "2026-11-16T22:49:38+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/16/20/112545397-0-image-a-15_1794861895514.jpg",
+   "first_seen": "2026-11-17T00:13:20+00:00",
+   "topic": "american_life",
+   "headline": "FORENSIC EXPERT: EPSTEIN WAS KILLED...",
+   "urgent": false,
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "3dc2e0addf",
@@ -35,47 +47,12 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ce1a/live/7c81aa70-e211-11f1-a541-6d0c391a4254.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "economy",
-   "headline": "CALIFORNIA AG SUES OPENAI OVER HACK..."
-  },
-  {
-   "id": "3c8dd372b1",
-   "url": "https://www.dailymail.com/news/article-16297865/United-flights-grounded-outage.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "America plunged into more chaos as United flights are grounded over computer outage just days after nationwide ground stop",
-   "source": "Daily Mail US",
-   "published": "2026-11-16T23:09:28+00:00",
-   "image": "https://i.dailymail.com/1s/2026/11/16/22/112547139-0-image-a-19_1794868996297.jpg",
-   "first_seen": "2026-11-17T00:13:20+00:00",
-   "topic": "american_life",
-   "headline": "UNITED GROUNDED AGAIN, DAYS AFTER NATIONWIDE HALT..."
+   "headline": "CALIFORNIA AG SUES OPENAI OVER HACK...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   }
  ],
  "items": [
-  {
-   "id": "26bb3d2539",
-   "url": "https://www.aljazeera.com/news/2026/11/16/uss-roosevelt-arrives-in-middle-east-is-the-us-iran-war-about-to-resume?traffic_source=rss",
-   "title": "USS Roosevelt arrives in Middle East: Is the US-Iran war about to resume?",
-   "source": "Al Jazeera",
-   "published": "2026-11-16T10:14:27+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "military",
-   "headline": "USS ROOSEVELT NOW IN MIDEAST WATERS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "63f4db36a1",
-   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/iranian-navy-says-vessel-ablaze-after-hitting-mine-east-hormuz-strait",
-   "title": "Iranian navy says vessel ablaze after hitting mine east of Hormuz Strait",
-   "source": "Middle East Eye",
-   "published": "2026-11-16T08:04:22+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "iran_mideast",
-   "headline": "IRAN: NAVY SHIP ABLAZE AFTER HITTING MINE NEAR HORMUZ...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
   {
    "id": "61877df601",
    "url": "https://www.middleeasteye.net/live-blog/live-blog-update/iranian-tv-tanker-ablaze-after-hitting-mine-strait-hormuz-fourth-24",
@@ -86,7 +63,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "iran_mideast",
    "headline": "FOURTH TANKER HIT NEAR HORMUZ IN 24 HOURS...",
-   "under": "63f4db36a1"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "e1f853cf5f",
@@ -98,7 +76,21 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "iran_mideast",
    "headline": "SECOND TANKER ATTACKED NEAR OMAN...",
-   "under": "63f4db36a1"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning",
+   "under": "61877df601"
+  },
+  {
+   "id": "d9a45f3530",
+   "url": "https://www.middleeasteye.net/live-blog/live-blog-update/indian-minister-confirms-no-casualties-onboard-tanker-hit-missile-hormuz",
+   "title": "Indian minister confirms no casualties onboard tanker hit by missile in Hormuz Strait",
+   "source": "Middle East Eye",
+   "published": "2026-11-17T07:35:58+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "iran_mideast",
+   "headline": "NO CASUALTIES ABOARD, INDIAN MINISTER SAYS...",
+   "under": "61877df601"
   },
   {
    "id": "a9044d1fb7",
@@ -109,7 +101,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "iran_mideast",
-   "headline": "REPORT: IRAN STILL HOLDS 2,500 BALLISTIC MISSILES..."
+   "headline": "REPORT: IRAN STILL HOLDS 2,500 BALLISTIC MISSILES...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "9df59af7c4",
@@ -120,7 +114,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "iran_mideast",
-   "headline": "IRAN WAR, DAY 262: NO INSPECTIONS UNTIL WAR 'ENDED'..."
+   "headline": "IRAN WAR, DAY 262: NO INSPECTIONS UNTIL WAR 'ENDED'...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "ebecc93e66",
@@ -131,20 +127,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "iran_mideast",
-   "headline": "ISRAELI SETTLERS SHOOT 5 PALESTINIANS NEAR JERICHO..."
-  },
-  {
-   "id": "d686345081",
-   "url": "https://www.zerohedge.com/geopolitical/uk-court-convicts-2-iranian-men-spying-tehran",
-   "title": "UK Court Convicts 2 Iranian Men Of Spying For Tehran",
-   "source": "ZeroHedge",
-   "published": "2026-11-16T08:20:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "surveillance",
-   "headline": "UK CONVICTS 2 MEN OF SPYING FOR IRAN...",
+   "headline": "ISRAELI SETTLERS SHOOT 5 PALESTINIANS NEAR JERICHO...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "a7d276c4a1",
@@ -155,7 +140,9 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/eb50/live/f528e3c0-e1f9-11f1-a094-5fdc692f3e33.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "world",
-   "headline": "HOUTHI ADVANCE IN YEMEN COULD RATTLE WORLD ECONOMY..."
+   "headline": "HOUTHI ADVANCE IN YEMEN COULD RATTLE WORLD ECONOMY...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "77c46c9746",
@@ -166,7 +153,75 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/da54/live/f1263820-e1b5-11f1-9a3f-99aca912798e.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "world",
-   "headline": "EXILED NOBEL LAUREATE'S ASHES RETURNED TO GUATEMALA..."
+   "headline": "EXILED NOBEL LAUREATE'S ASHES RETURNED TO GUATEMALA...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
+  },
+  {
+   "id": "6926f194e5",
+   "url": "https://www.bbc.co.uk/news/articles/crq5vl1l6z2po?at_medium=RSS&at_campaign=rss",
+   "title": "Mozambique opposition leader faces trial over deadly 2024 election unrest",
+   "source": "BBC World",
+   "published": "2026-11-17T08:22:08+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8a7e/live/95f17ee0-e257-11f1-8199-439bbe0918ee.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "MOZAMBIQUE OPPOSITION LEADER FACES TRIAL OVER DEADLY UNREST..."
+  },
+  {
+   "id": "fe940bb872",
+   "url": "https://www.bbc.co.uk/news/articles/cr894xq5yeyko?at_medium=RSS&at_campaign=rss",
+   "title": "Imran Khan seeks urgent medical care fearing he 'may not return alive'",
+   "source": "BBC World",
+   "published": "2026-11-17T01:26:01+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/34cb/live/06da8400-e224-11f1-91de-bf87f3de9484.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "IMRAN KHAN FEARS HE 'MAY NOT RETURN ALIVE' FROM PRISON..."
+  },
+  {
+   "id": "589449a901",
+   "url": "https://www.bbc.co.uk/news/articles/cm3eg3v9jkk8o?at_medium=RSS&at_campaign=rss",
+   "title": "China is hosting the world's leaders in its AI wonderland. Here's what they won't see",
+   "source": "BBC World",
+   "published": "2026-11-16T23:07:20+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4323/live/6888ce50-e260-11f1-a094-5fdc692f3e33.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "CHINA SHOWS OFF ITS AI WONDERLAND -- BUT NOT THE PROBLEMS..."
+  },
+  {
+   "id": "58898a6846",
+   "url": "https://www.zerohedge.com/technology/watch-chinas-self-flying-battery-powered-airliner-takes-us-chokes-beijings-jet-parts",
+   "title": "Watch: China's Self-Flying, Battery-Powered Airliner Takes Off As US Chokes Beijing's Jet Parts",
+   "source": "ZeroHedge",
+   "published": "2026-11-17T06:00:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "WATCH: CHINA'S SELF-FLYING AIRLINER FLIES AS US CHOKES JET PARTS..."
+  },
+  {
+   "id": "a107ccb221",
+   "url": "https://www.zerohedge.com/political/britain-refuses-release-full-migrant-crime-data-citing-offenders-privacy",
+   "title": "Britain Refuses To Release Full Migrant Crime Data, Citing Offenders' Privacy",
+   "source": "ZeroHedge",
+   "published": "2026-11-17T08:20:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "BRITAIN WON'T RELEASE FULL MIGRANT CRIME DATA..."
+  },
+  {
+   "id": "c0cc54c6a7",
+   "url": "https://www.aljazeera.com/news/2026/11/17/why-are-five-eu-countries-reviving-plans-to-deport-migrants-to-rwanda?traffic_source=rss",
+   "title": "Why are five EU countries reviving plans to deport migrants to Rwanda?",
+   "source": "Al Jazeera",
+   "published": "2026-11-17T10:22:52+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "world",
+   "headline": "5 EU NATIONS REVIVE PLAN TO DEPORT MIGRANTS TO RWANDA..."
   },
   {
    "id": "e98f1fb63c",
@@ -177,7 +232,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "immigration",
-   "headline": "CALIF. SANCTUARY LETS ILLEGAL GANG MEMBER WALK DESPITE ICE HOLD..."
+   "headline": "CALIF. SANCTUARY LETS ILLEGAL GANG MEMBER WALK DESPITE ICE HOLD...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "21e66f8cd1",
@@ -188,18 +245,20 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "immigration",
-   "headline": "MILWAUKEE MEDICAID FRAUD SCANDAL GROWS -- MORE PROVIDERS CHARGED..."
+   "headline": "MILWAUKEE MEDICAID FRAUD SCANDAL GROWS -- MORE PROVIDERS CHARGED...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "fc025b1868",
-   "url": "https://www.zerohedge.com/political/schiff-bill-would-make-taxpayers-pay-migrants-housing-food-and-rehab-while-they-fight",
-   "title": "Schiff Bill Would Make Taxpayers Pay For Migrants' Housing, Food And Rehab While They Fight Deportation",
-   "source": "ZeroHedge",
-   "published": "2026-11-16T22:40:00+00:00",
+   "id": "ab07526134",
+   "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOODZxLXBnd1NvWi01dUgxZVlVQnFPZWRnLWliRkZabHZUWGs4MVVJSEthUGRQZ3E4YVkyVlc5VzJILXNURWt2WktPa3RjUkVpV1VsR2pqcWUtalZwREJlcUdhVlJ3UU1jTHJYdUlpdzZDWkkzeUZISFRNclFoZ2Z5MUxxVUZEaGphVHhlMTJWRDlrUEVDNjY2U1dkNmVFaWZDTXloSTZSLUo4U05WZVpUWnZRZVcteHZ1eGE0TER4SDFtVm9UTFhNYmJQdFFtaGZLTV9ZeUJDZ29qd9IB2gFBVV95cUxOODZxLXBnd1NvWi01dUgxZVlVQnFPZWRnLWliRkZabHZUWGs4MVVJSEthUGRQZ3E4YVkyVlc5VzJILXNURWt2WktPa3RjUkVpV1VsR2pqcWUtalZwREJlcUdhVlJ3UU1jTHJYdUlpdzZDWkkzeUZISFRNclFoZ2Z5MUxxVUZEaGphVHhlMTJWRDlrUEVDNjY2U1dkNmVFaWZDTXloSTZSLUo4U05WZVpUWnZRZVcteHZ1eGE0TER4SDFtVm9UTFhNYmJQdFFtaGZLTV9ZeUJDZ29qdw?oc=5",
+   "title": "Skilled immigration cuts US tech workers' wages by up to 16%: Harvard study",
+   "source": "Business Standard",
+   "published": "2026-11-17T06:15:09+00:00",
    "image": null,
-   "first_seen": "2026-11-17T00:13:20+00:00",
+   "first_seen": "2026-11-17T11:11:26+00:00",
    "topic": "immigration",
-   "headline": "SCHIFF BILL: TAXPAYERS WOULD FUND MIGRANTS FIGHTING DEPORTATION..."
+   "headline": "STUDY: SKILLED IMMIGRATION CUTS TECH WAGES UP TO 16%..."
   },
   {
    "id": "00146cd8ba",
@@ -210,7 +269,9 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f4ce/live/59eafa00-e1c3-11f1-8a52-0b287ff76f43.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "crime",
-   "headline": "SECOND EXPERT: EPSTEIN INJURIES 'CONSISTENT WITH HOMICIDE'..."
+   "headline": "SECOND EXPERT: EPSTEIN INJURIES 'CONSISTENT WITH HOMICIDE'...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "24267423a2",
@@ -221,7 +282,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "crime",
-   "headline": "EXONERATED AFTER 36 YEARS: THE HARLEM PARK THREE..."
+   "headline": "EXONERATED AFTER 36 YEARS: THE HARLEM PARK THREE...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "f7ea58ee43",
@@ -232,7 +295,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "crime",
-   "headline": "HOW GOP LOST TO A SOMALI DAYCARE OWNER ACCUSED OF FRAUD..."
+   "headline": "HOW GOP LOST TO A SOMALI DAYCARE OWNER ACCUSED OF FRAUD...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "3444091a85",
@@ -243,7 +308,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "crime",
-   "headline": "SOMALI-AMERICAN UBER DRIVER LEFT IN COMA, HATE CRIME PROBED..."
+   "headline": "SOMALI-AMERICAN UBER DRIVER LEFT IN COMA, HATE CRIME PROBED...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "27235541b6",
@@ -255,57 +322,31 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "crime",
    "headline": "INJURIES CALLED LIFE-THREATENING...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning",
    "under": "3444091a85"
   },
   {
-   "id": "0f24d4b6ed",
-   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPRlJweTV2d0FZV005UXZnbWJQR1g2Ukg1N3pYMTdxZ2tUMGVqY1I4dG9Ec0pLazRmWkN1azIyS2c4TWg5ZkpMY0NWdDk1ZUsteUhkdThmVHBIVHV4V0NuT0N4ZWlBbmw1ZEpzTUlfWVp4S085VW1UamZrWDdiTXpjQmVpQ2xQaWhlQlpmUg?oc=5",
-   "title": "Minnesota fraud suspect now accused of witness tampering by feds",
-   "source": "FOX 9 Minneapolis-St. Paul",
-   "published": "2026-11-16T00:00:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-17T00:13:20+00:00",
-   "topic": "crime",
-   "headline": "MINNESOTA FRAUD SUSPECT NOW ACCUSED OF WITNESS TAMPERING..."
-  },
-  {
-   "id": "0a1575bdee",
-   "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNRENRTjA1d1dzTXh2V19QN09GeDhvSlRhNmxMaHZtZVZpQUtNQy01NU9DVGFlY1ZySDRCXzBzLXFhSlk1OEc4RWdXVnNlZU1HMzJuNWpQQ05tYjZMTXZxSURNNm1GNkJIRGR4R2NpQ1FadkNEVXk2UG1lTzFhS053Ml9ldkl3dkxVUDZZX0pMSFpIdENJU0FmTjhYaEM1OGpzQVltQ1EweTRRcWFyZXVZa0g1WjZWN1MtdDB3azZVbWo5dC01bzhON2Z2eE1idw?oc=5",
-   "title": "Before accused in child's rape, he dodged arrest when asking teen for nudies | Exclusive",
-   "source": "Asbury Park Press",
-   "published": "2026-11-16T10:19:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "crime",
-   "headline": "MAN ACCUSED OF CHILD RAPE DODGED EARLIER NUDES ARREST...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "5d9924ad0e",
-   "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPTWs2cE1qQTNKWDBhQ2tsTDh1d2ctWFlSeG5IbkI2UlhiNmNxZ2Y1Wkc1Qm5uTVNHbjVQMEVvN1ZFT3ROaF9Cakl4LWc2cFlIWi0xNzBFT3FqR0VzSzZIbmlTVzJoc2I5dmZCTTg4REhyeWVTa1R6OVNqWXdFd19TNU5nZHB1U05nLVhaTWFzNEgta0NHTnBLM2ROVFl3MGFMZG0zbkJMQU5NV293SFVBUg?oc=5",
-   "title": "Trump heads to Asia in first international trip since the midterms",
-   "source": "NPR",
-   "published": "2026-11-16T00:00:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "trump_watch",
-   "headline": "TRUMP HEADS TO ASIA IN FIRST TRIP SINCE MIDTERMS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "bc441b3834",
-   "url": "https://www.dailymail.com/news/article-16295411/MAGA-bromance-flourishes-rivals-Marco-Rubio-Stephen-Miller-form-unlikely-alliance.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "MAGA 'bromance' flourishes as former rivals Marco Rubio and Stephen Miller form an unlikely alliance... and it's set to have a huge impact on the future of the Republican party",
+   "id": "72dfef3d8a",
+   "url": "https://www.dailymail.com/crime-desk/article-16295383/lindsay-clancy-trial-date-plymouth.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Lindsay Clancy will face first-degree murder charges again in new trial for her three children's deaths",
    "source": "Daily Mail US",
-   "published": "2026-11-16T09:31:19+00:00",
-   "image": "https://i.dailymail.com/1s/2026/11/16/06/112530497-0-image-a-11_1794810904377.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "trump_watch",
-   "headline": "ODD COUPLE: RUBIO, MILLER FORGE MAGA 'BROMANCE'...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "published": "2026-11-17T08:56:16+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/16/15/112539561-0-image-a-7_1794843629581.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "crime",
+   "headline": "CLANCY FACES MURDER CHARGES AGAIN IN RETRIAL OVER KIDS' DEATHS..."
+  },
+  {
+   "id": "8a4a0cbd8d",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNdVY1UmRGXzZzdEVOWk5oWUREaURpM19CR1lqODdlUlhhZG5uRkhMZThMaG5kaTdxempyeDVmSGdrektaQ2ZkeUZFdHB1Y1RSS0lXX0owaG5WTFlkbGVSS2hZMG1JX2RxVlQ1QkZaMWNpd3pLeXlSbmJlRkR5WGJPQ2hOY041MVZDdTlSTUI2M1ZtYmw4NVJLbmxB?oc=5",
+   "title": "Queensbury woman arrested on welfare fraud charge",
+   "source": "The Post Star",
+   "published": "2026-11-17T09:30:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "crime",
+   "headline": "QUEENSBURY WOMAN CHARGED IN WELFARE FRAUD CASE..."
   },
   {
    "id": "55709ad7c0",
@@ -316,46 +357,20 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "trump_watch",
-   "headline": "TRUMP: KIM JONG UN 'MAY COME' TO CHINA SUMMIT..."
+   "headline": "TRUMP: KIM JONG UN 'MAY COME' TO CHINA SUMMIT...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "884a80ea98",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1OeTdHQmdNMmFFMGlEZkk3eUxYOENUM0FPTW0yWGJVNWx6OXk1eUlyd1IzUzM1LTE2RjFPRGVtMFZYbGNINEdsbUVxWDUzdmVTUGZHTTJ0bnMwVFFFMVlqSWxtTDRRM29o?oc=5",
-   "title": "Online sportsbooks bet $136 million on state politics during 2026 midterms",
-   "source": "Popular Information | Judd Legum",
-   "published": "2026-11-16T11:31:08+00:00",
+   "id": "252aa77d96",
+   "url": "https://www.theamericanconservative.com/rubio-nvidia-and-the-controlled-demolition-of-maga/",
+   "title": "Rubio, Nvidia, and the Controlled Demolition of MAGA",
+   "source": "The American Conservative",
+   "published": "2026-11-17T05:03:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "elections",
-   "headline": "SPORTSBOOKS TOOK $136M IN BETS ON MIDTERM POLITICS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "a80ba895b9",
-   "url": "https://nypost.com/2026/11/16/us-news/matt-slater-the-last-gop-legislator-in-nycs-northern-suburbs-went-to-school-with-aoc/",
-   "title": "Matt Slater, the last GOP legislator in NYC’s northern suburbs, went to school with AOC",
-   "source": "New York Post",
-   "published": "2026-11-16T11:45:00+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fassemblyman-matt-slater-r-yorktown-148916288.jpg?w%3D1024",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "elections",
-   "headline": "LAST GOP LAWMAKER IN NYC SUBURBS WENT TO SCHOOL WITH AOC...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "9dc37ec351",
-   "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNaXBucVE4WEFvbzZGdG5JdTAxcWVoMWU0YldqUGcyQ1gzd19kMktsOUIyc2EzVUxQb0M2bmd1RC1GMno5dkxNUHN4d2F0UFFfUktZTTI3MnZGTlc4cDlnbXNvSE9QUjJxRTFPSFFXbDNScUNKRmhDRzIxaVlXWURRck93R2JQVTgtOHVLMkd6eGs1XzRuR2wzS3VYSFo0TGhzSl9YR3gyblZMN1FtdnFldV9GUXp3SnFBX1ZIcUdnaGY?oc=5",
-   "title": "Ted Cruz rejects JD Vance’s suggestion that Israel hurt Republicans in the midterms",
-   "source": "The Forward",
-   "published": "2026-11-16T09:28:36+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "elections",
-   "headline": "CRUZ SLAPS DOWN VANCE OVER ISRAEL MIDTERM CLAIM...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "trump_watch",
+   "headline": "TAC: RUBIO, NVIDIA RISKING MAGA FOR 'PERSONAL GAIN'..."
   },
   {
    "id": "e6c4450b33",
@@ -367,7 +382,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "elections",
    "headline": "PENCE: VANCE IS 'WRONG' ABOUT WHY GOP LOST...",
-   "under": "9dc37ec351"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "130a50676b",
@@ -379,7 +395,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "elections",
    "headline": "DOES IT SINK HIS 2028 CHANCES?...",
-   "under": "9dc37ec351"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "de1f665cdd",
@@ -390,7 +407,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "elections",
-   "headline": "KOCH LOST $10M BET ON MIDTERMS IN OWN BACKYARD..."
+   "headline": "KOCH LOST $10M BET ON MIDTERMS IN OWN BACKYARD...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "a0408966b8",
@@ -401,46 +420,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "elections",
-   "headline": "GOP OPERATIVES 'SHELL-SHOCKED' EYEING 2028 AFTER DEFEATS..."
-  },
-  {
-   "id": "ce0451e0b7",
-   "url": "https://www.bbc.co.uk/news/articles/cqjd7n37r2r9o?at_medium=RSS&at_campaign=rss",
-   "title": "Women's criminal records wiped for abortion offences",
-   "source": "BBC",
-   "published": "2026-11-16T11:45:33+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ed68/live/71f67330-e1ab-11f1-8ee3-23d0d09d2796.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "politics_culture_world",
-   "headline": "UK WIPES CRIMINAL RECORDS FOR ABORTION OFFENCES...",
+   "headline": "GOP OPERATIVES 'SHELL-SHOCKED' EYEING 2028 AFTER DEFEATS...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "af67e91c44",
-   "url": "https://nypost.com/2026/11/16/us-news/mamdani-restructures-nypds-controversial-strategic-response-group-announces-new-civilian-led-approach-to-protests/",
-   "title": "Mamdani restructures NYPD’s controversial Strategic Response Group, announces new ‘civilian-led approach’ to protests",
-   "source": "New York Post",
-   "published": "2026-11-16T11:08:26+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fmayor-zohran-mamdani-completes-mcguinness-148692142_362408.jpg?w%3D1024",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "politics_culture_world",
-   "headline": "MAMDANI DISBANDS NYPD'S CONTROVERSIAL PROTEST UNIT...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "7fe69e856c",
-   "url": "https://variety.com/2026/tv/global/nicola-coughlan-not-watching-harry-potter-series-jk-rowling-views-1236948687/",
-   "title": "Nicola Coughlan ‘Will Not Be Watching’ New ‘Harry Potter’ Series Over J.K. Rowling’s Trans Views: ‘It’s Not for Me’",
-   "source": "Variety",
-   "published": "2026-11-16T11:13:43+00:00",
-   "image": "https://variety.com/wp-content/uploads/2026/11/nicola.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "politics_culture_world",
-   "headline": "'BRIDGERTON' STAR SNUBS NEW 'HARRY POTTER' OVER ROWLING TRANS ROW...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "42c22dd1a1",
@@ -451,7 +433,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "politics_culture_world",
-   "headline": "HILLARY NAMES THE 'ACTUAL' LEADER OF THE FREE WORLD..."
+   "headline": "HILLARY NAMES THE 'ACTUAL' LEADER OF THE FREE WORLD...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "2b77c4b253",
@@ -462,73 +446,9 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/67e4/live/e4fbabb0-e1f2-11f1-99b6-a35a62fa4264.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "politics_culture_world",
-   "headline": "CASS REVIEW AUTHOR BREAKS WITH DRAFT CONVERSION BAN BILL..."
-  },
-  {
-   "id": "28c6cc7b1b",
-   "url": "https://nypost.com/2026/11/16/us-news/happy-225th-birthday-to-the-new-york-post-the-paper-that-shaped-a-city-and-the-world/",
-   "title": "Happy 225th birthday to The New York Post, the paper that shaped a city, and the world",
-   "source": "New York Post",
-   "published": "2026-11-16T11:00:00+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fpublishing-magnate-rupert-murdoch-printing-90885444.jpg?w%3D1024",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "media",
-   "headline": "NY POST TURNS 225 YEARS OLD...",
+   "headline": "CASS REVIEW AUTHOR BREAKS WITH DRAFT CONVERSION BAN BILL...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "217a0fda78",
-   "url": "https://www.dailymail.com/yourmoney/article-16295409/Nvidia-boss-Collette-Kress-AI-financing-deals.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "How Nvidia's new boss is set to drastically change AI as she stops 'open checkbook' deals after Jensen Huang's honeytrap affair scandal",
-   "source": "Daily Mail US",
-   "published": "2026-11-16T11:21:22+00:00",
-   "image": "https://i.dailymail.com/1s/2026/11/16/05/112530101-0-image-a-67_1794807559995.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "american_life",
-   "headline": "NVIDIA SET TO GUT HUANG'S AI DEALS...",
-   "urgent": false,
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "349134aed1",
-   "url": "https://www.bbc.co.uk/news/articles/cry49plv8v3go?at_medium=RSS&at_campaign=rss",
-   "title": "Jensen Huang allies campaign to reinstate the former Nvidia boss",
-   "source": "BBC Business",
-   "published": "2026-11-16T11:45:40+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/119c/live/eaafa8b0-e1a5-11f1-8433-4325183b3814.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "economy",
-   "headline": "TECH LEADERS RALLY TO 'BRING JENSEN BACK'...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "6beb0eae99",
-   "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNY0RNdjZtN3VHcVhoN1VfblJCQm03dWQ2MUlBVlpIOXpfbi13TUROU1VSYjJvVHB2Z2d0NDRxSkxoTm56RjE5NXdiTXlRVGVVMHRSQzd0Y0RnX3BzWV85ZEs1NmJOOTdFYmVOQXhudVo0OUY2YlhhM0c1NE5SVjV6aXlHUWRlS1M3eXotaV9YT1hFOGl6X25ZU2ZIU2VQM2JWLWJoNUcweVB2Q3dOR0ZPOFB2dkUwQ29nN1FtbjEyX2RiZHJuM0VRSm5tbF85M3ZMdWNIclhZUUhOcUhwbmtn?oc=5",
-   "title": "Microsoft-backed OpenAI, LVMH Media Division Sign AI Partnership to Expand ChatGPT News Access",
-   "source": "marketscreener.com",
-   "published": "2026-11-16T11:16:41+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "business_ai",
-   "headline": "OPENAI, LVMH MEDIA ARM STRIKE NEWS PARTNERSHIP...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "1227f97f66",
-   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOOC13ZnQ0Z081WjhENnhPRy00T0xnQU03QVdzdS1VeWRDQWNNQmpvMEoxdmdBV1VWQTU5LUtJOXdmVXJBR3BYZGpyRDdvNTlYZUFmSURZNWpXc3MwUlc2bzhmOUtPMTlEN0V6RV9PUjRyMGpHQi1OMkdMdlFJSlNaRlowMnJZakNRRmdyQXdvMWd1QkI5TTZpWk1OMUppdmxRTDJr?oc=5",
-   "title": "Anthropic Says Its Recursive Self-Improvement Alarm Has Been Triggered",
-   "source": "Gizmodo",
-   "published": "2026-11-16T10:00:29+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "business_ai",
-   "headline": "ANTHROPIC SAYS AI SELF-IMPROVEMENT ALARM WAS TRIGGERED...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "e8a783ae67",
@@ -539,7 +459,9 @@
    "image": "https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/2026/11/photo-1762340273700-70c17506e578.jpeg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "business_ai",
-   "headline": "AI FIRM CLAIMS COPYRIGHT ON MUSICIAN'S OWN 5-YEAR-OLD SONG..."
+   "headline": "AI FIRM CLAIMS COPYRIGHT ON MUSICIAN'S OWN 5-YEAR-OLD SONG...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "5d9da154f9",
@@ -550,33 +472,53 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "business_ai",
-   "headline": "STUDY: AI VOICE MODELS RATE NIGERIAN, CHINESE ACCENTS LOWER..."
+   "headline": "STUDY: AI VOICE MODELS RATE NIGERIAN, CHINESE ACCENTS LOWER...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "f9488ace66",
-   "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOT0JBU3lhWTZqZ0ZSVmFkb3NBTUR5eWlCRVZMaXdwckRtRFhhMm92ZlVEakl0NGxaTHk1UEI0aTJXWFpxNHREQXFWTnMwOWFKMzBTRllsc19JSFNWSzdYN09CUXdqVWl1bGdPaXZFUXlSNEIta25iTnVKX2M4bjhWUDZnVGxCYzhNNkdnX2RNMUN3a05PamFKOE1mQnFPaHItWTNZOUQ1STlPVVd3LTZIMDM4YnNmT09UX1pFWHFpRW9YVk1iYjJzcThWNzFOYkU5c2NqaEEycWtzbUxldjB6WWlyRWNEai1Hb0lBUjlsNNIB9AFBVV95cUxNZ0R6aFl2anlnalFVc19xMXBYb1k3TVBDdDBlcDYxVE9BVGJmNnR2M1NzSEMxMTd0ZTA1QW9DNkMwY3lTazUzRndZWDhITDNIbHlRYUJULVJLWmc3aGlQdklnSUhJRXdIMng4WXJFLVllZWpSQ0lVZERVS1BZV2p2Snk2LXl2WnkwMkJ4TGEyZTJUUlVJYnFqREhSX0RvdzhtTlJ4UWRfNkVpWVNGdGdHNzVKbGhLUml4YVppR0hILUhzekcwdlhnLVlDcWVUamJndTBVelpuS2o2ek1ReUtBZG9TSjA5cnM2c1ZrUi1nZDVxU3g0?oc=5",
-   "title": "Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs",
-   "source": "BleepingComputer",
-   "published": "2026-11-16T11:00:00+00:00",
+   "id": "fa125b5630",
+   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNaDB2NHFXMG50VmJHcmlLaERvejdrTXI3eXF0eW1aRDFUY0VhUDFHXzNhZlV6N0kwdWlzaWlIc1M2Y1hMN1czeW5jcElSVFExN0wxb0l0Zk9EQWkyNUh6QWliZUZiMWVWam0wYXNzYmpZdHNULWtJaE82Z1ctWG1PSi1qTGVtVFdIeUg0TmkwTGFXd3gwSWZ4WFM1Qm9TR0l3Y0tV?oc=5",
+   "title": "Altimeter Capital Says Anthropic IPO ‘10-20 Times Oversubscribed,’ Bets $5B — AI Lab Expected To Announce Pricing On Wednesday",
+   "source": "Yahoo Finance",
+   "published": "2026-11-17T06:59:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "tech",
-   "headline": "CLAUDE FABLE 5.2 BLOCKS FEWER SECURITY TASKS, FINDS MORE BUGS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "business_ai",
+   "headline": "ANTHROPIC IPO '10-20X OVERSUBSCRIBED,' ALTIMETER BETS $5B..."
   },
   {
-   "id": "183676a4d7",
-   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNSm1vVmpXcm9yRXB2bkQ4MEhHbzY4ckhSS0dmYTlVakctUGdLQ1FEd1lJbnZKWmFyNVg5cXZhVWQzX1NOSDAyVWJQZjhiYkdoYndkVHhCdE9rVlVlUmRmcFlmR19ZZnZtWmtjcnFadHJoc01RQWVqQUpvV0hGSjRQZmhIZ2Z0OVdHYUpGNkV1YlhPX09rTjdmQ2h1R0E1THUxZXh3dnQyb24xWFBIdldtTjcyellONnZ0QUt1WE94QUFrYUk3X1FOTQ?oc=5",
-   "title": "OpenAI launches ChatGPT Wallet so AI agents can shop for you using your own card",
-   "source": "TweakTown",
-   "published": "2026-11-16T09:32:14+00:00",
+   "id": "799c9d7577",
+   "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQTnNZNmF1S3NKb3NXZ01qM013QlFacjlNUC1MZFFvNHZZb3JIblI0OVpUUlRYUHl2eDE4cUh4N01aUl9tRkVhT1hEbWh3eS1NdkhtX2J0WEo2UlVOUlVIM1luXzQ5ODN5T080RlhxRFc3S2pqelduSkFfVURqWmdDR19xNi0zaVdzTjJxQTU1R0hHQ2FHTTJjeg?oc=5",
+   "title": "Anthropic IPO could be a referendum on AI, says CIO",
+   "source": "CNBC",
+   "published": "2026-11-17T02:33:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "tech",
-   "headline": "OPENAI LAUNCHES WALLET SO AI AGENTS CAN SHOP WITH YOUR CARD...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "business_ai",
+   "headline": "CIO: ANTHROPIC IPO A REFERENDUM ON AI..."
+  },
+  {
+   "id": "c71d629fa9",
+   "url": "https://www.theamericanconservative.com/jensen-huang-did-nothing-wrong-or-not-much/",
+   "title": "Jensen Huang Did Nothing Wrong—or Not Much",
+   "source": "The American Conservative",
+   "published": "2026-11-17T05:01:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "business_ai",
+   "headline": "TAC: JENSEN HUANG 'DID NOTHING WRONG'..."
+  },
+  {
+   "id": "8805515f66",
+   "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNX3pyazFyRWxzMVJSd05yQXNBNmNZaDIyUHc5bk9qODBUQXUyYUR4c2ZkeDYzV1RHdVg4LUJyNDBHOFZRQ0xQRU95MDF1V0VZa0lTS3VwcWpNZEtrVHBBbUdvLWlKQXQ5T1VLODkwNi1LZnQ3a19oWkk4YVd5MnQ3ckg3UE1SSTZBek04VmR0N3BvNUYzZXRKakVFbV9SRTV5aXZQdlVzUlRDQ3Vq?oc=5",
+   "title": "Exclusive: OpenAI and Jony Ive’s secretive AI hardware team just leased a huge S.F. office",
+   "source": "San Francisco Chronicle",
+   "published": "2026-11-17T02:14:04+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "business_ai",
+   "headline": "OPENAI, JONY IVE'S HARDWARE TEAM LEASE S.F. OFFICE..."
   },
   {
    "id": "66cb3d97bd",
@@ -587,7 +529,20 @@
    "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d633/live/6fb04df0-e212-11f1-b9ca-b9964628501b.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "tech",
-   "headline": "CHASE OUTAGE HITS CUSTOMERS AT MAJOR US BANKS..."
+   "headline": "CHASE OUTAGE HITS CUSTOMERS AT MAJOR US BANKS...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
+  },
+  {
+   "id": "46a9c45d48",
+   "url": "https://www.bbc.co.uk/news/articles/cr1ewlqjn694o?at_medium=RSS&at_campaign=rss",
+   "title": "'We're a capitalist society': Grindr defends $120 a month premium tier",
+   "source": "BBC",
+   "published": "2026-11-17T09:41:07+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6c57/live/770860f0-e268-11f1-900c-895604014268.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "tech",
+   "headline": "GRINDR DEFENDS $120-A-MONTH PREMIUM TIER..."
   },
   {
    "id": "f338725c42",
@@ -598,7 +553,9 @@
    "image": "https://media.reclaimthenet.org/images/2026/11/NimeeZkbSto1.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "surveillance",
-   "headline": "EUROPE'S DIGITAL ID WALLET ARRIVES -- PRIVACY LATER, MAYBE..."
+   "headline": "EUROPE'S DIGITAL ID WALLET ARRIVES -- PRIVACY LATER, MAYBE...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "577de0d247",
@@ -609,7 +566,9 @@
    "image": "https://media.reclaimthenet.org/images/2026/11/3sUMw5UpokfO.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "surveillance",
-   "headline": "RETIRED COP APPEALS CONVICTION OVER FACEBOOK MEME..."
+   "headline": "RETIRED COP APPEALS CONVICTION OVER FACEBOOK MEME...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "18c055b92a",
@@ -620,7 +579,9 @@
    "image": "https://media.reclaimthenet.org/images/2026/11/AabKoQzEJWar.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "surveillance",
-   "headline": "NYC COUNCIL VOTES 44-5 TO BAN SURVEILLANCE PRICING..."
+   "headline": "NYC COUNCIL VOTES 44-5 TO BAN SURVEILLANCE PRICING...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "dbef73d327",
@@ -631,33 +592,9 @@
    "image": "https://media.reclaimthenet.org/images/2026/11/r0dCifAhuAol.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "surveillance",
-   "headline": "IRAQ, JORDAN BLOCK TELEGRAM NATIONWIDE..."
-  },
-  {
-   "id": "0e3633792f",
-   "url": "https://nypost.com/2026/11/16/us-news/mta-riders-forced-to-plug-200m-gap-thanks-to-hochul-mamdani-antics-watchdog-group/",
-   "title": "MTA riders forced to plug $200M gap thanks to Hochul, Mamdani antics: watchdog group",
-   "source": "New York Post",
-   "published": "2026-11-16T11:30:00+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fnew-york-governor-kathy-hochul-148496842.jpg?w%3D1024",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "economy",
-   "headline": "WATCHDOG: MTA RIDERS ON HOOK FOR $200M GAP...",
+   "headline": "IRAQ, JORDAN BLOCK TELEGRAM NATIONWIDE...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "d71424df3e",
-   "url": "https://www.zerohedge.com/markets/bond-auctions-tail-art-auctions-dont-blue-chip-painting-sales-soar-76-trophy-bid-returns",
-   "title": "Bond Auctions Tail, Art Auctions Don't: Blue-Chip Painting Sales Soar 76% As The Trophy Bid Returns",
-   "source": "ZeroHedge",
-   "published": "2026-11-16T10:20:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "economy",
-   "headline": "ART AUCTIONS SOAR 76% AS TROPHY BIDS RETURN...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "06b38414f2",
@@ -668,46 +605,31 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "economy",
-   "headline": "MAMDANI: TRUMP GIVES BODEGAS 90-DAY SNAP REPRIEVE..."
+   "headline": "MAMDANI: TRUMP GIVES BODEGAS 90-DAY SNAP REPRIEVE...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "f932233d63",
-   "url": "https://www.marketwatch.com/story/why-nvidia-can-avoid-the-fate-of-most-stocks-that-reached-the-apex-by-market-cap-according-to-one-strategist-461e33be?mod=mw_rss_topstories",
-   "title": "Why Nvidia can avoid the fate of most stocks that reached the apex by market cap, according to one strategist",
-   "source": "MarketWatch",
-   "published": "2026-11-16T11:07:00+00:00",
+   "id": "3b3174934a",
+   "url": "https://news.google.com/rss/articles/CBMimwJBVV95cUxObUVOeWFsMm1JUEVzREVMdXFEYkxHcHlVSkZ3TnhNZkdDLXJ2YllZZ1F1VEtKRzN5aHpUUVlqSUtTZ29BbmZaaVNjOF8yeGxab0xiTkNKWjVhb1lmZ09Kc1lFaElqUWhIdF9aMzh4bFNQQ1RDSGlFdjBsN0dESDdFZUdqUWxFOTdMblMzS2NXU1RTZXU0RkxuVnJUZ3oxOUVsTDI3cTUwVHJYNWd0MktUN1VwSTE3TTdWOElTTDNxSXpDTzhRMjRhR1hJR3ZZcHpZQXdDVEoxQVZhQkdDWDYwV0YwVk5XRGQ3ekY1dXdQR3M5RG1RVFk1MzJiV3RqLWFRei1sZUx2YzlDV2NvcmxJNWloUC1Ic1NocXVJ?oc=5",
+   "title": "California rep. calls for refund checks to be given to Americans due to the Iran war",
+   "source": "KRCR",
+   "published": "2026-11-16T21:21:29+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "investing",
-   "headline": "STRATEGIST: NVIDIA TARGET $280 DESPITE MARKET-TOP FEARS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "economy",
+   "headline": "CALIF. REP: SEND AMERICANS REFUND CHECKS OVER IRAN WAR COSTS..."
   },
   {
-   "id": "774b9ad7b0",
-   "url": "https://www.marketwatch.com/story/heres-how-much-the-stock-market-could-crumble-if-ai-is-a-bubble-that-bursts-according-to-former-white-house-economist-3a4c15e1?mod=mw_rss_topstories",
-   "title": "Here’s how much the stock market could crumble if AI is a bubble that bursts, according to former White House economist",
+   "id": "e647f4e0e2",
+   "url": "https://www.marketwatch.com/story/heres-how-much-of-deutsche-banks-market-cap-has-been-wiped-away-after-reports-on-15-million-leaked-documents-fe3db078?mod=mw_rss_topstories",
+   "title": "Here’s how much of Deutsche Bank’s market cap has been wiped away after reports on 15 million leaked documents",
    "source": "MarketWatch",
-   "published": "2026-11-16T10:32:00+00:00",
+   "published": "2026-11-17T09:35:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "investing",
-   "headline": "FURMAN: AI BUBBLE POP COULD SPARK 25% MARKET DROP...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "ef4a644ffb",
-   "url": "https://www.marketwatch.com/story/why-morgan-stanley-says-its-time-to-go-max-overweight-on-stocks-bd33b103?mod=mw_rss_topstories",
-   "title": "Why Morgan Stanley says it’s time to go ‘max’ overweight on stocks",
-   "source": "MarketWatch",
-   "published": "2026-11-16T10:20:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "investing",
-   "headline": "MORGAN STANLEY: GO 'MAX' OVERWEIGHT ON STOCKS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "economy",
+   "headline": "DEUTSCHE BANK LOSES BILLIONS IN MARKET CAP OVER LEAKED FILES..."
   },
   {
    "id": "b32037c1f5",
@@ -718,7 +640,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "investing",
-   "headline": "DOLLAR'S AI-DRIVEN RALLY COULD WRECK THE STOCK MARKET..."
+   "headline": "DOLLAR'S AI-DRIVEN RALLY COULD WRECK THE STOCK MARKET...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "96dcbcfad7",
@@ -729,7 +653,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "investing",
-   "headline": "BERKSHIRE DOUBLES DOWN ON HOUSING, SOURS ON BANKS..."
+   "headline": "BERKSHIRE DOUBLES DOWN ON HOUSING, SOURS ON BANKS...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "bf44aec35e",
@@ -740,7 +666,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "investing",
-   "headline": "FDA REJECTS SUMMIT'S CANCER DRUG, STOCK TUMBLES..."
+   "headline": "FDA REJECTS SUMMIT'S CANCER DRUG, STOCK TUMBLES...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "42c697406b",
@@ -751,73 +679,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "investing",
-   "headline": "REPORT: AMAZON'S BLACK FRIDAY 'DEALS' OFTEN AREN'T..."
-  },
-  {
-   "id": "702431c418",
-   "url": "https://www.marketwatch.com/story/angelina-jolie-reportedly-buys-a-connecticut-mansion-after-selling-l-a-estate-049f914b?mod=mw_rss_topstories",
-   "title": "Angelina Jolie reportedly buys a Connecticut mansion after selling L.A. estate",
-   "source": "MarketWatch",
-   "published": "2026-11-16T10:02:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "housing",
-   "headline": "ANGELINA JOLIE BUYS CONNECTICUT MANSION...",
+   "headline": "REPORT: AMAZON'S BLACK FRIDAY 'DEALS' OFTEN AREN'T...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "0e8304226a",
-   "url": "https://www.marketwatch.com/story/former-nfl-star-chris-simms-sells-his-300-year-old-greenwich-conn-home-for-5-5-million-0ae1fdc2?mod=mw_rss_topstories",
-   "title": "Former NFL star Chris Simms sells his 300-year-old Greenwich, Conn., home for $5.5 million",
-   "source": "MarketWatch",
-   "published": "2026-11-16T09:58:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "housing",
-   "headline": "EX-NFL QB SELLS 300-YEAR-OLD HOME FOR $5.5M...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "2907c4453d",
-   "url": "https://www.sciencedaily.com/releases/2026/11/261112230505.htm",
-   "title": "A 19-year study reveals a troubling link between napping and death",
-   "source": "ScienceDaily Health",
-   "published": "2026-11-16T10:49:15+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "health",
-   "headline": "STUDY: FREQUENT LONG NAPS LINKED TO EARLIER DEATH...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "a1766e8fad",
-   "url": "https://www.sciencedaily.com/releases/2026/11/261116014842.htm",
-   "title": "New wearable ultrasound patch boosts REM sleep without drugs or surgery",
-   "source": "ScienceDaily Health",
-   "published": "2026-11-16T10:22:15+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "health",
-   "headline": "NEW PATCH BOOSTS REM SLEEP WITHOUT DRUGS, STUDY FINDS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "bad2bc8f70",
-   "url": "https://nypost.com/video/sleep-hacks-exercise-snacks-and-supplements-whats-worth-trying-and-whats-not/",
-   "title": "Sleep hacks, exercise snacks and supplements: What’s worth trying and what’s not?",
-   "source": "New York Post",
-   "published": "2026-11-16T06:00:00+00:00",
-   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2FWP_Generalist_HealthTrends.png",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "health",
-   "headline": "WHAT SLEEP HACKS AND SUPPLEMENTS ACTUALLY WORK?...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening",
-   "video": true
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "3bd29cf23b",
@@ -828,7 +692,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "health",
-   "headline": "STUDY: ALZHEIMER'S RESEARCH MAY BE MISSING KEY BRAIN REGION..."
+   "headline": "STUDY: ALZHEIMER'S RESEARCH MAY BE MISSING KEY BRAIN REGION...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "b4d9a66ff2",
@@ -839,33 +705,53 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "health",
-   "headline": "TRIAL: ADHD CLASSROOM ACCOMMODATIONS DIDN'T HELP..."
+   "headline": "TRIAL: ADHD CLASSROOM ACCOMMODATIONS DIDN'T HELP...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "219b859201",
-   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNckhQa1ZJM29lcVNvcnhyUzZTRFJwc1RyaDRLZmZqeXNiWV9pR3U5RkxrRkc5UGhDSWZfTFg2TlZPdS1pSUR0T05BVUMyRlo2c3Qwc0pQMzRXWUN3ZVgxNWZ1dTlIX0V4UTB3eWl3N2s4Nkxha0NneEwxc0k2dkpUcUNyN3MzNHBMWWpEWWItSjRjZFNVT2NsTzd3VFBpVE1iU0RnTA?oc=5",
-   "title": "Sister Wives’ Janelle Brown Recalls Being ‘Excommunicated’ From LDS Church While Pregnant",
-   "source": "Us Weekly",
-   "published": "2026-11-16T04:01:52+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "utah_mormon",
-   "headline": "SISTER WIFE: LDS CHURCH 'EXCOMMUNICATED' ME PREGNANT...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "id": "984c5c9d14",
+   "url": "https://nypost.com/2026/11/17/health/simple-salt-substitute-could-prevent-three-million-deaths-a-year-worldwide-study-estimates/",
+   "title": "Simple salt substitute could prevent three million deaths a year worldwide, study estimates",
+   "source": "New York Post",
+   "published": "2026-11-17T10:25:07+00:00",
+   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fsalt-wooden-background-149063730.jpg?w%3D1024",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "health",
+   "headline": "STUDY: SALT SWAP COULD PREVENT 3M DEATHS A YEAR..."
   },
   {
-   "id": "60c0c7668e",
-   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPLTdlV3ZWV0lpSk5pamVrUGRFMGJQaTNiQ0VwNGt2REVOZnl6VkhHSVZDU2htdEtMa1pQc3drUXJuc2pNMkpCaVJuNWRiQi1pUUpiSjhnSjRaZ0t5eXVSQTF5c1NGQ2RXUWtWSVlIazVNVXZoWlYtVzY3ZVRwYWEyT3RkWU1Bdk1DdmxyOHItcnJEWHc4Mm5SU0pJeFhIRDhDREtScA?oc=5",
-   "title": "Mormon Wives' Jen Affleck admits being 'petty' after exposing ex Zac's hurtful comments",
-   "source": "Chattr",
-   "published": "2026-11-16T08:10:22+00:00",
+   "id": "b51d49b3fd",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9uZEhkQnhKWXdoaWR3ck5zUjNjdV9KdlNNV2Z6elVmX1g4UnBETXVtQUJERld5a0dWTVRlM1ZVLWxJWXdmR3B6ODFuQUxZLWdpRlR4T01WQkNpUlVUdjlSMlJDaFlVdUg1Mnd3ZXFWSjdldzVMTlNkT2NLM0lUSjQ?oc=5",
+   "title": "This condo-hotel near a Utah ski resort still isn’t built, and now dozens more investors are suing",
+   "source": "The Salt Lake Tribune",
+   "published": "2026-11-16T13:00:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "utah_mormon",
-   "headline": "ADMITS BEING 'PETTY' TOWARD EX ZAC...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "housing",
+   "headline": "UTAH SKI CONDO-HOTEL UNBUILT, MORE INVESTORS SUE..."
+  },
+  {
+   "id": "91feb4e792",
+   "url": "https://www.marketwatch.com/story/breaking-bad-star-dean-norris-is-selling-11-acre-california-estate-for-3-2-million-amid-divorce-03963997?mod=mw_rss_topstories",
+   "title": "‘Breaking Bad’ star Dean Norris is selling 11-acre California estate for $3.2 million amid divorce",
+   "source": "MarketWatch",
+   "published": "2026-11-17T10:01:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "housing",
+   "headline": "'BREAKING BAD' STAR SELLS CALIF. ESTATE AMID DIVORCE..."
+  },
+  {
+   "id": "127642a410",
+   "url": "https://www.marketwatch.com/story/supermodel-bella-hadid-snaps-up-a-charming-colorado-compound-for-5-5-million-b907958c?mod=mw_rss_topstories",
+   "title": "Supermodel Bella Hadid snaps up a charming Colorado compound for $5.5 million",
+   "source": "MarketWatch",
+   "published": "2026-11-17T09:57:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "housing",
+   "headline": "BELLA HADID BUYS $5.5M COLORADO COMPOUND..."
   },
   {
    "id": "75c3f298e0",
@@ -877,20 +763,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "utah_mormon",
    "headline": "PREGNANT JEN ENJOYS MAUI BABYMOON AMID THE DIVORCE...",
-   "under": "60c0c7668e"
-  },
-  {
-   "id": "d02968df62",
-   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQN1JSVDdJM1RiRXV6ZmVnNWF5VnYtOUJxSnJVSEEzamFCak0yU3hreDFJMS1iYTdpek05Qy1pU19MVFhTS0pFNFB1S25qRDhQeG9NbFR2UXdIdE00UnNPaVpFekE1SXVTaElxM1R0X3JIY2tjZFRYaWM2ZmZCZDN6WU9mY1M4TGVIV3ZfZWhhRnhQVGtoNEQ3Q01rdHZNWTYwblhKcVF4VWpLRkk?oc=5",
-   "title": "Mormon Wives' Jen Affleck claims Zac Affleck secretly gambled away $147K before divorce: 'The money's gone'",
-   "source": "Chattr",
-   "published": "2026-11-16T07:36:56+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "utah_mormon",
-   "headline": "CLAIMS HE GAMBLED AWAY $147K BEFORE DIVORCE...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "e0b31243d5",
@@ -901,7 +775,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "utah_mormon",
-   "headline": "'MORMON WIVES' STAR AVERY WOODS: 'NOT ASHAMED' OF ONLYFANS PAST..."
+   "headline": "'MORMON WIVES' STAR AVERY WOODS: 'NOT ASHAMED' OF ONLYFANS PAST...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "fb3be2d6c6",
@@ -913,32 +789,43 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "utah_mormon",
    "headline": "SAYS BACKLASH BROUGHT SUICIDAL THOUGHTS...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning",
    "under": "e0b31243d5"
   },
   {
-   "id": "1cd45a1ce7",
-   "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPS2xfM2psN01qU1h5NUhSMTlNTmhoeGtlWk9YU2lLcHVpakljTUNubmN2YzRxYlB6S1RkZGQ3ekpHWjExektHaDJWRmFsdVhoVXhkZGlXWl9EbEZvenVKckRMOWtkazlCM1RockoyeEpkeUpuNndUOWhPWE9kMW5aY1ZUd29jaFBkVG1MSnR2RmpKQzlVNmNVMk9CQ21US2hvdWR0bjU0UWk?oc=5",
-   "title": "Jason Whitlock Reacts To Hype Around JuJu Watkins: “She’s Just Getting Warmed”",
-   "source": "Fadeaway World",
-   "published": "2026-11-16T11:38:26+00:00",
+   "id": "ced305c52b",
+   "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNUVc2U0tXRjFLSm1TMmExNktCa0prUXNienV5am5sM2V4b3FMM1VEY2lpSGJOLW5fY1pGdWQ3VzdPQUFFV2pFcHB2X0dzaFB1Z0Uxd1Iza2JNMGVmbEd4Yk1NaTNobV9fYTNsdW8wdFJNQy12Y0xzRjNWcVUtYXFHRA?oc=5",
+   "title": "‘Sister Wives’ Star Janelle Brown Says Church Cast Her Out Over Kody",
+   "source": "AOL.com",
+   "published": "2026-11-16T16:33:31+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "sports",
-   "headline": "WHITLOCK: JUJU WATKINS 'JUST GETTING WARMED'...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "utah_mormon",
+   "headline": "'SISTER WIVES' STAR: CHURCH CAST ME OUT OVER KODY..."
   },
   {
-   "id": "3afc40a77d",
-   "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNeGxTZnBVQUZoeEdRQ0lobUlxR0g1X0l2QXY3Z25mNzNCZ1BYX1g3aUZVMkhNR2ZPblNONHExcGcxT0ZQTGR6eUpKNjdYcG1vQWIzZldCSFdRR0M4dE5iUjlTb09BRXF2QlhlSy0wMEFHU1RCUHVqdGwzNXNTQk5hTDNtV2VTVjdIbzNzeFY5d2ZEZjVWNGFES2Uya1JNWG5PU1RsS1dLaEo0eXp0ZGhyTUtkQ090bnFnQ25ZRWNHWkhYZ0F5dmJqbmhJV0FXdw?oc=5",
-   "title": "\"They don’t have the same game\" - 5x NBA Champ Speaks Out As JuJu Watkins Faces 'Next Caitlin Clark' Comparisons",
-   "source": "Sportskeeda",
-   "published": "2026-11-16T22:48:00+00:00",
+   "id": "75f3e39ba1",
+   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPV0otWHVOSnoyX2c3WkRTcHJacjFHYTdMenZvWnl0ay1QQmtJVVdhelQ4bkFGVFRURFAweFBvMnJtSzBDcGp5WHhDdGFaN002S1BSdlBqdVd6NVNab0xGQlVHbDJncUdlRWZCUExuZTdyMlpQcW55SXBCMC1zd2lWSl9HdWRBMDVnbDY0TUdmVHh0OGpGR2U3UHpyc0k?oc=5",
+   "title": "Mormon Wives ’ Bobbi Althoff and Boyfriend Tyler Hawkins Break Up After Nearly 2 Years",
+   "source": "E! News",
+   "published": "2026-11-17T03:17:00+00:00",
    "image": null,
-   "first_seen": "2026-11-17T00:13:20+00:00",
-   "topic": "sports",
-   "headline": "5X NBA CHAMP: 'THEY DON'T HAVE THE SAME GAME'...",
-   "under": "1cd45a1ce7"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "utah_mormon",
+   "headline": "'MORMON WIVES' BOBBI ALTHOFF, BOYFRIEND SPLIT AFTER 2 YEARS..."
+  },
+  {
+   "id": "4e089a48eb",
+   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOU2ZSSUptaUJ2OFVIZ1JyWHUtVTVhNTVJOFNESjNuY2V6UnJWQWpDbWFwTDM0TDNyS0dMYkx3N3c0LWl6SG51N0NuYVRWdjBGaWxKdXhMa2lFZDRCaFA2bF85LUd5cE9LNll3b3lITGdya2FWQlVudDJPWGs0WkNkQTVLZ1dvZThiWVBKTFNrNjRHYTdlS0tKUjVXY05kRHNPRnJMV0F0RUFpS0E?oc=5",
+   "title": "Mormon Wives ' Bobbi Althoff Defends Costar McCall DaPron From \"Mean\" Online Bullying",
+   "source": "E! News",
+   "published": "2026-11-17T01:00:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "utah_mormon",
+   "headline": "DEFENDS COSTAR FROM 'MEAN' ONLINE BULLYING...",
+   "under": "75f3e39ba1"
   },
   {
    "id": "e029f734f1",
@@ -950,33 +837,22 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
    "headline": "KD'S PODCAST CO-HOST: STOP DRAGGING CLARK INTO IT...",
-   "under": "1cd45a1ce7"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "e93416d738",
-   "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxPaDJQVERiRUFpLWRJenRiUHQ2VkI0Z3NWZDlCZHNCVi1rM1I5VXVVMWdBb2s1RTdKQTAtdnByYXg5TUdtR0J6RzktSERLWnVCMnhucnBLLVpreFdOUVZfYjFwaGhXTWNvUW12RERBZHJTQTZDQTktUzFVNVlpU1JDZHo3X2ZwMjc5d3RHV2t6cVZCMVNmR0s4b3N1dUp2TVdBTUxBV2lCZnhHcHFmUDRWeGZqdzJyN3VoaTdwQXF3UENIb1FSSTgwX1ZxeGZldkdpdzJyQkVQZ3VOS2owVzFkNVhmVTZ1a2F0WXVZUkNhdEs5bm5xWGJkVHdBaTdJQQ?oc=5",
-   "title": "\"Zero is always gonna be zero\" - Aliyah Boston, Caitlin Clark & WNBA World Reacts To Kelsey Mitchell's Cryptic Post Amid Fever Guard's Rumors",
+   "id": "3afc40a77d",
+   "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNeGxTZnBVQUZoeEdRQ0lobUlxR0g1X0l2QXY3Z25mNzNCZ1BYX1g3aUZVMkhNR2ZPblNONHExcGcxT0ZQTGR6eUpKNjdYcG1vQWIzZldCSFdRR0M4dE5iUjlTb09BRXF2QlhlSy0wMEFHU1RCUHVqdGwzNXNTQk5hTDNtV2VTVjdIbzNzeFY5d2ZEZjVWNGFES2Uya1JNWG5PU1RsS1dLaEo0eXp0ZGhyTUtkQ090bnFnQ25ZRWNHWkhYZ0F5dmJqbmhJV0FXdw?oc=5",
+   "title": "\"They don’t have the same game\" - 5x NBA Champ Speaks Out As JuJu Watkins Faces 'Next Caitlin Clark' Comparisons",
    "source": "Sportskeeda",
-   "published": "2026-11-16T03:45:00+00:00",
+   "published": "2026-11-16T22:48:00+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
+   "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
-   "headline": "FEVER STARS REACT TO KELSEY MITCHELL'S CRYPTIC POST...",
+   "headline": "5X NBA CHAMP: 'THEY DON'T HAVE THE SAME GAME'...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "6df7be2a0b",
-   "url": "https://www.bbc.co.uk/sport/football/articles/cjr4gr2k41dxo?at_medium=RSS&at_campaign=rss",
-   "title": "Klopp says Infantino worse than Blatter",
-   "source": "BBC",
-   "published": "2026-11-16T11:27:08+00:00",
-   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/217d/live/86082020-e1ac-11f1-8ee3-23d0d09d2796.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "sports",
-   "headline": "KLOPP: INFANTINO WORSE THAN BLATTER...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning",
+   "under": "e029f734f1"
   },
   {
    "id": "368fe5469f",
@@ -987,7 +863,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
-   "headline": "SOPHIE CUNNINGHAM FIRES BACK ON $50M SALARY COMPARISON..."
+   "headline": "SOPHIE CUNNINGHAM FIRES BACK ON $50M SALARY COMPARISON...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "b340d9be6f",
@@ -998,7 +876,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
-   "headline": "CAITLIN CLARK MAKEUP MISHAP GOES VIRAL..."
+   "headline": "CAITLIN CLARK MAKEUP MISHAP GOES VIRAL...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "09c829fa37",
@@ -1009,7 +889,9 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
-   "headline": "OLYMPIC STAR BEATS CLARK, REESE TO MAJOR AWARD..."
+   "headline": "OLYMPIC STAR BEATS CLARK, REESE TO MAJOR AWARD...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "a9da3d2bbc",
@@ -1020,33 +902,20 @@
    "image": "https://sports.ksl.com/wp-content/uploads/2026/11/1220jazz.spt_tc_21-150x150.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "sports",
-   "headline": "JAZZ LOSING STREAK HITS 12, TAKES TOLL ON GEORGE..."
+   "headline": "JAZZ LOSING STREAK HITS 12, TAKES TOLL ON GEORGE...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "29a2966e0c",
-   "url": "https://www.dailymail.com/crime-desk/article-16289915/Russell-Brand-wife-country-home.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Revealed: Russell Brand transferred his £6million country home into his wife's name - just a month before his rape and sexual assault trial - 'to move fortune out of victims' reach'",
-   "source": "Daily Mail",
-   "published": "2026-11-16T10:46:31+00:00",
-   "image": "https://i.dailymail.com/1s/2026/11/15/18/112521873-0-image-a-8_1794766674035.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "pop_culture",
-   "headline": "TRANSFERRED £6M HOME TO WIFE, 'OUT OF VICTIMS' REACH'...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
-  },
-  {
-   "id": "b658280d34",
-   "url": "https://variety.com/2026/film/global/gerard-depardieu-drops-appeal-in-sexual-assault-case-1236948679/",
-   "title": "Gérard Depardieu Drops Appeal in Sexual Assault Case and Accepts Guilt: ‘I Take Full Responsibility for the Conviction’",
-   "source": "Variety",
-   "published": "2026-11-16T10:20:54+00:00",
-   "image": "https://variety.com/wp-content/uploads/2024/04/Gerard-Depardieu.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "pop_culture",
-   "headline": "DEPARDIEU: 'I TAKE FULL RESPONSIBILITY' FOR CONVICTION...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "id": "1b1ccbcc1e",
+   "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNS0toelJna2J2LUhKcllXUVQ1dEl3MC1wZVdsdGlwMDAtcnZIVFN2QUZrYWlObnFyUEJxVnNmQ2l2aV9zTWRVdktaQ3RrT2IwWGVUcUhERWlTUHpRYVBfZTI3dlBCU3Q1aDkwdWFRQnY4S29qRFdYY0pjVG1USDVsMy1waWkyaHRvNGV5QU5JQzdLZTlGMDJsQUhBMGZGNHRhYmc?oc=5",
+   "title": "Patrick Mahomes’ Mom Has Strong Words About Indiana Fever’s Caitlin Clark",
+   "source": "Athlon Sports",
+   "published": "2026-11-17T00:41:00+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "sports",
+   "headline": "MAHOMES' MOM HAS STRONG WORDS ON CAITLIN CLARK..."
   },
   {
    "id": "571c613289",
@@ -1058,7 +927,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
    "headline": "'I BELONG TO A WORLD THAT NO LONGER EXISTS'...",
-   "under": "b658280d34"
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "b63f5a0f50",
@@ -1070,20 +940,8 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
    "headline": "DROPS HIS APPEAL ENTIRELY...",
-   "under": "b658280d34"
-  },
-  {
-   "id": "dbc6d8e18e",
-   "url": "https://www.dailymail.com/tvshowbiz/article-16288213/Ariana-Grande-Ricky-Alvarez-hiding-life.html?ns_mchannel=rss&ns_campaign=1490",
-   "title": "Ariana Grande going fully 'into hiding': As new boyfriend Ricky tells her to say 'no' to plans… inside pop star's new life after quitting the spotlight",
-   "source": "Daily Mail US",
-   "published": "2026-11-16T11:30:31+00:00",
-   "image": "https://i.dailymail.com/1s/2026/11/15/23/112526193-0-image-a-53_1794786548833.jpg",
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "pop_culture",
-   "headline": "ARIANA GRANDE GOING FULLY 'INTO HIDING'...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "a28c9fc794",
@@ -1094,7 +952,9 @@
    "image": "https://variety.com/wp-content/uploads/2026/11/split-image-1000_eb50dc.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
-   "headline": "ROBERT PATTINSON NAMED THE NEXT JAMES BOND..."
+   "headline": "ROBERT PATTINSON NAMED THE NEXT JAMES BOND...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "15bf1354bf",
@@ -1106,6 +966,21 @@
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
    "headline": "WHEN WILL WE ACTUALLY SEE HIM ON SCREEN?...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning",
+   "video": true,
+   "under": "a28c9fc794"
+  },
+  {
+   "id": "68e5006117",
+   "url": "https://www.dailymail.com/tvshowbiz/article-16298153/Cillian-Murphy-favorite-play-Bond-villain.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Cillian Murphy is favorite to play next Bond villain according to prediction app, with Barry Keoghan, Idris Elba also among frontrunners",
+   "source": "Daily Mail US",
+   "published": "2026-11-17T10:18:59+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/17/00/112549065-0-image-a-50_1794876124055.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "MURPHY NOW FAVORITE FOR NEXT BOND VILLAIN...",
    "under": "a28c9fc794"
   },
   {
@@ -1117,18 +992,9 @@
    "image": "https://variety.com/wp-content/uploads/2026/11/MixCollage-16-Nov-2026-02-49-PM-8729.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
-   "headline": "'SPIDER-MAN: BRAND NEW DAY' GETS EXTENDED RE-RELEASE..."
-  },
-  {
-   "id": "ee48ae26bf",
-   "url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxPY0kwdDFIQmhRbHR5aHhZVTVGZ1NxSkxnX3h1SUNGdWxTTmJpRGd1N1ZFWjk4bXFMdHlzZlBHUkNQQmE3ZVQ2UjFHa0kxblVIN2RxYm95bWVSdGZyN0pSTkhVWEIwMDlVeUZ0LVduZnJiTlYtVldZZlQ3b1lLV2h2a3pZeVRleWFHNEhhYWVINlNodnpSU2QzcnVlbTM3MUd5RkdiZ1hKUGVVUUxKdlpqbEljMEZJSzFUbEQtSzFPemVxdzk1enUxbjlOSXQwRXd6ZVVwbEtvd044UlhOdFBIN1d5Y1Y0OHowYVpDS2pjYXBRaDk2MC1iMw?oc=5",
-   "title": "Taylor Frankie Paul’s ex Dakota Mortensen sues Hulu, ‘Mormon Wives’ for depicting him as an ‘abuser’, demands $300K in damages",
-   "source": "Page Six",
-   "published": "2026-11-16T15:22:43+00:00",
-   "image": null,
-   "first_seen": "2026-11-17T00:13:20+00:00",
-   "topic": "pop_culture",
-   "headline": "REALITY STAR SUES HULU FOR $300K OVER 'ABUSER' PORTRAYAL..."
+   "headline": "'SPIDER-MAN: BRAND NEW DAY' GETS EXTENDED RE-RELEASE...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
    "id": "3acdcf7c62",
@@ -1139,7 +1005,21 @@
    "image": null,
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
-   "headline": "'SECRET LIVES OF MORMON WIVES' HITS 20M HOURS WATCHED IN 4 DAYS..."
+   "headline": "'SECRET LIVES OF MORMON WIVES' HITS 20M HOURS WATCHED IN 4 DAYS...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
+  },
+  {
+   "id": "50a00348ad",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5vQUNvQmp2WE1pbzhsUFhRVlVVX2tCNF9iWUFPRDFVemo3ZU1iVXNLTVh2b3Nua0R1VDVIbHZZR3VaQ3JpSkpVTlJpa1hQSmxIM3daU3hadU9FREx1YWczVThjbzRaZw?oc=5",
+   "title": "‘The Secret Lives of Mormon Wives: Oc’ Tallies 20 Million Hours Viewed in First 4 Days",
+   "source": "IMDb",
+   "published": "2026-11-17T08:46:06+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "SPINOFF TALLIES 20M HOURS VIEWED IN ITS OWN FIRST 4 DAYS...",
+   "under": "3acdcf7c62"
   },
   {
    "id": "73be422920",
@@ -1150,20 +1030,97 @@
    "image": "https://i.dailymail.com/1s/2026/11/16/22/112547189-0-image-a-28_1794869135202.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "pop_culture",
-   "headline": "TRAVOLTA 'OPEN' TO DATING AGAIN, SIX YEARS AFTER PRESTON'S DEATH..."
+   "headline": "TRAVOLTA 'OPEN' TO DATING AGAIN, SIX YEARS AFTER PRESTON'S DEATH...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
   },
   {
-   "id": "b5739f8b4a",
-   "url": "https://www.zerohedge.com/geopolitical/soldiers-poland-are-barred-karaoke-strip-clubs-disturbing-wildlife",
-   "title": "Soldiers In Poland Are Barred From Karaoke, Strip Clubs, & Disturbing Wildlife",
-   "source": "ZeroHedge",
-   "published": "2026-11-16T11:00:00+00:00",
+   "id": "efe34261fe",
+   "url": "https://variety.com/2026/film/news/cliff-booth-first-reactions-brad-pitt-fincher-tarantino-1236948975/",
+   "title": "‘Cliff Booth’ First Reactions: Brad Pitt’s Sequel Is an ‘Absolute Triumph’ and a ‘Wildly Entertaining’ ‘Love Letter’ to Hollywood",
+   "source": "Variety",
+   "published": "2026-11-17T06:23:16+00:00",
+   "image": "https://variety.com/wp-content/uploads/2026/11/MCDFUMI_ZX009-e1794847302330.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "'CLIFF BOOTH' FIRST REACTIONS: PITT SEQUEL AN 'ABSOLUTE TRIUMPH'..."
+  },
+  {
+   "id": "a35073add3",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBnaEdlem01VWZQaDRzN2hMbzJwTnBWcHQ2Z0xLa2tCMjNfSmJQZ2IwaVVWWTcweUNDY2RBYXNQLXFzY21oYThyNWZSU1pMQmpHQk9pN0xqX0tBN011elVrS1RJa2RoS1J2cnhZTUY3OTRMY09YTU1uVjZXenVIZHM?oc=5",
+   "title": "Dakota Mortensen Sues Mormon Wives Producers for Defamation",
+   "source": "Vulture",
+   "published": "2026-11-17T02:18:37+00:00",
    "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "weird",
-   "headline": "POLISH ARMY BANS TROOPS FROM KARAOKE, STRIP CLUBS...",
-   "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "'MORMON WIVES' CAST MEMBER SUES PRODUCERS FOR DEFAMATION..."
+  },
+  {
+   "id": "89c5041020",
+   "url": "https://www.tmz.com/2026/11/17/kid-rocks-bar-sued-security-guards-beat-up-patron/",
+   "title": "Kid Rock's Nashville Bar Sued By Man Who Claims Security Guards Beat Him Up",
+   "source": "TMZ",
+   "published": "2026-11-17T09:00:37+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "KID ROCK'S NASHVILLE BAR SUED OVER ALLEGED SECURITY BEATING..."
+  },
+  {
+   "id": "162a44327e",
+   "url": "https://www.dailymail.com/crime-desk/article-16296019/Fury-rapist-Russell-Brand-moved-cushy-jail.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "'He still thinks he's a celeb': Fury grows as probe is launched into Russell Brand's YouTube video from cushy jail",
+   "source": "Daily Mail",
+   "published": "2026-11-17T10:01:36+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/16/12/112536393-0-image-a-40_1794832641585.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "pop_culture",
+   "headline": "PROBE LAUNCHED INTO RUSSELL BRAND'S JAILHOUSE YOUTUBE VIDEO..."
+  },
+  {
+   "id": "9ef97c8819",
+   "url": "https://www.dailymail.com/news/article-16297585/Cornell-review-Greek-life.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Embattled Cornell President announces overhaul to campus Greek life after alleged gang rape scandal",
+   "source": "Daily Mail US",
+   "published": "2026-11-17T08:32:08+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/17/06/112552359-0-image-a-27_1794897507189.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "faith_family_schools",
+   "headline": "CORNELL OVERHAULS GREEK LIFE AFTER GANG-RAPE SCANDAL..."
+  },
+  {
+   "id": "ad0834ac4e",
+   "url": "https://nypost.com/2026/11/17/us-news/riverboat-worker-leelah-hager-made-anguished-facetime-call-to-dad-while-in-mississippi-river-after-tanker-smashed-into-ship/",
+   "title": "Riverboat worker Leelah Hager made anguished FaceTime call to dad while in Mississippi River after tanker smashed into ship",
+   "source": "New York Post",
+   "published": "2026-11-17T09:44:53+00:00",
+   "image": "https://nypost.com/wp-content%2Fuploads%2Fsites%2F2%2F2026%2F11%2Fplease-embed-riverboat-worker-leelah-149059977.jpg?w%3D577",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "american_life",
+   "headline": "RIVERBOAT WORKER'S ANGUISHED FACETIME CALL FROM MISSISSIPPI RIVER..."
+  },
+  {
+   "id": "7cbd33c3c5",
+   "url": "https://www.dailymail.com/sport/golf/article-16296403/rory-mcilroy-gerry-mcilroy-health-golf.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Crying Rory McIlroy's pain for his sick father: How golf superstar is driven on by his dad's double-lung transplant - after years of putting personal troubles aside to win",
+   "source": "Daily Mail US",
+   "published": "2026-11-17T10:42:07+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/16/13/112537431-0-image-a-23_1794837273928.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "american_life",
+   "headline": "MCILROY OPENS UP ON FATHER'S DOUBLE-LUNG TRANSPLANT..."
+  },
+  {
+   "id": "e94f97ea63",
+   "url": "https://www.dailymail.com/news/article-16297071/Heartbroken-mom-begs-answers-teen-son-left-horrible-note-vanished-middle-night.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Heartbroken mom begs for answers after her teen son left 'horrible note' then vanished in middle of the night",
+   "source": "Daily Mail US",
+   "published": "2026-11-17T10:39:16+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/17/01/112549733-0-image-a-6_1794879671691.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "american_life",
+   "headline": "MOM BEGS FOR ANSWERS AFTER SON VANISHES WITH 'HORRIBLE NOTE'..."
   },
   {
    "id": "6c25508f39",
@@ -1174,7 +1131,86 @@
    "image": "https://i.dailymail.com/1s/2026/11/16/22/112547227-0-image-a-9_1794869340784.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "weird",
-   "headline": "TRUMP'S JET DIVERTS TO ALASKA WITH OLD AIR FORCE ONE ON ITS TAIL..."
+   "headline": "TRUMP'S JET DIVERTS TO ALASKA WITH OLD AIR FORCE ONE ON ITS TAIL...",
+   "editions": 1,
+   "last_edition": "2026-11-17-morning"
+  },
+  {
+   "id": "a65ee405d3",
+   "url": "https://www.bbc.co.uk/news/articles/ck1ewl2zjqgzo?at_medium=RSS&at_campaign=rss",
+   "title": "Body of Melbourne Cup horse found dumped in Sydney skip",
+   "source": "BBC World",
+   "published": "2026-11-17T07:01:00+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/632b/live/b9ed96e0-e251-11f1-876d-1dfc6cf3b709.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "MELBOURNE CUP HORSE'S BODY FOUND DUMPED IN SYDNEY SKIP..."
+  },
+  {
+   "id": "9e39fe8ea5",
+   "url": "https://www.bbc.co.uk/news/articles/cmewvxg855yno?at_medium=RSS&at_campaign=rss",
+   "title": "Taking Korea's toughest exam from behind bars",
+   "source": "BBC World",
+   "published": "2026-11-16T23:09:49+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a2ce/live/66eb6250-e1ad-11f1-8ee3-23d0d09d2796.png",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "TAKING KOREA'S TOUGHEST EXAM -- FROM BEHIND BARS..."
+  },
+  {
+   "id": "8f3f0e17a2",
+   "url": "https://www.bbc.co.uk/news/videos/ckpdwn23j5j8o?at_medium=RSS&at_campaign=rss",
+   "title": "Pope Leo hit by flying rosary while waving to crowds in Peru",
+   "source": "BBC World",
+   "published": "2026-11-16T21:12:13+00:00",
+   "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0861/live/f40b1380-e200-11f1-ba8d-01314a590f72.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "POPE LEO HIT BY FLYING ROSARY IN PERU..."
+  },
+  {
+   "id": "f2bf1de20b",
+   "url": "https://studyfinds.com/social-elephants-drift-apart-communities-break-down/",
+   "title": "Highly Social Elephants Drift Apart As Communities Break Down",
+   "source": "StudyFinds",
+   "published": "2026-11-16T11:08:38+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "STUDY: HIGHLY SOCIAL ELEPHANTS DRIFT APART AS COMMUNITIES BREAK DOWN..."
+  },
+  {
+   "id": "be0fe1054c",
+   "url": "https://www.dailymail.com/health/article-16296921/legs-bulky-lipoedema-diagnosis-NHS-treatment.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Glynis was told to lose weight to help her bulky, painful legs. Now she's been told there's a cure for her lipoedema... and doctors say it could 'change lives'",
+   "source": "Daily Mail",
+   "published": "2026-11-17T10:42:08+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/16/19/112544385-0-image-a-16_1794857964416.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "DOCTORS: NEW CURE COULD 'CHANGE LIVES' FOR PAINFUL LEG CONDITION..."
+  },
+  {
+   "id": "b876749f7c",
+   "url": "https://www.dailymail.com/news/royals/article-16298635/Prince-Wheels-William-drives-rickshaw-Kate-India-tour.html?ns_mchannel=rss&ns_campaign=1490",
+   "title": "Prince of Wheels! William drives rickshaw with Kate as couple cruise into their second day of engagements in India in style",
+   "source": "Daily Mail",
+   "published": "2026-11-17T10:38:32+00:00",
+   "image": "https://i.dailymail.com/1s/2026/11/17/07/112552469-0-image-a-5_1794899415686.jpg",
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "PRINCE OF WHEELS: WILLIAM DRIVES RICKSHAW WITH KATE IN INDIA..."
+  },
+  {
+   "id": "64fc770f96",
+   "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQa21tb2tBV1dCM2xXTDEzLWZmQm1HMDJ3NklsZzJMT19fT1RMTV9tclo2d0hSUEhtRGxFdzdZU0pQemNSaVo3eWt2YXM3eWdEb2NBQzQ5dFpPaG14R0JyTl9hRGJTRjFYTTg3UEVoamJyUnFMb1VqenNsSDVjYVJrT2lGTjFTcU93OWptMS16MF94ZDNOcUJVdU1mT3VaUGdTSG0tTVNaeWJ4RTZxZGlWZWxna2lPM2JNZnFLTXBn?oc=5",
+   "title": "Really The Queens: Tiktok Challenges Welfare Queen Stereotype With Food Stamp Fraud Mugshots",
+   "source": "theunionstar.com",
+   "published": "2026-11-17T04:20:36+00:00",
+   "image": null,
+   "first_seen": "2026-11-17T11:11:26+00:00",
+   "topic": "weird",
+   "headline": "TIKTOK CHALLENGES 'WELFARE QUEEN' STEREOTYPE WITH FRAUD MUGSHOTS..."
   },
   {
    "id": "8301033f27",
@@ -1185,20 +1221,10 @@
    "image": "https://i1.ytimg.com/vi/Hk_21_6KC1g/hqdefault.jpg",
    "first_seen": "2026-11-17T00:13:20+00:00",
    "topic": "video",
-   "headline": "WATCH: TUCKER ON HOW WWII KILLED INNOVATION..."
-  },
-  {
-   "id": "ff03ee94f9",
-   "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNYTB0VkswdWFLX252Vi1nSnVxWWpsV1g2cktpMjFnVUJ1c0lpc3NqMHJTWlgyaEh0aWlwZ2tLem5RLW5FZWJac3hUTnNmOExuaEZKczJ2bjlfa2ZRXzZQUmFJNm8wM3ZadUpad1l4T0lnMHBKT09TbGpvVjRQZXZYZGgtcWktdHlvVklfb0t5TWxZcENiQUF0WjBpTDV5TFE?oc=5",
-   "title": "YouVersion’s Biggest Problem Is Claude, ChatGPT Misquoting the Bible",
-   "source": "Christianity Today",
-   "published": "2026-11-16T11:00:00+00:00",
-   "image": null,
-   "first_seen": "2026-11-16T12:03:08+00:00",
-   "topic": "faith_family_schools",
-   "headline": "BIBLE APP'S BIGGEST PROBLEM: AI MISQUOTING SCRIPTURE...",
+   "headline": "WATCH: TUCKER ON HOW WWII KILLED INNOVATION...",
    "editions": 1,
-   "last_edition": "2026-11-16-evening"
+   "last_edition": "2026-11-17-morning",
+   "video": true
   }
  ],
  "seen": {
@@ -4379,7 +4405,167 @@
   "8043453a74": "2026-11-17T00:13:20+00:00",
   "0f24d4b6ed": "2026-11-17T00:13:20+00:00",
   "3cc3a2140a": "2026-11-17T00:13:20+00:00",
-  "113d0a2fb7": "2026-11-17T00:13:20+00:00"
+  "113d0a2fb7": "2026-11-17T00:13:20+00:00",
+  "dcbf6598be": "2026-11-17T11:11:26+00:00",
+  "7cf65d43e3": "2026-11-17T11:11:26+00:00",
+  "ced305c52b": "2026-11-17T11:11:26+00:00",
+  "04191a3f25": "2026-11-17T11:11:26+00:00",
+  "a9f1f34aea": "2026-11-17T11:11:26+00:00",
+  "845a94caa1": "2026-11-17T11:11:26+00:00",
+  "b51d49b3fd": "2026-11-17T11:11:26+00:00",
+  "d2419956f9": "2026-11-17T11:11:26+00:00",
+  "373231bf96": "2026-11-17T11:11:26+00:00",
+  "be0fe1054c": "2026-11-17T11:11:26+00:00",
+  "b876749f7c": "2026-11-17T11:11:26+00:00",
+  "b4941baab6": "2026-11-17T11:11:26+00:00",
+  "c53b498968": "2026-11-17T11:11:26+00:00",
+  "a6ad1cfeed": "2026-11-17T11:11:26+00:00",
+  "500c40910a": "2026-11-17T11:11:26+00:00",
+  "162a44327e": "2026-11-17T11:11:26+00:00",
+  "b2e1891219": "2026-11-17T11:11:26+00:00",
+  "de20c088bf": "2026-11-17T11:11:26+00:00",
+  "984fd79578": "2026-11-17T11:11:26+00:00",
+  "34611f12d9": "2026-11-17T11:11:26+00:00",
+  "4ac1350f8f": "2026-11-17T11:11:26+00:00",
+  "854daf524d": "2026-11-17T11:11:26+00:00",
+  "7c0c32346a": "2026-11-17T11:11:26+00:00",
+  "fc860f0b10": "2026-11-17T11:11:26+00:00",
+  "661c563fe3": "2026-11-17T11:11:26+00:00",
+  "1a7fe44904": "2026-11-17T11:11:26+00:00",
+  "7007e637c8": "2026-11-17T11:11:26+00:00",
+  "fa2fd1699b": "2026-11-17T11:11:26+00:00",
+  "fa125b5630": "2026-11-17T11:11:26+00:00",
+  "f16edcb4fb": "2026-11-17T11:11:26+00:00",
+  "799c9d7577": "2026-11-17T11:11:26+00:00",
+  "8805515f66": "2026-11-17T11:11:26+00:00",
+  "7ffb50bc52": "2026-11-17T11:11:26+00:00",
+  "4b192a0237": "2026-11-17T11:11:26+00:00",
+  "e4d061bb35": "2026-11-17T11:11:26+00:00",
+  "e53ec310a5": "2026-11-17T11:11:26+00:00",
+  "0ec4a7095d": "2026-11-17T11:11:26+00:00",
+  "88dedce0fd": "2026-11-17T11:11:26+00:00",
+  "0238c18e26": "2026-11-17T11:11:26+00:00",
+  "7cbd33c3c5": "2026-11-17T11:11:26+00:00",
+  "e94f97ea63": "2026-11-17T11:11:26+00:00",
+  "051ba2440e": "2026-11-17T11:11:26+00:00",
+  "3b89b98da7": "2026-11-17T11:11:26+00:00",
+  "1970d1a69c": "2026-11-17T11:11:26+00:00",
+  "3eb52f004a": "2026-11-17T11:11:26+00:00",
+  "68e5006117": "2026-11-17T11:11:26+00:00",
+  "3f9248e366": "2026-11-17T11:11:26+00:00",
+  "8c081625ac": "2026-11-17T11:11:26+00:00",
+  "cbc8045359": "2026-11-17T11:11:26+00:00",
+  "46a9c45d48": "2026-11-17T11:11:26+00:00",
+  "0d60ac4d94": "2026-11-17T11:11:26+00:00",
+  "72dfef3d8a": "2026-11-17T11:11:26+00:00",
+  "9ef97c8819": "2026-11-17T11:11:26+00:00",
+  "a2be10ab7f": "2026-11-17T11:11:26+00:00",
+  "a107ccb221": "2026-11-17T11:11:26+00:00",
+  "4de701133d": "2026-11-17T11:11:26+00:00",
+  "68e6ded9c0": "2026-11-17T11:11:26+00:00",
+  "77108ebf29": "2026-11-17T11:11:26+00:00",
+  "c90ce18773": "2026-11-17T11:11:26+00:00",
+  "0b07be642d": "2026-11-17T11:11:26+00:00",
+  "efe34261fe": "2026-11-17T11:11:26+00:00",
+  "58898a6846": "2026-11-17T11:11:26+00:00",
+  "4b88ce23b6": "2026-11-17T11:11:26+00:00",
+  "6926f194e5": "2026-11-17T11:11:26+00:00",
+  "f97db8ce54": "2026-11-17T11:11:26+00:00",
+  "fc5f808566": "2026-11-17T11:11:26+00:00",
+  "d9a45f3530": "2026-11-17T11:11:26+00:00",
+  "8139ea6348": "2026-11-17T11:11:26+00:00",
+  "e56d640860": "2026-11-17T11:11:26+00:00",
+  "a65ee405d3": "2026-11-17T11:11:26+00:00",
+  "f9a803859b": "2026-11-17T11:11:26+00:00",
+  "252aa77d96": "2026-11-17T11:11:26+00:00",
+  "ae7e0890c8": "2026-11-17T11:11:26+00:00",
+  "e88c3bb27e": "2026-11-17T11:11:26+00:00",
+  "5fb9613c27": "2026-11-17T11:11:26+00:00",
+  "c71d629fa9": "2026-11-17T11:11:26+00:00",
+  "75af6f363f": "2026-11-17T11:11:26+00:00",
+  "3be591ee10": "2026-11-17T11:11:26+00:00",
+  "bfffb3d7fe": "2026-11-17T11:11:26+00:00",
+  "b3fe081e8b": "2026-11-17T11:11:26+00:00",
+  "cfcf58a80d": "2026-11-17T11:11:26+00:00",
+  "4af2694717": "2026-11-17T11:11:26+00:00",
+  "fe940bb872": "2026-11-17T11:11:26+00:00",
+  "71d4509d0b": "2026-11-17T11:11:26+00:00",
+  "1b1ccbcc1e": "2026-11-17T11:11:26+00:00",
+  "8a35ebdc75": "2026-11-17T11:11:26+00:00",
+  "09291caec5": "2026-11-17T11:11:26+00:00",
+  "9e39fe8ea5": "2026-11-17T11:11:26+00:00",
+  "589449a901": "2026-11-17T11:11:26+00:00",
+  "8f3f0e17a2": "2026-11-17T11:11:26+00:00",
+  "16156d08e8": "2026-11-17T11:11:26+00:00",
+  "380cd6c6c8": "2026-11-17T11:11:26+00:00",
+  "b2835f0889": "2026-11-17T11:11:26+00:00",
+  "88d188b3c7": "2026-11-17T11:11:26+00:00",
+  "8075d66560": "2026-11-17T11:11:26+00:00",
+  "0921995515": "2026-11-17T11:11:26+00:00",
+  "09b7b9467d": "2026-11-17T11:11:26+00:00",
+  "f2bf1de20b": "2026-11-17T11:11:26+00:00",
+  "ddaabb6453": "2026-11-17T11:11:26+00:00",
+  "e5206cfb2b": "2026-11-17T11:11:26+00:00",
+  "1c28267b47": "2026-11-17T11:11:26+00:00",
+  "984c5c9d14": "2026-11-17T11:11:26+00:00",
+  "0ed42b06c4": "2026-11-17T11:11:26+00:00",
+  "c0cc54c6a7": "2026-11-17T11:11:26+00:00",
+  "a746b244be": "2026-11-17T11:11:26+00:00",
+  "c81fc100c1": "2026-11-17T11:11:26+00:00",
+  "5aca005e2c": "2026-11-17T11:11:26+00:00",
+  "f36b9fd52d": "2026-11-17T11:11:26+00:00",
+  "590ffe9c6e": "2026-11-17T11:11:26+00:00",
+  "27def96762": "2026-11-17T11:11:26+00:00",
+  "3f656c6cf8": "2026-11-17T11:11:26+00:00",
+  "91feb4e792": "2026-11-17T11:11:26+00:00",
+  "91d8a0af92": "2026-11-17T11:11:26+00:00",
+  "127642a410": "2026-11-17T11:11:26+00:00",
+  "bf00305940": "2026-11-17T11:11:26+00:00",
+  "1c7792155d": "2026-11-17T11:11:26+00:00",
+  "ad0834ac4e": "2026-11-17T11:11:26+00:00",
+  "e647f4e0e2": "2026-11-17T11:11:26+00:00",
+  "8a4a0cbd8d": "2026-11-17T11:11:26+00:00",
+  "85a26c9976": "2026-11-17T11:11:26+00:00",
+  "2c71b4b4f3": "2026-11-17T11:11:26+00:00",
+  "e1e6e7d9a7": "2026-11-17T11:11:26+00:00",
+  "89c5041020": "2026-11-17T11:11:26+00:00",
+  "50a00348ad": "2026-11-17T11:11:26+00:00",
+  "adbe0ebf46": "2026-11-17T11:11:26+00:00",
+  "ed8e89dc17": "2026-11-17T11:11:26+00:00",
+  "f726d8b88c": "2026-11-17T11:11:26+00:00",
+  "f2e371d5a8": "2026-11-17T11:11:26+00:00",
+  "eb7ff891ef": "2026-11-17T11:11:26+00:00",
+  "1deb8f6ddd": "2026-11-17T11:11:26+00:00",
+  "5ae6e8108d": "2026-11-17T11:11:26+00:00",
+  "8d155665b8": "2026-11-17T11:11:26+00:00",
+  "7e7ada28c3": "2026-11-17T11:11:26+00:00",
+  "e2de7dba96": "2026-11-17T11:11:26+00:00",
+  "7cb145310b": "2026-11-17T11:11:26+00:00",
+  "ab07526134": "2026-11-17T11:11:26+00:00",
+  "fe16c5e9e5": "2026-11-17T11:11:26+00:00",
+  "23f61a10a4": "2026-11-17T11:11:26+00:00",
+  "6677189caa": "2026-11-17T11:11:26+00:00",
+  "956a0cc56b": "2026-11-17T11:11:26+00:00",
+  "576fbb3579": "2026-11-17T11:11:26+00:00",
+  "64fc770f96": "2026-11-17T11:11:26+00:00",
+  "e462a6dda0": "2026-11-17T11:11:26+00:00",
+  "0283f822cc": "2026-11-17T11:11:26+00:00",
+  "8db2127e7b": "2026-11-17T11:11:26+00:00",
+  "fed5dd0b9b": "2026-11-17T11:11:26+00:00",
+  "fdcb12850a": "2026-11-17T11:11:26+00:00",
+  "5a17d14257": "2026-11-17T11:11:26+00:00",
+  "75f3e39ba1": "2026-11-17T11:11:26+00:00",
+  "7c0e39a789": "2026-11-17T11:11:26+00:00",
+  "94c98454f2": "2026-11-17T11:11:26+00:00",
+  "05ac999beb": "2026-11-17T11:11:26+00:00",
+  "f4aba9ded6": "2026-11-17T11:11:26+00:00",
+  "655af60c70": "2026-11-17T11:11:26+00:00",
+  "12eadafdf6": "2026-11-17T11:11:26+00:00",
+  "a35073add3": "2026-11-17T11:11:26+00:00",
+  "5bb8df1838": "2026-11-17T11:11:26+00:00",
+  "4e089a48eb": "2026-11-17T11:11:26+00:00",
+  "022881dfed": "2026-11-17T11:11:26+00:00",
+  "3b3174934a": "2026-11-17T11:11:26+00:00"
  },
- "notes": "New top (Epstein forensic-homicide report) replaces Nvidia/Huang, which holds as an item; ICE and H-1B sat out on rotation (one sanctuary-detainer exception ran); election-integrity spotlight had no hard news so the midterms-fallout stories carried elections; 7 stacks built (Hormuz, second Epstein e"
+ "notes": "Re-led on the Crimean Bridge strike; held Epstein and the OpenAI suit as flash. Immigration at its spotlight cap of two plus the one H-1B wage study allowed while that beat sits benched; election integrity stayed off entirely. Rebuilt the Pattinson-Bond and Mormon Wives clusters as real stacks and b"
 }
