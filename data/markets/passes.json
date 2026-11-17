@@ -5016,5 +5016,35 @@
 "day": 32,
 "pass": 5,
 "no": "32.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-17",
+"at": "2026-11-17T14:51:11+00:00",
+"href": "movers/2026-11-17-0751.html",
+"syms": [
+"DIS",
+"MRVL",
+"KLAR",
+"NKE",
+"COHR",
+"NBIS",
+"CMI",
+"LITE",
+"ARM",
+"GEV",
+"SPCX",
+"SLV",
+"NEM"
+],
+"heads": [
+"DIS +1.8% on 4.8x volume, breakout past buy point",
+"MRVL +1.7% on 2.4x volume, in base"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 33,
+"pass": 1,
+"no": "33.1"
 }
 ]
