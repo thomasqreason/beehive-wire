@@ -5082,5 +5082,21 @@
 "day": 33,
 "pass": 3,
 "no": "33.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-17",
+"at": "2026-11-17T21:10:10+00:00",
+"href": "movers/2026-11-17-1410.html",
+"syms": [
+"KLAR",
+"CHRW"
+],
+"heads": [],
+"extra": "0 qualifiers",
+"live": false,
+"day": 33,
+"pass": 4,
+"no": "33.4"
 }
 ]
