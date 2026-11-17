@@ -5098,5 +5098,46 @@
 "day": 33,
 "pass": 4,
 "no": "33.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-17",
+"at": "2026-11-17T23:15:30+00:00",
+"href": "movers/2026-11-17-1615.html",
+"syms": [
+"KLAR",
+"CHRW",
+"GEV"
+],
+"heads": [],
+"extra": "0 qualifiers",
+"live": false,
+"day": 33,
+"pass": 5,
+"no": "33.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-17",
+"at": "2026-11-17T23:25:28+00:00",
+"href": "2026-11-17.html",
+"syms": [
+"COST",
+"TSLA",
+"GWW",
+"AAPL"
+],
+"heads": [
+"Costco Holds Near 52-Week High As It Releases Holiday Product",
+"Tesla Edges Up On €3 Billion Berlin Cybercab Production Plan",
+"Grainger Dips 1.9% In Sell-Off; Third-Quarter EPS More Than Doubled",
+"Apple Edges Lower As iCloud, App Store And Apple Pay Outages Hit",
+"Company of the Day: Fastenal Holds Near High As Nuts-And-Bolts Sales Keep Climbing"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 33,
+"pass": 6,
+"no": "33.6"
 }
 ]
