@@ -5168,5 +5168,50 @@
 "day": 34,
 "pass": 1,
 "no": "34.1"
+},
+{
+"kind": "movers",
+"date": "2026-11-18",
+"at": "2026-11-18T18:15:56+00:00",
+"href": "movers/2026-11-18-1115.html",
+"syms": [
+"TGT",
+"PANW",
+"TTWO",
+"BLSH",
+"TJX",
+"KLAR",
+"NBIS"
+],
+"heads": [
+"TGT +6.9% on 3.1x volume, nearing buy point",
+"PANW +6.9% on 1.5x volume, big move on the day"
+],
+"extra": "2 qualifiers",
+"live": true,
+"day": 34,
+"pass": 2,
+"no": "34.2"
+},
+{
+"kind": "midday",
+"date": "2026-11-18",
+"at": "2026-11-18T18:19:13+00:00",
+"href": "2026-11-18.html#pass-midday",
+"syms": [
+"DIS",
+"TMDX",
+"SAIL"
+],
+"heads": [
+"Disney Jumps 4.7% On Earnings Beat And $3 Billion Savings Target",
+"TransMedics Climbs 4.8% As Organ Transplant Revenue Grows 41.1%",
+"SailPoint Jumps 7.8% As Identity Security Revenue Grows 16.8%"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 34,
+"pass": 3,
+"no": "34.3"
 }
 ]
