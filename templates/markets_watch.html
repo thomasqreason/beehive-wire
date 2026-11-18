@@ -98,7 +98,6 @@
 
   // ── Alerts panel: this symbol's rules, quick picks from the chart's own numbers, a custom price
   function rid(){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
-  function lastPrice(d){var px=P.body.querySelector('h2 .px'),v=px?parseFloat(px.textContent):NaN;return isNaN(v)?d.close:v;}
   function ruleText(r){return r.label||(r.kind+' '+f2(r.price));}
   function arm(sym,kind,price,label){price=Math.round(price*100)/100;if(!(price>0))return;
     if(AL.rules.some(function(r){return r.sym===sym&&r.kind===kind&&Math.abs(r.price-price)<0.005&&!r.fired;}))return;
@@ -112,12 +111,12 @@
     return h;
   }
   function panelHtml(d){
-    var sym=d.sym,b=d.base||{},last=lastPrice(d),rules=AL.rules.filter(function(r){return r.sym===sym;}),h='<div class="alpanel">';
+    var sym=d.sym,b=d.base||{},rules=AL.rules.filter(function(r){return r.sym===sym;}),h='<div class="alpanel">';
     rules.forEach(function(r){h+='<div class="alr"><b>'+esc(sym)+' '+esc(ruleText(r))+'</b> <span class="st">'+(r.fired?'fired '+esc(mt(r.fired))+' at '+f2(r.fired_price):'armed')+'</span>'
       +(r.fired?' <button type="button" class="alre" data-id="'+esc(r.id)+'">Re-arm</button>':'')+' <button type="button" class="alx" data-id="'+esc(r.id)+'" aria-label="Delete">&times;</button></div>';});
     var picks=[];
     if(b.buy_point)picks.push(['above',b.buy_point,'above buy point '+f2(b.buy_point)]);
-    if(last)picks.push(['below',last*0.92,'below 8% stop '+f2(last*0.92)]);
+    if(b.buy_point)picks.push(['below',b.buy_point*0.92,'below 8% stop '+f2(b.buy_point*0.92)]);   // 8% under the buy point (Nov 18, 2026), so it stays put while the price ticks
     if(d.hi52)picks.push(['above',d.hi52,'above 52-week high '+f2(d.hi52)]);
     h+='<div class="alq">'+picks.map(function(p){return '<button type="button" class="alpk" data-k="'+p[0]+'" data-p="'+(Math.round(p[1]*100)/100)+'" data-l="'+esc(p[2])+'">'+esc(p[2].charAt(0).toUpperCase()+p[2].slice(1))+'</button>';}).join('')+'</div>';
     h+='<div class="alc"><label>Above <input class="alin" data-k="above" inputmode="decimal" autocomplete="off"></label> <label>Below <input class="alin" data-k="below" inputmode="decimal" autocomplete="off"></label> <button type="button" class="alarm">Arm</button></div>';
@@ -227,7 +226,7 @@
   var ao0=document.getElementById('al-out');if(ao0)wireActions(ao0,null);
 
   function changed(){paintButtons();redrawMenu();if(PANEL)paintPanel();paintStrip();sections();}
-  P.hook({render:decorate,quote:function(d){if(PANEL&&CUR&&CUR.d===d)paintPanel();},     // the 8% stop pick follows the live price
+  P.hook({render:decorate,quote:function(d){if(PANEL&&CUR&&CUR.d===d)paintPanel();},     // repaint on each live quote
           closed:function(){LM=null;closeMenu();PANEL=false;CUR=null;}});
   sections();
   pull();

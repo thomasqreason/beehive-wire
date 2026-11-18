@@ -173,17 +173,25 @@ async function dailyBars(sym) {
 // ── Weekly (1wk) or monthly (1mo) bars for the long view. Dated by Yahoo's bucket start (a Monday, or the 1st);
 //    the page files each bar into its own week or month, so only the date's bucket matters.
 async function longBars(sym, interval, range) {
-  const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=${interval}&range=${range}`,
+  // Yahoo quietly answers range=max at 3-month granularity whatever interval is asked for, so the monthly series
+  // asks by timestamp instead (period1=0 → every monthly bar it has). period2 is rounded up to the hour so the
+  // URL, and with it the edge cache, stays the same for an hour.
+  const span = range === "max" ? `period1=0&period2=${Math.ceil(Date.now() / 3600000) * 3600}` : `range=${range}`;
+  const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=${interval}&${span}`,
     { headers: { "User-Agent": UA }, cf: { cacheTtl: 3600 } });
   if (!r.ok) return null;
   const res = (await r.json())?.chart?.result?.[0];
   if (!res?.timestamp) return null;
-  const m = res.meta || {}, q = res.indicators?.quote?.[0] || {}, off = m.gmtoffset || 0;
+  const m = res.meta || {}, q = res.indicators?.quote?.[0] || {};
+  // Weekly and monthly bars are stamped midnight on the exchange's clock, so the date has to be read in the
+  // exchange's own time zone: a fixed offset puts every summer bar on the last day of the month before, and the
+  // March and April bars then share a month key and one of them is lost.
+  const day = new Intl.DateTimeFormat("en-CA", { timeZone: m.exchangeTimezoneName || "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" });
   const cols = { d: [], o: [], h: [], l: [], c: [], v: [] };
   res.timestamp.forEach((t, i) => {
     const o = q.open?.[i], h = q.high?.[i], l = q.low?.[i], c = q.close?.[i], v = q.volume?.[i];
     if ([o, h, l, c].some(x => x == null)) return;
-    const d = new Date((t + off) * 1000).toISOString().slice(0, 10);
+    const d = day.format(new Date(t * 1000));
     const key = interval === "1mo" ? d.slice(0, 7) : d;
     const lastKey = cols.d.length ? (interval === "1mo" ? cols.d[cols.d.length - 1].slice(0, 7) : cols.d[cols.d.length - 1]) : null;
     if (lastKey === key) for (const k of ["d", "o", "h", "l", "c", "v"]) cols[k].pop();   // a duplicate live bar: keep the newer one
