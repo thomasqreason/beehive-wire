@@ -98,10 +98,12 @@
   {% endmacro %}
 
   {% if ext %}
+  <div class="extsec" data-kind="{{ ext.kind }}" data-date="{{ ext.date }}">
   <h3 class="sec" id="{{ ext.anchor }}" style="margin-top:22px">{{ ext.title }}</h3>
   <div class="legend">{{ ext.legend }}</div>
   {{ mvtable(ext.up, "Up " ~ ext.col_words, ext.col) }}
   {{ mvtable(ext.down, "Down " ~ ext.col_words, ext.col) }}
+  </div>
   {% endif %}
 
   {% if movers %}
@@ -152,7 +154,7 @@
   {% endif %}
 
   <ul class="toc">
-    {% if ext %}<li><a href="#{{ ext.anchor }}">{{ ext.title }}</a></li>{% endif %}
+    {% if ext %}<li class="extsec" data-kind="{{ ext.kind }}" data-date="{{ ext.date }}"><a href="#{{ ext.anchor }}">{{ ext.title }}</a></li>{% endif %}
     {% if movers %}<li><a href="#movers">Volume Surges</a></li>{% endif %}
     {% if ed.chief %}<li><a href="#chief">Desk Chief</a></li>{% endif %}
     {% if ed.earnings_week %}<li><a href="#earnings">Earnings this week</a></li>{% endif %}
@@ -183,8 +185,8 @@
     <div class="facts">
       <div><b>Close</b>{{ '%.2f'|format(s.close) }} <span class="{{ 'pos' if (s.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.chg or 0) }} ({{ '%+.1f'|format(s.chg_pct or 0) }}%)</span></div>
       <div><b>Volume vs 50-day{% if s.vol_projected %} (projected){% endif %}</b>{{ '%.1f'|format(s.vol_ratio or 0) }}x</div>
-      {% if s.premarket %}<div><b>Premarket ({{ s.premarket.as_of }})</b>{{ '%.2f'|format(s.premarket.price) }} <span class="{{ 'pos' if (s.premarket.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.premarket.chg) }} ({{ '%+.1f'|format(s.premarket.chg_pct) }}%)</span></div>{% endif %}
-      {% if s.after_hours %}<div><b>After hours ({{ s.after_hours.as_of }})</b>{{ '%.2f'|format(s.after_hours.price) }} <span class="{{ 'pos' if (s.after_hours.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.after_hours.chg) }} ({{ '%+.1f'|format(s.after_hours.chg_pct) }}%)</span></div>{% endif %}
+      {% if s.premarket %}<div class="extsec" data-kind="pre"><b>Premarket ({{ s.premarket.as_of }})</b>{{ '%.2f'|format(s.premarket.price) }} <span class="{{ 'pos' if (s.premarket.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.premarket.chg) }} ({{ '%+.1f'|format(s.premarket.chg_pct) }}%)</span></div>{% endif %}
+      {% if s.after_hours %}<div class="extsec" data-kind="post"><b>After hours ({{ s.after_hours.as_of }})</b>{{ '%.2f'|format(s.after_hours.price) }} <span class="{{ 'pos' if (s.after_hours.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.after_hours.chg) }} ({{ '%+.1f'|format(s.after_hours.chg_pct) }}%)</span></div>{% endif %}
       {% if b %}
       <div><b>Buy point</b>{{ '%.2f'|format(b.buy_point) }}</div>
       <div><b>Buy range</b>{{ '%.2f'|format(b.buy_point) }} &ndash; {{ '%.2f'|format(b.buy_max) }}</div>
@@ -445,6 +447,27 @@
 {% include "markets_popup.html" %}
 {% include "markets_positions.html" %}
 {% if latest and desk.quote_relay %}
+<script>
+/* One extended-hours view at a time, like Google (Nov 18, 2026): nothing while the regular session trades; after hours
+   only for the session that last closed; premarket only on its own morning before the open. Runs on the reader's
+   clock in Eastern time, so a page rendered last night drops its after-hours table at 9:30 without a new pass. */
+(function(){
+  function et(){var p={};new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value;});
+    return {wd:p.weekday,day:p.year+'-'+p.month+'-'+p.day,mins:(+p.hour%24)*60+(+p.minute)};}
+  function prevWeekday(day){var d=new Date(day+'T12:00:00Z');do{d.setUTCDate(d.getUTCDate()-1);}while(d.getUTCDay()===0||d.getUTCDay()===6);return d.toISOString().slice(0,10);}
+  function apply(){
+    var n=et(),wk=n.wd!=='Sat'&&n.wd!=='Sun',inSession=wk&&n.mins>=570&&n.mins<960;
+    var lastClosed=wk&&n.mins>=960?n.day:prevWeekday(n.day);
+    document.querySelectorAll('.extsec').forEach(function(el){
+      var k=el.getAttribute('data-kind'),d=el.getAttribute('data-date')||'',show;
+      if(inSession)show=false;
+      else if(k==='pre')show=wk&&n.mins<570&&(!d||d===n.day);
+      else show=!d||d>=lastClosed;
+      el.style.display=show?'':'none';});
+  }
+  apply();setInterval(apply,60000);
+})();
+</script>
 <script>window.BW_RELAY={{ desk.quote_relay|tojson }};window.BW_MBASE={{ ((root or '../') ~ 'markets/')|tojson }};window.BW_STORY={{ story_syms|tojson }};</script>
 <script>{% include "markets_live.js" %}</script>
 {% endif %}
