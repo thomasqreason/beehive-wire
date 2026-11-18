@@ -5242,5 +5242,59 @@
 "day": 34,
 "pass": 4,
 "no": "34.4"
+},
+{
+"kind": "movers",
+"date": "2026-11-18",
+"at": "2026-11-18T23:14:25+00:00",
+"href": "movers/2026-11-18-1614.html",
+"syms": [
+"TGT",
+"PANW",
+"DIS",
+"WSM",
+"TTWO",
+"BLSH",
+"TJX",
+"KLAR",
+"LOW",
+"PNW",
+"HWM"
+],
+"heads": [
+"TGT +4.0% on 3.2x volume, nearing buy point",
+"PANW +9.9% on 2.8x volume, big move on the day",
+"DIS +4.6% on 2.0x volume, breakout past buy point",
+"WSM +4.0% on 1.8x volume, still in buy range after breakout"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 34,
+"pass": 5,
+"no": "34.5"
+},
+{
+"kind": "edition",
+"date": "2026-11-18",
+"at": "2026-11-18T23:20:49+00:00",
+"href": "2026-11-18.html",
+"syms": [
+"DIS",
+"TMDX",
+"AMD",
+"XOM"
+],
+"heads": [
+"Disney Rises 4.6% After Earnings Beat And $3 Billion Savings Plan",
+"TransMedics Climbs 2.7% As Quarterly Revenue Grows 41.1%",
+"AMD Jumps 5.3% A Day After Nvidia's Earnings Beat",
+"ExxonMobil Falls 4% Despite Earnings That More Than Doubled",
+"Company of the Day: SailPoint Jumps 10.3% As Identity-Security Software Names Rally"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 34,
+"pass": 6,
+"no": "34.6"
 }
 ]
