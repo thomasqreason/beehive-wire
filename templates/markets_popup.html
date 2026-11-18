@@ -228,7 +228,7 @@
       deepen(d);
   }
   // Live price from the quote relay (markets.yaml desk.quote_relay). The pass price stays if it fails.
-  var SESSION={pre:'Pre-market',post:'After hours',overnight:'Overnight'};
+  var SESSION={pre:'Pre-market',post:'After hours'};
   function clock(t){try{return new Date(t*1000).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT';}catch(e){return '';}}
   function day(t){try{var d=new Date(t*1000),n=new Date();return d.toDateString()===n.toDateString()?'':d.toLocaleDateString('en-US',{weekday:'short',timeZone:'America/Denver'})+' ';}catch(e){return '';}}
   function line(label,p,c,cp,t,cl){return '<div class="lq'+(cl?' '+cl:'')+'"><b>'+label+'</b> '+f2(p)+' <span class="'+cls(c)+'">'+(c>=0?'+':'')+f2(c)+' ('+pc(cp)+')</span> <span class="lt">'+day(t)+clock(t)+'</span></div>';}
@@ -248,7 +248,7 @@
       var q=j&&j.quotes&&j.quotes[sym];if(!q||!q.regular||body.getAttribute('data-sym')!==sym)return;
       try{earnFromQuote(d,q);}catch(e){}
       var r=q.regular,x=q.extended,h=body.querySelector('h2'),el=document.createElement('div');el.className='lquote';
-      el.innerHTML=line(q.live?'Live':'At close',r.price,r.chg,r.chgPct,r.time,q.live?'on':'')+(x?line(SESSION[x.session]||'Extended',x.price,x.chg,x.chgPct,x.time,'on'):'');
+      el.innerHTML=line(q.live?'Live':'At close',r.price,r.chg,r.chgPct,r.time,q.live?'on':'')+(x&&SESSION[x.session]?line(SESSION[x.session],x.price,x.chg,x.chgPct,x.time,'on'):'');
       if(h){h.parentNode.insertBefore(el,h.nextSibling);
         var top=x||r,px=h.querySelector('.px'),pg=h.querySelector('.pchg');   // the headline shows the freshest price
         if(px)px.textContent=f2(top.price);

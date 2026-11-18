@@ -24,11 +24,11 @@
 // (*/5 * * * 1-5) that runs scheduled() below. Endpoints are listed with the code, at the bottom of this file.
 //
 // Returns, per symbol: the regular-session price and change, plus the latest extended-hours price
-// (pre-market, after hours, or overnight) when there is one, each with its time. Quotes are cached
+// (after hours from the close, pre-market once it prints; never overnight) when there is one, each with its time. Quotes are cached
 // for 30 seconds, so a busy page costs Yahoo — and the free plan — one call per symbol per 30 s.
 //
 // Sources: Yahoo's chart feed (regular, pre-market, after hours; no login) and Yahoo's quote feed
-// (adds overnight, 8 p.m.-4 a.m. Eastern; needs a session cookie + crumb, which the relay fetches
+// (pre/post fields and earnings dates; needs a session cookie + crumb, which the relay fetches
 // itself and reuses). If the quote feed fails, the chart feed alone still answers.
 
 const ALLOWED = ["https://beehivewire.com", "https://www.beehivewire.com", "http://localhost:8000", "http://127.0.0.1:8000"];
@@ -232,7 +232,7 @@ async function profile(sym, retried) {
   return { name: x.price?.longName || x.price?.shortName || null, industry: x.assetProfile?.industry || null, sector: x.assetProfile?.sector || null };
 }
 
-// ── Yahoo quote feed: adds overnight. Needs a cookie + crumb.
+// ── Yahoo quote feed: pre-market / after-hours fields and earnings dates. Needs a cookie + crumb.
 async function getSession(force) {
   if (session && !force && Date.now() - session.at < 6 * 3600e3) return session;
   const r1 = await fetch("https://fc.yahoo.com/", { headers: { "User-Agent": UA }, redirect: "manual" });
@@ -274,9 +274,7 @@ function merge(sym, q, ch) {
   if (q) {
     add("pre", q.preMarketPrice, q.preMarketTime);
     add("post", q.postMarketPrice, q.postMarketTime);
-    // Overnight fields: take any overnight*Price / overnight*Time pair Yahoo sends, whatever its exact name.
-    const pk = Object.keys(q).find(k => /^overnight.*price$/i.test(k)), tk = Object.keys(q).find(k => /^overnight.*time$/i.test(k));
-    if (pk && tk) add("overnight", q[pk], q[tk]);
+    // No overnight prices (Nov 18, 2026: match Google); Yahoo's overnight* fields are ignored.
   }
   const tp = m.currentTradingPeriod;
   if (ch?.last && tp) {
@@ -284,19 +282,24 @@ function merge(sym, q, ch) {
     const s = t >= tp.pre?.start && t < tp.pre?.end ? "pre" : t >= tp.post?.start && t < tp.post?.end ? "post" : null;
     if (s) add(s, ch.last.price, t);
   }
+  // One extended line at a time, like Google (Nov 18, 2026): nothing while the regular session trades; from the
+  // close until the first pre-market print, after hours; once pre-market prints start, pre-market only.
+  const state = (q?.marketState || "").toUpperCase();           // PRE, REGULAR, POST, POSTPOST, CLOSED, PREPRE …
+  const nowS = Date.now() / 1000;
+  const regularNow = state ? state === "REGULAR" : !!(tp && nowS >= tp.regular?.start && nowS < tp.regular?.end);
   ext.sort((a, b) => b.time - a.time);
-  let extended = ext.find(e => e.time > reg.time) || null;
+  const after = ext.filter(e => e.time > reg.time);
+  let extended = regularNow ? null : (after.find(e => e.session === "pre") || after.find(e => e.session === "post") || null);
   if (extended) {
     extended.chg = extended.price - reg.price;
     extended.chgPct = (extended.chg / reg.price) * 100;
   }
-  const state = (q?.marketState || "").toUpperCase();           // PRE, REGULAR, POST, POSTPOST, CLOSED, PREPRE …
   // The next report (Nov 5, 2026): unix seconds from the v7 quote, so a ticker typed into the quote box gets the
   // earnings date on its chart like the desk's own names. The page prefers start, then ts, and ignores past dates.
   const earnings = q && (q.earningsTimestamp != null || q.earningsTimestampStart != null)
     ? { ts: num(q.earningsTimestamp), start: num(q.earningsTimestampStart), end: num(q.earningsTimestampEnd) } : null;
   return { sym, name: q?.longName || q?.shortName || m.longName || m.shortName || null, regular: reg, extended, earnings,
-           live: state ? state === "REGULAR" : !!(tp && Date.now() / 1000 >= tp.regular?.start && Date.now() / 1000 < tp.regular?.end),
+           live: regularNow,
            marketState: state || null };
 }
 

@@ -32,12 +32,12 @@ the chart stays where it was; paste the current worker in (above) to turn it on.
 
 ## What readers see
 The pop-up opens on the pass's saved chart, then within a second the headline switches to the freshest
-price, with "Live" (or "At close") and, outside regular hours, "Pre-market" / "After hours" / "Overnight"
+price, with "Live" (or "At close") and, outside regular hours, one extended line: "After hours" from the close, "Pre-market" once pre-market prints start (no overnight)
 lines and their times. If the relay is down the pop-up keeps the pass price; nothing breaks.
 
 ## Sources
-Yahoo's chart feed (regular, pre-market, after hours; no login) and Yahoo's quote feed for overnight
-(8 p.m.–4 a.m. ET; the relay fetches its own session cookie). Unofficial endpoints — fine at this scale,
+Yahoo's chart feed (regular, pre-market, after hours; no login) and Yahoo's quote feed for pre/post fields
+(the relay fetches its own session cookie). Unofficial endpoints — fine at this scale,
 not a licensed feed. Allowed sites are listed in ALLOWED at the top of the file.
 
 ## The Market Desk gate
