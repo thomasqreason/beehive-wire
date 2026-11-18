@@ -17,8 +17,9 @@ desk:
     enabled: true
     ntfy_server: "https://ntfy.sh"
   passes:
-    premarket:    {at: "07:15", stories: 3}   # Premarket Movers table, today's date at the top, futures, 3 stories
+    premarket:    {at: "06:30", stories: 3}   # Premarket Movers table, today's date at the top, futures, 3 stories (7:15 -> 6:30, Nov 18, 2026)
     movers_open:  {at: "07:45"}               # first Volume Surges pass
+    open:         {at: "08:00", stories: 3}   # "At the open": Volume Surges, then 3 stories on the first half hour (Todd, Nov 18, 2026)
     midday:       {at: "11:05", stories: 3}   # Volume Surges, then 3 stories from the session so far
     movers_close: {at: "14:05"}               # Volume Surges with the closing numbers
     close:        {at: "15:20", stories: 4}   # After Hours, 4 stories, Desk Chief, Company of the Day, The Lesson (Fri)

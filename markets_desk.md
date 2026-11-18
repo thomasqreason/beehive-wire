@@ -39,10 +39,13 @@ Write exactly the stories in the payload: same count, same order, same tickers. 
 story earlier today or yesterday is back because something happened (a breakout, a 3%+ premarket or after-hours
 move, a new chart status): lead with what changed.
 
-- `premarket` (7:15 a.m. Mountain, before the open). The facts are the PRIOR close; each story carries a `premarket`
+- `premarket` (6:30 a.m. Mountain, before the open). The facts are the PRIOR close; each story carries a `premarket`
   block (price, change, time read) from the premarket tape. The premarket print and the overnight news LEAD the
   story and the headline ("Datadog Jumps 9% Premarket After Raising Its Outlook"), with the prior close second.
   The payload's `futures` list holds the index futures against the prior settle.
+- `open` (8:00 a.m. Mountain, half an hour into the session). Same rules as `midday` below: `intraday`, `as_of`,
+  projected volume. Lead with what the open did: a premarket gap that held or failed, an early breakout, a reversal.
+  These are the morning's news stories; readers see them through the session.
 - `midday` (11:05 a.m. Mountain, the session under way). When `intraday` is true the day's numbers are the session
   so far: give the time once, from the payload's `as_of` in Mountain time ("as of 11:05 a.m. Mountain"), then treat
   the partial bar as the session. `vol_ratio` is projected to the full day (`vol_projected`); say "on pace for 2.1x
@@ -149,8 +152,8 @@ counts less, a drop of 1.5%+ or on 20%+ more volume counts more, a stalling day 
 them) is what the state label reads. Quote the weighted number and say "weighted" once: "the S&P 500 has 6
 distribution days, 5.3 weighted." The raw count is `dist_days`.
 
-On the premarket and midday passes `market_note` is two sentences: the indexes (premarket: the `futures`, "S&P 500
-futures +0.4% at 9:14 a.m. Eastern"; midday: the session so far) and the weighted distribution read with the state
+On the premarket, open and midday passes `market_note` is two sentences: the indexes (premarket: the `futures`, "S&P 500
+futures +0.4% at 8:29 a.m. Eastern"; open and midday: the session so far) and the weighted distribution read with the state
 label.
 
 ## The Company of the Day profile

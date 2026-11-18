@@ -478,10 +478,11 @@ def enrich(f: dict) -> None:
 
 BOARD_KEYS = ("sym", "close", "chg_pct", "status", "from_pivot", "rs_rank", "vol_ratio", "from_hi52", "vs_sma50", "angle")
 ET = ZoneInfo("America/New_York")
-WRITER_PASSES = ("premarket", "midday", "close")
-PASS_DEFAULTS = {"premarket": {"at": "07:15", "stories": 3}, "movers_open": {"at": "07:45"},
+WRITER_PASSES = ("premarket", "open", "midday", "close")
+INTRADAY_PASSES = ("open", "midday")   # writer passes run while the session trades (today's bar is partial)
+PASS_DEFAULTS = {"premarket": {"at": "06:30", "stories": 3}, "movers_open": {"at": "07:45"}, "open": {"at": "08:00", "stories": 3},
                  "midday": {"at": "11:05", "stories": 3}, "movers_close": {"at": "14:05"}, "close": {"at": "15:20", "stories": 4}}
-PASS_LABEL = {"premarket": "Premarket", "midday": "Midday", "close": "Close"}
+PASS_LABEL = {"premarket": "Premarket", "open": "At the open", "midday": "Midday", "close": "Close"}
 
 
 def desk_passes(cfg: dict) -> dict:
@@ -542,8 +543,8 @@ def mark_tried(pass_name: str, day: str) -> None:
 
 
 def scan(cfg: dict, pass_name: str = "close") -> dict:
-    """The writer's payload for one pass: premarket (7:15 a.m. Mountain, from the prior close plus the premarket tape),
-    midday (11:05, today's partial bar) or close (3:20, the session's bar plus after hours)."""
+    """The writer's payload for one pass: premarket (6:30 a.m. Mountain, from the prior close plus the premarket tape),
+    open (8:00) and midday (11:05), today's partial bar, or close (3:20, the session's bar plus after hours)."""
     if pass_name not in WRITER_PASSES:
         raise ValueError(f"unknown pass {pass_name}")
     now = datetime.now(timezone.utc)
@@ -567,7 +568,7 @@ def scan(cfg: dict, pass_name: str = "close") -> dict:
                     facts.append(f)
             except Exception as e:  # noqa: BLE001
                 log(f"{sym}: analysis failed ({e})")
-    if pass_name == "midday" and live and frac > 0:
+    if pass_name in INTRADAY_PASSES and live and frac > 0:
         # today's bar is partial: project its volume to the full session, the way Volume Surges does
         for f in facts:
             if f["date"] == session and f.get("vol_ratio") is not None:
@@ -769,7 +770,7 @@ def scan(cfg: dict, pass_name: str = "close") -> dict:
         "corner_topic": corner_topic,
         "board": [{k: f.get(k) for k in BOARD_KEYS + ("rs_score",)} for f in board],
     }
-    if pass_name == "midday":
+    if pass_name in INTRADAY_PASSES:
         out.update(intraday=bool(live), session_fraction=round(frac, 2))
     if pass_name == "premarket":
         out["futures"] = index_futures()
@@ -1078,6 +1079,7 @@ def publish(payload: dict, articles: dict | None, cfg: dict, chief: dict | None 
     if pass_name == "close" and ed.get("corner"):
         heads.append("The Lesson: " + ed["corner"]["headline"])
     kind, href = {"premarket": ("premarket", f"{payload['date']}.html#pass-premarket"),
+                  "open": ("open", f"{payload['date']}.html#pass-open"),
                   "midday": ("midday", f"{payload['date']}.html#pass-midday")}.get(pass_name, ("edition", f"{payload['date']}.html"))
     record_pass(kind, payload["date"], printed_at, href, [s["sym"] for s in stories], heads,
                 extra=(ed.get("big_picture") or {}).get("state"))
@@ -1194,9 +1196,10 @@ def render_site(site_cfg: dict | None = None) -> int:
                 stamps.append(datetime.fromisoformat(ext_latest["as_of"]).astimezone(tz))
         ext = ext_view(ext_src, tz)
         stamp_time = max(stamps).strftime("%I:%M %p %Z").lstrip("0")
-        # The stories: the index page shows the newest `stories_keep` across today's and yesterday's files, newest
-        # first, one per name; a dated page shows every story of its day.
-        pool = [(s, e) for s in e["stories"]] + ([(s, eds[i - 1]) for s in eds[i - 1]["stories"]] if latest and i else [])
+        # The stories: the index page shows the newest `stories_keep` of the newest trading day, newest first, one per
+        # name; yesterday's carry over only until today's first stories (the 6:30 a.m. premarket pass) print, so last
+        # night's close stories leave the page with the morning (Todd, Nov 18, 2026). A dated page shows its whole day.
+        pool = [(s, e) for s in e["stories"]] + ([(s, eds[i - 1]) for s in eds[i - 1]["stories"]] if latest and i and not e["stories"] else [])
         pool.sort(key=lambda x: x[0].get("printed_at") or x[1].get("generated") or "", reverse=True)
         stories, seen = [], set()
         for s, src in pool:
@@ -1938,7 +1941,7 @@ def save_series(facts: list[dict]) -> int:
 # ────────────────────────────────────────────────────────────────────────── the pass index (archive + search)
 
 PASSES_FILE = DATA / "passes.json"
-KIND_LABEL = {"movers": "Volume Surges", "premarket": "Premarket", "midday": "Midday", "edition": "Edition"}
+KIND_LABEL = {"movers": "Volume Surges", "premarket": "Premarket", "open": "At the open", "midday": "Midday", "edition": "Edition"}
 
 
 def load_passes() -> list[dict]:
@@ -2289,10 +2292,10 @@ def load_lists() -> dict | None:
 
 def slots(cfg: dict | None = None) -> list[tuple[str, int]]:
     """The day's passes in Mountain time, from markets.yaml desk.passes: (mode, minutes after midnight). Mode is what
-    markets.yml runs: premarket (7:15), movers (7:45), midday (11:05), movers (2:05, the closing numbers) and
-    edition (3:20). On an early-close day the 1 p.m. Eastern bell is past by 2:05 either way."""
+    markets.yml runs: premarket (6:30), movers (7:45), open (8:00), midday (11:05), movers (2:05, the closing numbers)
+    and edition (3:20). On an early-close day the 1 p.m. Eastern bell is past by 2:05 either way."""
     ps = desk_passes(cfg if cfg is not None else load_cfg())
-    mode = {"premarket": "premarket", "movers_open": "movers", "midday": "midday", "movers_close": "movers", "close": "edition"}
+    mode = {"premarket": "premarket", "movers_open": "movers", "open": "open", "midday": "midday", "movers_close": "movers", "close": "edition"}
     out = []
     for key, m in mode.items():
         hh, mm = str(ps[key]["at"]).split(":")
@@ -2304,8 +2307,10 @@ def due_pass(now_utc: datetime | None = None, cfg: dict | None = None) -> str | 
     """GitHub drops and delays cron runs, so the hourly pinger-driven build asks: is a Market Desk pass overdue?
     Returns premarket / movers / midday / edition for a slot of today that has come round with nothing printed for
     it, else None. Never on a weekend or an NYSE holiday. Each pass is detected by what it prints:
-      premarket - data/markets/extended/<today>-pre.json; it lapses once the next slot (the 7:45 Volume Surges)
-                  comes round, since after the open it is no longer a premarket read
+      premarket - data/markets/extended/<today>-pre.json; it lapses at the 9:30 a.m. Eastern open (7:30 Mountain),
+                  since after the open it is no longer a premarket read
+      open      - today's edition has passes_done.open, or an open pass already started today (tried.json); it
+                  lapses once the midday slot comes round (Nov 18, 2026)
       movers    - movers/<today>-HHMM.json at or after the slot less 10 minutes (any later pass prints one too)
       midday    - today's edition has passes_done.midday, or a midday pass already started today (tried.json), so
                   a midday that ran and failed is not sent again every hour ahead of the close
@@ -2350,12 +2355,17 @@ def due_pass(now_utc: datetime | None = None, cfg: dict | None = None) -> str | 
             break
         later = [s for _, s in sl[n + 1:]]
         if kind == "premarket":
-            if pre_done or (later and mins >= later[0]):
+            if pre_done or mins >= 7 * 60 + 30:     # the open: 9:30 a.m. Eastern is 7:30 Mountain in both seasons
                 continue
         elif kind == "movers":
             if any(t >= slot - 10 for t in mover_times):
                 continue
-            if any(t is not None and t >= slot for k, t in done.items() if k in ("midday", "close")):
+            if any(t is not None and t >= slot for k, t in done.items() if k in ("open", "midday", "close")):
+                continue
+        elif kind == "open":
+            nxt = [s for k, s in sl[n + 1:] if k in ("midday", "edition")]
+            if (done.get("open") is not None or f"{today}-open" in tried or done.get("midday") is not None
+                    or done.get("close") is not None or (nxt and mins >= nxt[0])):
                 continue
         elif kind == "midday":
             if done.get("midday") is not None or f"{today}-midday" in tried or done.get("close") is not None:
@@ -2366,7 +2376,7 @@ def due_pass(now_utc: datetime | None = None, cfg: dict | None = None) -> str | 
         overdue.append(kind)
     if not overdue:
         return None
-    for kind in ("premarket", "midday", "edition"):
+    for kind in ("premarket", "open", "midday", "edition"):
         if kind in overdue:
             return kind
     return "movers"

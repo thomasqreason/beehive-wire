@@ -2,10 +2,11 @@ name: market-desk
 
 # The Market Desk. Five passes on NYSE trading days (weekdays minus exchange holidays), all Mountain time
 # (slots and story counts live in markets.yaml desk.passes; markets.py due reads them):
-#   7:15 a.m.  premarket - Premarket Movers (the broad universe's 2%+ premarket moves, in the Volume Surges columns,
+#   6:30 a.m.  premarket - Premarket Movers (the broad universe's 2%+ premarket moves, in the Volume Surges columns,
 #                          buy-point distance from the premarket price), index futures, and the first 3 stories.
 #                          The page is dated today from here on.
 #   7:45 a.m.  movers    - the first Volume Surges pass (the live screen re-runs it every minute of the session).
+#   8:00 a.m.  open      - Volume Surges, then 3 stories on the first half hour of the session (Nov 18, 2026).
 #  11:05 a.m.  midday    - Volume Surges, then 3 more stories from the session so far.
 #   2:05 p.m.  movers    - Volume Surges with the closing numbers, five minutes after the bell. No Claude call.
 #   3:20 p.m.  edition   - After Hours (same table, post-market), 4 more stories, the Desk Chief, Company of the
@@ -21,18 +22,19 @@ on:
     # slot hasn't come round or has already printed, so a slot never prints twice. The cron-job.org pinger (via
     # build.yml's check job, hourly at :50, UTC 09-14 and 21-04) and the hourly siren are the real safety net;
     # these are the backup clock. Nothing pings 15:50-20:50 UTC: the 11:05 midday pass leans on these lines.
-    - cron: "15,35,55 13,14 * * 1-5"   # 7:15 premarket
+    - cron: "30,50 12,13 * * 1-5"      # 6:30 premarket (12:30 UTC daylight, 13:30 standard)
     - cron: "45 13 * * 1-5"            # 7:45 Volume Surges, daylight time (the next line has its other shots)
     - cron: "5,25,45 14,15 * * 1-5"    # 7:45 Volume Surges
+    - cron: "0,20,40 14,15 * * 1-5"    # 8:00 at the open
     - cron: "5,25,45 17,18 * * 1-5"    # 11:05 midday
     - cron: "5,25,45 20,21 * * 1-5"    # 2:05 closing Volume Surges
     - cron: "20,40 21,22 * * 1-5"      # 3:20 edition
   workflow_dispatch:
     inputs:
       mode:
-        description: "premarket (7:15 table + stories), movers (Volume Surges only), midday (movers + stories), edition (the close), lists (Beehive 100 + Big Cap 40), corner (edition + The Lesson)"
+        description: "premarket (6:30 table + stories), movers (Volume Surges only), open (8:00 movers + stories), midday (movers + stories), edition (the close), lists (Beehive 100 + Big Cap 40), corner (edition + The Lesson)"
         type: choice
-        options: [edition, premarket, movers, midday, lists, corner]
+        options: [edition, premarket, movers, open, midday, lists, corner]
         default: edition
       catchup:
         description: "Catch-up run (sent by build.yml or breaking.yml): stand down if the overdue pass has since printed"
@@ -138,17 +140,19 @@ jobs:
         run: |
           mode="${{ needs.check.outputs.mode }}"
           if [ -z "$mode" ] || [ "$mode" = "none" ]; then
-            # fallback by the Mountain clock: 7:15 premarket, 7:45 movers, 11:05 midday, 2:05 movers, 3:20 edition
+            # fallback by the Mountain clock: 6:30 premarket, 7:45 movers, 8:00 open, 11:05 midday, 2:05 movers, 3:20 edition
             mt=$(TZ=America/Denver date +%H%M)
-            if [ "$mt" -lt 0740 ]; then mode=premarket
-            elif [ "$mt" -lt 1100 ]; then mode=movers
+            if [ "$mt" -lt 0730 ]; then mode=premarket
+            elif [ "$mt" -lt 0800 ]; then mode=movers
+            elif [ "$mt" -lt 1100 ]; then mode=open
             elif [ "$mt" -lt 1400 ]; then mode=midday
             elif [ "$mt" -lt 1515 ]; then mode=movers
             else mode=edition; fi
           fi
-          # the writer pass this mode runs: premarket / midday / close (edition and corner); none for movers and lists
+          # the writer pass this mode runs: premarket / open / midday / close (edition and corner); none for movers and lists
           case "$mode" in
             premarket) pass=premarket ;;
+            open) pass=open ;;
             midday) pass=midday ;;
             edition|corner) pass=close ;;
             *) pass=none ;;
@@ -159,7 +163,7 @@ jobs:
           echo "friday=$friday" >> "$GITHUB_OUTPUT"
           echo "Pass: $mode (writer pass: $pass, Friday: $friday)"
 
-      # ── Premarket Movers (7:15 am): the table, the page date, the index futures. Free.
+      # ── Premarket Movers (6:30 am): the table, the page date, the index futures. Free.
       - name: Premarket movers
         id: premarket
         if: steps.mode.outputs.mode == 'premarket'
@@ -176,7 +180,7 @@ jobs:
         continue-on-error: true
         run: python markets.py movers
 
-      # ── The writer passes: premarket (7:15), midday (11:05), close (3:20, or by hand).
+      # ── The writer passes: premarket (6:30), open (8:00), midday (11:05), close (3:20, or by hand).
       - name: Scan the leaders
         id: scan
         if: steps.mode.outputs.pass != 'none'
