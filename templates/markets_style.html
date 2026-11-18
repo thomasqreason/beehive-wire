@@ -50,6 +50,8 @@
   .chart .earn{fill:var(--ink);font-weight:700}
   .chart .earn.soon{fill:var(--coral)}
   .board td.earn.soon{color:var(--coral);font-weight:700}
+  .kick a.tk{color:var(--ink);font-weight:900;text-decoration:underline;text-underline-offset:2px}
+  .facts .liveq a.tk{color:inherit;text-decoration:underline}
   .kick .ps{margin-right:8px;color:var(--ink);font-weight:700;letter-spacing:.12em}
   .dist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 22px;margin:8px 0 0}
   .board.distt{font-size:12px}
@@ -58,6 +60,8 @@
   .board.distt tr.exp td{color:var(--mut);text-decoration:line-through}
   .board.distt tr.exp td .st{text-decoration:none}
   .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 14px;background:var(--card);padding:12px 14px;margin:0 0 16px;font-size:13px}
+  .facts .liveq{grid-column:1/-1;font-size:15px;border-left:3px solid var(--pivot);padding-left:8px}
+  .facts .liveq[hidden]{display:none}
   .facts div b{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700}
   .body p{margin:0 0 12px}
   .watch{margin:14px 0 0;padding:10px 14px;border:1px solid var(--soft);font-size:14px}

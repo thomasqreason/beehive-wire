@@ -175,7 +175,7 @@
   {% macro art(s, label, anchor) %}
   {% set a = s.article %}{% set b = s.base %}{% set fu = s.fundamentals or {} %}
   <article id="{{ anchor }}">
-    <div class="kick"><span class="st">{{ label }}</span>{% if s.stamp %}<span class="ps">{{ s.stamp }}</span>{% endif %}{{ s.name or s.sym }} ({{ s.sym }}){% if fu.industry %} &middot; {{ fu.industry }}{% endif %}</div>
+    <div class="kick"><span class="st">{{ label }}</span>{% if s.stamp %}<span class="ps">{{ s.stamp }}</span>{% endif %}{{ s.name or s.sym }} (<a class="tk" href="#chart={{ s.sym }}" data-sym="{{ s.sym }}" title="Open the chart">{{ s.sym }}</a>){% if fu.industry %} &middot; {{ fu.industry }}{% endif %}</div>
     <h2><a href="#{{ anchor }}">{{ a.headline }}</a></h2>
     {% if a.deck %}<p class="deck">{{ a.deck }}</p>{% endif %}
 
@@ -183,7 +183,8 @@
     <div class="legend">Blue bars close up, pink close down. The thin blue line in the lower part of the price panel is the RS line (the stock divided by the S&amp;P 500; rising = outperforming). Dashed green line is the buy point; the green band is the 5% buy range. Circles mark the base high and low. Red line in the volume panel is the 50-day average.</div>
 
     <div class="facts">
-      <div><b>Close</b>{{ '%.2f'|format(s.close) }} <span class="{{ 'pos' if (s.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.chg or 0) }} ({{ '%+.1f'|format(s.chg_pct or 0) }}%)</span></div>
+      <div class="liveq" data-sym="{{ s.sym }}" data-date="{{ s.date }}"{% if b %} data-bp="{{ b.buy_point }}" data-bm="{{ b.buy_max }}"{% endif %} hidden></div>
+      <div><b>{% if s.intraday or s.vol_projected %}Price at the pass{% else %}Close{% endif %}</b>{{ '%.2f'|format(s.close) }} <span class="{{ 'pos' if (s.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.chg or 0) }} ({{ '%+.1f'|format(s.chg_pct or 0) }}%)</span></div>
       <div><b>Volume vs 50-day{% if s.vol_projected %} (projected){% endif %}</b>{{ '%.1f'|format(s.vol_ratio or 0) }}x</div>
       {% if s.premarket %}<div class="extsec" data-kind="pre"><b>Premarket ({{ s.premarket.as_of }})</b>{{ '%.2f'|format(s.premarket.price) }} <span class="{{ 'pos' if (s.premarket.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.premarket.chg) }} ({{ '%+.1f'|format(s.premarket.chg_pct) }}%)</span></div>{% endif %}
       {% if s.after_hours %}<div class="extsec" data-kind="post"><b>After hours ({{ s.after_hours.as_of }})</b>{{ '%.2f'|format(s.after_hours.price) }} <span class="{{ 'pos' if (s.after_hours.chg or 0) >= 0 else 'neg' }}">{{ '%+.2f'|format(s.after_hours.chg) }} ({{ '%+.1f'|format(s.after_hours.chg_pct) }}%)</span></div>{% endif %}
@@ -466,6 +467,38 @@
       el.style.display=show?'':'none';});
   }
   apply();setInterval(apply,60000);
+})();
+</script>
+<script>
+/* Live quote on every story (Nov 18, 2026): the fact box's first line shows the price now, today's change and the
+   distance from the buy point, from the relay's bulk quotes (cached 60 s, shared by every reader). Every minute while
+   the page is open; after the bell it reads "Close <day>". It appears only when the quote is newer than the bar the
+   story was written on, so a story printed after today's close keeps its own numbers. */
+(function(){
+  var RELAY=null;
+  function f2(x){return Number(x).toFixed(2);}
+  function sg(x,d){return (x>=0?'+':'')+Number(x).toFixed(d==null?1:d);}
+  function etDay(t){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(t*1000));}
+  function mt(t){return new Date(t*1000).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Denver'})+' MT';}
+  function tick(){
+    RELAY=RELAY||window.BW_RELAY;var els=[].slice.call(document.querySelectorAll('.liveq'));
+    if(!RELAY||!els.length||document.hidden)return;
+    var syms=[];els.forEach(function(e){var s=e.getAttribute('data-sym');if(syms.indexOf(s)<0)syms.push(s);});
+    fetch(RELAY+(RELAY.indexOf('?')<0?'?':'&')+'q='+syms.slice(0,120).join(',')).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      if(!j||!j.quotes)return;var live=j.marketState==='REGULAR';
+      els.forEach(function(e){
+        var a=j.quotes[e.getAttribute('data-sym')];if(!a||a[0]==null||!a[5]){e.hidden=true;return;}
+        var p=a[0],pc=a[1],t=a[5],day=etDay(t);
+        if(day<=(e.getAttribute('data-date')||'')){e.hidden=true;return;}
+        var chg=pc?p-pc:null,cp=pc?(p/pc-1)*100:null,bp=parseFloat(e.getAttribute('data-bp')),bm=parseFloat(e.getAttribute('data-bm'));
+        var lab=live?'Live '+mt(t):'Close '+new Date(day+'T12:00:00').toLocaleDateString('en-US',{weekday:'short'});
+        var sy=e.getAttribute('data-sym'),h='<b>'+lab+' &middot; <a class="tk" href="#chart='+sy+'" data-sym="'+sy+'">'+sy+' chart</a></b>'+f2(p)+(chg!=null?' <span class="'+(chg>=0?'pos':'neg')+'">'+sg(chg,2)+' ('+sg(cp)+'%)</span>':'');
+        if(bp){var fp=(p/bp-1)*100,st=fp<0?'below buy point':p<=bm?'in buy range':'extended';h+=' <span class="st">&middot; '+sg(fp)+'% from buy point, '+st+'</span>';}
+        e.innerHTML=h;e.hidden=false;});
+    }).catch(function(){});
+  }
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)tick();});
+  window.addEventListener('load',tick);setTimeout(tick,50);setInterval(tick,60000);   // the gate writes the page in with document.write, so don't rely on load alone
 })();
 </script>
 <script>window.BW_RELAY={{ desk.quote_relay|tojson }};window.BW_MBASE={{ ((root or '../') ~ 'markets/')|tojson }};window.BW_STORY={{ story_syms|tojson }};</script>
