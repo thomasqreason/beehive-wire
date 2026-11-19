@@ -5546,5 +5546,52 @@
 "day": 35,
 "pass": 8,
 "no": "35.8"
+},
+{
+"kind": "movers",
+"date": "2026-11-19",
+"at": "2026-11-19T23:16:45+00:00",
+"href": "movers/2026-11-19-1616.html",
+"syms": [
+"INSM",
+"PANW",
+"EXPD",
+"P"
+],
+"heads": [
+"INSM +20.6% on 4.7x volume, breakout past buy point",
+"PANW +6.4% on 3.1x volume, big move on the day",
+"EXPD +2.3% on 1.9x volume, bounce off 50-day line",
+"P +4.7% on 1.5x volume, big move on the day"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 35,
+"pass": 9,
+"no": "35.9"
+},
+{
+"kind": "edition",
+"date": "2026-11-19",
+"at": "2026-11-19T23:21:58+00:00",
+"href": "2026-11-19.html",
+"syms": [
+"INSM",
+"DIS",
+"AMD",
+"GWW"
+],
+"heads": [
+"Insmed Soars 20.6% As Sanofi Buyout Report Hits The Tape",
+"Disney Slips 1.7% But Holds Near Its High After Q4 Earnings Beat",
+"AMD Slides 2% After Hours, Extending 7.7% Drop On Export Report",
+"Grainger Slips 1.7% In Market Rout Despite 102.9% Profit Gain",
+"Company of the Day: Visa Slides 3.1% As It Discloses Cyberattack On Third-Party Vendors"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 35,
+"pass": 10,
+"no": "35.10"
 }
 ]
