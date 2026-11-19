@@ -5412,5 +5412,71 @@
 "day": 35,
 "pass": 3,
 "no": "35.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-19",
+"at": "2026-11-19T15:51:12+00:00",
+"href": "movers/2026-11-19-0851.html",
+"syms": [
+"INSM",
+"PANW",
+"RBRK",
+"NET",
+"P",
+"OKTA",
+"SNOW",
+"CRWD",
+"FTNT",
+"MU",
+"NTRA",
+"BE",
+"INTC",
+"GNRC",
+"SAIL",
+"DELL",
+"COHR",
+"CRWV",
+"ASTS",
+"GOOG"
+],
+"heads": [
+"INSM +15.6% on 9.9x volume, breakout past buy point",
+"PANW +3.9% on 5.5x volume, in base",
+"RBRK +7.7% on 2.9x volume, bounce off 50-day line",
+"NET +5.5% on 2.7x volume, big move on the day",
+"P +13.0% on 2.5x volume, big move on the day",
+"OKTA +8.1% on 2.4x volume, bounce off 50-day line",
+"SNOW +2.1% on 2.3x volume, in base",
+"CRWD +5.9% on 2.3x volume, bounce off 50-day line",
+"FTNT +3.9% on 2.3x volume, in base",
+"MU +1.8% on 2.0x volume, in base"
+],
+"extra": "16 qualifiers",
+"live": true,
+"day": 35,
+"pass": 4,
+"no": "35.4"
+},
+{
+"kind": "open",
+"date": "2026-11-19",
+"at": "2026-11-19T15:54:17+00:00",
+"href": "2026-11-19.html#pass-open",
+"syms": [
+"INSM",
+"RBRK",
+"CRWD"
+],
+"heads": [
+"Insmed Soars 16.2% On Report Sanofi Weighs A Takeover",
+"Rubrik Jumps 7.7% As Oppenheimer Expects Beat-And-Raise Quarter",
+"CrowdStrike Climbs 5.7% As Palo Alto Results Lift Cybersecurity Stocks"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 35,
+"pass": 5,
+"no": "35.5"
 }
 ]
