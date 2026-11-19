@@ -5296,5 +5296,76 @@
 "day": 34,
 "pass": 6,
 "no": "34.6"
+},
+{
+"kind": "premarket",
+"date": "2026-11-19",
+"at": "2026-11-19T13:51:55+00:00",
+"href": "2026-11-19.html#premarket",
+"syms": [
+"ASTS",
+"PANW",
+"COHR",
+"P",
+"BE",
+"PL",
+"RIOT",
+"CRWD",
+"RBRK",
+"APLD",
+"STX",
+"NBIS",
+"WDC",
+"CRWV",
+"CRDO",
+"IREN",
+"ALAB",
+"NET",
+"HOOD",
+"INTC",
+"WSM",
+"TTWO",
+"FISV"
+],
+"heads": [
+"ASTS +8.7% premarket, in base",
+"PANW +8.6% premarket, in base",
+"COHR +7.6% premarket, in base",
+"P +7.4% premarket, in base",
+"BE +6.6% premarket, in base",
+"PL +5.8% premarket, in base",
+"RIOT +5.8% premarket, in base",
+"CRWD +5.6% premarket, in base",
+"RBRK +5.6% premarket, no base",
+"APLD +5.5% premarket, in base",
+"STX +5.4% premarket, in base",
+"NBIS +5.0% premarket, in base"
+],
+"extra": "23 movers",
+"live": false,
+"day": 35,
+"pass": 1,
+"no": "35.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-19",
+"at": "2026-11-19T13:54:14+00:00",
+"href": "2026-11-19.html#pass-premarket",
+"syms": [
+"PANW",
+"BLSH",
+"ASTS"
+],
+"heads": [
+"Palo Alto Networks Jumps 8.6% Premarket On $4.5 Billion Startup Deal",
+"Bullish Adds 3.5% Premarket After Earnings Beat And $300 Million Buyback",
+"AST SpaceMobile Jumps 8.2% Premarket A Day After Offering Filing Sank It"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 35,
+"pass": 2,
+"no": "35.2"
 }
 ]
