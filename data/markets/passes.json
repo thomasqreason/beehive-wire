@@ -5478,5 +5478,50 @@
 "day": 35,
 "pass": 5,
 "no": "35.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-19",
+"at": "2026-11-19T18:42:12+00:00",
+"href": "movers/2026-11-19-1142.html",
+"syms": [
+"INSM",
+"PANW",
+"RBRK",
+"P",
+"COHR"
+],
+"heads": [
+"INSM +18.4% on 5.2x volume, breakout past buy point",
+"PANW +6.0% on 3.0x volume, big move on the day",
+"RBRK +4.4% on 1.5x volume, big move on the day",
+"P +8.8% on 1.5x volume, big move on the day"
+],
+"extra": "4 qualifiers",
+"live": true,
+"day": 35,
+"pass": 6,
+"no": "35.6"
+},
+{
+"kind": "midday",
+"date": "2026-11-19",
+"at": "2026-11-19T18:44:51+00:00",
+"href": "2026-11-19.html#pass-midday",
+"syms": [
+"INSM",
+"ISRG",
+"MSFT"
+],
+"heads": [
+"Insmed Surges 18.7% On Report Sanofi Is Weighing A Takeover",
+"Intuitive Surgical Falls 2.4% As Sales Grow But Earnings Slide",
+"Microsoft Dips 1.1% As Nadella Weighs In On AI Capacity Deals"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 35,
+"pass": 7,
+"no": "35.7"
 }
 ]
