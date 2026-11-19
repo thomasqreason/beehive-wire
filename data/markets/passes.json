@@ -5367,5 +5367,50 @@
 "day": 35,
 "pass": 2,
 "no": "35.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-19",
+"at": "2026-11-19T14:51:10+00:00",
+"href": "movers/2026-11-19-0751.html",
+"syms": [
+"PANW",
+"COHR",
+"NET",
+"RBRK",
+"CRWD",
+"RIOT",
+"ZS",
+"AMD",
+"OKTA",
+"SAIL",
+"BE",
+"SNOW",
+"MU",
+"P",
+"MSFT",
+"FTNT",
+"AMZN",
+"TEAM",
+"INTC",
+"MRVL"
+],
+"heads": [
+"PANW +6.9% on 8.0x volume, big move on the day",
+"COHR +11.5% on 3.7x volume, big move on the day",
+"NET +6.7% on 3.3x volume, big move on the day",
+"RBRK +11.4% on 3.3x volume, bounce off 50-day line",
+"CRWD +7.2% on 3.0x volume, bounce off 50-day line",
+"RIOT +7.0% on 3.0x volume, big move on the day",
+"ZS +9.4% on 2.6x volume, bounce off 50-day line",
+"AMD +4.5% on 2.6x volume, big move on the day",
+"OKTA +8.9% on 2.5x volume, bounce off 50-day line",
+"SAIL +3.7% on 2.4x volume, nearing buy point"
+],
+"extra": "20 qualifiers",
+"live": true,
+"day": 35,
+"pass": 3,
+"no": "35.3"
 }
 ]
