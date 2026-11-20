@@ -5593,5 +5593,66 @@
 "day": 35,
 "pass": 10,
 "no": "35.10"
+},
+{
+"kind": "premarket",
+"date": "2026-11-20",
+"at": "2026-11-20T13:52:20+00:00",
+"href": "2026-11-20.html#premarket",
+"syms": [
+"HUM",
+"FDS",
+"UNH",
+"INTU",
+"SNDK",
+"BE",
+"SPCX",
+"ROST",
+"COHR",
+"STRL",
+"LITE",
+"DELL",
+"NBIS"
+],
+"heads": [
+"HUM +2.4% premarket, back below buy point",
+"FDS +2.3% premarket, back below buy point",
+"UNH +2.1% premarket, in base",
+"INTU -9.8% premarket, in base",
+"SNDK -6.7% premarket, in base",
+"BE -6.6% premarket, in base",
+"SPCX -6.5% premarket, in base",
+"ROST -5.7% premarket, in base",
+"COHR -5.6% premarket, in base",
+"STRL -5.6% premarket, in base",
+"LITE -5.5% premarket, in base",
+"DELL -5.4% premarket, in base"
+],
+"extra": "13 movers",
+"live": false,
+"day": 36,
+"pass": 1,
+"no": "36.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-20",
+"at": "2026-11-20T13:54:52+00:00",
+"href": "2026-11-20.html#pass-premarket",
+"syms": [
+"INTU",
+"ROST",
+"SNDK"
+],
+"heads": [
+"Intuit Sinks 9.4% Premarket After Cutting Revenue Outlook, Selling Mailchimp",
+"Ross Stores Drops 5.7% Premarket On Weak Fourth-Quarter Outlook",
+"Sandisk Falls 6.8% Premarket As Nasdaq Futures Slide After Anthropic Reversal"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 36,
+"pass": 2,
+"no": "36.2"
 }
 ]
