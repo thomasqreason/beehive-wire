@@ -5821,5 +5821,55 @@
 "day": 36,
 "pass": 8,
 "no": "36.8"
+},
+{
+"kind": "movers",
+"date": "2026-11-20",
+"at": "2026-11-20T23:37:47+00:00",
+"href": "movers/2026-11-20-1637.html",
+"syms": [
+"GPN",
+"TSN",
+"WMT",
+"JNJ",
+"UNH",
+"IFF",
+"GIS"
+],
+"heads": [
+"GPN +9.9% on 3.3x volume, slips back below buy point",
+"TSN +2.0% on 1.9x volume, in base",
+"WMT +1.5% on 1.9x volume, in base",
+"JNJ +1.2% on 1.6x volume, slips back below buy point"
+],
+"extra": "4 qualifiers",
+"live": false,
+"day": 36,
+"pass": 9,
+"no": "36.9"
+},
+{
+"kind": "edition",
+"date": "2026-11-20",
+"at": "2026-11-20T23:40:08+00:00",
+"href": "2026-11-20.html",
+"syms": [
+"FAST",
+"TXN",
+"NXPI",
+"ADI"
+],
+"heads": [
+"Fastenal Company Breaks Below 50-Day Line",
+"Texas Instruments Incorporated Breaks Below 50-Day Line",
+"NXP Semiconductors N.V. Breaks Below 50-Day Line",
+"Analog Devices, Inc. Breaks Below 50-Day Line",
+"Company of the Day: Insmed Incorporated Breaks Out Past 137.80 Buy Point"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 36,
+"pass": 10,
+"no": "36.10"
 }
 ]
