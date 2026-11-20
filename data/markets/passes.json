@@ -5797,5 +5797,29 @@
 "day": 36,
 "pass": 7,
 "no": "36.7"
+},
+{
+"kind": "movers",
+"date": "2026-11-20",
+"at": "2026-11-20T21:34:22+00:00",
+"href": "movers/2026-11-20-1434.html",
+"syms": [
+"GPN",
+"WMT",
+"JNJ",
+"UNH",
+"IFF",
+"GIS"
+],
+"heads": [
+"GPN +9.9% on 3.2x volume, slips back below buy point",
+"WMT +1.5% on 1.9x volume, in base",
+"JNJ +1.2% on 1.6x volume, slips back below buy point"
+],
+"extra": "3 qualifiers",
+"live": false,
+"day": 36,
+"pass": 8,
+"no": "36.8"
 }
 ]
