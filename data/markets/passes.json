@@ -5757,5 +5757,45 @@
 "day": 36,
 "pass": 5,
 "no": "36.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-20",
+"at": "2026-11-20T20:36:57+00:00",
+"href": "movers/2026-11-20-1336.html",
+"syms": [
+"GPN",
+"TTWO",
+"UNH"
+],
+"heads": [
+"GPN +10.4% on 2.6x volume, slips back below buy point"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 36,
+"pass": 6,
+"no": "36.6"
+},
+{
+"kind": "midday",
+"date": "2026-11-20",
+"at": "2026-11-20T20:40:09+00:00",
+"href": "2026-11-20.html#pass-midday",
+"syms": [
+"V",
+"ZETA",
+"MSFT"
+],
+"heads": [
+"Visa Edges Up 0.4% On Rough Day After Vendor Cyberattack Warning",
+"Zeta Global Falls 8.3% After A Quarter Of 46% Revenue Growth",
+"Microsoft Falls 2.9% In Nasdaq Rout, Leaving Shares Flat For Year"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 36,
+"pass": 7,
+"no": "36.7"
 }
 ]
