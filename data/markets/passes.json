@@ -5699,5 +5699,63 @@
 "day": 36,
 "pass": 3,
 "no": "36.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-20",
+"at": "2026-11-20T15:51:07+00:00",
+"href": "movers/2026-11-20-0851.html",
+"syms": [
+"WMT",
+"COST",
+"CTAS",
+"ICE",
+"KO",
+"UNH",
+"FIG",
+"GOOGL",
+"GOOG",
+"AXON",
+"HSY",
+"MRK",
+"MELI",
+"UBER",
+"NOW",
+"UNP",
+"F"
+],
+"heads": [
+"WMT +3.2% on 2.2x volume, nearing buy point",
+"COST +2.4% on 1.8x volume, breakout past buy point",
+"CTAS +3.0% on 1.8x volume, slips back below buy point",
+"ICE +1.6% on 1.8x volume, in base",
+"KO +1.4% on 1.7x volume, extended"
+],
+"extra": "5 qualifiers",
+"live": true,
+"day": 36,
+"pass": 4,
+"no": "36.4"
+},
+{
+"kind": "open",
+"date": "2026-11-20",
+"at": "2026-11-20T15:54:06+00:00",
+"href": "2026-11-20.html#pass-open",
+"syms": [
+"COST",
+"LNG",
+"TSLA"
+],
+"heads": [
+"Costco Climbs 2.4% Toward Record High As BJ's Stock Slides",
+"Cheniere Holds Steady As RBC Praises Its LNG Contract Wins",
+"Tesla Slides 2.9% As Musk Says SpaceX And Tesla 'Better Together'"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 36,
+"pass": 5,
+"no": "36.5"
 }
 ]
