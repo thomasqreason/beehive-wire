@@ -1505,5 +1505,16 @@
   "iso": "2026-11-21T04:00:26-07:00",
   "top": "WALL STREET SINKS INTO CORRECTION...",
   "count": 100
+ },
+ {
+  "no": 138,
+  "file": "2026-11-21-evening.html",
+  "date": "2026-11-21",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:01 p.m.",
+  "iso": "2026-11-21T16:01:24-07:00",
+  "top": "IRAN CLAIMS BAHRAIN BASE STRIKES...",
+  "count": 83
  }
 ]
