@@ -1527,5 +1527,16 @@
   "iso": "2026-11-22T04:02:33-07:00",
   "top": "NASDAQ -5.28%, WIPES OUT YEAR'S GAINS...",
   "count": 100
+ },
+ {
+  "no": 140,
+  "file": "2026-11-22-evening.html",
+  "date": "2026-11-22",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "4:11 p.m.",
+  "iso": "2026-11-22T16:11:59-07:00",
+  "top": "WALL STREET'S ANTHROPIC RECKONING...",
+  "count": 100
  }
 ]
