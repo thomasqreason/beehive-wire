@@ -1538,5 +1538,16 @@
   "iso": "2026-11-22T16:11:59-07:00",
   "top": "WALL STREET'S ANTHROPIC RECKONING...",
   "count": 100
+ },
+ {
+  "no": 141,
+  "file": "2026-11-23-morning.html",
+  "date": "2026-11-23",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "5:24 a.m.",
+  "iso": "2026-11-23T05:24:09-07:00",
+  "top": "TRUMP BLAMES DEMS FOR $6T MARKET ROUT...",
+  "count": 100
  }
 ]
