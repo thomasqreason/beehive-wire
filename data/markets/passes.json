@@ -5988,5 +5988,71 @@
 "day": 37,
 "pass": 3,
 "no": "37.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-23",
+"at": "2026-11-23T15:05:13+00:00",
+"href": "movers/2026-11-23-0805.html",
+"syms": [
+"ZS",
+"DELL",
+"MU",
+"AMD",
+"BE",
+"HPE",
+"ARM",
+"MRVL",
+"ANET",
+"ALAB",
+"RIOT",
+"PANW",
+"RKLB",
+"INTC",
+"FAST",
+"ADI",
+"NVDA",
+"NBIS",
+"IREN",
+"TSM"
+],
+"heads": [
+"ZS +16.2% on 25.1x volume, big move on the day",
+"DELL +23.2% on 7.8x volume, big move on the day",
+"MU +17.9% on 5.6x volume, big move on the day",
+"AMD +5.6% on 5.3x volume, big move on the day",
+"BE +19.9% on 4.9x volume, big move on the day",
+"HPE +14.0% on 4.6x volume, big move on the day",
+"ARM +17.0% on 4.5x volume, big move on the day",
+"MRVL +18.7% on 4.5x volume, big move on the day",
+"ANET +8.6% on 4.3x volume, big move on the day",
+"ALAB +16.8% on 3.9x volume, big move on the day"
+],
+"extra": "16 qualifiers",
+"live": true,
+"day": 37,
+"pass": 4,
+"no": "37.4"
+},
+{
+"kind": "open",
+"date": "2026-11-23",
+"at": "2026-11-23T15:08:09+00:00",
+"href": "2026-11-23.html#pass-open",
+"syms": [
+"TSLA",
+"AAPL",
+"AMGN"
+],
+"heads": [
+"Tesla Jumps 12.4% Early As FSD V15 Begins Rolling Out",
+"Apple Rises 1.9% In Tech Rally, Holds Near Its 52-Week High",
+"Amgen Gains 2.8% Early, Trading 7.4% Below Its 52-Week High"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 37,
+"pass": 5,
+"no": "37.5"
 }
 ]
