@@ -5943,5 +5943,50 @@
 "day": 37,
 "pass": 2,
 "no": "37.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-23",
+"at": "2026-11-23T14:51:09+00:00",
+"href": "movers/2026-11-23-0751.html",
+"syms": [
+"ZS",
+"DELL",
+"MU",
+"AMD",
+"BE",
+"ANET",
+"HPE",
+"ARM",
+"MRVL",
+"PANW",
+"ALAB",
+"RIOT",
+"RKLB",
+"INTC",
+"FAST",
+"ADI",
+"TXN",
+"NVDA",
+"NBIS",
+"IREN"
+],
+"heads": [
+"ZS +17.6% on 21.5x volume, big move on the day",
+"DELL +19.5% on 6.7x volume, big move on the day",
+"MU +13.0% on 4.9x volume, big move on the day",
+"AMD +4.4% on 4.5x volume, big move on the day",
+"BE +17.8% on 4.3x volume, big move on the day",
+"ANET +8.3% on 4.1x volume, big move on the day",
+"HPE +11.9% on 4.0x volume, big move on the day",
+"ARM +15.4% on 3.7x volume, big move on the day",
+"MRVL +14.4% on 3.7x volume, big move on the day",
+"PANW +4.2% on 3.5x volume, big move on the day"
+],
+"extra": "17 qualifiers",
+"live": true,
+"day": 37,
+"pass": 3,
+"no": "37.3"
 }
 ]
