@@ -5871,5 +5871,77 @@
 "day": 36,
 "pass": 10,
 "no": "36.10"
+},
+{
+"kind": "premarket",
+"date": "2026-11-23",
+"at": "2026-11-23T13:52:03+00:00",
+"href": "2026-11-23.html#premarket",
+"syms": [
+"ZS",
+"APLD",
+"ARM",
+"NVDA",
+"NBIS",
+"DELL",
+"IREN",
+"HPE",
+"MSTR",
+"STRL",
+"RKLB",
+"ASTS",
+"LEU",
+"CRDO",
+"LRCX",
+"CRCL",
+"KLAC",
+"P",
+"TER",
+"OKLO",
+"SNDK",
+"CRWD",
+"UNH",
+"CVS"
+],
+"heads": [
+"ZS +19.0% premarket, in base",
+"APLD +12.8% premarket, in base",
+"ARM +8.7% premarket, in base",
+"NVDA +8.4% premarket, in base",
+"NBIS +8.1% premarket, in base",
+"DELL +7.9% premarket, in base",
+"IREN +7.9% premarket, in base",
+"HPE +7.3% premarket, in base",
+"MSTR +7.3% premarket, in base",
+"STRL +7.3% premarket, in base",
+"RKLB +7.0% premarket, in base",
+"ASTS +6.9% premarket, in base"
+],
+"extra": "26 movers",
+"live": false,
+"day": 37,
+"pass": 1,
+"no": "37.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-23",
+"at": "2026-11-23T13:54:42+00:00",
+"href": "2026-11-23.html#pass-premarket",
+"syms": [
+"ZS",
+"CRWD",
+"HPE"
+],
+"heads": [
+"Zscaler Jumps 19% Premarket On CrowdStrike's $43.9 Billion Stock Deal",
+"CrowdStrike Falls 8% Premarket After Agreeing To Buy Zscaler For $43.9 Billion",
+"Hewlett Packard Enterprise Rises 7% Premarket As Chip Stocks Lead Bounce"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 37,
+"pass": 2,
+"no": "37.2"
 }
 ]
