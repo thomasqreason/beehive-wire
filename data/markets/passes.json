@@ -6400,5 +6400,58 @@
 "day": 38,
 "pass": 7,
 "no": "38.7"
+},
+{
+"kind": "movers",
+"date": "2026-11-24",
+"at": "2026-11-24T22:40:04+00:00",
+"href": "movers/2026-11-24-1540.html",
+"syms": [
+"INSM",
+"DLTR",
+"BBY",
+"ZS",
+"A",
+"IP",
+"TTWO",
+"WDAY",
+"PKG"
+],
+"heads": [
+"INSM +14.1% on 22.8x volume, breakout past buy point, already extended",
+"DLTR +11.2% on 2.7x volume, new 52-week high",
+"BBY +2.7% on 2.3x volume, bounce off 50-day line",
+"ZS +1.0% on 2.2x volume, in base",
+"A +4.2% on 1.5x volume, new 52-week high"
+],
+"extra": "5 qualifiers",
+"live": false,
+"day": 38,
+"pass": 8,
+"no": "38.8"
+},
+{
+"kind": "edition",
+"date": "2026-11-24",
+"at": "2026-11-24T22:44:21+00:00",
+"href": "2026-11-24.html",
+"syms": [
+"VRTX",
+"LNG",
+"FAST",
+"SPCX"
+],
+"heads": [
+"Vertex Jumps 4.7% Toward 52-Week High In Broad Biotech Rally",
+"Cheniere Holds Steady As FERC Approves Sabine Pass Expansion",
+"Fastenal Edges Up As Valuation Questions Follow Two 2026 Dividend Raises",
+"SpaceX Slides 5.7% As Tesla And SpaceX Assemble Merger Deal Teams",
+"Company of the Day: Disney Nears 52-Week High After Quarterly Earnings More Than Doubled"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 38,
+"pass": 9,
+"no": "38.9"
 }
 ]
