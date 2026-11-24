@@ -6296,5 +6296,66 @@
 "day": 38,
 "pass": 3,
 "no": "38.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-24",
+"at": "2026-11-24T15:51:05+00:00",
+"href": "movers/2026-11-24-0851.html",
+"syms": [
+"INSM",
+"BBY",
+"DLTR",
+"IQV",
+"A",
+"DG",
+"KR",
+"HUM",
+"TGT",
+"IP",
+"TTWO",
+"BR",
+"KLAR",
+"ROST",
+"UNH",
+"PYPL"
+],
+"heads": [
+"INSM +14.3% on 61.0x volume, breakout past buy point, already extended",
+"BBY +1.7% on 4.1x volume, bounce off 50-day line",
+"DLTR +11.2% on 4.1x volume, new 52-week high",
+"IQV +1.9% on 2.5x volume, in base",
+"A +4.3% on 2.2x volume, new 52-week high",
+"DG +4.1% on 1.9x volume, still in buy range after breakout",
+"KR +3.5% on 1.8x volume, in base",
+"HUM +4.8% on 1.6x volume, slips back below buy point",
+"TGT +4.0% on 1.5x volume, breakout past buy point"
+],
+"extra": "9 qualifiers",
+"live": true,
+"day": 38,
+"pass": 4,
+"no": "38.4"
+},
+{
+"kind": "open",
+"date": "2026-11-24",
+"at": "2026-11-24T15:54:00+00:00",
+"href": "2026-11-24.html#pass-open",
+"syms": [
+"AAPL",
+"VRTX",
+"TXN"
+],
+"heads": [
+"Apple Edges Higher As Nasdaq Slides, Holds Near 52-Week High",
+"Vertex Jumps 4% As Health Care Names Lead A Falling Market",
+"Texas Instruments Tumbles 9.9% As Rival Analog Devices Sinks On Flat Outlook"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 38,
+"pass": 5,
+"no": "38.5"
 }
 ]
