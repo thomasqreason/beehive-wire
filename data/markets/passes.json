@@ -6253,5 +6253,48 @@
 "day": 38,
 "pass": 2,
 "no": "38.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-24",
+"at": "2026-11-24T14:51:13+00:00",
+"href": "movers/2026-11-24-0751.html",
+"syms": [
+"INSM",
+"DLTR",
+"ZS",
+"IQV",
+"CRWD",
+"A",
+"DG",
+"MMM",
+"TEAM",
+"TGT",
+"EOG",
+"LLY",
+"VEEV",
+"PYPL",
+"BR",
+"TTWO",
+"NKE",
+"INTU"
+],
+"heads": [
+"INSM +14.3% on 106.6x volume, breakout past buy point, already extended",
+"DLTR +10.5% on 6.2x volume, new 52-week high",
+"ZS +1.8% on 4.0x volume, in base",
+"IQV +2.7% on 3.5x volume, in base",
+"CRWD +2.1% on 3.3x volume, in base",
+"A +4.9% on 3.2x volume, new 52-week high",
+"DG +3.6% on 2.2x volume, still in buy range after breakout",
+"MMM +1.0% on 1.8x volume, still in buy range after breakout",
+"TEAM +3.0% on 1.8x volume, in base",
+"TGT +3.2% on 1.7x volume, breakout past buy point"
+],
+"extra": "13 qualifiers",
+"live": true,
+"day": 38,
+"pass": 3,
+"no": "38.3"
 }
 ]
