@@ -6189,5 +6189,69 @@
 "day": 37,
 "pass": 9,
 "no": "37.9"
+},
+{
+"kind": "premarket",
+"date": "2026-11-24",
+"at": "2026-11-24T13:52:02+00:00",
+"href": "2026-11-24.html#premarket",
+"syms": [
+"INSM",
+"DLTR",
+"A",
+"DG",
+"BBY",
+"HUM",
+"HPE",
+"SNDK",
+"ADI",
+"DELL",
+"MU",
+"INTC",
+"FCX",
+"LITE",
+"BE",
+"CRWV"
+],
+"heads": [
+"INSM +14.4% premarket, extended",
+"DLTR +7.4% premarket, in buy range",
+"A +5.9% premarket, no base",
+"DG +3.4% premarket, in buy range",
+"BBY +3.0% premarket, in buy range",
+"HUM +2.2% premarket, back below buy point",
+"HPE -12.7% premarket, in base",
+"SNDK -12.6% premarket, in base",
+"ADI -11.0% premarket, in base",
+"DELL -7.3% premarket, in base",
+"MU -6.6% premarket, in base",
+"INTC -6.0% premarket, in base"
+],
+"extra": "16 movers",
+"live": false,
+"day": 38,
+"pass": 1,
+"no": "38.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-24",
+"at": "2026-11-24T13:54:30+00:00",
+"href": "2026-11-24.html#pass-premarket",
+"syms": [
+"HPE",
+"ADI",
+"DELL"
+],
+"heads": [
+"HPE Falls 12.8% Premarket As Margin Forecast Outweighs Upbeat Guidance",
+"Analog Devices Drops 11.0% Premarket On Soft First-Quarter Earnings Forecast",
+"Dell Slips 7.3% Premarket As HPE Flags Thinner AI Margins"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 38,
+"pass": 2,
+"no": "38.2"
 }
 ]
