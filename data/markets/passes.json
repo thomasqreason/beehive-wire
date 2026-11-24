@@ -6357,5 +6357,48 @@
 "day": 38,
 "pass": 5,
 "no": "38.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-24",
+"at": "2026-11-24T20:22:14+00:00",
+"href": "movers/2026-11-24-1322.html",
+"syms": [
+"INSM",
+"DLTR",
+"BBY",
+"IP"
+],
+"heads": [
+"INSM +14.2% on 22.7x volume, breakout past buy point, already extended",
+"DLTR +11.3% on 2.1x volume, new 52-week high",
+"BBY +1.6% on 1.8x volume, bounce off 50-day line"
+],
+"extra": "3 qualifiers",
+"live": true,
+"day": 38,
+"pass": 6,
+"no": "38.6"
+},
+{
+"kind": "midday",
+"date": "2026-11-24",
+"at": "2026-11-24T20:25:06+00:00",
+"href": "2026-11-24.html#pass-midday",
+"syms": [
+"VRTX",
+"INSM",
+"DIS"
+],
+"heads": [
+"Vertex Pharmaceuticals Climbs 4.4% To Within 1.1% Of Its 52-Week High",
+"Insmed Jumps 14.2% On Sanofi Deal To Acquire The Respiratory Drugmaker",
+"Disney Rises Toward 52-Week High On Plan To Fold Hulu Into Disney+"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 38,
+"pass": 7,
+"no": "38.7"
 }
 ]
