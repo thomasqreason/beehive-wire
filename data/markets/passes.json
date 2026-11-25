@@ -6569,5 +6569,34 @@
 "day": 39,
 "pass": 5,
 "no": "39.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-25",
+"at": "2026-11-25T21:53:26+00:00",
+"href": "movers/2026-11-25-1453.html",
+"syms": [
+"HPQ",
+"WTW",
+"DIS",
+"TPL",
+"ADI",
+"DE",
+"MKC",
+"AEM",
+"AEE",
+"MAA",
+"ASTS"
+],
+"heads": [
+"HPQ +11.5% on 2.9x volume, big move on the day",
+"WTW +1.7% on 2.2x volume, nearing buy point",
+"DIS +2.5% on 1.7x volume, breakout past buy point"
+],
+"extra": "3 qualifiers",
+"live": false,
+"day": 39,
+"pass": 6,
+"no": "39.6"
 }
 ]
