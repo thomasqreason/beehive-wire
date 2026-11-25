@@ -6453,5 +6453,63 @@
 "day": 38,
 "pass": 9,
 "no": "38.9"
+},
+{
+"kind": "premarket",
+"date": "2026-11-25",
+"at": "2026-11-25T13:51:58+00:00",
+"href": "2026-11-25.html#premarket",
+"syms": [
+"HPQ",
+"SNDK",
+"CRWV",
+"MU",
+"NBIS",
+"IREN",
+"DELL",
+"AMD",
+"BE",
+"LITE",
+"ARM"
+],
+"heads": [
+"HPQ +2.9% premarket, in base",
+"SNDK -23.9% premarket, in base",
+"CRWV -8.6% premarket, in base",
+"MU -8.3% premarket, in base",
+"NBIS -8.2% premarket, in base",
+"IREN -7.5% premarket, in base",
+"DELL -7.3% premarket, in base",
+"AMD -7.1% premarket, in base",
+"BE -7.1% premarket, in base",
+"LITE -6.9% premarket, in base",
+"ARM -6.7% premarket, in base"
+],
+"extra": "11 movers",
+"live": false,
+"day": 39,
+"pass": 1,
+"no": "39.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-25",
+"at": "2026-11-25T13:54:36+00:00",
+"href": "2026-11-25.html#pass-premarket",
+"syms": [
+"CLSK",
+"DE",
+"ADI"
+],
+"heads": [
+"CleanSpark Falls 5.4% Premarket After Revenue Miss And Data Center Delays",
+"Deere Drops 4.0% Premarket As Quarterly Profit Falls, Misses Estimates",
+"Analog Devices Falls 3.2% More Premarket After Worst Day Since 1998"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 39,
+"pass": 2,
+"no": "39.2"
 }
 ]
