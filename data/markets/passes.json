@@ -6528,5 +6528,46 @@
 "day": 39,
 "pass": 3,
 "no": "39.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-25",
+"at": "2026-11-25T19:30:17+00:00",
+"href": "movers/2026-11-25-1230.html",
+"syms": [
+"HPQ",
+"TPL",
+"DE",
+"SPCX"
+],
+"heads": [
+"HPQ +13.5% on 2.6x volume, big move on the day"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 39,
+"pass": 4,
+"no": "39.4"
+},
+{
+"kind": "midday",
+"date": "2026-11-25",
+"at": "2026-11-25T19:33:07+00:00",
+"href": "2026-11-25.html#pass-midday",
+"syms": [
+"AAPL",
+"FAST",
+"SAIL"
+],
+"heads": [
+"Apple Edges Higher, Trading 1.5% Below Its 52-Week High",
+"Fastenal Climbs 1.5% Despite Calls That The Stock Looks Rich",
+"SailPoint Rises 2.6% Following Its 1Kosmos Identity Security Partnership"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 39,
+"pass": 5,
+"no": "39.5"
 }
 ]
