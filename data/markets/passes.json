@@ -6511,5 +6511,22 @@
 "day": 39,
 "pass": 2,
 "no": "39.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-25",
+"at": "2026-11-25T14:51:12+00:00",
+"href": "movers/2026-11-25-0751.html",
+"syms": [
+"HPQ"
+],
+"heads": [
+"HPQ +10.1% on 5.7x volume, big move on the day"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 39,
+"pass": 3,
+"no": "39.3"
 }
 ]
