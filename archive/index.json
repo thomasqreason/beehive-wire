@@ -1593,5 +1593,16 @@
   "iso": "2026-11-25T04:10:51-07:00",
   "top": "ABREGO GARCIA LEAVES US FOR SPAIN...",
   "count": 100
+ },
+ {
+  "no": 146,
+  "file": "2026-11-25-evening.html",
+  "date": "2026-11-25",
+  "slot": "evening",
+  "edition": "Evening Edition",
+  "time": "5:23 p.m.",
+  "iso": "2026-11-25T17:23:25-07:00",
+  "top": "NASDAQ SINKS NEARLY 4% ON AI FEARS...",
+  "count": 100
  }
 ]
