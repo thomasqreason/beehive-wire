@@ -6685,5 +6685,39 @@
 "day": 40,
 "pass": 2,
 "no": "40.2"
+},
+{
+"kind": "movers",
+"date": "2026-11-27",
+"at": "2026-11-27T14:51:11+00:00",
+"href": "movers/2026-11-27-0751.html",
+"syms": [
+"DELL",
+"MU",
+"MRVL",
+"SLV",
+"ECHO",
+"AEM",
+"NU",
+"TSM",
+"COHR",
+"GLD",
+"TER",
+"WY",
+"TTWO",
+"MELI",
+"C",
+"BE"
+],
+"heads": [
+"DELL +4.2% on 3.3x volume, big move on the day",
+"MU +2.2% on 2.2x volume, in base",
+"MRVL +2.6% on 1.9x volume, in base"
+],
+"extra": "3 qualifiers",
+"live": true,
+"day": 40,
+"pass": 3,
+"no": "40.3"
 }
 ]
