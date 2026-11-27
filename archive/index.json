@@ -1626,5 +1626,16 @@
   "iso": "2026-11-26T16:00:19-07:00",
   "top": "IBM TO H-1B: LEAVE OR QUIT...",
   "count": 100
+ },
+ {
+  "no": 149,
+  "file": "2026-11-27-morning.html",
+  "date": "2026-11-27",
+  "slot": "morning",
+  "edition": "Morning Edition",
+  "time": "6:01 a.m.",
+  "iso": "2026-11-27T06:01:52-07:00",
+  "top": "AIR FORCE'S TOP DATABASE HACKED, UNNOTICED...",
+  "count": 100
  }
 ]
