@@ -6651,5 +6651,39 @@
 "day": 39,
 "pass": 8,
 "no": "39.8"
+},
+{
+"kind": "premarket",
+"date": "2026-11-27",
+"at": "2026-11-27T13:52:26+00:00",
+"href": "2026-11-27.html#premarket",
+"syms": [],
+"heads": [],
+"extra": "0 movers",
+"live": false,
+"day": 40,
+"pass": 1,
+"no": "40.1"
+},
+{
+"kind": "premarket",
+"date": "2026-11-27",
+"at": "2026-11-27T13:54:53+00:00",
+"href": "2026-11-27.html#pass-premarket",
+"syms": [
+"AMGN",
+"WMT",
+"SBUX"
+],
+"heads": [
+"Amgen Holds Near 52-Week High As Biotech ETFs Add Shares",
+"Walmart Sits 2.4% Off Its High Heading Into Black Friday",
+"Starbucks Picks Banks For Japan Sale, Report Says; Stock Near High"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 40,
+"pass": 2,
+"no": "40.2"
 }
 ]
