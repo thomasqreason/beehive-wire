@@ -6807,5 +6807,42 @@
 "day": 40,
 "pass": 8,
 "no": "40.8"
+},
+{
+"kind": "movers",
+"date": "2026-11-27",
+"at": "2026-11-27T22:22:18+00:00",
+"href": "movers/2026-11-27-1522.html",
+"syms": [],
+"heads": [],
+"extra": "0 qualifiers",
+"live": false,
+"day": 40,
+"pass": 9,
+"no": "40.9"
+},
+{
+"kind": "edition",
+"date": "2026-11-27",
+"at": "2026-11-27T22:25:04+00:00",
+"href": "2026-11-27.html",
+"syms": [
+"LNG",
+"COST",
+"SAIL",
+"NXPI"
+],
+"heads": [
+"Cheniere Energy, Inc. Still In Buy Range After Breakout",
+"Costco Wholesale Corporation Still In Buy Range After Breakout",
+"SailPoint, Inc. Nears Buy Point In 58-Week Deep Cup",
+"NXP Semiconductors N.V. Bounces Off 50-Day Line",
+"Company of the Day: Zeta Global Holdings Corp. Bounces Off 50-Day Line"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 40,
+"pass": 10,
+"no": "40.10"
 }
 ]
