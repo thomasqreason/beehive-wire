@@ -6719,5 +6719,46 @@
 "day": 40,
 "pass": 3,
 "no": "40.3"
+},
+{
+"kind": "movers",
+"date": "2026-11-27",
+"at": "2026-11-27T15:25:03+00:00",
+"href": "movers/2026-11-27-0825.html",
+"syms": [
+"DELL",
+"SLV",
+"AEM",
+"ECHO"
+],
+"heads": [
+"DELL +5.6% on 2.1x volume, big move on the day"
+],
+"extra": "1 qualifiers",
+"live": true,
+"day": 40,
+"pass": 4,
+"no": "40.4"
+},
+{
+"kind": "open",
+"date": "2026-11-27",
+"at": "2026-11-27T15:28:12+00:00",
+"href": "2026-11-27.html#pass-open",
+"syms": [
+"TSLA",
+"FAST",
+"TMDX"
+],
+"heads": [
+"Tesla Rallies 4% As Dow Jumps 500 Points At The Open",
+"Fastenal Holds Steady After Two Dividend Raises And 15.5% Sales Growth",
+"TransMedics Gains 3.4% As Revenue Growth Hits 41.1%"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 40,
+"pass": 5,
+"no": "40.5"
 }
 ]
