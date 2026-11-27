@@ -6794,5 +6794,18 @@
 "day": 40,
 "pass": 7,
 "no": "40.7"
+},
+{
+"kind": "movers",
+"date": "2026-11-27",
+"at": "2026-11-27T21:30:45+00:00",
+"href": "movers/2026-11-27-1430.html",
+"syms": [],
+"heads": [],
+"extra": "0 qualifiers",
+"live": false,
+"day": 40,
+"pass": 8,
+"no": "40.8"
 }
 ]
