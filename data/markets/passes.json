@@ -6760,5 +6760,39 @@
 "day": 40,
 "pass": 5,
 "no": "40.5"
+},
+{
+"kind": "movers",
+"date": "2026-11-27",
+"at": "2026-11-27T19:12:20+00:00",
+"href": "movers/2026-11-27-1212.html",
+"syms": [],
+"heads": [],
+"extra": "0 qualifiers",
+"live": false,
+"day": 40,
+"pass": 6,
+"no": "40.6"
+},
+{
+"kind": "midday",
+"date": "2026-11-27",
+"at": "2026-11-27T19:15:10+00:00",
+"href": "2026-11-27.html#pass-midday",
+"syms": [
+"ZETA",
+"AAPL",
+"GWW"
+],
+"heads": [
+"Zeta Global Rises 4.5% As It Targets $2.3 Billion In 2028 Revenue",
+"Apple Nears 52-Week High As Memory Crunch Lifts Its Phone Share",
+"Grainger Edges Up 1.1% With Earnings Up 102.9% Last Quarter"
+],
+"extra": "Market in correction",
+"live": false,
+"day": 40,
+"pass": 7,
+"no": "40.7"
 }
 ]
